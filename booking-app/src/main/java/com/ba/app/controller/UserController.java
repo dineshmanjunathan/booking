@@ -117,7 +117,18 @@ public class UserController {
 			User existUser = null;
 			if(user!=null && user.getId()!=null) {
 				existUser = userRepository.findById(user.getId()).get();
-			}		
+			}
+			if(existUser!=null && existUser.getId()!=null) {
+				
+			}else {
+				User alreadyExist = userRepository.findByUserIdIgnoreCase(user.getUserId());
+				if(alreadyExist!=null && alreadyExist.getUserId()!=null) {
+					model.addAttribute("errormsg", "User ID already exist! ");
+					Iterable<User> userList = userRepository.findAllByOrderByIdAsc();
+					model.addAttribute("userList", userList);
+					return "bookinguser";
+				}
+			}
 			String role = (String) request.getSession().getAttribute("ROLE");
 			User userEntity = new User();
 			model.addAttribute("user", user);

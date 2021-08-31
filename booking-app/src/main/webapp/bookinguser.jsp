@@ -35,6 +35,7 @@
 			<form action="">
 				<h3>Manage User</h3>
 				<p style="color: green" align="center">${successMessage}</p>
+				<p style="color: red" align="center">${errormsg}</p>
 				<div class="row control-margin">
 					<div class="col-md-12">
 						<a class="btn btn-primary button-margin" href="/user/add">Add</a>

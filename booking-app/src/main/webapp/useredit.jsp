@@ -39,7 +39,7 @@
 				<input type="hidden" class="form-control" name="id" id="id" value="${user.id}" required>
 				
 					<div class="form-row">
-						<input type="text" class="form-control" name="userId" id="userId" placeholder="User Id" value="${user.userId}" required>
+						<input type="text" class="form-control" name="userId" id="userId" placeholder="User ID" value="${user.userId}" required>
 						<input type="text" class="form-control" name="name" id="name" placeholder="User Name" value="${user.name}" required>
 					</div>
 					<div class="form-row">

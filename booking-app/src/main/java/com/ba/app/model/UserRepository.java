@@ -14,13 +14,16 @@ import com.ba.app.entity.User;
 @Service
 public interface UserRepository extends CrudRepository<User, Long>{
 		
+	
 	Optional<User> findById(Long id);
+	
+	User findByUserIdIgnoreCase(String userId);
 	
 	User findByUserIdIgnoreCaseAndPassword(String userId, String password);
 	
 	List<User> findAllByOrderByIdAsc();
 	
 	@Transactional
-	void deleteById(String id);
+	void deleteByUserId(String id);
 
 }

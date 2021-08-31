@@ -36,14 +36,18 @@ public class Application extends SpringBootServletInitializer {
 		@Override
 		public void run(String... args) throws Exception {
 
-			User user = new User();
-			user.setId(Long.parseLong("1"));
-			user.setUserId("ADMIN");
-			user.setRole("ADMIN");
-			user.setName("Administrator");
-			user.setPassword("admin@123");
-			user.setMemberStatus("A");
-			userRepository.save(user);
+			User u = userRepository.findByUserIdIgnoreCase("ADMIN");
+			if (u!=null && u.getId() != null) {
+				//do nothing
+			}else {
+				User user = new User();
+				user.setUserId("ADMIN");
+				user.setRole("ADMIN");
+				user.setName("Administrator");
+				user.setPassword("admin@123");
+				user.setMemberStatus("A");
+				userRepository.save(user);
+			}
 		}
 	}
 }
