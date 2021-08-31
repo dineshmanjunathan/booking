@@ -39,6 +39,7 @@ public class Application extends SpringBootServletInitializer {
 			User user = new User();
 			user.setId(Long.parseLong("1"));
 			user.setUserId("ADMIN");
+			user.setRole("ADMIN");
 			user.setName("Administrator");
 			user.setPassword("admin@123");
 			user.setMemberStatus("A");
