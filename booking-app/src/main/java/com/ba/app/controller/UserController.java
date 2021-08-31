@@ -85,7 +85,9 @@ public class UserController {
 				request.getSession().setAttribute("USER_ID", user.getId());
 				request.getSession().setAttribute("USER_NAME", user.getName());
 				request.getSession().setAttribute("ROLE", user.getRole());
-				request.getSession().setAttribute("USER_LOCATION", user.getLocation().getLocation());
+				if(user.getLocation()!=null && user.getLocation().getLocation()!=null) {
+					request.getSession().setAttribute("USER_LOCATION", user.getLocation().getLocation());
+				}
 				return "menu";
 			} else {
 				model.addAttribute("errormsg", "User Id or Password is incorrect!");
