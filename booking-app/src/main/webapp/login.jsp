@@ -31,8 +31,6 @@
  
    <body class="bg-light">    
    <form action="/login" method="post">  
-                      	<p style="color:green" align="center">${adminlogout}</p>
-                      	<p style="color:green" align="center">${registersuccess}</p>        
 	<div class="blog-details-area mg-b-15">
             <div class="container-fluid" style="width: 90%;">
                 <div class="row">
@@ -54,6 +52,7 @@
 				  </div>
 				<div class="col-sm-4" style="margin-left: 50%;">
 			  <p style="color:red">${errormsg}</p>
+			  <p style="color:green" align="center">${logoutmsg}</p>
 			  </div>
 			  </div>
 			  <div class="row element-margin">

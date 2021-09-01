@@ -67,7 +67,7 @@ public class UserController {
 	public String logout(HttpServletRequest request, ModelMap model) {
 		if (request.getSession() != null) {
 			request.getSession().invalidate();
-			model.addAttribute("logout", "Successfully logged out");
+			model.addAttribute("logoutmsg", "Successfully logged out");
 		}
 		return "login";
 	}

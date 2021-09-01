@@ -37,22 +37,13 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="../../dist/css/font-awesome.min.css">
     <link href="../../dist/css/features.css" rel="stylesheet">
-  </head>
+    <%@ include file="header.jsp"%>
+	<meta charset="ISO-8859-1">
+  	</head>
 <!--   <body style="
     background-image: URL('../../img/bg/Bg2.jpg');
 "> -->
 <body>
-    
-    
-    <nav style="background-image: linear-gradient(#0f68b4,#1a1e2c)" class="navbar navbar-dark bg-primary">
-
-	<div class="header-right-info">
-		<ul class="nav navbar-nav mai-top-nav header-right-menu" style="padding: 20px 60px;">
-			<li class="nav-item">					
-				</li>
-		</ul>
-	</div>
-</nav>
     
 <svg style="display: none;">
   <symbol id="collection" viewBox="0 0 16 16">
