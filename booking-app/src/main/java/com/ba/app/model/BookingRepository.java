@@ -11,6 +11,8 @@ import com.ba.app.entity.Booking;
 public interface BookingRepository extends CrudRepository<Booking, String> {
 	
 	List<Booking> findByFromLocationAndToLocation(String fromLocation,String toLocation);
+	Booking findByLrNumber(Long lrNumber);
+	Booking findById(Long id);
 
 	
 }

@@ -23,7 +23,53 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-
+<script type="text/javascript" charset="utf-8">
+	function selectPayOption() {
+		var e = document.getElementById("payOption");
+		var strUser = e.value;
+		document.getElementById("loading_charges_pay").value = strUser;
+		document.getElementById("door_pick_charges_pay").value = strUser;
+		document.getElementById("loading_charges_pay").disabled = true;
+		document.getElementById("door_pick_charges_pay").disabled = true;
+	}
+	function disabledFieldsOnLoad() {
+		document.getElementById("loading_charges_pay").disabled = false;
+		document.getElementById("door_pick_charges_pay").disabled = false;
+		document.getElementById("refund").disabled = true;
+	}
+	function checkFromNameExists(){
+		 var value=document.getElementById("from_phone").value;
+		$.ajax({
+            url: "/searchCustomerName/"+value,
+            type: "get",
+            cache: false,
+            success: function (data) {
+                if(data.length>0) {
+                	document.getElementById("fromName").value=data;
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log('ERROR:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText);
+            }
+        });
+	}
+	function checkToNameExists(){
+		 var value=document.getElementById("to_phone").value;
+		$.ajax({
+           url: "/searchCustomerName/"+value,
+           type: "get",
+           cache: false,
+           success: function (data) {
+        	   if(data.length>0) {
+               	document.getElementById("toName").value=data;
+               }
+           },
+           error: function (XMLHttpRequest, textStatus, errorThrown) {
+               console.log('ERROR:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText);
+           }
+       });
+	}
+</script>
   </head>
  
  <nav style="background-image: linear-gradient(#0f68b4,#1a1e2c)" class="navbar navbar-dark bg-primary">
@@ -49,7 +95,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="blog-details-inner">
-      <form action="/booking/save" method="POST">
+      <form action="/booking/save" method="POST" onload="disabledFieldsOnLoad();">
       <p style="color: green" align="center">${bookingsuccessmessage}</p>
 	  <main>
 		<div class="row">
@@ -112,7 +158,7 @@
 					<label class="form-label" for="from_phone">From Phone No</label>
 				  </div>
 				  <div class="col-sm-8">
-					<input type="number" class="form-control" id="from_phone" name="from_phone">
+					<input type="number" class="form-control" id="from_phone" name="from_phone" onblur="checkFromNameExists();">
 				  </div>
 			  </div>
 			  <div class="row element-margin">
@@ -164,6 +210,14 @@
 					<input type="number" class="form-control" id="billValue" name="billValue">
 				  </div>
 			  </div>
+			   <div class="row element-margin">
+				  <div class="col-sm-4">
+					<label class="form-label" for="eway">E Way Bill Number</label>
+				  </div>
+				  <div class="col-sm-8">
+					<input type="number" class="form-control" id="eBillNo" name="eBillNo">
+				  </div>
+			  </div>
 			  <div class="row element-margin">
 				  <div class="col-sm-4">
 					<input type="checkbox" class="form-check-input" id="isPrinted" name="isPrinted" disabled>
@@ -181,6 +235,22 @@
 		  </div>
 		  <div class="col-md-4 control-margin">
 		  <div class="row element-margin">
+					<div class="col-sm-4">
+					  <label for="bookingNo" class="form-label">Book No</label>
+					</div>
+					<div class="col-sm-8">
+						<input type="text" class="form-control bg-info text-dark" id="bookingNo" name="bookingNo">
+				    </div>					
+			  </div>
+			  <div class="row element-margin">	
+					<div class="col-sm-4">
+						<label for="bookedOn" class="form-label">Date</label>
+					</div>
+					<div class="col-sm-8">
+						<input type="date" class="form-control bg-info text-dark" id="bookedOn" placeholder="" name="bookedOn">
+					</div>				
+			  </div>
+		 <div class="row element-margin">
 				  <div class="col-sm-4">
 					<label class="form-label" ></label>
 				  </div>
@@ -188,34 +258,9 @@
 					
 				  </div>
 			  </div>
-    
-    		<div class="row element-margin">
+			  <div class="row element-margin">
 				  <div class="col-sm-4">
 					<label class="form-label" ></label>
-				  </div>
-				  <div class="col-sm-8">
-					
-				  </div>
-			  </div>
-			  <div class="row element-margin">
-				  <div class="col-sm-4">
-					<label class="form-label"></label>
-				  </div>
-				  <div class="col-sm-8">
-					
-				  </div>
-			  </div>
-			  <div class="row element-margin">
-				  <div class="col-sm-4">
-					<label class="form-label"></label>
-				  </div>
-				  <div class="col-sm-8">
-					
-				  </div>
-			  </div>
-			  <div class="row element-margin">
-				  <div class="col-sm-4">
-					<label class="form-label"></label>
 				  </div>
 				  <div class="col-sm-8">
 					
@@ -234,7 +279,7 @@
 					<label class="form-label" for="to_phone">To Phone No</label>
 				  </div>
 				  <div class="col-sm-8">
-					<input type="number" class="form-control" id="to_phone" name="to_phone">
+					<input type="number" class="form-control" id="to_phone" name="to_phone" onblur="checkToNameExists();">
 				  </div>
 			  </div>
 			  
@@ -249,7 +294,7 @@
 			   
 			   <div class="row element-margin">
 				  <div class="col-sm-4">
-					<label class="form-label" for="weight">Weight</label>
+					<label class="form-label" for="weight">Weight in KG</label>
 				  </div>
 				  <div class="col-sm-8">
 					<input type="number" class="form-control" id="weight" name="weight">
@@ -260,7 +305,11 @@
 					<label class="form-label" for="freight_value">Freight</label>
 				  </div>
 				  <div class="col-sm-4">
-					<input type="text" class="form-control" id="freight_value_topay" disabled value="TOPAY">
+					<select class="form-select bg-info text-dark" id="payOption" name ="payOption" onchange="selectPayOption();">
+					  	<option value="">-Select-</option>
+					    <option value="TOPAY">TOPAY</option>
+					    <option value="PAID">PAID </option>
+					</select>
 				  </div>
 				  <div class="col-sm-4">
 					<input type="text" class="form-control" id="freight_value" name="freight_value">
@@ -272,7 +321,11 @@
 					<label class="form-label" for="loading_charges">Loading Charges</label>
 				  </div>
 				  <div class="col-sm-4">
-					<input type="text" class="form-control" id="loading_charges_topay" disabled value="TOPAY">
+					<select class="form-select bg-info text-dark" id="loading_charges_pay" name ="loading_charges_pay">
+					  	<option value="">-Select-</option>
+					    <option value="TOPAY">TOPAY</option>
+					    <option value="PAID">PAID </option>
+					</select>
 				  </div>
 				  <div class="col-sm-4">
 					<input type="text" class="form-control" id="loading_charges" name="loading_charges">
@@ -284,7 +337,11 @@
 					<label class="form-label" for="door_pick_charges">Door Pickup Charges</label>
 				  </div>
 				  <div class="col-sm-4">
-					<input type="text" class="form-control" id="door_pick_charges_topay" disabled value="TOPAY">
+					<select class="form-select bg-info text-dark" id="door_pick_charges_pay" name ="door_pick_charges_pay">
+					  	<option value="">-Select-</option>
+					    <option value="TOPAY">TOPAY</option>
+					    <option value="PAID">PAID </option>
+					</select>
 				  </div>
 				  <div class="col-sm-4">
 					<input type="number" class="form-control" id="door_pick_charges" name="door_pick_charges">
@@ -322,22 +379,6 @@
 		  </div>
 		  <div class="col-md-4 control-margin">
 			  <div class="well">
-			  <div class="row element-margin">
-					<div class="col-sm-4">
-					  <label for="bookingNo" class="form-label">Book No</label>
-					</div>
-					<div class="col-sm-8">
-						<input type="text" class="form-control bg-info text-dark" id="bookingNo" name="bookingNo">
-				    </div>					
-			  </div>
-			  <div class="row element-margin">	
-					<div class="col-sm-4">
-						<label for="bookedOn" class="form-label">Date</label>
-					</div>
-					<div class="col-sm-8">
-						<input type="date" class="form-control bg-info text-dark" id="bookedOn" placeholder="" name="bookedOn">
-					</div>				
-			  </div>
 			   <div class="row element-margin">
 				  <div class="input-group">
 					<input type="text" class="form-control bg-info text-dark" placeholder="LR No" id="lrNumber" name="lrNumber">
@@ -477,12 +518,12 @@
 				<button type="button" class="btn btn-primary button-margin" id="btnBill">Bill..</button>
 				
 			</div>
-			<div class="col-md-4 control-margin">
+			<!-- <div class="col-md-4 control-margin">
 			<button type="button" class="btn btn-primary button-margin" id="btnHelp">Help</button>
 				<button type="button" class="btn btn-primary button-margin" id="btnNext">Next</button>
 				<button type="button" class="btn btn-primary button-margin" id="btnPrevious">Previous</button>
 				<button type="button" class="btn btn-primary button-margin" id="btnCurrent">Current</button>
-			</div>
+			</div> -->
 			<div class="col-md-3 control-margin">
 				
 				<button type="submit" class="btn btn-primary button-margin" id="btnSave">Save</button>

@@ -2,8 +2,6 @@ package com.ba.app.vo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import lombok.Data;
 import lombok.Getter;
@@ -51,5 +49,7 @@ public class BookingVo implements Serializable {
 	private BigDecimal topay;
 	private BigDecimal cash;
 	private BigDecimal refund;
-	private BigDecimal total;	
+	private BigDecimal total;
+	
+	private String eBillNo;
 }

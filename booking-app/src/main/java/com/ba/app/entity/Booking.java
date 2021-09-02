@@ -2,7 +2,6 @@ package com.ba.app.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,4 +58,5 @@ public class Booking implements Serializable {
 	private BigDecimal cash;
 	private BigDecimal refund;
 	private BigDecimal total;	
+	private String eBillNo;
 }

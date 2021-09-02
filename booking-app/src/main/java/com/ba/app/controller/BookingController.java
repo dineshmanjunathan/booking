@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ba.app.entity.Booking;
+import com.ba.app.entity.Customer;
 import com.ba.app.entity.Delivery;
 import com.ba.app.entity.Location;
 import com.ba.app.entity.PayType;
 import com.ba.app.entity.Vehicle;
 import com.ba.app.model.BookingRepository;
+import com.ba.app.model.CustomerRepository;
 import com.ba.app.model.DeliveryRepository;
 import com.ba.app.model.LocationRepository;
 import com.ba.app.model.PayOptionRepository;
@@ -42,6 +46,8 @@ public class BookingController {
 	private VehicleRepository vehicleRepository;
 	@Autowired
 	private DeliveryRepository deliveryRepository;
+	@Autowired
+	private CustomerRepository customerRepository;
 	
 	@RequestMapping(value = "/booking/save", method = RequestMethod.POST)
 	public String saveBookingDetails(HttpServletRequest request, BookingVo bookingVo, ModelMap model) {
@@ -50,12 +56,32 @@ public class BookingController {
 		BeanUtils.copyProperties(bookingVo, booking);
 		model.addAttribute("bookingsuccessmessage", "Booked Successfully");
 		bookingRepository.save(booking);
+		saveFromCustomer(bookingVo);
+		saveToCustomer(bookingVo);
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			model.addAttribute("errormsg", "Failed to Book ");
 			return "booking";
 		}
 		return "booking";
+	}
+	private void saveFromCustomer(BookingVo bookingVo) {
+		
+		//System.out.println("From Phone ----- "+bookingVo.get);
+		if(customerRepository.findByPhoneNumber(bookingVo.getFrom_phone())==null) {
+			Customer customer=new Customer();
+			customer.setCustName(bookingVo.getFromName());
+			customer.setPhoneNumber(bookingVo.getFrom_phone());
+			customerRepository.save(customer);
+		}
+	}
+	private void saveToCustomer(BookingVo bookingVo) {
+		if(customerRepository.findByPhoneNumber(bookingVo.getTo_phone())==null) {
+			Customer customer=new Customer();
+			customer.setCustName(bookingVo.getToName());
+			customer.setPhoneNumber(bookingVo.getTo_phone());
+			customerRepository.save(customer);
+		}
 	}
 	@RequestMapping("/outgoingParcel")
 	public String outgoingParcel(HttpServletRequest request, ModelMap model) {
@@ -267,9 +293,6 @@ public class BookingController {
 			BeanUtils.copyProperties(deliveryVo, deliveryEntity, "createon", "updatedon");
 			deliveryEntity=	deliveryRepository.save(deliveryEntity);
 			model.addAttribute("delivery", deliveryEntity);
-			//Iterable<Delivery> locaIterable = locationRepository.findAll();
-			//model.addAttribute("locationListing", locaIterable);
-			// TODO SMS to member mobile number
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg", "Failed to add new location! ");
@@ -308,4 +331,19 @@ public class BookingController {
 		}
 		return "delivery";
 	}
+	
+	@RequestMapping(value = "/searchCustomerName/{phone}", method = RequestMethod.GET)
+	public ResponseEntity<String> searchCustomerName(@PathVariable("phone") Long phone, HttpServletRequest request, ModelMap model) {
+		try {
+			Customer customer=customerRepository.findByPhoneNumber(phone);
+			if(customer!=null) {
+				return new ResponseEntity<String>(customer.getCustName(), HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed To search Customer Name");
+		}
+		return new ResponseEntity<String>("", HttpStatus.OK);
+	}
+	
 }
