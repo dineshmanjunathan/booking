@@ -139,8 +139,6 @@
 				</div>
 				<div class="form-row">
 					<input type="text" class="form-control" placeholder="Driver">
-				</div>
-				<div class="form-row">
 					<input type="text" class="form-control" placeholder="Conductor">
 				</div>
 				<div class="form-row">
