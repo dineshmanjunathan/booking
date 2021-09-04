@@ -3,20 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>BookingApp</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- MATERIAL DESIGN ICONIC FONT -->
-<link rel="stylesheet"
-	href="../../fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
-
-<!-- STYLE CSS -->
-<link rel="stylesheet" href="../../css/incoming/style.css">
-<link rel="stylesheet" href="../../css/style.css">
-<link rel="stylesheet" href="../../css/bootstrap.min.css">
 <%@ include file="header.jsp"%>
-	<meta charset="ISO-8859-1">
 </head>
 
 <body>
@@ -35,7 +22,7 @@
 						<a class="btn btn-primary button-margin" href="/menu">Back</a>
 					</div>
 				</div>
-				<table class="table">
+				<table id="data-table" class="table table-striped" style="width:100%">
 					<thead>
 						<tr>
 							<th scope="col">Vehicle No</th>

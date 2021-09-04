@@ -35,7 +35,7 @@
 						<a class="btn btn-primary button-margin" href="/menu">Back</a>
 					</div>
 				</div>
-				<table class="table">
+				<table id="data-table" class="table table-striped" style="width:100%">
 					<thead>
 						<tr>
 							

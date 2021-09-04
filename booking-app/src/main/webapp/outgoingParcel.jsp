@@ -7,17 +7,9 @@
 <meta charset="utf-8">
 <title>Outgoing Parcel</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- MATERIAL DESIGN ICONIC FONT -->
-<link rel="stylesheet"
-	href="../../fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
-
-<!-- STYLE CSS -->
-<link rel="stylesheet" href="../../css/incoming/style.css">
-<link rel="stylesheet" href="../../css/style.css">
-<link rel="stylesheet" href="../../css/bootstrap.min.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<%@ include file="header.jsp"%>
+<!-- <script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script> -->
 <script type="text/javascript" charset="utf-8">
 	function getSearchParcel() {
 		let from = $("#fromLocation").val();
@@ -32,7 +24,7 @@
 		}
 		let bookedOn = $("#bookedOn").val();
 		window.location.href = "/get/outgoingParcel?fromLocation=" + from
-				+ "&toLocation=" + to+ "&bookedOn="+bookedOn;
+				+ "&toLocation=" + to + "&bookedOn=" + bookedOn;
 	}
 	function today() {
 		document.getElementById("bookedOn").valueAsDate = new Date();
@@ -40,19 +32,18 @@
 	window.onload = function() {
 		today();
 	};
-	
+
 	var lrNumbers = new Array();
 	function checkBoxFn() {
-		lrNumbers = [document.getElementById("ogpnoarray").value];
+		lrNumbers = [ document.getElementById("ogpnoarray").value ];
 		var lrNos = document.getElementById("ogp");
-		if(lrNos.checked==true){
+		if (lrNos.checked == true) {
 			lrNumbers.push(lrNos.value);
-		}else{
-			lrNumbers.splice(lrNumbers.indexOf(lrNos.value),1)
+		} else {
+			lrNumbers.splice(lrNumbers.indexOf(lrNos.value), 1)
 		}
-		  	document.getElementById("ogpnoarray").innerHTML=lrNumbers;
-		}
-
+		document.getElementById("ogpnoarray").innerHTML = lrNumbers;
+	}
 </script>
 </head>
 
@@ -64,8 +55,8 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
 			<form action="/ogpl/save" id="ogplform" method="POST">
-			<p style="color: green" align="center">${outgoingsuccessmessage}</p>
-			<p style="color: red" align="center">${errormsg}</p>
+				<p style="color: green" align="center">${outgoingsuccessmessage}</p>
+				<p style="color: red" align="center">${errormsg}</p>
 				<h3>Outgoing Parcel</h3>
 				<div class="form-row">
 					<div class="form-holder">
@@ -119,7 +110,8 @@
 						</select><i class="zmdi zmdi-chevron-down"></i>
 					</div>
 				</div>
-				<table class="table">
+				<table id="data-table" class="table table-striped"
+					style="width: 100%">
 					<thead>
 						<tr>
 							<th scope="col">LR No.</th>
@@ -141,8 +133,8 @@
 								<!-- 							<th scope="row">1</th>
  -->
 								<td>${outgoingList.lrNumber}</td>
-								<td><input type="checkbox" name="ogp" id="ogp" onchange="checkBoxFn()"
-									value="${outgoingList.lrNumber}" />&nbsp;</td>
+								<td><input type="checkbox" name="ogp" id="ogp"
+									onchange="checkBoxFn()" value="${outgoingList.lrNumber}" />&nbsp;</td>
 								<td>${outgoingList.toName}</td>
 								<td>${outgoingList.bookingNo}</td>
 								<td>${outgoingList.remarks}</td>
