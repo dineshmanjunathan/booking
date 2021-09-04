@@ -30,9 +30,16 @@
 			alert("Please select To Location");
 			return false;
 		}
+		let bookedOn = $("#bookedOn").val();
 		window.location.href = "/get/incomingParcel?fromLocation=" + from
-				+ "&toLocation=" + to;
+				+ "&toLocation=" + to + "&bookedOn="+bookedOn;
 	}
+	function today() {
+		document.getElementById("bookedOn").valueAsDate = new Date();
+	}
+	window.onload = function() {
+		today();
+	};
 </script>
 </head>
 <body>
@@ -50,7 +57,7 @@
 						<option value="">-Select From Location-</option>
 						<c:forEach var="options" items="${locationList}"
 							varStatus="status">
-							<option value="${options.id}">${options.location}</option>
+							<option value="${options.id}" ${options.id==selectfrom ? 'selected="selected"':''}>${options.location}</option>
 						</c:forEach>
 					</select><i class="zmdi zmdi-chevron-down"></i>
 						
@@ -61,7 +68,7 @@
 						<option value="">-Select To Location-</option>
 						<c:forEach var="options" items="${locationList}"
 							varStatus="status">
-							<option value="${options.id}">${options.location}</option>
+							<option value="${options.id}" ${options.id==selectto ? 'selected="selected"':''}>${options.location}</option>
 						</c:forEach>
 					</select><i class="zmdi zmdi-chevron-down"></i>
 					</div>
@@ -71,7 +78,7 @@
 				</div>
 				<div class="form-row">
 					<input type="text" class="form-control" id="no" placeholder="No"> <input
-						type="date" class="form-control" id="date" placeholder="Date">
+						type="date" class="form-control" id="bookedOn" name="bookedOn" placeholder="Date">
 				</div>
 				<div class="form-row">
 					<input type="text" class="form-control" id="ogplno"  placeholder="OGPL No">
@@ -160,7 +167,7 @@
 						<div class="col-md-12">
 							<button type="button" class="btn btn-primary button-margin"
 								id="btnClear">Save</button>
-							<button type="submit" class="btn btn-primary button-margin"
+							<button type="reset" class="btn btn-primary button-margin"
 								name="submit">Clear</button>
 							
 							<button type="button" class="btn btn-primary button-margin"

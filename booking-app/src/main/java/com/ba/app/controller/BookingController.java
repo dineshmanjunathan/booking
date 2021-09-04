@@ -32,6 +32,10 @@ import com.ba.app.vo.DeliveryVo;
 import com.ba.app.vo.LocationVo;
 import com.ba.app.vo.PayOptionVo;
 import com.ba.app.vo.VehicleVo;
+import com.ba.utils.Utils;
+import com.ba.app.vo.OutgoingParcelVo;
+import com.ba.app.model.OutgoingParcelRepository;
+import com.ba.app.entity.OutgoingParcel;
 
 @Controller
 public class BookingController {
@@ -48,6 +52,9 @@ public class BookingController {
 	private DeliveryRepository deliveryRepository;
 	@Autowired
 	private CustomerRepository customerRepository;
+	@Autowired
+	private OutgoingParcelRepository outgoingParcelRepository;;
+	
 	
 	@RequestMapping(value = "/booking/save", method = RequestMethod.POST)
 	public String saveBookingDetails(HttpServletRequest request, BookingVo bookingVo, ModelMap model) {
@@ -204,17 +211,26 @@ public class BookingController {
 	}
 	
 	@RequestMapping(value = "get/incomingParcel", method = RequestMethod.GET)
-	public String importIncomingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,HttpServletRequest request, ModelMap model) {
-		List<Booking> incomeList= bookingRepository.findByFromLocationAndToLocation(fromLocation,toLocation);
+	public String importIncomingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,@RequestParam("bookedOn") String bookedOn,HttpServletRequest request, ModelMap model) {
+		List<Booking> incomeList= bookingRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation,toLocation,bookedOn);
 		model.addAttribute("incomeList", incomeList);
+		model.addAttribute("selctfrom", fromLocation);
+		model.addAttribute("selctto", toLocation);
+		model.addAttribute("bookedOn", bookedOn);
+		setAllLocationListInModel(model);
 		return "incomingParcel";
 	}
 	@RequestMapping(value = "get/outgoingParcel", method = RequestMethod.GET)
-	public String importOutgoingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,HttpServletRequest request, ModelMap model) {
-		List<Booking> outgoingList= bookingRepository.findByFromLocationAndToLocation(fromLocation,toLocation);
+	public String importOutgoingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,@RequestParam("bookedOn") String bookedOn,HttpServletRequest request, ModelMap model) {
+		List<Booking> outgoingList= bookingRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation,toLocation,bookedOn);
 		model.addAttribute("outgoingList", outgoingList);
+		model.addAttribute("selectfrom", fromLocation);
+		model.addAttribute("selectto", toLocation);
+		model.addAttribute("bookedOn", bookedOn);
+		setAllLocationListInModel(model);
 		return "outgoingParcel";
 	}
+	
 	private void setAllVehileListInModel(ModelMap model) {
 		Iterable<Vehicle> vechileIterable = vehicleRepository.findAll();
 		model.addAttribute("vehicleList", vechileIterable);
@@ -344,6 +360,24 @@ public class BookingController {
 			model.addAttribute("errormsg", "Failed To search Customer Name");
 		}
 		return new ResponseEntity<String>("", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/ogpl/save", method = RequestMethod.POST)
+	public String saveOutgoingParcel(HttpServletRequest request, OutgoingParcelVo outgoingParcelVo, ModelMap model) {
+		try {
+		OutgoingParcel outgoingParcel = new OutgoingParcel();
+		
+		BeanUtils.copyProperties(outgoingParcelVo, outgoingParcel);
+		long ogplNo=Utils.getOrderNumber();
+		outgoingParcel.setOgplNo(ogplNo);
+		model.addAttribute("outgoingsuccessmessage", "Parcel Out Successfully");
+		outgoingParcelRepository.save(outgoingParcel);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			model.addAttribute("errormsg", "Failed to out ");
+			return "outgoingParcel";
+		}
+		return "outgoingParcel";
 	}
 	
 }

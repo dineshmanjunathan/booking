@@ -16,8 +16,8 @@
 <link rel="stylesheet" href="../../css/incoming/style.css">
 <link rel="stylesheet" href="../../css/style.css">
 <link rel="stylesheet" href="../../css/bootstrap.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
-
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 	function getSearchParcel() {
 		let from = $("#fromLocation").val();
@@ -30,9 +30,29 @@
 			alert("Please select To Location");
 			return false;
 		}
+		let bookedOn = $("#bookedOn").val();
 		window.location.href = "/get/outgoingParcel?fromLocation=" + from
-				+ "&toLocation=" + to;
+				+ "&toLocation=" + to+ "&bookedOn="+bookedOn;
 	}
+	function today() {
+		document.getElementById("bookedOn").valueAsDate = new Date();
+	}
+	window.onload = function() {
+		today();
+	};
+	
+	var lrNumbers = new Array();
+	function checkBoxFn() {
+		lrNumbers = [document.getElementById("ogpnoarray").value];
+		var lrNos = document.getElementById("ogp");
+		if(lrNos.checked==true){
+			lrNumbers.push(lrNos.value);
+		}else{
+			lrNumbers.splice(lrNumbers.indexOf(lrNos.value),1)
+		}
+		  	document.getElementById("ogpnoarray").innerHTML=lrNumbers;
+		}
+
 </script>
 </head>
 
@@ -43,40 +63,44 @@
 			<div class="image-holder">
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
-			<form action="">
+			<form action="/ogpl/save" id="ogplform" method="POST">
+			<p style="color: green" align="center">${outgoingsuccessmessage}</p>
+			<p style="color: red" align="center">${errormsg}</p>
 				<h3>Outgoing Parcel</h3>
 				<div class="form-row">
 					<div class="form-holder">
 						<select name="fromLocation" id="fromLocation" class="form-control">
-						<option value="">-Select From Location-</option>
-						<c:forEach var="options" items="${locationList}"
-							varStatus="status">
-							<option value="${options.id}">${options.location}</option>
-						</c:forEach>
-					</select><i class="zmdi zmdi-chevron-down"></i>
+							<option value="">-Select From Location-</option>
+							<c:forEach var="options" items="${locationList}"
+								varStatus="status">
+								<option value="${options.id}"
+									${options.id==selectfrom ? 'selected="selected"':''}>${options.location}</option>
+							</c:forEach>
+						</select><i class="zmdi zmdi-chevron-down"></i>
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-holder">
 						<select name="toLocation" id="toLocation" class="form-control">
-						<option value="">-Select To Location-</option>
-						<c:forEach var="options" items="${locationList}"
-							varStatus="status">
-							<option value="${options.id}">${options.location}</option>
-						</c:forEach>
-					</select><i class="zmdi zmdi-chevron-down"></i>
-				
+							<option value="">-Select To Location-</option>
+							<c:forEach var="options" items="${locationList}"
+								varStatus="status">
+								<option value="${options.id}"
+									${options.id==selectto ? 'selected="selected"':''}>${options.location}</option>
+							</c:forEach>
+						</select><i class="zmdi zmdi-chevron-down"></i>
+
 					</div>
-						&nbsp;&nbsp;
-					<a class="btn btn-primary button-margin"
-						id="import" onclick="return getSearchParcel();">Import</a>
+					&nbsp;&nbsp; <a class="btn btn-primary button-margin" id="import"
+						onclick="return getSearchParcel();">Import</a>
 				</div>
-							<div class="form-row">
+				<div class="form-row">
 					<input type="text" class="form-control" placeholder="OGPL NO">
-					<input type="date" class="form-control" placeholder="Date">
+					<input type="date" id="bookedOn" name="bookedOn"
+						class="form-control" placeholder="Date">
 				</div>
 				<div class="form-row">
 					<div class="form-holder">
-						<select name="" id="" class="form-control">
+						<select name="deliveredBy" id="deliveredBy" class="form-control">
 							<option value="" disabled selected>Delivered By</option>
 							<option value="class 01">Class 01</option>
 							<option value="class 02">Class 02</option>
@@ -85,19 +109,20 @@
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-holder">
-						<select name="from" id="from" class="form-control">
-						<option value="">-Vehicle No-</option>
-						<c:forEach var="options1" items="${vehicleList}"
-							varStatus="status">
-							<option value="${options1.id}">${options1.vehicle}</option>
-						</c:forEach>
-					</select><i class="zmdi zmdi-chevron-down"></i>
+						<select name="from" id="vehicleNo" name="vehicleNo"
+							class="form-control">
+							<option value="">-Vehicle No-</option>
+							<c:forEach var="options1" items="${vehicleList}"
+								varStatus="status">
+								<option value="${options1.id}">${options1.vehicle}</option>
+							</c:forEach>
+						</select><i class="zmdi zmdi-chevron-down"></i>
 					</div>
 				</div>
 				<table class="table">
 					<thead>
 						<tr>
-						<th scope="col">LR No.</th>
+							<th scope="col">LR No.</th>
 							<th scope="col">OGP</th>
 							<th scope="col">To Name</th>
 							<th scope="col">NOs</th>
@@ -109,51 +134,63 @@
 							<th scope="col">Br</th>
 						</tr>
 					</thead>
-										<tbody>
-					<c:forEach var="outgoingList" items="${outgoingList}"
+					<tbody>
+						<c:forEach var="outgoingList" items="${outgoingList}"
 							varStatus="status">
-						<tr>
-<!-- 							<th scope="row">1</th>
- -->							
- 							<td>${outgoingList.lrNumber}</td>
- 							<td>dummy ogpl</td>
- 							<td>${outgoingList.toName}</td>
-							<td>${outgoingList.bookingNo}</td>
-							<td>${outgoingList.remarks}</td>
-							<td>${outgoingList.paid}</td>
-							<td>${outgoingList.topay}</td>
-							<td>${outgoingList.total_charges}</td>
-							<td>${outgoingList.bookedOn}</td>
-							<td>dummy br</td>
-						
-						</tr>
+							<tr>
+								<!-- 							<th scope="row">1</th>
+ -->
+								<td>${outgoingList.lrNumber}</td>
+								<td><input type="checkbox" name="ogp" id="ogp" onchange="checkBoxFn()"
+									value="${outgoingList.lrNumber}" />&nbsp;</td>
+								<td>${outgoingList.toName}</td>
+								<td>${outgoingList.bookingNo}</td>
+								<td>${outgoingList.remarks}</td>
+								<td>${outgoingList.paid}</td>
+								<td>${outgoingList.topay}</td>
+								<td>${outgoingList.total_charges}</td>
+								<td>${outgoingList.bookedOn}</td>
+								<td>dummy br</td>
+
+							</tr>
 						</c:forEach>
 				</table>
 				<br>
 				<div class="form-row">
-					<input type="text" class="form-control" placeholder="Driver">
+					<input type="text" id="driver" name="driver" class="form-control"
+						placeholder="Driver">
 				</div>
 				<br>
 				<div class="form-row">
-					<input type="text" class="form-control" placeholder="Conductor">
+					<input type="text" id="conductor" name="conductor"
+						class="form-control" placeholder="Conductor">
 				</div>
 				<br>
 				<div class="form-row">
-					<input type="text" class="form-control" placeholder="Prepared By">
+					<input type="text" id="preparedBy" name="preparedBy"
+						class="form-control" placeholder="Prepared By">
 				</div>
 				<br>
-				<textarea name="" id="" placeholder="Details" class="form-control"
-					style="height: 130px;"></textarea>
-					<br>
+				<textarea id="details" name="details" placeholder="Details"
+					class="form-control" style="height: 130px;"></textarea>
+				<input type="hidden" id="ogpnoarray" name="ogpnoarray"
+					class="form-control"> <br>
+
+
 				<div class="row control-margin">
-			<div class="col-md-12">
-			<button type="button" class="btn btn-primary button-margin" id="btnClear">Save </button>
-				<button type="submit" class="btn btn-primary button-margin" name="submit">Clear</button>
-				
-				<button type="button" class="btn btn-primary button-margin" id="btnPrint">Help</button>
-				<a class="btn btn-primary button-margin" href="/menu">Back</a>
-			</div>
-		</div>
+					<div class="col-md-12">
+						<button type="submit" class="btn btn-primary button-margin"
+							id="btnClear">Save</button>
+						<button type="reset" class="btn btn-primary button-margin"
+							name="submit">Clear</button>
+
+						<!-- 				<button type="button" class="btn btn-primary button-margin" id="btnPrint">Help</button>
+ -->
+						<a href="/menu"><button type="button"
+								class="btn btn-primary button-margin" id="btnClear">Back</button></a>
+
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>
