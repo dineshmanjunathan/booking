@@ -60,14 +60,9 @@
 				<h3>Outgoing Parcel</h3>
 				<div class="form-row">
 					<div class="form-holder">
-						<select name="fromLocation" id="fromLocation" class="form-control">
-							<option value="">-Select From Location-</option>
-							<c:forEach var="options" items="${locationList}"
-								varStatus="status">
-								<option value="${options.id}"
-									${options.id==selectfrom ? 'selected="selected"':''}>${options.location}</option>
-							</c:forEach>
-						</select><i class="zmdi zmdi-chevron-down"></i>
+						<input type="text" class="form-control" name="fromLocation"
+														id="fromLocation" value="${sessionScope.USER_LOCATION}"
+														readonly>
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-holder">
@@ -151,18 +146,13 @@
 				<div class="form-row">
 					<input type="text" id="driver" name="driver" class="form-control"
 						placeholder="Driver">
-				</div>
-				<br>
-				<div class="form-row">
-					<input type="text" id="conductor" name="conductor"
+						<input type="text" id="conductor" name="conductor"
 						class="form-control" placeholder="Conductor">
 				</div>
-				<br>
 				<div class="form-row">
 					<input type="text" id="preparedBy" name="preparedBy"
 						class="form-control" placeholder="Prepared By">
 				</div>
-				<br>
 				<textarea id="details" name="details" placeholder="Details"
 					class="form-control" style="height: 130px;"></textarea>
 				<input type="hidden" id="ogpnoarray" name="ogpnoarray"

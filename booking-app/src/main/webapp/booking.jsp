@@ -539,11 +539,10 @@
 
 										<button type="submit" class="btn btn-primary button-margin col-md-2"
 											id="btnSave">Save</button>
-										<button type="reset" class="btn btn-primary button-margin col-md-3"
+										<button type="reset" class="btn btn-primary button-margin col-md-2"
 											id="btnClear">Clear</button>
-										<a class="btn btn-primary button-margin col-md-3" href="/menu">Back</a>
-										<button type="button" class="btn btn-primary button-margin col-md-2"
-											id="btnPrint">Print</button>
+										<a href="/menu"><button type="button" class="btn btn-primary button-margin col-md-2" id="btnClear">Back</button></a>
+										<button type="button" class="btn btn-primary button-margin col-md-2" id="btnPrint">Print</button>
 									</div>
 								</div>
 					</div>

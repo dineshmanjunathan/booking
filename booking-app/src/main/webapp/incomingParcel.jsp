@@ -44,14 +44,9 @@
 				<h3>Incoming Parcel</h3>
 				<div class="form-row">
 					<div class="form-holder">
-						<select name="fromLocation" id="fromLocation" class="form-control">
-							<option value="">-Select From Location-</option>
-							<c:forEach var="options" items="${locationList}"
-								varStatus="status">
-								<option value="${options.id}"
-									${options.id==selectfrom ? 'selected="selected"':''}>${options.location}</option>
-							</c:forEach>
-						</select><i class="zmdi zmdi-chevron-down"></i>
+						<input type="text" class="form-control" name="fromLocation"
+														id="fromLocation" value="${sessionScope.USER_LOCATION}"
+														readonly>
 
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;
@@ -145,28 +140,21 @@
 				<div class="form-row">
 					<input type="text" class="form-control" placeholder="Driver">
 				</div>
-				<br>
 				<div class="form-row">
 					<input type="text" class="form-control" placeholder="Conductor">
 				</div>
-				<br>
 				<div class="form-row">
 					<input type="text" class="form-control" placeholder="Prepared By">
 				</div>
-				<br>
 				<textarea name="" id="" placeholder="Details" class="form-control"
-					style="height: 130px;"></textarea>
-				<br>
+					style="height: 130px;"></textarea> <br>
 				<div class="row control-margin">
 					<div class="col-md-12">
 						<button type="button" class="btn btn-primary button-margin"
 							id="btnClear">Save</button>
 						<button type="reset" class="btn btn-primary button-margin"
 							name="submit">Clear</button>
-
-						<button type="button" class="btn btn-primary button-margin"
-							id="btnPrint">Help</button>
-						<a class="btn btn-primary button-margin" href="/menu">Back</a>
+						<a href="/menu"><button type="button" class="btn btn-primary button-margin" id="btnClear">Back</button></a>
 					</div>
 				</div>
 			</form>

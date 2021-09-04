@@ -85,7 +85,7 @@ public class UserController {
 				request.getSession().setAttribute("USER_ID", user.getId());
 				request.getSession().setAttribute("USER_NAME", user.getName());
 				request.getSession().setAttribute("ROLE", user.getRole());
-				if(user.getLocation()!=null && user.getLocation().getLocation()!=null) {
+				if (user.getLocation() != null && user.getLocation().getLocation() != null) {
 					request.getSession().setAttribute("USER_LOCATION", user.getLocation().getLocation());
 				}
 				return "menu";
@@ -108,25 +108,25 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "bookinguser";
+		return "userListing";
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerSubmit(HttpServletRequest request, UserVo user, ModelMap model) {
 		try {
 			User existUser = null;
-			if(user!=null && user.getId()!=null) {
+			if (user != null && user.getId() != null) {
 				existUser = userRepository.findById(user.getId()).get();
 			}
-			if(existUser!=null && existUser.getId()!=null) {
-				
-			}else {
+			if (existUser != null && existUser.getId() != null) {
+
+			} else {
 				User alreadyExist = userRepository.findByUserIdIgnoreCase(user.getUserId());
-				if(alreadyExist!=null && alreadyExist.getUserId()!=null) {
+				if (alreadyExist != null && alreadyExist.getUserId() != null) {
 					model.addAttribute("errormsg", "User ID already exist! ");
 					Iterable<User> userList = userRepository.findAllByOrderByIdAsc();
 					model.addAttribute("userList", userList);
-					return "bookinguser";
+					return "userListing";
 				}
 			}
 			String role = (String) request.getSession().getAttribute("ROLE");
@@ -138,14 +138,14 @@ public class UserController {
 
 			// if (role != null && role.equals("ADMIN")) {
 			if (role != null) {
-				if(existUser!=null && existUser.getId()!=null) {
+				if (existUser != null && existUser.getId() != null) {
 					model.addAttribute("successMessage", "Updated successfully.");
-				}else {
+				} else {
 					model.addAttribute("successMessage", "User created successfully.");
 				}
 				Iterable<User> userList = userRepository.findAllByOrderByIdAsc();
 				model.addAttribute("userList", userList);
-				return "bookinguser";
+				return "userListing";
 			}
 
 		} catch (Exception e) {
@@ -181,15 +181,24 @@ public class UserController {
 	@RequestMapping("/user/delete")
 	public String userDelete(@RequestParam("id") String id, HttpServletRequest request, ModelMap model) {
 		try {
-			userRepository.deleteById(Long.parseLong(id));
+			String userId = request.getSession().getAttribute("USER_ID").toString();
 
-			model.addAttribute("successMessage", "User deleted successfully.");
-			Iterable<User> userList = userRepository.findAllByOrderByIdAsc();
-			model.addAttribute("userList", userList);
+			if (id != null && id.equals(userId)) {
+				model.addAttribute("errormsg", "Same user ID cannot be deleted!");
+				Iterable<User> userList = userRepository.findAllByOrderByIdAsc();
+				model.addAttribute("userList", userList);
+			} else {
+
+				userRepository.deleteById(Long.parseLong(id));
+
+				model.addAttribute("successMessage", "User deleted successfully.");
+				Iterable<User> userList = userRepository.findAllByOrderByIdAsc();
+				model.addAttribute("userList", userList);
+			}
 		} catch (Exception e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
-		return "bookinguser";
+		return "userListing";
 	}
 
 	@RequestMapping("/countryCodeListing")
