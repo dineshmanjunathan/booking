@@ -84,7 +84,6 @@
 							for="defaultCheck1"> Manual </label>
 					</div>
 				</div>
-				<p class="fw-bold">Items</p>
 				<table id="data-table" class="table table-striped"
 					style="width: 100%">
 					<thead>

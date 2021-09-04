@@ -116,7 +116,7 @@ textarea.form-control {
 
 .form-row {
   display: flex;
-  margin-bottom: 20px; }
+  margin-bottom: 10px; }
   .form-row .form-control {
     width: 50%; }
     .form-row .form-control:first-child {
@@ -133,7 +133,7 @@ textarea.form-control {
     top: 50%;
     transform: translateY(-50%);
     right: 20px; }
-
+    
 button {
   height: 47px;
   width: 174px;

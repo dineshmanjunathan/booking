@@ -19,6 +19,17 @@
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/dataTables.bootstrap5.min.js"></script>
 <script src="../../js/dataTables.select.min.js"></script>
+<style type="text/css">
+.form-control {
+ border: 1px solid #212529 !important;
+ }
+ #data-table_wrapper {
+ border: solid 2px black;
+ border-radius: 12px;
+ padding-left: 20px;
+ padding-top: 10px;
+ }
+</style>
 
 <meta charset="ISO-8859-1">
 <script >
