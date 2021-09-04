@@ -29,6 +29,11 @@
 		var strUser = e.value;
 		document.getElementById("loading_charges_pay").value = strUser;
 		document.getElementById("door_pick_charges_pay").value = strUser;
+		(document.getElementById("freight_value").value="");
+		(document.getElementById("loading_charges").value="");
+		(document.getElementById("door_pick_charges").value="");
+		document.getElementById("topay").value = "";
+		document.getElementById("paid").value = "";
 		document.getElementById("loading_charges_pay").disabled = true;
 		document.getElementById("door_pick_charges_pay").disabled = true;
 	}
@@ -68,6 +73,18 @@
                console.log('ERROR:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText);
            }
        });
+	}
+	function sumAmount(){
+		var option=document.getElementById("loading_charges_pay").value;
+		var frieght=Number(document.getElementById("freight_value").value);
+		var loading=Number(document.getElementById("loading_charges").value);
+		var doorPick=Number(document.getElementById("door_pick_charges").value);
+		let total=frieght+loading+doorPick;
+		if(option=='TOPAY'){
+			document.getElementById("topay").value = total;
+		}else{
+			document.getElementById("paid").value = total;
+		}
 	}
 </script>
   </head>
@@ -312,7 +329,7 @@
 					</select>
 				  </div>
 				  <div class="col-sm-4">
-					<input type="text" class="form-control" id="freight_value" name="freight_value">
+					<input type="text" class="form-control" id="freight_value" name="freight_value" onblur="sumAmount();">
 				  </div>
 				  
 			  </div>
@@ -328,7 +345,7 @@
 					</select>
 				  </div>
 				  <div class="col-sm-4">
-					<input type="text" class="form-control" id="loading_charges" name="loading_charges">
+					<input type="text" class="form-control" id="loading_charges" name="loading_charges" onblur="sumAmount();">
 				  </div>
 				  
 			  </div>
@@ -344,7 +361,7 @@
 					</select>
 				  </div>
 				  <div class="col-sm-4">
-					<input type="number" class="form-control" id="door_pick_charges" name="door_pick_charges">
+					<input type="number" class="form-control" id="door_pick_charges" name="door_pick_charges" onblur="sumAmount();">
 				  </div>
 				  
 			  </div>
@@ -354,7 +371,7 @@
 					<label class="form-label" for="other_charges">Others</label>
 				  </div>
 				  <div class="col-sm-8">
-					<input type="number" class="form-control" id="other_charges" name ="other_charges">
+					<input type="number" class="form-control" id="other_charges" name ="other_charges" >
 				  </div>
 			   </div>
 			  
@@ -363,7 +380,7 @@
 					<label class="form-label" for="paid">Paid</label>
 				  </div>
 				  <div class="col-sm-8">
-					<input type="number" class="form-control" id="paid" name="paid">
+					<input type="number" class="form-control" id="paid" name="paid" >
 				  </div>
 			  </div>
 			  <div class="row element-margin">
