@@ -15,14 +15,6 @@
 	margin-right: 5px;
 }
 </style>
-<title>BookingApp</title>
-<!--  <link rel="stylesheet" href="../../css/bootstrap.min.css">
-	
-	
-	<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
 <script type="text/javascript" charset="utf-8">
 	function selectPayOption() {
 		var e = document.getElementById("payOption");
@@ -91,18 +83,13 @@
 </script>
 </head>
 
-<body class="bg-light">
-	<br>
-	<center>
-		<h4>BOOKING</h4>
-	</center>
-
-
+<body >
 <div class="wrapper">
 		<div class="inner">
 			<div style="width: 250px;">
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
+			<h3>Booking</h3>
 	<div class="blog-details-area mg-b-15">
 		<div class="container-fluid" style="width: 90%;">
 			<div class="row">
