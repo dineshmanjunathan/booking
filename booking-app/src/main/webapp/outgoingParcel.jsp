@@ -51,13 +51,14 @@
 
 	<div class="wrapper">
 		<div class="inner">
-			<div class="image-holder">
-				<img src="../../img/product/parcel.jpg" alt="">
+			<div style="width: 250px;">
+				<img src="../../img/product/parcel.jpg" alt="">				
 			</div>
+			<h3><b>Outgoing Parcel</b></h3>
 			<form action="/ogpl/save" id="ogplform" method="POST">
 				<p style="color: green" align="center">${outgoingsuccessmessage}</p>
 				<p style="color: red" align="center">${errormsg}</p>
-				<h3>Outgoing Parcel</h3>
+			
 				<div class="form-row">
 					<div class="form-holder">
 						<input type="text" class="form-control" name="fromLocation"
@@ -160,17 +161,17 @@
 
 
 				<div class="row control-margin">
-					<div class="col-md-12">
+					<div class="col-md-4">
 						<button type="submit" class="btn btn-primary button-margin"
 							id="btnClear">Save</button>
+					</div>
+					<div class="col-md-4">		
 						<button type="reset" class="btn btn-primary button-margin"
 							name="submit">Clear</button>
-
-						<!-- 				<button type="button" class="btn btn-primary button-margin" id="btnPrint">Help</button>
- -->
+					</div>		
+					<div class="col-md-4">
 						<a href="/menu"><button type="button"
 								class="btn btn-primary button-margin" id="btnClear">Back</button></a>
-
 					</div>
 				</div>
 			</form>

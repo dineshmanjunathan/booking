@@ -13,7 +13,7 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
 			<form action="" >
-				<h3>Vehicle Details</h3>
+				<h3><b>Vehicle Details</b></h3>
 				<p style="color: green" align="center">${successMessage}</p>
 				<p style="color: green" align="center">${deletesuccessmessage}</p>
 				<div class="row control-margin">

@@ -29,7 +29,7 @@
 			
 			<form action="/vehicle" method="post">
 			
-				<h3> Vehicle Details</h3>
+				<h3> <b>Vehicle Details</b></h3>
 				
 				<input type="hidden" class="form-control" name="id" id="id" value="${vehicle.id}" required>
 					<div class="form-row">

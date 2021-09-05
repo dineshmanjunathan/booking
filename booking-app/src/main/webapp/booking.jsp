@@ -89,7 +89,7 @@
 			<div style="width: 250px;">
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
-			<h3>Booking</h3>
+			<h3><b>Booking</b></h3>
 	<div class="blog-details-area mg-b-15">
 		<div class="container-fluid" style="width: 90%;">
 			<div class="row">

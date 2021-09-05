@@ -29,7 +29,7 @@
 			
 			<form action="/payOption" method="post">
 			
-				<h3> Pay Type</h3>
+				<h3> <b>Pay Type</b></h3>
 				
 				<input type="hidden" class="form-control" name="id" id="id" value="${payOption.id}" required>
 					<div class="form-row">

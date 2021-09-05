@@ -37,11 +37,11 @@
 
 	<div class="wrapper">
 		<div class="inner">
-			<div class="image-holder">
+			<div style="width: 250px;">
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
+			<h3><b>Incoming Parcel</b></h3>
 			<form action="">
-				<h3>Incoming Parcel</h3>
 				<div class="form-row">
 					<div class="form-holder">
 						<input type="text" class="form-control" name="fromLocation"
@@ -147,11 +147,15 @@
 				<textarea name="" id="" placeholder="Details" class="form-control"
 					style="height: 130px;"></textarea> <br>
 				<div class="row control-margin">
-					<div class="col-md-12">
+					<div class="col-md-4">
 						<button type="button" class="btn btn-primary button-margin"
 							id="btnClear">Save</button>
+					</div>
+					<div class="col-md-4">		
 						<button type="reset" class="btn btn-primary button-margin"
 							name="submit">Clear</button>
+					</div>	
+					<div class="col-md-4">		
 						<a href="/menu"><button type="button" class="btn btn-primary button-margin" id="btnClear">Back</button></a>
 					</div>
 				</div>

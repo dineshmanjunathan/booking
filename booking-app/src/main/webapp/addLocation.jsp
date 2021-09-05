@@ -27,7 +27,7 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
 			<form action="/addLocation" method="post">
-				<h3> Location</h3>
+				<h3> <b>Location</b></h3>
 				<input type="hidden" class="form-control" name="id" id="id" value="${location.id}" required>
 				
 					<div class="form-row">

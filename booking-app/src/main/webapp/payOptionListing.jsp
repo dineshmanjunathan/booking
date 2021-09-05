@@ -13,7 +13,7 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
 			<form action="" >
-				<h3>Pay Type</h3>
+				<h3><b>Pay Type</b></h3>
 				<p style="color: green" align="center">${successMessage}</p>
 				<div class="row control-margin">
 					<div class="col-md-12">

@@ -27,7 +27,7 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
 			<form action="/register" method="post">
-				<h3> User</h3>
+				<h3><b>User</b></h3>
 				<br>
 				<input type="hidden" class="form-control" name="id" id="id" value="${user.id}" required>
 				

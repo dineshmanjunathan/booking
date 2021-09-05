@@ -107,7 +107,7 @@
   <br>
   <c:if test="${fn:contains(sessionScope.ROLE, 'ADMIN')}">
   <div class="container px-4 py-1" style="background-color: whitesmoke;" id="featured-3">
-    <h3 class="pb-2 border-bottom">Admin Management</h3>
+    <h3 class="pb-2 border-bottom" >Admin Management</h3>
     <div class="row g-4 py-2 row-cols-1 row-cols-lg-4">
       <div class="feature col">
         <div class="feature-icon bg-primary bg-gradient">
