@@ -12,14 +12,14 @@ import lombok.Setter;
 public class OutgoingParcelVo {
 	private long id;
 	private String fromLocation;
-	private String toLocation ;
-	private String driver ;
-	private String conductor ;
-	private String preparedBy ;
-	private String details ;
-	private String bookedOn ;
-	private String deliveredBy ;
-	private String vehicleNo ;
-	private String ogplNo ;
-	private ArrayList ogpnoarray;
+	private String toLocation;
+	private String driver;
+	private String conductor;
+	private String preparedBy;
+	private String details;
+	private String bookedOn;
+	private String deliveredBy;
+	private String vehicleNo;
+	private String ogplNo;
+	private ArrayList<Long> ogpnoarray;
 }

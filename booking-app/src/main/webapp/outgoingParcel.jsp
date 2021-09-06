@@ -50,7 +50,7 @@
 <body>
 
 	<div class="wrapper">
-		<div class="inner">
+		<div class="inner" style="width: 90%">
 			<div style="width: 250px;">
 				<img src="../../img/product/parcel.jpg" alt="">				
 			</div>

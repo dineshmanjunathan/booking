@@ -12,6 +12,7 @@ public interface BookingRepository extends CrudRepository<Booking, String> {
 	
 	List<Booking> findByFromLocationAndToLocationAndBookedOn(String fromLocation,String toLocation,String bookedOn);
 	Booking findByLrNumber(Long lrNumber);
+	List<Booking> findByLrNumbers(List<Long> lrNumbers);
 	Booking findById(Long id);
 
 	

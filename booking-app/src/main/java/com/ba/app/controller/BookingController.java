@@ -212,8 +212,10 @@ public class BookingController {
 	
 	@RequestMapping(value = "get/incomingParcel", method = RequestMethod.GET)
 	public String importIncomingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,@RequestParam("bookedOn") String bookedOn,HttpServletRequest request, ModelMap model) {
-		List<Booking> incomeList= bookingRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation,toLocation,bookedOn);
-		model.addAttribute("incomeList", incomeList);
+		OutgoingParcel incomingDetails= outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation,toLocation,bookedOn);
+		model.addAttribute("incomingDetails", incomingDetails);
+		List<Booking> incomingList = bookingRepository.findByLrNumbers(incomingDetails.getOgpnoarray());
+		model.addAttribute("incomeList", incomingList);
 		model.addAttribute("selctfrom", fromLocation);
 		model.addAttribute("selctto", toLocation);
 		model.addAttribute("bookedOn", bookedOn);

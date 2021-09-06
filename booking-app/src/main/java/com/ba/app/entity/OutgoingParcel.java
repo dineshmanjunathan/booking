@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "t_outgoingparcel")
+@Table(name = "t_outgoing_parcel")
 public class OutgoingParcel {
 	
 	@Id
@@ -30,7 +30,7 @@ public class OutgoingParcel {
 	private String vehicleNo ;
 	private long ogplNo ;
 	
-	private ArrayList ogpnoarray;
+	private ArrayList<Long> ogpnoarray;
 
 
 }
