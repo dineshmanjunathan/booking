@@ -32,19 +32,20 @@
 </head>
 <div class="wrapper">
 	<div class="inner">
-		<div style="width: 250px;">
-			<img src="../../img/product/parcel.jpg" alt="">
-		</div>
+		<div style="width: 15%;">
 		<h3>
 			<b>Delivery</b>
 		</h3>
+			<img src="../../img/product/parcel.jpg" alt="">
+		</div>
+			<b style="width: 5%;"></b>
 		<div class="blog-details-area mg-b-15">
 			<div class="container-fluid" style="width: 90%;">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="blog-details-inner">
 							<main>
-								<form action="/addDelivery" method="post">
+								<form action="/addDelivery" method="post" style="width: 100%;">
 									<input type="hidden" class="form-control" name="id" id="id"
 										value="${delivery.id}">
 									<div class="row">

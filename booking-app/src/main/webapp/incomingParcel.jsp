@@ -37,11 +37,12 @@
 
 	<div class="wrapper">
 		<div class="inner" style="width: 90%">
-			<div style="width: 250px;">
+			<div style="width: 15%;">
+			<h3><b>Incoming Parcel</b></h3>
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
-			<h3><b>Incoming Parcel</b></h3>
-			<form action="">
+			<b style="width: 5%;"></b>
+			<form action="" style="width: 100%;">
 				<div class="form-row">
 					<div class="form-holder">
 						<input type="text" class="form-control" name="fromLocation"
@@ -60,25 +61,27 @@
 							</c:forEach>
 						</select><i class="zmdi zmdi-chevron-down"></i>
 					</div>
-					&nbsp;&nbsp; <a class="btn btn-primary button-margin" id="import"
+					&nbsp;&nbsp; 
+					<input type="date" class="form-control" id="bookedOn"
+						name="bookedOn" placeholder="Date">
+						&nbsp;&nbsp; 
+					<a class="btn btn-primary button-margin" id="import"
 						onclick="return getSearchParcel();">Import</a>
 				</div>
 				<div class="form-row">
-					<input type="text" class="form-control" id="no" placeholder="No">
-					<input type="date" class="form-control" id="bookedOn"
-						name="bookedOn" placeholder="Date">
-				</div>
-				<div class="form-row">
+					<input type="text" class="form-control" id="no" placeholder="No">&nbsp;&nbsp;
 					<input type="text" class="form-control" id="ogplno"
-						placeholder="OGPL No"> <input type="date"
+						placeholder="OGPL No"> &nbsp;&nbsp;
+						<input type="date"
 						class="form-control" id="ogpldate" placeholder="OGPL Date">
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-check">
 						<input class="form-check-input" type="checkbox" value=""
 							id="defaultCheck1"> <label class="form-check-label"
 							for="defaultCheck1"> Manual </label>
 					</div>
 				</div>
+			
 				<table id="data-table" class="table table-striped"
 					style="width: 100%">
 					<thead>
@@ -139,9 +142,7 @@
 				</div>
 				<div class="form-row">
 					<input type="text" class="form-control" placeholder="Driver">
-					<input type="text" class="form-control" placeholder="Conductor">
-				</div>
-				<div class="form-row">
+					<input type="text" class="form-control" placeholder="Conductor">&nbsp;&nbsp;
 					<input type="text" class="form-control" placeholder="Prepared By">
 				</div>
 				<textarea name="" id="" placeholder="Details" class="form-control"

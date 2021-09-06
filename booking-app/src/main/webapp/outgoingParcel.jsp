@@ -51,11 +51,12 @@
 
 	<div class="wrapper">
 		<div class="inner" style="width: 90%">
-			<div style="width: 250px;">
+			<div style="width: 15%;">
+			<h3><b>Outgoing Parcel</b></h3>
 				<img src="../../img/product/parcel.jpg" alt="">				
 			</div>
-			<h3><b>Outgoing Parcel</b></h3>
-			<form action="/ogpl/save" id="ogplform" method="POST">
+			<b style="width: 5%;"></b>
+			<form action="/ogpl/save" id="ogplform" method="POST" style="width: 100%;">
 				<p style="color: green" align="center">${outgoingsuccessmessage}</p>
 				<p style="color: red" align="center">${errormsg}</p>
 			
@@ -65,7 +66,7 @@
 														id="fromLocation" value="${sessionScope.USER_LOCATION}"
 														readonly>
 					</div>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-holder">
 						<select name="toLocation" id="toLocation" class="form-control">
 							<option value="">-Select To Location-</option>
@@ -76,16 +77,14 @@
 							</c:forEach>
 						</select><i class="zmdi zmdi-chevron-down"></i>
 
-					</div>
+					</div>&nbsp;&nbsp;
+					<input type="date" id="bookedOn" name="bookedOn"
+						class="form-control" placeholder="Date">
 					&nbsp;&nbsp; <a class="btn btn-primary button-margin" id="import"
 						onclick="return getSearchParcel();">Import</a>
 				</div>
 				<div class="form-row">
 					<input type="text" class="form-control" placeholder="OGPL NO">
-					<input type="date" id="bookedOn" name="bookedOn"
-						class="form-control" placeholder="Date">
-				</div>
-				<div class="form-row">
 					<div class="form-holder">
 						<select name="deliveredBy" id="deliveredBy" class="form-control">
 							<option value="" disabled selected>Delivered By</option>
@@ -148,10 +147,8 @@
 					<input type="text" id="driver" name="driver" class="form-control"
 						placeholder="Driver">
 						<input type="text" id="conductor" name="conductor"
-						class="form-control" placeholder="Conductor">
-				</div>
-				<div class="form-row">
-					<input type="text" id="preparedBy" name="preparedBy"
+						class="form-control" placeholder="Conductor">&nbsp;&nbsp;
+						<input type="text" id="preparedBy" name="preparedBy"
 						class="form-control" placeholder="Prepared By">
 				</div>
 				<textarea id="details" name="details" placeholder="Details"
