@@ -45,9 +45,25 @@
 			<form action="" style="width: 100%;">
 				<div class="form-row">
 					<div class="form-holder">
-						<input type="text" class="form-control" name="fromLocation"
-														id="fromLocation" value="${sessionScope.USER_LOCATION}"
-														readonly>
+						
+						<c:choose>
+							<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
+								<select name="fromLocation" id="fromLocation" class="form-control">
+									<option value="">-Select To Location-</option>
+									<c:forEach var="options" items="${locationList}"
+										varStatus="status">
+										<option value="${options.id}"
+											${options.id==selectto ? 'selected="selected"':''}>${options.location}</option>
+									</c:forEach>
+								</select>
+								<i class="zmdi zmdi-chevron-down"></i>
+							</c:when>
+							<c:otherwise>
+								<input type="text" class="form-control" name="fromLocation"
+									id="fromLocation" value="${sessionScope.USER_LOCATION}"
+									readonly>
+							</c:otherwise>
+						</c:choose>
 
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;

@@ -108,11 +108,25 @@
 												</div>
 
 												<div class="col-sm-8">
-													<input type="text" class="form-control" name="fromLocation"
-														id="fromLocation" value="${sessionScope.USER_LOCATION}"
-														readonly>
+												<c:choose>
+													<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
+														<select class="form-select bg-info text-dark"
+														id="fromLocation" name="fromLocation">
+														<option value="">-Select From Location-</option>
+														<c:forEach var="options" items="${locationList}"
+															varStatus="status">
+															<option value="${options.id}">${options.location}</option>
+														</c:forEach>
+													</select>
+													</c:when>
+													<c:otherwise>
+														<input type="text" class="form-control" name="fromLocation"
+															id="fromLocation" value="${sessionScope.USER_LOCATION}"
+															readonly>
+													</c:otherwise>
+												</c:choose>
 												</div>
-											</div>
+												</div>
 											<div class="row element-margin">
 												<div class="col-sm-4">
 													<label for="to" class="form-label">To</label>
@@ -386,8 +400,16 @@
 										<div class="well">
 											<div class="row element-margin">
 												<div class="input-group">
+												<c:choose>
+													<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
 													<input type="text" class="form-control bg-info text-dark"
-														placeholder="LR No" id="lrNumber" name="lrNumber">
+														placeholder="LR No" id="lrNumber" name="lrNumber" value="${LRnumber}">
+												</c:when>
+												<c:otherwise>
+												<input type="text" class="form-control bg-info text-dark"
+														placeholder="LR No" id="lrNumber" name="lrNumber" value="${LRnumber}" readonly>
+												</c:otherwise>		
+												</c:choose>
 													<button type="submit" class="btn btn-secondary"
 														id="btnSearch">Search</button>
 												</div>

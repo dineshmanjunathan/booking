@@ -2,12 +2,13 @@
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html class="no-js" lang="en">
 <head>
 <meta charset="utf-8">
 <title>Outgoing Parcel</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <%@ include file="header.jsp"%>
+<meta charset="ISO-8859-1">
 <!-- <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script> -->
 <script type="text/javascript" charset="utf-8">
@@ -62,9 +63,25 @@
 			
 				<div class="form-row">
 					<div class="form-holder">
-						<input type="text" class="form-control" name="fromLocation"
-														id="fromLocation" value="${sessionScope.USER_LOCATION}"
-														readonly>
+						<c:choose>
+							<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
+								<select name="fromLocation" id="fromLocation" class="form-control">
+									<option value="">-Select To Location-</option>
+									<c:forEach var="options" items="${locationList}"
+										varStatus="status">
+										<option value="${options.id}"
+											${options.id==selectto ? 'selected="selected"':''}>${options.location}</option>
+									</c:forEach>
+								</select>
+								<i class="zmdi zmdi-chevron-down"></i>
+							</c:when>
+							<c:otherwise>
+								<input type="text" class="form-control" name="fromLocation"
+									id="fromLocation" value="${sessionScope.USER_LOCATION}"
+									readonly>
+							</c:otherwise>
+						</c:choose>
+
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-holder">

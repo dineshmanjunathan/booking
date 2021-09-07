@@ -1,5 +1,6 @@
 package com.ba.app.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,8 +62,10 @@ public class BookingController {
 		try {
 		Booking booking = new Booking();
 		BeanUtils.copyProperties(bookingVo, booking);
-		model.addAttribute("bookingsuccessmessage", "Booked Successfully");
+		model.addAttribute("bookingsuccessmessage", "Booked Successfully. LR Number:"+booking.getLrNumber());
 		bookingRepository.save(booking);
+		//SAVE SEQ FOR LR
+		bookingRepository.getNextLRNumber();
 		saveFromCustomer(bookingVo);
 		saveToCustomer(bookingVo);
 		}catch(Exception ex) {
@@ -105,8 +108,19 @@ public class BookingController {
 	}
 	
 	@RequestMapping("/booking")
-	public String booking(ModelMap model) {
+	public String booking(HttpServletRequest request,ModelMap model) {
 		setAllLocationListInModel(model);
+		Long nextLRNumber=bookingRepository.getcurrentLRNumber();
+		String fromlocation = ""+request.getSession().getAttribute("USER_LOCATION");
+		String sLR="";
+		if(fromlocation!=null && !fromlocation.isEmpty()) {
+			sLR = fromlocation+"/"+LocalDate.now()+"/"+nextLRNumber;
+		}else {
+			sLR = LocalDate.now()+"/"+nextLRNumber;
+		}
+		
+		model.addAttribute("LRnumber", sLR);
+		
 		return "booking";
 	}
 
