@@ -62,7 +62,8 @@ public class BookingController {
 		try {
 		Booking booking = new Booking();
 		BeanUtils.copyProperties(bookingVo, booking);
-		model.addAttribute("bookingsuccessmessage", "Booked Successfully. LR Number:"+booking.getLrNumber());
+		model.addAttribute("bookingsuccessmessage", "Booked Successfully.");
+		model.addAttribute("LRNumber", "LR Number : "+booking.getLrNumber());
 		bookingRepository.save(booking);
 		//SAVE SEQ FOR LR
 		bookingRepository.getNextLRNumber();

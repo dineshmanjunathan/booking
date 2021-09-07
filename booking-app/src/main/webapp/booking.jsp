@@ -98,6 +98,7 @@
 						<form action="/booking/save" method="POST"
 							onload="disabledFieldsOnLoad();">
 							<p style="color: green" align="center">${bookingsuccessmessage}</p>
+							<p style="color: green;font-weight: bold; " align="center">${LRNumber}</p>
 							<main>
 								<div class="row">
 									<div class="col-md-4 control-margin">
