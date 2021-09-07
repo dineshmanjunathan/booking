@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.ba.app.entity.Location;
 
-public interface LocationRepository extends CrudRepository<Location,Long>{
+public interface LocationRepository extends CrudRepository<Location,String>{
 
 }

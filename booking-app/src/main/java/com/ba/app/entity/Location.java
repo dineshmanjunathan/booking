@@ -25,8 +25,7 @@ public class Location implements Serializable {
 	private static final long serialVersionUID = -7187348510206952329L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private String id;
 	private String location;
 	private String address ;
 	private LocalDateTime createon = LocalDateTime.now();

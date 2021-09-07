@@ -38,7 +38,7 @@ public class User implements Serializable {
 	private String role;
 	private String memberStatus;
 	@OneToOne()
-	@JoinColumn(name = "location_id")
+	@JoinColumn(name = "location_code")
 	private Location location;
 	private String loginStatus;
 		

@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="../../css/style.css">
 <link rel="stylesheet" href="../../css/bootstrap.min.css">
 <%@ include file="header.jsp"%>
-	<meta charset="ISO-8859-1">
+<meta charset="ISO-8859-1">
 </head>
 
 <body>
@@ -26,28 +26,46 @@
 			<div class="image-holder">
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
-			<form action="/addLocation" method="post">
-				<h3> <b>Location</b></h3>
-				<input type="hidden" class="form-control" name="id" id="id" value="${location.id}" required>
-				
-					<div class="form-row">
-						<input type="text" class="form-control" name="location" id="location" placeholder="Location" value="${location.location}" required>
+
+			<c:choose>
+				<c:when test="${not empty location}">
+					<c:url var="action" value="/editLocation" />
+				</c:when>
+				<c:otherwise>
+					<c:url var="action" value="/addLocation" />
+				</c:otherwise>
+			</c:choose>
+			<form action="${action}" method="post">
+				<h3>
+					<b>Location</b>
+				</h3>
+				<p style="color: red" align="center">${errormsg}</p>
+				<div class="form-row">
+					<input type="text" class="form-control" name="id" id="id"
+						placeholder="Code" value="${location.id}" required>
+				</div>
+				<div class="form-row">
+					<input type="text" class="form-control" name="location"
+						id="location" placeholder="Location" value="${location.location}"
+						required>
+				</div>
+				<textarea name="address" id="address" placeholder="Address"
+					class="form-control" style="height: 130px;">${location.address}</textarea>
+				<br>
+				<div class="row control-margin">
+					<div class="col-md-4">
+						<button type="submit" class="btn btn-primary button-margin"
+							id="btnClear">Save</button>
 					</div>
-					<br>
-					<textarea name="address" id="address" placeholder="Address" class="form-control"
-						style="height: 130px;">${location.address}</textarea>
-					<br>
-					<div class="row control-margin">
-						<div class="col-md-4">
-							<button type="submit" class="btn btn-primary button-margin" id="btnClear">Save</button>
-						</div>
-						<div class="col-md-4">
-							<button type="reset" class="btn btn-primary button-margin" id="btnClear">Clear</button>
-						</div>
-						<div class="col-md-4">
-							<a href="/locationListing"><button type="button" class="btn btn-primary button-margin" id="btnClear">Back</button></a>
-						</div>
+					<div class="col-md-4">
+						<button type="reset" class="btn btn-primary button-margin"
+							id="btnClear">Clear</button>
 					</div>
+					<div class="col-md-4">
+						<a href="/locationListing"><button type="button"
+								class="btn btn-primary button-margin" id="btnClear">Back</button></a>
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>

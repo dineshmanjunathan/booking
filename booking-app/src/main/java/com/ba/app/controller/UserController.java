@@ -87,6 +87,7 @@ public class UserController {
 				request.getSession().setAttribute("ROLE", user.getRole());
 				if (user.getLocation() != null && user.getLocation().getLocation() != null) {
 					request.getSession().setAttribute("USER_LOCATION", user.getLocation().getLocation());
+					request.getSession().setAttribute("USER_LOCATIONID", user.getLocation().getId());
 				}
 				return "menu";
 			} else {
@@ -135,6 +136,11 @@ public class UserController {
 
 			BeanUtils.copyProperties(user, userEntity, "createon", "updatedon");
 			userRepository.save(userEntity);
+			
+			if (userEntity.getLocation() != null && userEntity.getLocation().getLocation() != null) {
+				request.getSession().setAttribute("USER_LOCATION", userEntity.getLocation().getLocation());
+				request.getSession().setAttribute("USER_LOCATIONID", userEntity.getLocation().getId());
+			}
 
 			// if (role != null && role.equals("ADMIN")) {
 			if (role != null) {

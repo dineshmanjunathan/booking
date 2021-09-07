@@ -112,10 +112,10 @@ public class BookingController {
 	public String booking(HttpServletRequest request,ModelMap model) {
 		setAllLocationListInModel(model);
 		Long nextLRNumber=bookingRepository.getcurrentLRNumber();
-		String fromlocation = ""+request.getSession().getAttribute("USER_LOCATION");
+		String fromlocationcode = ""+request.getSession().getAttribute("USER_LOCATIONID");
 		String sLR="";
-		if(fromlocation!=null && !fromlocation.isEmpty()) {
-			sLR = fromlocation+"/"+LocalDate.now()+"/"+nextLRNumber;
+		if(fromlocationcode!=null && !fromlocationcode.isEmpty()) {
+			sLR = fromlocationcode+"/"+LocalDate.now()+"/"+nextLRNumber;
 		}else {
 			sLR = LocalDate.now()+"/"+nextLRNumber;
 		}
@@ -127,6 +127,39 @@ public class BookingController {
 
 	@RequestMapping(value = "/addLocation", method = RequestMethod.POST)
 	public String saveConfigure(HttpServletRequest request, LocationVo locationVo, ModelMap model) {
+		try {			
+			
+			if(locationVo!=null) {
+				try {
+					Location location = locationRepository.findById(locationVo.getId()).get();
+					if(location!=null && location.getId()!=null) {
+						model.addAttribute("errormsg", "Location Code ["+location.getId()+"] is already exist! ");
+						return "addLocation";
+					}
+				} catch (Exception e) {
+					// do nothing
+				}
+			}
+			
+			Location locationEntity = new Location();
+
+			BeanUtils.copyProperties(locationVo, locationEntity, "createon", "updatedon");
+			locationEntity=	locationRepository.save(locationEntity);
+			model.addAttribute("successMessage", locationEntity.getLocation()+" - location added! ");
+			//model.addAttribute("location", locationEntity);
+			Iterable<Location> locaIterable = locationRepository.findAll();
+			model.addAttribute("locationListing", locaIterable);
+			// TODO SMS to member mobile number
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed to add new location! ");
+			return "addLocation";
+		}
+		return "locationListing";
+	}
+	
+	@RequestMapping(value = "/editLocation", method = RequestMethod.POST)
+	public String updateLocationConfigure(HttpServletRequest request, LocationVo locationVo, ModelMap model) {
 		try {			
 			Location locationEntity = new Location();
 
@@ -144,6 +177,8 @@ public class BookingController {
 		}
 		return "locationListing";
 	}
+	
+	
 	@RequestMapping("/locationListing")
 	public String countryCodeListing(HttpServletRequest request, ModelMap model) {
 		try {
@@ -156,7 +191,7 @@ public class BookingController {
 	}
 
 	@RequestMapping(value = "/location/edit/{id}", method = RequestMethod.GET)
-	public String locationEdit(@PathVariable("id") Long id, HttpServletRequest request, ModelMap model) {
+	public String locationEdit(@PathVariable("id") String id, HttpServletRequest request, ModelMap model) {
 		try {
 			Location location = locationRepository.findById(id).get();
 			LocationVo locationVo = new LocationVo();
@@ -168,7 +203,7 @@ public class BookingController {
 		return "addLocation";
 	}
 	@RequestMapping(value = "/location/delete/{id}", method = RequestMethod.GET)
-	public String locationDelete(@PathVariable("id") Long id, HttpServletRequest request, ModelMap model) {
+	public String locationDelete(@PathVariable("id") String id, HttpServletRequest request, ModelMap model) {
 		try {
 			locationRepository.deleteById(id);
 			model.addAttribute("deletesuccessmessage", "Deleted Successfully");

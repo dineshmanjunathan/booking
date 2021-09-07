@@ -76,8 +76,11 @@
 								<i class="zmdi zmdi-chevron-down"></i>
 							</c:when>
 							<c:otherwise>
-								<input type="text" class="form-control" name="fromLocation"
-									id="fromLocation" value="${sessionScope.USER_LOCATION}"
+							<input type="hidden" name="fromLocation"
+									id="fromLocation" value="${sessionScope.USER_LOCATIONID}"
+									readonly>
+								<input type="text" class="form-control" name="fromdummy"
+									id="fromdummy" value="${sessionScope.USER_LOCATION}"
 									readonly>
 							</c:otherwise>
 						</c:choose>
