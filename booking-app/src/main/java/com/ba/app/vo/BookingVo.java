@@ -22,7 +22,7 @@ public class BookingVo implements Serializable {
 	private String toLocation ;
 	private Long bookingNo;
 	private String bookedOn ;
-	private Long lrNumber;
+	private String lrNumber;
 	private String fromName;
 	private String toName;
 	

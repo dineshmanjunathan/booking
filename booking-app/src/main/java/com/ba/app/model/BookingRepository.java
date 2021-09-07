@@ -12,8 +12,8 @@ import com.ba.app.entity.Booking;
 public interface BookingRepository extends CrudRepository<Booking, String> {
 	
 	List<Booking> findByFromLocationAndToLocationAndBookedOn(String fromLocation,String toLocation,String bookedOn);
-	Booking findByLrNumber(Long lrNumber);
-	List<Booking> findByLrNumber(List<Long> lrNumbers);
+	Booking findByLrNumber(String lrNumber);
+	List<Booking> findByLrNumber(List<String> lrNumbers);
 	Booking findById(Long id);
 
 	@Query(value = "select NEXTVAL('LRNUMBER_SEQ')", nativeQuery =true)

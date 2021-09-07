@@ -30,7 +30,7 @@ public class OutgoingParcel {
 	private String vehicleNo ;
 	private long ogplNo ;
 	
-	private ArrayList<Long> ogpnoarray;
+	private ArrayList<String> ogpnoarray;
 
 
 }
