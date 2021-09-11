@@ -69,6 +69,7 @@ public class BookingController {
 		bookingRepository.getNextLRNumber();
 		saveFromCustomer(bookingVo);
 		saveToCustomer(bookingVo);
+		setAllLocationListInModel(model);
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			model.addAttribute("errormsg", "Failed to Book ");
@@ -114,7 +115,7 @@ public class BookingController {
 		Long nextLRNumber=bookingRepository.getcurrentLRNumber();
 		String fromlocationcode = ""+request.getSession().getAttribute("USER_LOCATIONID");
 		String sLR="";
-		if(fromlocationcode!=null && !fromlocationcode.isEmpty()) {
+		if(fromlocationcode!=null && !fromlocationcode.isEmpty() && !fromlocationcode.equalsIgnoreCase("NULL")) {
 			sLR = fromlocationcode+"/"+LocalDate.now()+"/"+nextLRNumber;
 		}else {
 			sLR = LocalDate.now()+"/"+nextLRNumber;
