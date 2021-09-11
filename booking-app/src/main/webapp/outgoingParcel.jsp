@@ -34,17 +34,21 @@
 		today();
 	};
 
-	var lrNumbers = new Array();
-	function checkBoxFn() {
-		lrNumbers = [ document.getElementById("ogpnoarray").value ];
-		var lrNos = document.getElementById("ogp");
-		if (lrNos.checked == true) {
-			lrNumbers.push(lrNos.value);
-		} else {
-			lrNumbers.splice(lrNumbers.indexOf(lrNos.value), 1)
-		}
-		document.getElementById("ogpnoarray").innerHTML = lrNumbers;
-	}
+	
+	$("document").ready(function(){
+		$('#btnSave').click(function(){
+		    var files = new Array();
+		    $('#data-table tbody tr  input:checkbox').each(function() {
+		      if ($(this).is(':checked')) {
+		      files.push(this.value);
+		      }
+		    });
+		    //console.log(files);
+		    document.getElementById("ogpnoarray").value = files;
+		 });
+
+		})
+		
 </script>
 </head>
 
@@ -66,11 +70,11 @@
 						<c:choose>
 							<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
 								<select name="fromLocation" id="fromLocation" class="form-control">
-									<option value="">-Select To Location-</option>
+									<option value="">-Select From Location-</option>
 									<c:forEach var="options" items="${locationList}"
 										varStatus="status">
 										<option value="${options.id}"
-											${options.id==selectto ? 'selected="selected"':''}>${options.location}</option>
+											${options.id==outgoingparcel.fromLocation ? 'selected="selected"':''}>${options.location}</option>
 									</c:forEach>
 								</select>
 								<i class="zmdi zmdi-chevron-down"></i>
@@ -93,34 +97,39 @@
 							<c:forEach var="options" items="${locationList}"
 								varStatus="status">
 								<option value="${options.id}"
-									${options.id==selectto ? 'selected="selected"':''}>${options.location}</option>
+									${options.id==outgoingparcel.toLocation ? 'selected="selected"':''}>${options.location}</option>
 							</c:forEach>
 						</select><i class="zmdi zmdi-chevron-down"></i>
 
 					</div>&nbsp;&nbsp;
 					<input type="date" id="bookedOn" name="bookedOn"
-						class="form-control" placeholder="Date">
+						class="form-control" placeholder="Date" value="${bookedOn}">
 					&nbsp;&nbsp; <a class="btn btn-primary button-margin" id="import"
 						onclick="return getSearchParcel();">Import</a>
 				</div>
 				<div class="form-row">
-					<input type="text" class="form-control" placeholder="OGPL NO">
+					<input type="text" class="form-control" id="ogplno" value="${outgoingparcel.ogplNo}" placeholder="OGPL NO">
 					<div class="form-holder">
 						<select name="deliveredBy" id="deliveredBy" class="form-control">
 							<option value="" disabled selected>Delivered By</option>
-							<option value="class 01">Class 01</option>
-							<option value="class 02">Class 02</option>
-							<option value="class 03">Class 03</option>
+				
+								<option value="class 01"
+				${outgoingparcel.deliveredBy == 'class 01' ? 'selected' : ''}>Class 01</option>
+				<option value="class 02"
+				${outgoingparcel.deliveredBy == 'class 02' ? 'selected' : ''}>Class 02</option>
+				<option value="class 03"
+				${outgoingparcel.deliveredBy == 'class 03' ? 'selected' : ''}>Class 03</option>
 						</select> <i class="zmdi zmdi-chevron-down"></i>
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-holder">
-						<select name="from" id="vehicleNo" name="vehicleNo"
+						<select id="vehicleNo" name="vehicleNo"
 							class="form-control">
 							<option value="">-Vehicle No-</option>
 							<c:forEach var="options1" items="${vehicleList}"
 								varStatus="status">
-								<option value="${options1.id}">${options1.vehicle}</option>
+								<option value="${options1.id}"
+				${options1.id==outgoingparcel.vehicleNo ? 'selected' : ''}>${options1.vehicle}</option>
 							</c:forEach>
 						</select><i class="zmdi zmdi-chevron-down"></i>
 					</div>
@@ -148,8 +157,16 @@
 								<!-- 							<th scope="row">1</th>
  -->
 								<td>${outgoingList.lrNumber}</td>
-								<td><input type="checkbox" name="ogp" id="ogp"
-									onchange="checkBoxFn()" value="${outgoingList.lrNumber}" />&nbsp;</td>
+								<c:choose>
+									<c:when test="${checkboxchecked=='1'}">
+									<td><input type="checkbox" name="ogp" id="ogp"
+										value="${outgoingList.lrNumber}" checked>&nbsp;</td>
+									</c:when>
+									<c:otherwise>
+									<td><input type="checkbox" name="ogp" id="ogp"
+										value="${outgoingList.lrNumber}">&nbsp;</td>
+									</c:otherwise>
+								</c:choose>
 								<td>${outgoingList.toName}</td>
 								<td>${outgoingList.bookingNo}</td>
 								<td>${outgoingList.remarks}</td>
@@ -165,14 +182,14 @@
 				<br>
 				<div class="form-row">
 					<input type="text" id="driver" name="driver" class="form-control"
-						placeholder="Driver">
+						placeholder="Driver" value="${outgoingparcel.driver}">
 						<input type="text" id="conductor" name="conductor"
-						class="form-control" placeholder="Conductor">&nbsp;&nbsp;
+						class="form-control" placeholder="Conductor" value="${outgoingparcel.conductor}">&nbsp;&nbsp;
 						<input type="text" id="preparedBy" name="preparedBy"
-						class="form-control" placeholder="Prepared By">
+						class="form-control" placeholder="Prepared By" value="${outgoingparcel.preparedBy}">
 				</div>
-				<textarea id="details" name="details" placeholder="Details"
-					class="form-control" style="height: 130px;"></textarea>
+				<textarea id="details" name="details" placeholder="Details" 
+					class="form-control" style="height: 130px;">${outgoingparcel.details}</textarea>
 				<input type="hidden" id="ogpnoarray" name="ogpnoarray"
 					class="form-control"> <br>
 
@@ -180,7 +197,7 @@
 				<div class="row control-margin">
 					<div class="col-md-4">
 						<button type="submit" class="btn btn-primary button-margin"
-							id="btnClear">Save</button>
+							id="btnSave">Save</button>
 					</div>
 					<div class="col-md-4">		
 						<button type="reset" class="btn btn-primary button-margin"

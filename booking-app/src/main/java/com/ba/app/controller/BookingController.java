@@ -262,10 +262,10 @@ public class BookingController {
 	
 	@RequestMapping(value = "get/incomingParcel", method = RequestMethod.GET)
 	public String importIncomingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,@RequestParam("bookedOn") String bookedOn,HttpServletRequest request, ModelMap model) {
-		OutgoingParcel incomingDetails= outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation,toLocation,bookedOn);
+		List<OutgoingParcel> incomingDetails= outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation,toLocation,bookedOn);
 		model.addAttribute("incomingDetails", incomingDetails);
-		List<Booking> incomingList = bookingRepository.findByLrNumber(incomingDetails.getOgpnoarray());
-		model.addAttribute("incomeList", incomingList);
+		//List<Booking> incomingList = bookingRepository.findByLrNumber(incomingDetails.getOgpnoarray());
+		//model.addAttribute("incomeList", incomingList);
 		model.addAttribute("selctfrom", fromLocation);
 		model.addAttribute("selctto", toLocation);
 		model.addAttribute("bookedOn", bookedOn);
@@ -276,10 +276,13 @@ public class BookingController {
 	public String importOutgoingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,@RequestParam("bookedOn") String bookedOn,HttpServletRequest request, ModelMap model) {
 		List<Booking> outgoingList= bookingRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation,toLocation,bookedOn);
 		model.addAttribute("outgoingList", outgoingList);
-		model.addAttribute("selectfrom", fromLocation);
-		model.addAttribute("selectto", toLocation);
-		model.addAttribute("bookedOn", bookedOn);
+		OutgoingParcel outgoingParcel = new OutgoingParcel();
+		outgoingParcel.setFromLocation(fromLocation);
+		outgoingParcel.setToLocation(toLocation);
+		outgoingParcel.setBookedOn(bookedOn);
+		model.addAttribute("outgoingparcel", outgoingParcel);
 		setAllLocationListInModel(model);
+		setAllVehileListInModel(model);
 		return "outgoingParcel";
 	}
 	
@@ -422,11 +425,21 @@ public class BookingController {
 		BeanUtils.copyProperties(outgoingParcelVo, outgoingParcel);
 		long ogplNo=Utils.getOrderNumber();
 		outgoingParcel.setOgplNo(ogplNo);
-		model.addAttribute("outgoingsuccessmessage", "Parcel Out Successfully");
 		outgoingParcelRepository.save(outgoingParcel);
+		model.addAttribute("outgoingsuccessmessage", "Parcel Out Successfully");
+		model.addAttribute("ogplno", ogplNo);
+		if(outgoingParcel!=null) {
+			setAllLocationListInModel(model);
+			setAllVehileListInModel(model);
+		model.addAttribute("outgoingparcel", outgoingParcel);
+		outgoingParcel.getOgpnoarray().forEach(str-> System.out.println(str));
+		List<Booking> outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
+		model.addAttribute("outgoingList", outgoingList);
+		model.addAttribute("checkboxchecked", "1");
+		}
 		}catch(Exception ex) {
 			ex.printStackTrace();
-			model.addAttribute("errormsg", "Failed to out ");
+			model.addAttribute("errormsg", "Failed to out Parcel");
 			return "outgoingParcel";
 		}
 		return "outgoingParcel";
