@@ -75,7 +75,7 @@ public class BookingController {
 			model.addAttribute("errormsg", "Failed to Book ");
 			return "booking";
 		}
-		return "booking";
+		return "bookingsuccess";
 	}
 	private void saveFromCustomer(BookingVo bookingVo) {
 		
