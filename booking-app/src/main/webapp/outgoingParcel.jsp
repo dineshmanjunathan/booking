@@ -63,6 +63,7 @@
 			<b style="width: 5%;"></b>
 			<form action="/ogpl/save" id="ogplform" method="POST" style="width: 100%;">
 				<p style="color: green" align="center">${outgoingsuccessmessage}</p>
+				<p style="color: green;font-weight: bold; " align="center">${ogplno}</p>
 				<p style="color: red" align="center">${errormsg}</p>
 			
 				<div class="form-row">

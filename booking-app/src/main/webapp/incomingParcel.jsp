@@ -21,9 +21,14 @@
 			alert("Please select To Location");
 			return false;
 		}
+		let ogplNo = $("#ogplno").val();
+		if (!ogplNo) {
+			alert("Please provide OGPL No");
+			return false;
+		}
 		let bookedOn = $("#bookedOn").val();
 		window.location.href = "/get/incomingParcel?fromLocation=" + from
-				+ "&toLocation=" + to + "&bookedOn=" + bookedOn;
+				+ "&toLocation=" + to + "&bookedOn=" + bookedOn+ "&ogplno=" + ogplNo;
 	}
 	function today() {
 		document.getElementById("bookedOn").valueAsDate = new Date();
@@ -31,6 +36,20 @@
 	window.onload = function() {
 		today();
 	};
+	
+	$("document").ready(function(){
+		$('#btnSave').click(function(){
+		    var files = new Array();
+		    $('#data-table tbody tr  input:checkbox').each(function() {
+		      if ($(this).is(':checked')) {
+		      files.push(this.value);
+		      }
+		    });
+		    //console.log(files);
+		    document.getElementById("lrnoarray").value = files;
+		 });
+
+		})
 </script>
 </head>
 <body>
@@ -42,7 +61,10 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
 			<b style="width: 5%;"></b>
-			<form action="" style="width: 100%;">
+			<form action="/incoming/save" id="incomingform" method="POST"  style="width: 100%;">
+			<p style="color: green" align="center">${incomingsuccessmessage}</p>
+				
+				<p style="color: red" align="center">${errormsg}</p>
 				<div class="form-row">
 					<div class="form-holder">
 						
@@ -53,7 +75,7 @@
 									<c:forEach var="options" items="${locationList}"
 										varStatus="status">
 										<option value="${options.id}"
-											${options.id==selectto ? 'selected="selected"':''}>${options.location}</option>
+											${options.id==incomeparcel.fromLocation ? 'selected="selected"':''}>${options.location}</option>
 									</c:forEach>
 								</select>
 								<i class="zmdi zmdi-chevron-down"></i>
@@ -73,13 +95,13 @@
 							<c:forEach var="options" items="${locationList}"
 								varStatus="status">
 								<option value="${options.id}"
-									${options.id==selectto ? 'selected="selected"':''}>${options.location}</option>
+									${options.id==incomeparcel.toLocation ? 'selected="selected"':''}>${options.location}</option>
 							</c:forEach>
 						</select><i class="zmdi zmdi-chevron-down"></i>
 					</div>
 					&nbsp;&nbsp; 
 					<input type="date" class="form-control" id="bookedOn"
-						name="bookedOn" placeholder="Date">
+						name="bookedOn" placeholder="Date" value="${incomeparcel.bookedOn}">
 						&nbsp;&nbsp; 
 					<a class="btn btn-primary button-margin" id="import"
 						onclick="return getSearchParcel();">Import</a>
@@ -87,7 +109,7 @@
 				<div class="form-row">
 					<input type="text" class="form-control" id="no" placeholder="No">&nbsp;&nbsp;
 					<input type="text" class="form-control" id="ogplno"
-						placeholder="OGPL No"> &nbsp;&nbsp;
+						placeholder="OGPL No" value="${incomeparcel.ogplNo}"> &nbsp;&nbsp;
 						<input type="date"
 						class="form-control" id="ogpldate" placeholder="OGPL Date">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -118,7 +140,19 @@
 							<tr>
 								<th scope="row">1</th>
 								<td>${incomelist.toName}</td>
-								<td>${incomelist.lrNumber}</td>
+
+								<c:choose>
+									<c:when test="${checkboxchecked=='1'}">
+										<td>${incomelist.lrNumber}<input type="checkbox"
+											name="ogp" id="ogp" value="${incomelist.lrNumber}" checked>&nbsp;
+										</td>
+									</c:when>
+									<c:otherwise>
+										<td>${incomelist.lrNumber}<input type="checkbox"
+											name="ogp" id="ogp" value="${incomelist.lrNumber}">&nbsp;
+										</td>
+									</c:otherwise>
+								</c:choose>
 								<td>${incomelist.paid}</td>
 								<td>${incomelist.topay}</td>
 								<td>${incomelist.total_charges}</td>
@@ -132,21 +166,25 @@
 				<br>
 				<div class="form-row">
 					<div class="form-holder">
-						<select name="from" id="from" class="form-control">
+						<select name="vehicleNo" id="vehicleNo" class="form-control">
 							<option value="">-Vehicle No-</option>
 							<c:forEach var="options1" items="${vehicleList}"
 								varStatus="status">
-								<option value="${options1.id}">${options1.vehicle}</option>
+								<option value="${options1.id}"
+				${options1.id==incomeparcel.vehicleNo ? 'selected' : ''}>${options1.vehicle}</option>
 							</c:forEach>
 						</select><i class="zmdi zmdi-chevron-down"></i>
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-holder">
-						<select name="" id="" class="form-control">
+						<select name="deliveredBy" id="deliveredBy" class="form-control">
 							<option value="" disabled selected>Delivered By</option>
-							<option value="class 01">Class 01</option>
-							<option value="class 02">Class 02</option>
-							<option value="class 03">Class 03</option>
+							<option value="class 01"
+				${incomeparcel.deliveredBy == 'class 01' ? 'selected' : ''}>Class 01</option>
+				<option value="class 02"
+				${incomeparcel.deliveredBy == 'class 02' ? 'selected' : ''}>Class 02</option>
+				<option value="class 03"
+				${incomeparcel.deliveredBy == 'class 03' ? 'selected' : ''}>Class 03</option>
 						</select> <i class="zmdi zmdi-chevron-down"></i>
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -157,20 +195,22 @@
 					</div>
 				</div>
 				<div class="form-row">
-					<input type="text" class="form-control" placeholder="Driver">
-					<input type="text" class="form-control" placeholder="Conductor">&nbsp;&nbsp;
-					<input type="text" class="form-control" placeholder="Prepared By">
+					<input type="text" name="driver" id="driver" class="form-control" placeholder="Driver" value="${incomeparcel.driver}">
+					<input type="text" name="conductor" id="conductor" class="form-control" placeholder="Conductor" value="${incomeparcel.conductor}">&nbsp;&nbsp;
+					<input type="text" name="preparedBy" id="preparedBy" class="form-control" placeholder="Prepared By" value="${incomeparcel.preparedBy}">
 				</div>
-				<textarea name="" id="" placeholder="Details" class="form-control"
-					style="height: 130px;"></textarea> <br>
+				<textarea name="details" id="details" placeholder="Details" class="form-control"
+					style="height: 130px;" >${incomeparcel.details}</textarea>
+					<input type="hidden" id="lrnoarray" name="lrnoarray"
+					class="form-control">  <br>
 				<div class="row control-margin">
 					<div class="col-md-4">
-						<button type="button" class="btn btn-primary button-margin"
-							id="btnClear">Save</button>
+						<button type="submit" class="btn btn-primary button-margin"
+							id="btnSave">Save</button>
 					</div>
 					<div class="col-md-4">		
 						<button type="reset" class="btn btn-primary button-margin"
-							name="submit">Clear</button>
+							name="btnClear">Clear</button>
 					</div>	
 					<div class="col-md-4">		
 						<a href="/menu"><button type="button" class="btn btn-primary button-margin" id="btnClear">Back</button></a>

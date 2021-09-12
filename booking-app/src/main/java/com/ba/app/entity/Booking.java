@@ -59,4 +59,5 @@ public class Booking implements Serializable {
 	private BigDecimal refund;
 	private BigDecimal total;	
 	private String eBillNo;
+	private Long ogplNo;
 }
