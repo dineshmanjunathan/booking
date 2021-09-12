@@ -80,6 +80,14 @@
 			document.getElementById("paid").value = total;
 		}
 	}
+	function getLRNumberSearch() {
+		var x = document.getElementById("lrNumber").value;
+		//alert(x);
+		x.replaceAll(x,'%2F');
+		alert(x);
+		window.location.href = "/searchBookingParcelLRNO/"+ x;
+		//yourUrl = "www.musicexplained/index.cfm/artist/" + URLEncoder.encode(VariableName, "UTF-8")]
+	}
 </script>
 </head>
 
@@ -414,8 +422,8 @@
 														placeholder="LR No" id="lrNumber" name="lrNumber" value="${LRnumber}" readonly>
 												</c:otherwise>		
 												</c:choose>
-													<button type="submit" class="btn btn-secondary"
-														id="btnSearch">Search</button>
+													<button type="button" class="btn btn-secondary"
+														id="btnSearch" onclick="getLRNumberSearch();">Search</button></a>
 												</div>
 												<div class="mt-0">
 													<label for="txtSearch" class="form-label"><small>(Type

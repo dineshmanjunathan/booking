@@ -445,5 +445,19 @@ public class BookingController {
 		}
 		return "outgoingParcel";
 	}
-	
+	@RequestMapping(value = "/searchBookingParcelLRNO/{lrNumber}", method = RequestMethod.GET)
+	public String searchBookingParcelLRNO(@PathVariable("lrNumber") String lRNo, HttpServletRequest request, ModelMap model) {
+		try {
+			Booking bookingEntity = bookingRepository.findByLrNumber(lRNo);
+			BookingVo bookingVO=new BookingVo();
+			BeanUtils.copyProperties(bookingEntity, bookingVO);
+			model.addAttribute("booking", bookingVO);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed To search LRNO ");
+			return "booking";
+		}
+		return "booking";
+	}
 }
