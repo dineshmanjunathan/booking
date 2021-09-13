@@ -432,7 +432,7 @@ public class BookingController {
 		outgoingParcel.setOgplNo(ogplNo);
 		outgoingParcelRepository.save(outgoingParcel);
 		model.addAttribute("outgoingsuccessmessage", "Parcel Out Successfully");
-		model.addAttribute("ogplno", ogplNo);
+		model.addAttribute("ogplno", "OGPL Number : "+ogplNo);
 		if(outgoingParcel!=null) {
 			setAllLocationListInModel(model);
 			setAllVehileListInModel(model);
