@@ -585,21 +585,6 @@
 											</div>
 										</div>
 										<div class="row control-margin">
-											<div class="col-md-6 control-margin">
-																							<button type="submit"
-													class="btn btn-primary button-margin col-md-3" id="btnSave">Save</button>	
-												<button type="button"
-													class="btn btn-primary button-margin col-md-3" id="btnEdit"
-													onclick="loadReadBookingForm();">Edit</button>
-								 <a onclick="return confirm('Are you sure you want to delete?')"  
-								 href="/bookingReq/delete?bid=${booking.id}"><button type="button"
-														class="btn btn-primary button-margin col-md-3"
-														id="btnClear">Delete</button></a>
-													
-												<button type="button"
-													class="btn btn-primary button-margin col-md-2" id="btnBill">Bill..</button>
-
-											</div>
 											<!-- <div class="col-md-4 control-margin">
 			<button type="button" class="btn btn-primary button-margin" id="btnHelp">Help</button>
 				<button type="button" class="btn btn-primary button-margin" id="btnNext">Next</button>
@@ -616,6 +601,22 @@
 												<button type="button"
 													class="btn btn-primary button-margin col-md-2"
 													id="btnPrint">Print</button>
+																										
+												<button type="button"
+													class="btn btn-primary button-margin col-md-2" id="btnBill">Bill..</button>
+											</div>
+											
+												<div class="col-md-6 control-margin">
+																							<button type="submit"
+													class="btn btn-primary button-margin col-md-2" id="btnSave">Save</button>	
+												<button type="button"
+													class="btn btn-primary button-margin col-md-2" id="btnEdit"
+													onclick="loadReadBookingForm();">Edit</button>
+								 <a onclick="return confirm('Are you sure you want to delete?')"  
+								 href="/bookingReq/delete?bid=${booking.id}"><button type="button"
+														class="btn btn-primary button-margin col-md-2"
+														id="btnClear">Delete</button></a>
+
 											</div>
 										</div>
 									</main>
