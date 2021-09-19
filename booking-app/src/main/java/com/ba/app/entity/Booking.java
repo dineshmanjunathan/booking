@@ -3,6 +3,7 @@ package com.ba.app.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -48,16 +49,19 @@ public class Booking implements Serializable {
 	private Long item_count;
 	private Long weight;
 	private String freight_status;
-	private BigDecimal freight_value;
-	private BigDecimal loading_charges;
-	private BigDecimal door_pick_charges;
-	private BigDecimal other_charges;
 	private BigDecimal total_charges;
 	private BigDecimal paid;
 	private BigDecimal topay;
 	private BigDecimal cash;
 	private BigDecimal refund;
-	private BigDecimal total;	
-	private String eBillNo;
+	private BigDecimal total;
+	private Long billNumber;
 	private Long ogplNo;
+	private String payOption;
+	private String loadingchargespay;
+	private BigDecimal loadingcharges;
+	private String doorpickchargespay;
+	private BigDecimal doorpickcharges;
+	private BigDecimal othercharges;
+	private BigDecimal freightvalue;
 }

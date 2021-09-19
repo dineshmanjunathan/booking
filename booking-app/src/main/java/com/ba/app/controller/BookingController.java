@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ba.app.entity.Booking;
+import com.ba.app.entity.CountryCode;
 import com.ba.app.entity.Customer;
 import com.ba.app.entity.Delivery;
 import com.ba.app.entity.Inventory;
 import com.ba.app.entity.Location;
 import com.ba.app.entity.PayType;
+import com.ba.app.entity.User;
 import com.ba.app.entity.Vehicle;
 import com.ba.app.model.BookingRepository;
 import com.ba.app.model.CustomerRepository;
@@ -69,11 +71,19 @@ public class BookingController {
 		BeanUtils.copyProperties(bookingVo, booking);
 		model.addAttribute("bookingsuccessmessage", "Booked Successfully.");
 		model.addAttribute("LRNumber", "LR Number : "+booking.getLrNumber());
-		bookingRepository.save(booking);
-		//SAVE SEQ FOR LR
-		bookingRepository.getNextLRNumber();
-		saveFromCustomer(bookingVo);
-		saveToCustomer(bookingVo);
+		
+		Booking bLrNo = bookingRepository.findByLrNumber(booking.getLrNumber());
+		if(bLrNo!=null && bLrNo.getLrNumber()!=null) {
+			booking.setId(bLrNo.getId());
+			bookingRepository.save(booking);
+		}else {
+			//SAVE SEQ FOR LR
+			bookingRepository.getNextLRNumber();
+			bookingRepository.save(booking);
+			saveFromCustomer(bookingVo);
+			saveToCustomer(bookingVo);
+
+		}
 		setAllLocationListInModel(model);
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -475,13 +485,22 @@ public class BookingController {
 	}
 	
 	
-	@RequestMapping(value = "/searchBookingParcelLRNO/{lrNumber}", method = RequestMethod.GET)
-	public String searchBookingParcelLRNO(@PathVariable("lrNumber") String lRNo, HttpServletRequest request, ModelMap model) {
+	@RequestMapping(value = "/searchBookingParcelLRNO", method = RequestMethod.GET)
+	public String searchBookingParcelLRNO(@RequestParam(required = true) String lrNumber, HttpServletRequest request, ModelMap model) {
 		try {
-			Booking bookingEntity = bookingRepository.findByLrNumber(lRNo);
-			BookingVo bookingVO=new BookingVo();
-			BeanUtils.copyProperties(bookingEntity, bookingVO);
-			model.addAttribute("booking", bookingVO);
+			Booking bookingEntity = bookingRepository.findByLrNumber(lrNumber);
+			if(bookingEntity!=null && bookingEntity.getLrNumber()!=null) {
+				
+				BookingVo bookingVO=new BookingVo();
+				BeanUtils.copyProperties(bookingEntity, bookingVO, "createon", "updatedon");
+				
+				model.addAttribute("booking", bookingVO);
+				model.addAttribute("LRnumber", bookingEntity.getLrNumber());
+				setAllLocationListInModel(model);
+			}else {
+				model.addAttribute("LRnumber", lrNumber);
+				model.addAttribute("errormsg", "No record(s) found.");
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -489,5 +508,23 @@ public class BookingController {
 			return "booking";
 		}
 		return "booking";
+	}
+	
+	@RequestMapping("/bookingReq/delete")
+	public String userDelete(@RequestParam("bid") String id, HttpServletRequest request, ModelMap model) {
+		try {
+			if (id != null) {
+				bookingRepository.deleteById(Long.parseLong(id));
+				model.addAttribute("bookingsuccessmessage", "Booking request successfully deleted");
+			} else {
+				model.addAttribute("errormsg", "Invalid booking request! ");
+				return "booking";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Invalid booking request! ");
+			return "booking";
+		}
+		return "bookingsuccess";
 	}
 }

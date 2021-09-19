@@ -2,6 +2,7 @@ package com.ba.app.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -14,12 +15,12 @@ import org.springframework.stereotype.Service;
 import com.ba.app.entity.Booking;
 
 @Service
-public interface BookingRepository extends CrudRepository<Booking, String> {
+public interface BookingRepository extends CrudRepository<Booking, Long> {
 	
 	List<Booking> findByFromLocationAndToLocationAndBookedOnAndOgplNoIsNull(String fromLocation,String toLocation,String bookedOn);
 	Booking findByLrNumber(String lrNumber);
 	List<Booking> findByLrNumberIn(List<String> lrNumbers);
-	Booking findById(Long id);
+	Optional<Booking> findById(Long id);
 
 	@Query(value = "select NEXTVAL('LRNUMBER_SEQ')", nativeQuery =true)
     Long getNextLRNumber();
