@@ -515,7 +515,7 @@ public class BookingController {
 		try {
 			if (id != null) {
 				bookingRepository.deleteById(Long.parseLong(id));
-				model.addAttribute("bookingsuccessmessage", "Booking request successfully deleted");
+				model.addAttribute("bookingsuccessmessage", "Booking request successfully deleted.");
 			} else {
 				model.addAttribute("errormsg", "Invalid booking request! ");
 				return "booking";

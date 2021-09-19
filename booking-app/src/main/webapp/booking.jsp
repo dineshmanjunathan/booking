@@ -586,16 +586,15 @@
 										</div>
 										<div class="row control-margin">
 											<div class="col-md-6 control-margin">
-												<button type="button"
-													class="btn btn-primary button-margin col-md-2" id="btnNew">New</button>
+																							<button type="submit"
+													class="btn btn-primary button-margin col-md-3" id="btnSave">Save</button>	
 												<button type="button"
 													class="btn btn-primary button-margin col-md-3" id="btnEdit"
 													onclick="loadReadBookingForm();">Edit</button>
-												<button type="button"
-													class="btn btn-primary button-margin col-md-3"
-													id="btnDelete">Delete</button>
-								 <a class="btn btn-primary button-margin col-md-3" onclick="return confirm('Are you sure you want to delete?')"  
-								 href="/bookingReq/delete?bid=${booking.id}">Delete</a>
+								 <a onclick="return confirm('Are you sure you want to delete?')"  
+								 href="/bookingReq/delete?bid=${booking.id}"><button type="button"
+														class="btn btn-primary button-margin col-md-3"
+														id="btnClear">Delete</button></a>
 													
 												<button type="button"
 													class="btn btn-primary button-margin col-md-2" id="btnBill">Bill..</button>
@@ -608,9 +607,6 @@
 				<button type="button" class="btn btn-primary button-margin" id="btnCurrent">Current</button>
 			</div> -->
 											<div class="col-md-6 control-margin">
-
-												<button type="submit"
-													class="btn btn-primary button-margin col-md-2" id="btnSave">Save</button>
 												<button type="reset"
 													class="btn btn-primary button-margin col-md-2"
 													id="btnClear">Clear</button>
