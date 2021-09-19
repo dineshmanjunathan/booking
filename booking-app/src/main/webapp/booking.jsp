@@ -364,7 +364,7 @@
 														</select>
 													</div>
 													<div class="col-sm-4">
-														<input type="text" class="form-control" id="freightvalue"
+														<input type="number" class="form-control" id="freightvalue"
 															name="freightvalue" value="${booking.freightvalue}"
 															onblur="sumAmount();">
 													</div>
@@ -386,7 +386,7 @@
 														</select>
 													</div>
 													<div class="col-sm-4">
-														<input type="text" class="form-control"
+														<input type="number" class="form-control"
 															id="loadingcharges" name="loadingcharges"
 															value="${booking.loadingcharges}" onblur="sumAmount();">
 													</div>
@@ -408,7 +408,7 @@
 														</select>
 													</div>
 													<div class="col-sm-4">
-														<input type="text" class="form-control"
+														<input type="number" class="form-control"
 															id="doorpickcharges" name="doorpickcharges"
 															onblur="sumAmount();" value="${booking.doorpickcharges}">
 													</div>
@@ -456,7 +456,6 @@
 																value="${LRnumber}">
 															<button type="button" class="btn btn-secondary"
 																id="btnSearch" onclick="getLRNumberSearch();">Search</button>
-															</a>
 														</div>
 														<div class="mt-0">
 															<label for="txtSearch" class="form-label"><small>(Type
@@ -559,7 +558,7 @@
 														<label class="form-label" for="txtTotal">Total</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" id="total"
+														<input type="number" class="form-control" id="total"
 															name="total" value="${booking.total}">
 													</div>
 												</div>
@@ -568,7 +567,7 @@
 														<label class="form-label" for="txtTotal">Cash</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" id="cash"
+														<input type="number" class="form-control" id="cash"
 															name="cash" value="${booking.cash}">
 													</div>
 												</div>
@@ -577,7 +576,7 @@
 														<label class="form-label" for="txtRefund">Refund</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" id="refund"
+														<input type="number" class="form-control" id="refund"
 															name="refund" value="${booking.refund}">
 													</div>
 												</div>
