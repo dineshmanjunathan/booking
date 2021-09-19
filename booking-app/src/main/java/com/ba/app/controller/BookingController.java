@@ -17,13 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ba.app.entity.Booking;
-import com.ba.app.entity.CountryCode;
 import com.ba.app.entity.Customer;
 import com.ba.app.entity.Delivery;
 import com.ba.app.entity.Inventory;
 import com.ba.app.entity.Location;
 import com.ba.app.entity.PayType;
-import com.ba.app.entity.User;
 import com.ba.app.entity.Vehicle;
 import com.ba.app.model.BookingRepository;
 import com.ba.app.model.CustomerRepository;
@@ -277,27 +275,54 @@ public class BookingController {
 	}
 	
 	@RequestMapping(value = "get/incomingParcel", method = RequestMethod.GET)
-	public String importIncomingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,@RequestParam("bookedOn") String bookedOn,@RequestParam("ogplno") long ogplNo,HttpServletRequest request, ModelMap model) {
-		OutgoingParcel incomeDetails= outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOnAndOgplNo(fromLocation,toLocation,bookedOn,ogplNo);
-		model.addAttribute("incomeDetailsList", incomeDetails);
-		List<Booking> incomingList = bookingRepository.findByLrNumberIn(incomeDetails.getOgpnoarray());
-		model.addAttribute("incomeList", incomingList);
-		model.addAttribute("incomeparcel", incomeDetails);
+	public String importIncomingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,@RequestParam("bookedOn") String bookedOn,HttpServletRequest request, ModelMap model) {
+		try {
+		List<OutgoingParcel> ogplList;
+		if(bookedOn !=null && bookedOn.trim().length() >0) {
+		ogplList = outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation,toLocation,bookedOn);
+		}else {
+			ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(fromLocation,toLocation);
+		}
+		model.addAttribute("ogplList", ogplList);
+		if(ogplList!=null && ogplList.size() > 0) {
+			OutgoingParcel og=ogplList.get(0);
+			model.addAttribute("fromLocation", og.getFromLocation());
+			model.addAttribute("toLocation", og.getToLocation());
+		}else {
+			model.addAttribute("fromLocation", fromLocation);
+			model.addAttribute("toLocation", toLocation);
+		}
+		model.addAttribute("bookedOn", bookedOn);
 		setAllLocationListInModel(model);
 		setAllVehileListInModel(model);
+		if(ogplList !=null && ogplList.size() > 0) {
+		model.addAttribute("successMessage","Parcels Imported Successfully! Please select OGPL to load Parcel");
+		}else {
+			model.addAttribute("successMessage","No Parcels to Import on selected Range");	
+		}
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg","Failed to Import Parcel!");
+		}
 		return "incomingParcel";
 	}
+	
+	
 	@RequestMapping(value = "get/outgoingParcel", method = RequestMethod.GET)
-	public String importOutgoingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,@RequestParam("bookedOn") String bookedOn,HttpServletRequest request, ModelMap model) {
-		List<Booking> outgoingList= bookingRepository.findByFromLocationAndToLocationAndBookedOnAndOgplNoIsNull(fromLocation,toLocation,bookedOn);
+	public String importOutgoingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,HttpServletRequest request, ModelMap model) {
+		try {
+		List<Booking> outgoingList= bookingRepository.findByFromLocationAndToLocationAndOgplNoIsNull(fromLocation,toLocation);
 		model.addAttribute("outgoingList", outgoingList);
 		OutgoingParcel outgoingParcel = new OutgoingParcel();
 		outgoingParcel.setFromLocation(fromLocation);
 		outgoingParcel.setToLocation(toLocation);
-		outgoingParcel.setBookedOn(bookedOn);
 		model.addAttribute("outgoingparcel", outgoingParcel);
 		setAllLocationListInModel(model);
 		setAllVehileListInModel(model);
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg","Failed to Import Parcel!");
+		}
 		return "outgoingParcel";
 	}
 	
@@ -435,23 +460,25 @@ public class BookingController {
 	@RequestMapping(value = "/ogpl/save", method = RequestMethod.POST)
 	public String saveOutgoingParcel(HttpServletRequest request, OutgoingParcelVo outgoingParcelVo, ModelMap model) {
 		try {
-		OutgoingParcel outgoingParcel = new OutgoingParcel();
-		
-		BeanUtils.copyProperties(outgoingParcelVo, outgoingParcel);
-		long ogplNo=Utils.getOrderNumber();
-		outgoingParcel.setOgplNo(ogplNo);
-		outgoingParcelRepository.save(outgoingParcel);
-		model.addAttribute("outgoingsuccessmessage", "Parcel Out Successfully");
-		model.addAttribute("ogplno", "OGPL Number : "+ogplNo);
-		if(outgoingParcel!=null) {
-			setAllLocationListInModel(model);
-			setAllVehileListInModel(model);
-		model.addAttribute("outgoingparcel", outgoingParcel);
-		bookingRepository.updateBookingOgpl(ogplNo,outgoingParcel.getOgpnoarray());
-		List<Booking> outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
-		model.addAttribute("outgoingList", outgoingList);
-		model.addAttribute("checkboxchecked", "1");
-		}
+			OutgoingParcel outgoingParcel = new OutgoingParcel();
+
+			BeanUtils.copyProperties(outgoingParcelVo, outgoingParcel);
+			long ogplNo=Utils.getOrderNumber();
+			outgoingParcel.setOgplNo(ogplNo);
+			String sCurrentDate=Utils.getStringCurrentDatewithFormat("YYYY-MM-dd");
+			outgoingParcel.setBookedOn(sCurrentDate);
+			outgoingParcelRepository.save(outgoingParcel);
+			model.addAttribute("outgoingsuccessmessage", "Parcel Out Successfully");
+			model.addAttribute("ogplno", "OGPL Number : "+ogplNo);
+			if(outgoingParcel!=null) {
+				setAllLocationListInModel(model);
+				setAllVehileListInModel(model);
+				model.addAttribute("outgoingparcel", outgoingParcel);
+				bookingRepository.updateBookingOgpl(ogplNo,outgoingParcel.getOgpnoarray());
+				List<Booking> outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
+				model.addAttribute("outgoingList", outgoingList);
+				model.addAttribute("checkboxchecked", "1");
+			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			model.addAttribute("errormsg", "Failed to out Parcel");
@@ -463,19 +490,32 @@ public class BookingController {
 	@RequestMapping(value = "/incoming/save", method = RequestMethod.POST)
 	public String saveIncomingParcel(HttpServletRequest request, InventoryVo inventoryVo, ModelMap model) {
 		try {
-		Inventory inventory = new Inventory();
-		BeanUtils.copyProperties(inventoryVo, inventory);
-		inventoryRepository.save(inventory);
-		model.addAttribute("incomingsuccessmessage", "Income Parcel Successfully");
-		if(inventory!=null) {
-			setAllLocationListInModel(model);
-			setAllVehileListInModel(model);
-		model.addAttribute("incomeparcel", inventory);
-		//bookingRepository.updateBookingOgpl(ogplNo,outgoingParcel.getOgpnoarray());
-		List<Booking> incomeList = bookingRepository.findByLrNumberIn(inventory.getLrnoarray());
-		model.addAttribute("incomeList", incomeList);
-		model.addAttribute("checkboxchecked", "1");
-		}
+			Inventory inventory = new Inventory();
+			BeanUtils.copyProperties(inventoryVo, inventory);
+			inventoryRepository.save(inventory);
+			model.addAttribute("successMessage", "Parcel Income Successfull!");
+
+			if(inventory!=null) {
+				setAllLocationListInModel(model);
+				setAllVehileListInModel(model);
+				model.addAttribute("incomeparcel", inventory);
+				model.addAttribute("ogplno", inventoryVo.getOgplNo());
+				model.addAttribute("fromLocation", inventory.getFromLocation());
+				model.addAttribute("toLocation", inventory.getToLocation());
+				model.addAttribute("bookedOn", inventory.getBookedOn());
+				bookingRepository.updateBookingIgplStatus("Y",inventory.getLrnoarray());
+				List<Booking> incomeList = bookingRepository.findByLrNumberIn(inventory.getLrnoarray());
+				model.addAttribute("incomeparcelList", incomeList);
+				model.addAttribute("checkboxchecked", "1");
+				List<OutgoingParcel> ogplList;
+				if(inventory.getBookedOn() !=null && inventory.getBookedOn().trim().length() >0) {
+					ogplList= outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(inventory.getFromLocation(),inventory.getToLocation(),inventory.getBookedOn());
+				}else {
+					ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(inventory.getFromLocation(),inventory.getToLocation());
+
+				}
+				model.addAttribute("ogplList", ogplList);
+			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			model.addAttribute("errormsg", "Failed to income Parcel");
@@ -483,7 +523,7 @@ public class BookingController {
 		}
 		return "incomingParcel";
 	}
-	
+
 	
 	@RequestMapping(value = "/searchBookingParcelLRNO", method = RequestMethod.GET)
 	public String searchBookingParcelLRNO(@RequestParam(required = true) String lrNumber, HttpServletRequest request, ModelMap model) {
@@ -508,6 +548,38 @@ public class BookingController {
 			return "booking";
 		}
 		return "booking";
+	}
+	@RequestMapping(value = "load/incomingParcel", method = RequestMethod.GET)
+	public String loadIncomingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,@RequestParam("bookedOn") String bookedOn,@RequestParam("ogpl") long ogpl,HttpServletRequest request, ModelMap model) {
+		try {
+			OutgoingParcel outgoingParcel=outgoingParcelRepository.findByOgplNo(ogpl);
+			List<Booking> incomingList = bookingRepository.findByLrNumberInAndIgplStatusIsNull(outgoingParcel.getOgpnoarray());
+			model.addAttribute("incomeparcelList", incomingList);
+			model.addAttribute("incomeparcel", outgoingParcel);
+			if(outgoingParcel!=null) {
+				model.addAttribute("fromLocation", outgoingParcel.getFromLocation());
+				model.addAttribute("toLocation", outgoingParcel.getToLocation());
+				model.addAttribute("bookedOn", outgoingParcel.getBookedOn());
+			}
+			model.addAttribute("ogplno", ogpl);
+
+			List<OutgoingParcel> ogplList;
+			if(bookedOn !=null && bookedOn.trim().length() >0) {
+				ogplList= outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation,toLocation,bookedOn);
+			}else {
+				ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(fromLocation,toLocation);
+
+			}
+			model.addAttribute("ogplList", ogplList);
+
+			setAllLocationListInModel(model);
+			setAllVehileListInModel(model);
+			model.addAttribute("successMessage","Parcels listed to income for OGPL: "+ogpl);	
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg","Failed to list OGPL Parcels");
+		}
+		return "incomingParcel";
 	}
 	
 	@RequestMapping("/bookingReq/delete")

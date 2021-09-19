@@ -9,6 +9,8 @@ import com.ba.app.entity.OutgoingParcel;
 public interface OutgoingParcelRepository extends CrudRepository<OutgoingParcel, String> {
 	
 	List<OutgoingParcel> findByFromLocationAndToLocationAndBookedOn(String fromLocation,String toLocation,String bookedOn);
-	OutgoingParcel findByFromLocationAndToLocationAndBookedOnAndOgplNo(String fromLocation,String toLocation,String bookedOn,long ogplNo);
+	List<OutgoingParcel> findByFromLocationAndToLocation(String fromLocation,String toLocation);
+
+	OutgoingParcel findByOgplNo(long ogplNo);
 
 }

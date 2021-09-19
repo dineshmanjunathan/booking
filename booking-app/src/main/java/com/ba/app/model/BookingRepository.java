@@ -21,6 +21,7 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	Booking findByLrNumber(String lrNumber);
 	List<Booking> findByLrNumberIn(List<String> lrNumbers);
 	Optional<Booking> findById(Long id);
+	List<Booking> findByFromLocationAndToLocationAndOgplNoIsNull(String fromLocation,String toLocation);
 
 	@Query(value = "select NEXTVAL('LRNUMBER_SEQ')", nativeQuery =true)
     Long getNextLRNumber();
@@ -34,4 +35,13 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	@Query(value = "UPDATE T_BOOKING SET OGPL_NO=:ogplno WHERE LR_NUMBER IN(:lrnumbers)", nativeQuery =true)
     int updateBookingOgpl(@Param("ogplno") long ogplno,@Param("lrnumbers") ArrayList<String> lrnumbers);
 	
+	List<Booking> findByLrNumberInAndIgplStatusIsNull(List<String> lrNumbers);
+
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE T_BOOKING SET IGPL_STATUS=:igplstatus WHERE LR_NUMBER IN(:lrnumbers)", nativeQuery =true)
+    int updateBookingIgplStatus(@Param("igplstatus") String igplstatus,@Param("lrnumbers") ArrayList<String> lrnumbers);
+	//List<Booking> findByLrNumberInAndIgplStatusIsNull(List<String> lrNumbers);
+
+
 }

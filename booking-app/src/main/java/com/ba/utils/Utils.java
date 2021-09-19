@@ -1,6 +1,7 @@
 package com.ba.utils;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,22 @@ public class Utils {
 		return result;
 	}
 
+	public static String getStringCurrentDatewithFormat(String sDateFormat) {
+		String sCurrentDate=null;
+		try {
+			if(sDateFormat!=null) {
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern(sDateFormat);
+				LocalDate localDate = LocalDate.now();
+				sCurrentDate = dtf.format(localDate);
+			}else {
+				sCurrentDate = null; 
+			}
+		}catch(Exception ex) {
+			sCurrentDate =null; 
+		}
+		return sCurrentDate;
+	}
+	
 	public static Long getOrderNumber() {
 		Random random = new Random();
 		int firstRandomVal = random.nextInt(9999);
@@ -46,6 +63,7 @@ public class Utils {
 	}
 
 	public static void main(String[] arg) {
+		
 	System.out.println(LocalDate.now());
 	}
 }

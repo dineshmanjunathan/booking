@@ -29,6 +29,7 @@ public class OutgoingParcel {
 	private String deliveredBy ;
 	private String vehicleNo ;
 	private long ogplNo ;
+	private String igplStatus ;
 	private ArrayList<String> ogpnoarray;
 
 

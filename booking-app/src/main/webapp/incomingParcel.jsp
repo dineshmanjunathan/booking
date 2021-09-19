@@ -21,21 +21,16 @@
 			alert("Please select To Location");
 			return false;
 		}
-		let ogplNo = $("#ogplno").val();
-		if (!ogplNo) {
-			alert("Please provide OGPL No");
-			return false;
-		}
 		let bookedOn = $("#bookedOn").val();
 		window.location.href = "/get/incomingParcel?fromLocation=" + from
-				+ "&toLocation=" + to + "&bookedOn=" + bookedOn+ "&ogplno=" + ogplNo;
+				+ "&toLocation=" + to + "&bookedOn=" + bookedOn ;
 	}
-	function today() {
+	/* function today() {
 		document.getElementById("bookedOn").valueAsDate = new Date();
 	}
 	window.onload = function() {
 		today();
-	};
+	}; */
 	
 	$("document").ready(function(){
 		$('#btnSave').click(function(){
@@ -45,11 +40,22 @@
 		      files.push(this.value);
 		      }
 		    });
-		    //console.log(files);
 		    document.getElementById("lrnoarray").value = files;
+		    
 		 });
 
 		})
+		
+		
+	function getIncomeParcel(value){
+		alert("val"+value.value);
+		let from = $("#fromLocation").val();
+		let to = $("#toLocation").val();
+		let bookedOn = $("#bookedOn").val();
+		window.location.href = "/load/incomingParcel?fromLocation=" + from
+		+ "&toLocation=" + to + "&bookedOn=" + bookedOn + "&ogpl="+value.value;
+	}
+
 </script>
 </head>
 <body>
@@ -62,8 +68,7 @@
 			</div>
 			<b style="width: 5%;"></b>
 			<form action="/incoming/save" id="incomingform" method="POST"  style="width: 100%;">
-			<p style="color: green" align="center">${incomingsuccessmessage}</p>
-				
+				<p style="color: green" align="center">${successMessage}</p>
 				<p style="color: red" align="center">${errormsg}</p>
 				<div class="form-row">
 					<div class="form-holder">
@@ -75,7 +80,7 @@
 									<c:forEach var="options" items="${locationList}"
 										varStatus="status">
 										<option value="${options.id}"
-											${options.id==incomeparcel.fromLocation ? 'selected="selected"':''}>${options.location}</option>
+											${options.id == fromLocation ? 'selected="selected"':''}>${options.location}</option>
 									</c:forEach>
 								</select>
 								<i class="zmdi zmdi-chevron-down"></i>
@@ -95,23 +100,30 @@
 							<c:forEach var="options" items="${locationList}"
 								varStatus="status">
 								<option value="${options.id}"
-									${options.id==incomeparcel.toLocation ? 'selected="selected"':''}>${options.location}</option>
+									${options.id== toLocation ? 'selected="selected"':''}>${options.location}</option>
 							</c:forEach>
 						</select><i class="zmdi zmdi-chevron-down"></i>
 					</div>
 					&nbsp;&nbsp; 
 					<input type="date" class="form-control" id="bookedOn"
-						name="bookedOn" placeholder="Date" value="${incomeparcel.bookedOn}">
+						name="bookedOn" placeholder="Date" value="${bookedOn}">
 						&nbsp;&nbsp; 
 					<a class="btn btn-primary button-margin" id="import"
 						onclick="return getSearchParcel();">Import</a>
 				</div>
 				<div class="form-row">
-					<input type="text" class="form-control" id="no" placeholder="No">&nbsp;&nbsp;
-					<input type="text" class="form-control" id="ogplno"
-						placeholder="OGPL No" value="${incomeparcel.ogplNo}"> &nbsp;&nbsp;
-						<input type="date"
-						class="form-control" id="ogpldate" placeholder="OGPL Date">
+						
+						<select name="ogplNo" id="ogplNo" onchange="getIncomeParcel(this);" class="form-control">
+							<option value="">-Select OGPL-</option>
+							<c:forEach var="options" items="${ogplList}"
+								varStatus="status">
+								<option value="${options.ogplNo}"
+									${options.ogplNo==ogplno ? 'selected="selected"':''}>${options.ogplNo}</option>
+							</c:forEach>
+						</select>
+						
+						<!-- <input type="date"
+						class="form-control" id="ogpldate" placeholder="OGPL Date"> -->
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-check">
 						<input class="form-check-input" type="checkbox" value=""
@@ -135,7 +147,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="incomelist" items="${incomeList}"
+						<c:forEach var="incomelist"  items="${incomeparcelList}"
 							varStatus="status">
 							<tr>
 								<th scope="row">1</th>
@@ -202,6 +214,8 @@
 				<textarea name="details" id="details" placeholder="Details" class="form-control"
 					style="height: 130px;" >${incomeparcel.details}</textarea>
 					<input type="hidden" id="lrnoarray" name="lrnoarray"
+					class="form-control">  
+					<input type="hidden" id="status" name="status"
 					class="form-control">  <br>
 				<div class="row control-margin">
 					<div class="col-md-4">

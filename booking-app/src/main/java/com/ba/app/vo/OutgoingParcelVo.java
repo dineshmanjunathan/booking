@@ -22,4 +22,5 @@ public class OutgoingParcelVo {
 	private String vehicleNo;
 	private String ogplNo;
 	private ArrayList<String> ogpnoarray;
+	private String ogpllist;
 }

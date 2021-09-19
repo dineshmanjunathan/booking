@@ -20,6 +20,6 @@ public class InventoryVo {
 	private String bookedOn;
 	private String deliveredBy;
 	private String vehicleNo;
-	private String ogplNo;
 	private ArrayList<String> lrnoarray;
+	private String ogplNo;
 }

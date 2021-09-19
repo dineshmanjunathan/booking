@@ -23,16 +23,16 @@
 			alert("Please select To Location");
 			return false;
 		}
-		let bookedOn = $("#bookedOn").val();
+		//let bookedOn = $("#bookedOn").val();
 		window.location.href = "/get/outgoingParcel?fromLocation=" + from
-				+ "&toLocation=" + to + "&bookedOn=" + bookedOn;
+				+ "&toLocation=" + to;
 	}
-	function today() {
+	/* function today() {
 		document.getElementById("bookedOn").valueAsDate = new Date();
 	}
 	window.onload = function() {
 		today();
-	};
+	}; */
 
 	
 	$("document").ready(function(){
@@ -45,6 +45,10 @@
 		    });
 		    //console.log(files);
 		    document.getElementById("ogpnoarray").value = files;
+		    if(files.length === 0){
+		    	alert("Please select any Parcel to Out!");
+				return false;	
+		    }
 		 });
 
 		})
@@ -103,9 +107,9 @@
 						</select><i class="zmdi zmdi-chevron-down"></i>
 
 					</div>&nbsp;&nbsp;
-					<input type="date" id="bookedOn" name="bookedOn"
+					<%-- <input type="date" id="bookedOn" name="bookedOn"
 						class="form-control" placeholder="Date" value="${bookedOn}">
-					&nbsp;&nbsp; <a class="btn btn-primary button-margin" id="import"
+					&nbsp;&nbsp; --%> <a class="btn btn-primary button-margin" id="import"
 						onclick="return getSearchParcel();">Import</a>
 				</div>
 				<div class="form-row">
