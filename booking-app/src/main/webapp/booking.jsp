@@ -262,7 +262,7 @@
 															Bill Number</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" id="billNumber"
+														<input type="number" class="form-control" id="billNumber"
 															name="billNumber" value="${booking.billNumber}" required>
 													</div>
 												</div>
