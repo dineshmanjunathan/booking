@@ -48,7 +48,7 @@
 		
 		
 	function getIncomeParcel(value){
-		alert("val"+value.value);
+		//alert("val"+value.value);
 		let from = $("#fromLocation").val();
 		let to = $("#toLocation").val();
 		let bookedOn = $("#bookedOn").val();
@@ -72,37 +72,39 @@
 				<p style="color: red" align="center">${errormsg}</p>
 				<div class="form-row">
 					<div class="form-holder">
-						
-						<c:choose>
+						<select name="fromLocation" id="fromLocation" class="form-control">
+							<option value="">-Select From Location-</option>
+							<c:forEach var="options" items="${locationList}"
+								varStatus="status">
+								<option value="${options.id}"
+									${options.id== fromLocation ? 'selected="selected"':''}>${options.location}</option>
+							</c:forEach>
+						</select>
+					</div>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="form-holder">
+					<c:choose>
 							<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
-								<select name="fromLocation" id="fromLocation" class="form-control">
+								<select name="toLocation" id="toLocation" class="form-control">
 									<option value="">-Select To Location-</option>
 									<c:forEach var="options" items="${locationList}"
 										varStatus="status">
 										<option value="${options.id}"
-											${options.id == fromLocation ? 'selected="selected"':''}>${options.location}</option>
+											${options.id == toLocation ? 'selected="selected"':''}>${options.location}</option>
 									</c:forEach>
 								</select>
 								<i class="zmdi zmdi-chevron-down"></i>
 							</c:when>
 							<c:otherwise>
-								<input type="text" class="form-control" name="fromLocation"
-									id="fromLocation" value="${sessionScope.USER_LOCATION}"
+								<input type="hidden" class="form-control" name="toLocation"
+									id="toLocation" value="${sessionScope.USER_LOCATIONID}"
+									readonly>
+									<input type="text" class="form-control" name="todummy"
+									id="todummy" value="${sessionScope.USER_LOCATION}"
 									readonly>
 							</c:otherwise>
 						</c:choose>
-
-					</div>
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					<div class="form-holder">
-						<select name="toLocation" id="toLocation" class="form-control">
-							<option value="">-Select To Location-</option>
-							<c:forEach var="options" items="${locationList}"
-								varStatus="status">
-								<option value="${options.id}"
-									${options.id== toLocation ? 'selected="selected"':''}>${options.location}</option>
-							</c:forEach>
-						</select><i class="zmdi zmdi-chevron-down"></i>
+						<i class="zmdi zmdi-chevron-down"></i>
 					</div>
 					&nbsp;&nbsp; 
 					<input type="date" class="form-control" id="bookedOn"
@@ -112,7 +114,7 @@
 						onclick="return getSearchParcel();">Import</a>
 				</div>
 				<div class="form-row">
-						
+				<div class="form-holder">
 						<select name="ogplNo" id="ogplNo" onchange="getIncomeParcel(this);" class="form-control">
 							<option value="">-Select OGPL-</option>
 							<c:forEach var="options" items="${ogplList}"
@@ -124,7 +126,8 @@
 						
 						<!-- <input type="date"
 						class="form-control" id="ogpldate" placeholder="OGPL Date"> -->
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											</div>
+					&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-check">
 						<input class="form-check-input" type="checkbox" value=""
 							id="defaultCheck1"> <label class="form-check-label"
