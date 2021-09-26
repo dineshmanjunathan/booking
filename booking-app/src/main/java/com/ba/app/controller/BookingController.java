@@ -62,27 +62,42 @@ public class BookingController {
 	private InventoryRepository inventoryRepository;;
 	
 	
+	private String sessionValidation(HttpServletRequest request, ModelMap model) {
+		try {
+			if (request.getSession().getAttribute("USER_ID") != null) {
+				return null;
+			}else {
+				model.addAttribute("errormsg", "Your login session has expired. Please login again.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "login";
+	}
 	@RequestMapping(value = "/booking/save", method = RequestMethod.POST)
 	public String saveBookingDetails(HttpServletRequest request, BookingVo bookingVo, ModelMap model) {
 		try {
-		Booking booking = new Booking();
-		BeanUtils.copyProperties(bookingVo, booking);
-		model.addAttribute("bookingsuccessmessage", "Booked Successfully.");
-		model.addAttribute("LRNumber", "LR Number : "+booking.getLrNumber());
-		
-		Booking bLrNo = bookingRepository.findByLrNumber(booking.getLrNumber());
-		if(bLrNo!=null && bLrNo.getLrNumber()!=null) {
-			booking.setId(bLrNo.getId());
-			bookingRepository.save(booking);
-		}else {
-			//SAVE SEQ FOR LR
-			bookingRepository.getNextLRNumber();
-			bookingRepository.save(booking);
-			saveFromCustomer(bookingVo);
-			saveToCustomer(bookingVo);
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
+					
+			Booking booking = new Booking();
+			BeanUtils.copyProperties(bookingVo, booking);
+			model.addAttribute("bookingsuccessmessage", "Booked Successfully.");
+			model.addAttribute("LRNumber", "LR Number : " + booking.getLrNumber());
 
-		}
-		setAllLocationListInModel(model);
+			Booking bLrNo = bookingRepository.findByLrNumber(booking.getLrNumber());
+			if (bLrNo != null && bLrNo.getLrNumber() != null) {
+				booking.setId(bLrNo.getId());
+				bookingRepository.save(booking);
+			} else {
+				// SAVE SEQ FOR LR
+				bookingRepository.getNextLRNumber();
+				bookingRepository.save(booking);
+				saveFromCustomer(bookingVo);
+				saveToCustomer(bookingVo);
+
+			}
+			setAllLocationListInModel(model);
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			model.addAttribute("errormsg", "Failed to Book ");
@@ -110,6 +125,10 @@ public class BookingController {
 	}
 	@RequestMapping("/outgoingParcel")
 	public String outgoingParcel(HttpServletRequest request, ModelMap model) {
+		
+		//SESSION VALIDATION
+		if(sessionValidation(request, model)!=null) return "login";
+		
 		setAllLocationListInModel(model);
 		setAllVehileListInModel(model);
 		return "outgoingParcel";
@@ -117,6 +136,8 @@ public class BookingController {
 	
 	@RequestMapping("/incomingParcel")
 	public String incomingParcel(HttpServletRequest request, ModelMap model) {
+		//SESSION VALIDATION
+		if(sessionValidation(request, model)!=null) return "login";
 		setAllLocationListInModel(model);
 		setAllVehileListInModel(model);
 		return "incomingParcel";
@@ -124,6 +145,8 @@ public class BookingController {
 	
 	@RequestMapping("/booking")
 	public String booking(HttpServletRequest request,ModelMap model) {
+		//SESSION VALIDATION
+		if(sessionValidation(request, model)!=null) return "login";
 		setAllLocationListInModel(model);
 		Long nextLRNumber=bookingRepository.getcurrentLRNumber();
 		String fromlocationcode = ""+request.getSession().getAttribute("USER_LOCATIONID");
@@ -142,7 +165,8 @@ public class BookingController {
 	@RequestMapping(value = "/addLocation", method = RequestMethod.POST)
 	public String saveConfigure(HttpServletRequest request, LocationVo locationVo, ModelMap model) {
 		try {			
-			
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			if(locationVo!=null) {
 				try {
 					Location location = locationRepository.findById(locationVo.getId()).get();
@@ -175,6 +199,8 @@ public class BookingController {
 	@RequestMapping(value = "/editLocation", method = RequestMethod.POST)
 	public String updateLocationConfigure(HttpServletRequest request, LocationVo locationVo, ModelMap model) {
 		try {			
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			Location locationEntity = new Location();
 
 			BeanUtils.copyProperties(locationVo, locationEntity, "createon", "updatedon");
@@ -196,6 +222,8 @@ public class BookingController {
 	@RequestMapping("/locationListing")
 	public String countryCodeListing(HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			Iterable<Location> locaIterable = locationRepository.findAll();
 			model.addAttribute("locationListing", locaIterable);
 		} catch (Exception e) {
@@ -207,6 +235,8 @@ public class BookingController {
 	@RequestMapping(value = "/location/edit/{id}", method = RequestMethod.GET)
 	public String locationEdit(@PathVariable("id") String id, HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			Location location = locationRepository.findById(id).get();
 			LocationVo locationVo = new LocationVo();
 			BeanUtils.copyProperties(location, locationVo);
@@ -219,6 +249,8 @@ public class BookingController {
 	@RequestMapping(value = "/location/delete/{id}", method = RequestMethod.GET)
 	public String locationDelete(@PathVariable("id") String id, HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			locationRepository.deleteById(id);
 			model.addAttribute("deletesuccessmessage", "Deleted Successfully");
 			Iterable<Location> locaIterable = locationRepository.findAll();
@@ -231,6 +263,8 @@ public class BookingController {
 	@RequestMapping(value = "/payOption", method = RequestMethod.POST)
 	public String savePayout(HttpServletRequest request, PayOptionVo payOptionVo, ModelMap model) {
 		try {			
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			PayType payOptionEntity = new PayType();
 
 			BeanUtils.copyProperties(payOptionVo, payOptionEntity, "createon", "updatedon");
@@ -249,6 +283,8 @@ public class BookingController {
 	@RequestMapping("/payOptionListing")
 	public String payOptionListing(HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			Iterable<PayType> locaIterable = payOptionRepository.findAll();
 			model.addAttribute("payOptionListing", locaIterable);
 		} catch (Exception e) {
@@ -260,6 +296,8 @@ public class BookingController {
 	@RequestMapping(value = "/payOption/delete/{id}", method = RequestMethod.GET)
 	public String payOptionDelete(@PathVariable ("id") Long id, HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			payOptionRepository.deleteById(id);
 			model.addAttribute("deletesuccessmessage", "Deleted Successfully");
 			Iterable<PayType> locaIterable = payOptionRepository.findAll();
@@ -277,6 +315,8 @@ public class BookingController {
 	@RequestMapping(value = "get/incomingParcel", method = RequestMethod.GET)
 	public String importIncomingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,@RequestParam("bookedOn") String bookedOn,HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 		List<OutgoingParcel> ogplList;
 		if(bookedOn !=null && bookedOn.trim().length() >0) {
 		ogplList = outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation,toLocation,bookedOn);
@@ -311,14 +351,17 @@ public class BookingController {
 	@RequestMapping(value = "get/outgoingParcel", method = RequestMethod.GET)
 	public String importOutgoingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,HttpServletRequest request, ModelMap model) {
 		try {
-		List<Booking> outgoingList= bookingRepository.findByFromLocationAndToLocationAndOgplNoIsNull(fromLocation,toLocation);
-		model.addAttribute("outgoingList", outgoingList);
-		OutgoingParcel outgoingParcel = new OutgoingParcel();
-		outgoingParcel.setFromLocation(fromLocation);
-		outgoingParcel.setToLocation(toLocation);
-		model.addAttribute("outgoingparcel", outgoingParcel);
-		setAllLocationListInModel(model);
-		setAllVehileListInModel(model);
+			// SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
+			List<Booking> outgoingList = bookingRepository.findByFromLocationAndToLocationAndOgplNoIsNull(fromLocation,
+					toLocation);
+			model.addAttribute("outgoingList", outgoingList);
+			OutgoingParcel outgoingParcel = new OutgoingParcel();
+			outgoingParcel.setFromLocation(fromLocation);
+			outgoingParcel.setToLocation(toLocation);
+			model.addAttribute("outgoingparcel", outgoingParcel);
+			setAllLocationListInModel(model);
+			setAllVehileListInModel(model);
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg","Failed to Import Parcel!");
@@ -334,6 +377,8 @@ public class BookingController {
 	@RequestMapping(value = "/payOption/edit/{id}", method = RequestMethod.GET)
 	public String payOptionEdit(@PathVariable("id") Long id, HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			PayType payOption = payOptionRepository.findById(id).get();
 			PayOptionVo payOptionVo = new PayOptionVo();
 			BeanUtils.copyProperties(payOption, payOptionVo);
@@ -345,7 +390,9 @@ public class BookingController {
 	}
 	@RequestMapping(value = "/vehicle", method = RequestMethod.POST)
 	public String saveVehicle(HttpServletRequest request, VehicleVo vehicleVo, ModelMap model) {
-		try {			
+		try {		
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			Vehicle vehicleEntity = new Vehicle();
 			BeanUtils.copyProperties(vehicleVo, vehicleEntity, "createon", "updatedon");
 			vehicleEntity=	vehicleRepository.save(vehicleEntity);
@@ -363,6 +410,8 @@ public class BookingController {
 	@RequestMapping("/vehicleListing")
 	public String saveVehicleListing(HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			Iterable<Vehicle> locaIterable = vehicleRepository.findAll();
 			model.addAttribute("vehicleListing", locaIterable);
 		} catch (Exception e) {
@@ -374,6 +423,8 @@ public class BookingController {
 	@RequestMapping(value = "/vehicle/delete/{id}", method = RequestMethod.GET)
 	public String vehicleDelete(@PathVariable ("id") Long id, HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			vehicleRepository.deleteById(id);
 			model.addAttribute("deletesuccessmessage", "Deleted Successfully");
 			Iterable<Vehicle> vehicleIterable = vehicleRepository.findAll();
@@ -387,6 +438,8 @@ public class BookingController {
 	@RequestMapping(value = "/vehicle/edit/{id}", method = RequestMethod.GET)
 	public String vehicleEdit(@PathVariable("id") Long id, HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			Vehicle vehicle = vehicleRepository.findById(id).get();
 			VehicleVo vehicleVo = new VehicleVo();
 			BeanUtils.copyProperties(vehicle, vehicleVo);
@@ -398,7 +451,9 @@ public class BookingController {
 	}
 	@RequestMapping(value = "/addDelivery", method = RequestMethod.POST)
 	public String saveDelivery(HttpServletRequest request, DeliveryVo deliveryVo, ModelMap model) {
-		try {			
+		try {		
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			Delivery deliveryEntity = new Delivery();
 
 			BeanUtils.copyProperties(deliveryVo, deliveryEntity, "createon", "updatedon");
@@ -430,6 +485,8 @@ public class BookingController {
 	@RequestMapping(value = "/searchParcelName/{name}", method = RequestMethod.GET)
 	public String searchParcelName(@PathVariable("name") String name, HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			Delivery deliveryEntity = deliveryRepository.findByName(name);
 			DeliveryVo deliveryVo=new DeliveryVo();
 			BeanUtils.copyProperties(deliveryEntity, deliveryVo);
@@ -460,6 +517,8 @@ public class BookingController {
 	@RequestMapping(value = "/ogpl/save", method = RequestMethod.POST)
 	public String saveOutgoingParcel(HttpServletRequest request, OutgoingParcelVo outgoingParcelVo, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			OutgoingParcel outgoingParcel = new OutgoingParcel();
 
 			BeanUtils.copyProperties(outgoingParcelVo, outgoingParcel);
@@ -490,6 +549,8 @@ public class BookingController {
 	@RequestMapping(value = "/incoming/save", method = RequestMethod.POST)
 	public String saveIncomingParcel(HttpServletRequest request, InventoryVo inventoryVo, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			Inventory inventory = new Inventory();
 			BeanUtils.copyProperties(inventoryVo, inventory);
 			inventoryRepository.save(inventory);
@@ -528,23 +589,32 @@ public class BookingController {
 	@RequestMapping(value = "/searchBookingParcelLRNO", method = RequestMethod.GET)
 	public String searchBookingParcelLRNO(@RequestParam(required = true) String lrNumber, HttpServletRequest request, ModelMap model) {
 		try {
-			Booking bookingEntity = bookingRepository.findByLrNumber(lrNumber);
-			if(bookingEntity!=null && bookingEntity.getLrNumber()!=null) {
-				
-				BookingVo bookingVO=new BookingVo();
-				BeanUtils.copyProperties(bookingEntity, bookingVO, "createon", "updatedon");
-				
-				model.addAttribute("booking", bookingVO);
-				model.addAttribute("LRnumber", bookingEntity.getLrNumber());
-				setAllLocationListInModel(model);
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
+			if (lrNumber != null && !lrNumber.trim().isEmpty()) {
+				Booking bookingEntity = bookingRepository.findByLrNumber(lrNumber);
+				if (bookingEntity != null && bookingEntity.getLrNumber() != null) {
+
+					BookingVo bookingVO = new BookingVo();
+					BeanUtils.copyProperties(bookingEntity, bookingVO, "createon", "updatedon");
+
+					model.addAttribute("booking", bookingVO);
+					model.addAttribute("LRnumber", bookingEntity.getLrNumber());
+					setAllLocationListInModel(model);
+				} else {
+					model.addAttribute("LRnumber", lrNumber);
+					model.addAttribute("errormsg", "No record(s) found.");
+				}
 			}else {
+				setAllLocationListInModel(model);
 				model.addAttribute("LRnumber", lrNumber);
-				model.addAttribute("errormsg", "No record(s) found.");
+				model.addAttribute("errormsg", "Enter LR number and try again.");
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg", "Failed To search LRNO ");
+			setAllLocationListInModel(model);
 			return "booking";
 		}
 		return "booking";
@@ -552,6 +622,8 @@ public class BookingController {
 	@RequestMapping(value = "load/incomingParcel", method = RequestMethod.GET)
 	public String loadIncomingParcel(@RequestParam("fromLocation") String fromLocation,@RequestParam("toLocation") String toLocation,@RequestParam("bookedOn") String bookedOn,@RequestParam("ogpl") long ogpl,HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			OutgoingParcel outgoingParcel=outgoingParcelRepository.findByOgplNo(ogpl);
 			List<Booking> incomingList = bookingRepository.findByLrNumberInAndIgplStatusIsNull(outgoingParcel.getOgpnoarray());
 			model.addAttribute("incomeparcelList", incomingList);
@@ -585,6 +657,8 @@ public class BookingController {
 	@RequestMapping("/bookingReq/delete")
 	public String userDelete(@RequestParam("bid") String id, HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			if (id != null) {
 				bookingRepository.deleteById(Long.parseLong(id));
 				model.addAttribute("bookingsuccessmessage", "Booking request successfully deleted.");

@@ -38,8 +38,8 @@ public class Booking implements Serializable {
 	private Long from_phone;
 	private String remarks;
 	private BigDecimal fromValue;
-	private Long invNo;
-	private Long tinNo;
+	private String invNo;
+	private String tinNo;
 	private String billDesc;
 	private Long billValue;
 	private String bookedBy;
@@ -47,7 +47,7 @@ public class Booking implements Serializable {
 	
 	private Long to_phone;
 	private Long item_count;
-	private Long weight;
+	private BigDecimal weight;
 	private String freight_status;
 	private BigDecimal total_charges;
 	private BigDecimal paid;
@@ -55,7 +55,7 @@ public class Booking implements Serializable {
 	private BigDecimal cash;
 	private BigDecimal refund;
 	private BigDecimal total;
-	private Long billNumber;
+	private String billNumber;
 	private Long ogplNo;
 	private String payOption;
 	private String loadingchargespay;

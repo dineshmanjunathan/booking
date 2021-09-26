@@ -32,6 +32,19 @@ public class UserController {
 	@Autowired
 	private LocationRepository locationRepository;
 
+	private String sessionValidation(HttpServletRequest request, ModelMap model) {
+		try {
+			if (request.getSession().getAttribute("USER_ID") != null) {
+				return null;
+			}else {
+				model.addAttribute("errormsg", "Your login session has expired. Please login again.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "login";
+	}
+	
 	@RequestMapping("/")
 	public String landingPage(HttpServletRequest request, ModelMap model) {
 		return "login";
@@ -44,6 +57,8 @@ public class UserController {
 
 	@RequestMapping("/menu")
 	public String menu(HttpServletRequest request, ModelMap model) {
+		//SESSION VALIDATION
+		if(sessionValidation(request, model)!=null) return "login";
 		return "menu";
 	}
 
@@ -67,6 +82,7 @@ public class UserController {
 	public String logout(HttpServletRequest request, ModelMap model) {
 		if (request.getSession() != null) {
 			request.getSession().invalidate();
+			request.getSession().removeAttribute("USER_ID");
 			model.addAttribute("logoutmsg", "Successfully logged out");
 		}
 		return "login";
@@ -104,6 +120,8 @@ public class UserController {
 	@RequestMapping(value = "/userlisting", method = RequestMethod.GET)
 	public String adminListingSubmit(HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			Iterable<User> userList = userRepository.findAllByOrderByIdAsc();
 			model.addAttribute("userList", userList);
 		} catch (Exception e) {
@@ -115,6 +133,8 @@ public class UserController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerSubmit(HttpServletRequest request, UserVo user, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			User existUser = null;
 			if (user != null && user.getId() != null) {
 				existUser = userRepository.findById(user.getId()).get();
@@ -165,6 +185,8 @@ public class UserController {
 	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
 	public String useradd(HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			setAllLocationListInModel(model);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -175,6 +197,8 @@ public class UserController {
 	@RequestMapping(value = "/user/edit", method = RequestMethod.GET)
 	public String useredit(@RequestParam("id") String id, HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			User user = userRepository.findById(Long.parseLong(id)).get();
 			model.addAttribute("user", user);
 			setAllLocationListInModel(model);
@@ -187,6 +211,8 @@ public class UserController {
 	@RequestMapping("/user/delete")
 	public String userDelete(@RequestParam("id") String id, HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			String userId = request.getSession().getAttribute("USER_ID").toString();
 
 			if (id != null && id.equals(userId)) {
@@ -210,6 +236,8 @@ public class UserController {
 	@RequestMapping("/countryCodeListing")
 	public String countryCodeListing(HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			Iterable<CountryCode> countryCodeList = countryCodeRepository.findAll();
 			model.addAttribute("countryCodeList", countryCodeList);
 		} catch (Exception e) {
@@ -221,6 +249,8 @@ public class UserController {
 	@RequestMapping(value = "/countryCode/delete", method = RequestMethod.GET)
 	public String countryCodeDelete(@RequestParam("id") String id, HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			countryCodeRepository.deleteById(Long.parseLong(id));
 			model.addAttribute("deletesuccessmessage", "Deleted Successfully");
 			Iterable<CountryCode> countryCodeList = countryCodeRepository.findAll();
@@ -234,6 +264,8 @@ public class UserController {
 	@RequestMapping(value = "/countryCode/edit", method = RequestMethod.GET)
 	public String countryCodeEdit(@RequestParam("id") String id, HttpServletRequest request, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			CountryCode countryCode = countryCodeRepository.findById(Long.parseLong(id)).get();
 			CountryCodeVo countryCodeVo = new CountryCodeVo();
 			BeanUtils.copyProperties(countryCodeVo, countryCode);
@@ -248,6 +280,8 @@ public class UserController {
 	public String countryCodeEditSubmit(HttpServletRequest request, CountryCodeVo countryCodeVo, ModelMap model) {
 		CountryCode countryCode = new CountryCode();
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			BeanUtils.copyProperties(countryCode, countryCodeVo);
 			countryCodeRepository.save(countryCode);
 			Iterable<CountryCode> countryCodeList = countryCodeRepository.findAll();
@@ -262,6 +296,8 @@ public class UserController {
 	@RequestMapping(value = "/countryCode/save", method = RequestMethod.POST)
 	public String countryCodeSubmit(HttpServletRequest request, CountryCodeVo countryCodeVo, ModelMap model) {
 		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
 			CountryCode countryCode = new CountryCode();
 			BeanUtils.copyProperties(countryCode, countryCodeVo);
 			countryCodeRepository.save(countryCode);
@@ -275,6 +311,8 @@ public class UserController {
 
 	@RequestMapping("/contactus")
 	public String contactus(HttpServletRequest request, ModelMap model) {
+		//SESSION VALIDATION
+		if(sessionValidation(request, model)!=null) return "login";
 		return "contactus";
 	}
 

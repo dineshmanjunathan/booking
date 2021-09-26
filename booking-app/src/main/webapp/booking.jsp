@@ -89,6 +89,7 @@
 	function loadNonReadBookingForm() {
 		var id = document.getElementById("bid").value;
 		if (id > 0) {
+			document.getElementById("bclear").disabled = true;
 			$.each($('form').serializeArray(), function(index, value) {
 				$('[name="' + value.name + '"]').attr('readonly', 'readonly');
 			});
@@ -97,10 +98,30 @@
 	function loadReadBookingForm() {
 		var id = document.getElementById("bid").value;
 		if (id > 0) {
+			document.getElementById("bclear").disabled = false;
 			$.each($('form').serializeArray(), function(index, value) {
-				$('[name="' + value.name + '"]').removeAttr("readonly");
+				if (value.name == 'lrNumber' || value.name == 'paid' || value.name == 'topay') {
+				} else {
+					$('[name="' + value.name + '"]').removeAttr("readonly");
+				}
 			});
 		}
+	}
+	function clear_fetch() {
+		if (confirm('Are you sure you want to clear?')) {
+			$.each($('form').serializeArray(), function(index, value) {
+				try {
+					$('#' + value.name + '').val('');
+				} catch (e) {
+					alert(e);
+				}
+			});
+			$('[name="lrNumber"]').removeAttr("readonly");
+		}
+
+	}
+	function enableBillValue() {
+		$('[name="billValue"]').removeAttr("readonly");
 	}
 </script>
 </head>
@@ -184,8 +205,9 @@
 														<label class="form-label" for="fromName">From Name</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" id="fromName"
-															name="fromName" value="${booking.fromName}" required>
+														<input type="text" maxlength="30" class="form-control"
+															id="fromName" name="fromName" value="${booking.fromName}"
+															required>
 													</div>
 												</div>
 
@@ -195,8 +217,9 @@
 															Phone No</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="from_phone"
-															name="from_phone" value="${booking.from_phone}"
+														<input type="tel"
+															class="form-control" placeholder="1234567890" pattern="[0-9]{10}" id="from_phone" name="from_phone"
+															value="${booking.from_phone}"
 															onblur="checkFromNameExists();" required>
 													</div>
 												</div>
@@ -205,8 +228,8 @@
 														<label class="form-label" for="remarks">Remarks</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" id="remarks"
-															name="remarks" value="${booking.remarks}">
+														<input type="text" maxlength="180" class="form-control"
+															id="remarks" name="remarks" value="${booking.remarks}">
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -214,8 +237,9 @@
 														<label class="form-label" for="fromValue">Value</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="fromValue"
-															name="fromValue" value="${booking.fromValue}">
+														<input type="number" max="9999" class="form-control"
+															id="fromValue" name="fromValue"
+															value="${booking.fromValue}">
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -223,8 +247,8 @@
 														<label class="form-label" for="invNo">Cons INV No</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="invNo"
-															name="invNo" value="${booking.invNo}">
+														<input type="text" maxlength="32" class="form-control"
+															id="invNo" name="invNo" value="${booking.invNo}">
 													</div>
 												</div>
 
@@ -233,8 +257,8 @@
 														<label class="form-label" for="tinNo">Cons TIN No</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="tinNo"
-															name="tinNo" value="${booking.tinNo}">
+														<input type="text" maxlength="32" class="form-control"
+															id="tinNo" name="tinNo" value="${booking.tinNo}">
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -242,8 +266,9 @@
 														<label class="form-label" for="billDesc">Bill Desc</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" id="billDesc"
-															name="billDesc" value="${booking.billDesc}" required>
+														<input type="text" maxlength="100" class="form-control"
+															id="billDesc" name="billDesc" value="${booking.billDesc}"
+															required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -252,8 +277,9 @@
 															Value</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="billValue"
-															name="billValue" value="${booking.billValue}" required>
+														<input type="number" max="9999" class="form-control"
+															id="billValue" name="billValue"
+															value="${booking.billValue}" required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -262,8 +288,9 @@
 															Bill Number</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="billNumber"
-															name="billNumber" value="${booking.billNumber}" required>
+														<input type="text" maxlength="32" class="form-control"
+															id="billNumber" name="billNumber"
+															value="${booking.billNumber}" required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -279,8 +306,8 @@
 														<label class="form-label" for="bookedBy">Booked By</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" id="bookedBy"
-															name="bookedBy" value="${booking.bookedBy}">
+														<input type="text" maxlength="30" class="form-control"
+															id="bookedBy" name="bookedBy" value="${booking.bookedBy}">
 													</div>
 												</div>
 											</div>
@@ -291,8 +318,9 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number"
-															class="form-control bg-info text-dark" id="bookingNo"
-															name="bookingNo" value="${booking.bookingNo}" required>
+															class="form-control bg-info text-dark" max="999999"
+															id="bookingNo" name="bookingNo"
+															value="${booking.bookingNo}" required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -311,8 +339,8 @@
 														<label class="form-label" for="toName">To Name</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" id="toName"
-															name="toName" value="${booking.toName}">
+														<input type="tel" class="form-control" id="toName"
+															name="toName" maxlength="30" value="${booking.toName}">
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -321,8 +349,8 @@
 															No</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="to_phone"
-															name="to_phone" value="${booking.to_phone}"
+														<input type="tel" placeholder="1234567890" pattern="[0-9]{10}" class="form-control"
+															id="to_phone" name="to_phone" value="${booking.to_phone}"
 															onblur="checkToNameExists();">
 													</div>
 												</div>
@@ -333,8 +361,9 @@
 															Items</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="item_count"
-															name="item_count" value="${booking.item_count}">
+														<input type="number" max="99" class="form-control"
+															id="item_count" name="item_count"
+															value="${booking.item_count}">
 													</div>
 												</div>
 
@@ -344,8 +373,8 @@
 															KG</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="weight"
-															name="weight" value="${booking.weight}">
+														<input type="number" placeholder="0.000" max="999999" step="0.001"  pattern="^\d+(?:\.\d{1,3})?$" class="form-control"
+															id="weight" name="weight" value="${booking.weight}">
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -364,9 +393,9 @@
 														</select>
 													</div>
 													<div class="col-sm-4">
-														<input type="number" class="form-control" id="freightvalue"
-															name="freightvalue" value="${booking.freightvalue}"
-															onblur="sumAmount();">
+														<input type="number" class="form-control"
+															id="freightvalue" name="freightvalue"
+															value="${booking.freightvalue}" onblur="sumAmount();">
 													</div>
 
 												</div>
@@ -432,7 +461,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" id="paid"
-															name="paid" value="${booking.paid}">
+															name="paid" value="${booking.paid}" readonly>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -441,7 +470,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" id="topay"
-															name="topay" value="${booking.topay}">
+															name="topay" value="${booking.topay}" readonly>
 													</div>
 												</div>
 
@@ -584,37 +613,37 @@
 											</div>
 										</div>
 										<div class="row control-margin">
-											<!-- <div class="col-md-4 control-margin">
-			<button type="button" class="btn btn-primary button-margin" id="btnHelp">Help</button>
-				<button type="button" class="btn btn-primary button-margin" id="btnNext">Next</button>
-				<button type="button" class="btn btn-primary button-margin" id="btnPrevious">Previous</button>
-				<button type="button" class="btn btn-primary button-margin" id="btnCurrent">Current</button>
-			</div> -->
+											
 											<div class="col-md-6 control-margin">
-												<button type="reset"
-													class="btn btn-primary button-margin col-md-2"
-													id="btnClear">Clear</button>
 												<a href="/menu"><button type="button"
-														class="btn btn-primary button-margin col-md-2"
-														id="btnClear">Back</button></a>
+														class="btn btn-primary button-margin col-md-2" id="bc">Back</button></a>
 												<button type="button"
 													class="btn btn-primary button-margin col-md-2"
 													id="btnPrint">Print</button>
-																										
-												<button type="button"
-													class="btn btn-primary button-margin col-md-2" id="btnBill">Bill..</button>
+												<c:choose>
+													<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
+														<button type="button"
+															class="btn btn-primary button-margin col-md-2"
+															id="btnBill" onclick="enableBillValue();">Bill</button>
+													</c:when>
+												</c:choose>
 											</div>
-											
-												<div class="col-md-6 control-margin">
-																							<button type="submit"
-													class="btn btn-primary button-margin col-md-2" id="btnSave">Save</button>	
+
+											<div class="col-md-6 control-margin">
+												<button type="submit"
+													class="btn btn-primary button-margin col-md-2" id="btnSave">Save</button>
 												<button type="button"
 													class="btn btn-primary button-margin col-md-2" id="btnEdit"
 													onclick="loadReadBookingForm();">Edit</button>
-								 <a onclick="return confirm('Are you sure you want to delete?')"  
-								 href="/bookingReq/delete?bid=${booking.id}"><button type="button"
-														class="btn btn-primary button-margin col-md-2"
-														id="btnClear">Delete</button></a>
+												<button type="button"
+													class="btn btn-primary button-margin col-md-2" id="bclear"
+													onclick="clear_fetch();">Clear</button>
+
+												<a
+													onclick="return confirm('Are you sure you want to delete?')"
+													href="/bookingReq/delete?bid=${booking.id}"><button
+														type="button"
+														class="btn btn-primary button-margin col-md-2" id="delete">Delete</button></a>
 
 											</div>
 										</div>
