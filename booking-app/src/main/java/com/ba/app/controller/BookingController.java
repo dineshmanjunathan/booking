@@ -31,6 +31,7 @@ import com.ba.app.model.LocationRepository;
 import com.ba.app.model.PayOptionRepository;
 import com.ba.app.model.VehicleRepository;
 import com.ba.app.vo.BookingVo;
+import com.ba.app.vo.DeliveryDto;
 import com.ba.app.vo.DeliveryVo;
 import com.ba.app.vo.InventoryVo;
 import com.ba.app.vo.LocationVo;
@@ -459,6 +460,7 @@ public class BookingController {
 			BeanUtils.copyProperties(deliveryVo, deliveryEntity, "createon", "updatedon");
 			deliveryEntity=	deliveryRepository.save(deliveryEntity);
 			model.addAttribute("delivery", deliveryEntity);
+			model.addAttribute("DeliverysuccessMessage", "Save Delivery Successfull!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg", "Failed to add new location! ");
@@ -470,10 +472,11 @@ public class BookingController {
 	@RequestMapping(value = "/searchParcelLRNO/{lRNo}", method = RequestMethod.GET)
 	public String searchParcelLRNO(@PathVariable("lRNo") String lRNo, HttpServletRequest request, ModelMap model) {
 		try {
-			Delivery deliveryEntity = deliveryRepository.findByLRNo(Long.parseLong(lRNo));
-			DeliveryVo deliveryVo=new DeliveryVo();
-			BeanUtils.copyProperties(deliveryEntity, deliveryVo);
-			model.addAttribute("delivery", deliveryVo);
+			//DeliveryDto deliveryEntity = deliveryRepository.getDelivery(lRNo);
+			//DeliveryVo deliveryVo=new DeliveryVo();
+			//BeanUtils.copyProperties(deliveryEntity, deliveryVo);
+			DeliveryDto deliveryDto = new DeliveryDto();
+			model.addAttribute("delivery", deliveryDto);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

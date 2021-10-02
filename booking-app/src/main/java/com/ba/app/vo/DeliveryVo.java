@@ -17,7 +17,7 @@ public class DeliveryVo implements Serializable {
 	private String deliveredBy;
 	//private String deliveredBy;
 	private Long no;
-	private String ogpl;
+	private Long ogpl;
 	private String fromDate;
 	private String toDate;
 	private Long lRNo;

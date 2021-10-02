@@ -22,7 +22,8 @@
 		var type = document.getElementsByTagName("option")[x].value;
 		var value = document.getElementById("txtSearch").value;
 		if (type == 'lrNo') {
-			window.location.href = "/searchParcelLRNO/" + value;
+			value=value.replaceAll('/', '%2F');
+			window.location.href = "/searchParcelLRNO/?lrNumber=" + value;
 		} else {
 			window.location.href = "/searchParcelName/" + value;
 		}
@@ -59,8 +60,8 @@
 														<option value="name">Party Name</option>
 													</select> <input type="text" class="form-control"
 														placeholder="Parcel" name="txtSearch" id="txtSearch">
-														<button type="submit" class="btn btn-secondary"
-														id="btnSearch">Search</button>
+														<button type="button" class="btn btn-secondary"
+														id="btnSearch" onclick="getSearchParcel();">Search</button>
 												</div>
 												<div class="mt-0">
 													<label for="txtSearch" class="form-label"><small>(Type
