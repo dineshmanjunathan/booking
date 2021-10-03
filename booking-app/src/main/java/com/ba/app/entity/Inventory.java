@@ -28,7 +28,7 @@ public class Inventory {
 	private String bookedOn ;
 	private String deliveredBy ;
 	private String vehicleNo ;
-	private String ogplNo ;
+	private long ogplNo ;
 	private ArrayList<String> lrnoarray;
 	private String status;
 

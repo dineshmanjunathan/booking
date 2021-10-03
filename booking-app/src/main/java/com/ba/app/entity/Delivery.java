@@ -1,6 +1,7 @@
 package com.ba.app.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -28,8 +29,8 @@ public class Delivery implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
-	private String paid;
-	private Long noOfItems;
+	private BigDecimal paid;
+	private Long item_count;
 	private String deliveredBy;
 	//private String deliveredBy;
 	private Long no;

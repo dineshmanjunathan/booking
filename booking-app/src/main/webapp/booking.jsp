@@ -100,7 +100,9 @@
 		if (id > 0) {
 			document.getElementById("bclear").disabled = false;
 			$.each($('form').serializeArray(), function(index, value) {
-				if (value.name == 'lrNumber' || value.name == 'paid' || value.name == 'topay') {
+				if (value.name == 'lrNumber' || value.name == 'paid' || value.name == 'topay' 
+					|| value.name == 'fromValue' || value.name == 'freightvalue' || value.name == 'loadingcharges'
+						|| value.name == 'doorpickcharges'|| value.name == 'billValue'|| value.name == 'weight'){
 				} else {
 					$('[name="' + value.name + '"]').removeAttr("readonly");
 				}

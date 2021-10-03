@@ -469,18 +469,23 @@ public class BookingController {
 		return "delivery";
 	}
 	
-	@RequestMapping(value = "/searchParcelLRNO/{lRNo}", method = RequestMethod.GET)
-	public String searchParcelLRNO(@PathVariable("lRNo") String lRNo, HttpServletRequest request, ModelMap model) {
+	@RequestMapping(value = "/searchParcelLRNO", method = RequestMethod.GET)
+	public String searchParcelLRNO(@RequestParam(required = true) String lrNumber, HttpServletRequest request, ModelMap model) {
 		try {
-			//DeliveryDto deliveryEntity = deliveryRepository.getDelivery(lRNo);
-			//DeliveryVo deliveryVo=new DeliveryVo();
-			//BeanUtils.copyProperties(deliveryEntity, deliveryVo);
-			DeliveryDto deliveryDto = new DeliveryDto();
-			model.addAttribute("delivery", deliveryDto);
+			if(sessionValidation(request, model)!=null) return "login";
+			Booking booking = bookingRepository.findByLrNumber(lrNumber);
+			if(booking!=null && booking.getOgplNo()!=null) {
+				Inventory inventory = inventoryRepository.findByOgplNo(booking.getOgplNo());
+				model.addAttribute("deliveryB", booking);
+				model.addAttribute("deliveryI", inventory);
+				model.addAttribute("DeliverysuccessMessage", "Search by LR number: "+lrNumber);
+			}else {
+				model.addAttribute("errormsg", "Invalid LR number provided! ");
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("errormsg", "Failed To search LRNO ");
+			model.addAttribute("errormsg", "Failed To search LR number ");
 			return "delivery";
 		}
 		return "delivery";
@@ -582,6 +587,8 @@ public class BookingController {
 			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
+			setAllLocationListInModel(model);
+			setAllVehileListInModel(model);
 			model.addAttribute("errormsg", "Failed to income Parcel");
 			return "incomingParcel";
 		}

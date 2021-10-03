@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import com.ba.app.entity.Inventory;
 
 public interface InventoryRepository extends CrudRepository<Inventory, String>{
-
+	Inventory findByOgplNo(long ogplNo);
 }

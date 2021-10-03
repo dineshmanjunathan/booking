@@ -22,8 +22,8 @@
 		var type = document.getElementsByTagName("option")[x].value;
 		var value = document.getElementById("txtSearch").value;
 		if (type == 'lrNo') {
-			value=value.replaceAll('/', '%2F');
-			window.location.href = "/searchParcelLRNO/?lrNumber=" + value;
+			value= value.replaceAll('/', '%2F');			
+			window.location.href = "/searchParcelLRNO?lrNumber=" + value;
 		} else {
 			window.location.href = "/searchParcelName/" + value;
 		}
@@ -48,7 +48,9 @@
 							<main>
 								<form action="/addDelivery" method="post" style="width: 100%;">
 									<input type="hidden" class="form-control" name="id" id="id"
-										value="${delivery.id}">
+										value="">
+									<p style="color: red" align="center">${errormsg}</p>
+									<p style="color: green" align="center">${DeliverysuccessMessage}</p>
 									<div class="row">
 										<div class="col-md-4 control-margin">
 											<div class="row element-margin">
@@ -59,7 +61,7 @@
 														<option value="lrNo">LR No.</option>
 														<option value="name">Party Name</option>
 													</select> <input type="text" class="form-control"
-														placeholder="Parcel" name="txtSearch" id="txtSearch">
+														placeholder="Parcel" name="txtSearch" id="txtSearch" >
 														<button type="button" class="btn btn-secondary"
 														id="btnSearch" onclick="getSearchParcel();">Search</button>
 												</div>
@@ -100,7 +102,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="name"
-														value="${delivery.name}">
+														value="${deliveryB.fromName}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -109,7 +111,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="paid"
-														value="${delivery.paid}">
+														value="${deliveryB.paid}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -119,7 +121,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="noOfItems"
-														value="${delivery.noOfItems}">
+														value="${deliveryB.item_count}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -129,7 +131,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="ddVehicle"
-														value="${delivery.ddVehicle}">
+														value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -156,7 +158,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="deliveredBy"
-														value="${delivery.deliveredBy}">
+														value="">
 												</div>
 											</div>
 										</div>
@@ -167,7 +169,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="number" class="form-control" name="no"
-														value="${delivery.no}">
+														value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -176,7 +178,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="ogpl"
-														value="${delivery.ogpl}">
+														value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -186,7 +188,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="date" class="form-control" name="fromDate"
-														placeholder="From Date" value="${delivery.fromDate}">
+														placeholder="From Date" value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -195,7 +197,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="date" class="form-control" name="toDate"
-														placeholder="To Date" value="${delivery.toDate}">
+														placeholder="To Date" value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -237,7 +239,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="number" class="form-control"
-														name="deliveryBillNo" value="${delivery.deliveryBillNo}">
+														name="deliveryBillNo" value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -247,7 +249,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="date" class="form-control" name="deliveryDate"
-														value="${delivery.deliveryDate}">
+														value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -256,7 +258,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="toPay"
-														value="${delivery.toPay}">
+														value="">
 												</div>
 											</div>
 										</div>
@@ -267,7 +269,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="hamali"
-														value="${delivery.hamali}">
+														value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -278,7 +280,7 @@
 												<div class="col-sm-8">
 													<input type="text" class="form-control"
 														name="unloadingCharges"
-														value="${delivery.unloadingCharges}">
+														value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -289,7 +291,7 @@
 												<div class="col-sm-8">
 													<input type="text" class="form-control"
 														name="doorDeliveryCharges"
-														value="${delivery.doorDeliveryCharges}">
+														value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -298,7 +300,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="demurrage"
-														value="${delivery.demurrage}">
+														value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -307,7 +309,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="others"
-														value="${delivery.others}">
+														value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -316,7 +318,7 @@
 												</div>
 												<div class="col-sm-4">
 													<input type="number" class="form-control" name="total"
-														value="${delivery.total}">
+														value="">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -328,7 +330,7 @@
 												</div>
 												<div class="col-sm-4">
 													<input type="text" class="form-control" name="paid"
-														value="${delivery.paid}">
+														value="">
 												</div>
 												<div class="mt-0" style="padding-left: 80px">
 													<label for="txtPaidBy" class="form-label"><small>(Cheque
@@ -341,7 +343,7 @@
 												</div>
 												<div class="col-sm-4">
 													<input type="text" class="form-control" name="refund"
-														value="${delivery.refund}">
+														value="">
 												</div>
 											</div>
 										</div>

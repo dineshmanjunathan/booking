@@ -158,12 +158,12 @@
 
 								<c:choose>
 									<c:when test="${checkboxchecked=='1'}">
-										<td>${incomelist.lrNumber}<input type="checkbox"
+										<td>${incomelist.lrNumber}    <input type="checkbox"
 											name="ogp" id="ogp" value="${incomelist.lrNumber}" checked>&nbsp;
 										</td>
 									</c:when>
 									<c:otherwise>
-										<td>${incomelist.lrNumber}<input type="checkbox"
+										<td>${incomelist.lrNumber}   <input type="checkbox"
 											name="ogp" id="ogp" value="${incomelist.lrNumber}">&nbsp;
 										</td>
 									</c:otherwise>
