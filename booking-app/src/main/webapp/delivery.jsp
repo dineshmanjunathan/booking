@@ -131,7 +131,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="ddVehicle"
-														value="">
+														value="${deliveryI.vehicleNo}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -158,7 +158,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="deliveredBy"
-														value="">
+														value="${deliveryI.deliveredBy}">
 												</div>
 											</div>
 										</div>
@@ -178,7 +178,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="ogpl"
-														value="">
+														value="${deliveryI.ogplNo}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -188,7 +188,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="date" class="form-control" name="fromDate"
-														placeholder="From Date" value="">
+														placeholder="From Date" value="${deliveryB.bookedOn}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -229,7 +229,7 @@
 													<label class="form-label" for="txtLRNo">LR No.</label>
 												</div>
 												<div class="col-sm-8">
-													<input type="number" class="form-control" name="lRNo">
+													<input type="text" class="form-control" name="lRNo" value="${deliveryB.lrNumber}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -239,7 +239,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="number" class="form-control"
-														name="deliveryBillNo" value="">
+														name="deliveryBillNo" value="${deliveryB.billNumber}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -258,7 +258,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="toPay"
-														value="">
+														value="${deliveryB.topay}">
 												</div>
 											</div>
 										</div>
@@ -318,7 +318,7 @@
 												</div>
 												<div class="col-sm-4">
 													<input type="number" class="form-control" name="total"
-														value="">
+														value="${deliveryB.total}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -330,7 +330,7 @@
 												</div>
 												<div class="col-sm-4">
 													<input type="text" class="form-control" name="paid"
-														value="">
+														value="${deliveryB.paid}">
 												</div>
 												<div class="mt-0" style="padding-left: 80px">
 													<label for="txtPaidBy" class="form-label"><small>(Cheque
@@ -343,7 +343,7 @@
 												</div>
 												<div class="col-sm-4">
 													<input type="text" class="form-control" name="refund"
-														value="">
+														value="${deliveryB.refund}">
 												</div>
 											</div>
 										</div>

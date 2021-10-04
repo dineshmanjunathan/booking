@@ -37,7 +37,7 @@ public class Delivery implements Serializable {
 	private String ogpl;
 	private String fromDate;
 	private String toDate;
-	private Long lRNo;
+	private String lRNo;
 	private Long deliveryBillNo;
 	private String deliveryDate;
 	private String toPay;

@@ -20,7 +20,7 @@ public class DeliveryVo implements Serializable {
 	private Long ogpl;
 	private String fromDate;
 	private String toDate;
-	private Long lRNo;
+	private String lRNo;
 	private Long deliveryBillNo;
 	private String deliveryDate;
 	private String toPay;
