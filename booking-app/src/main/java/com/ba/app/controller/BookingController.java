@@ -1,12 +1,17 @@
 package com.ba.app.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,26 +26,26 @@ import com.ba.app.entity.Customer;
 import com.ba.app.entity.Delivery;
 import com.ba.app.entity.Inventory;
 import com.ba.app.entity.Location;
+import com.ba.app.entity.OutgoingParcel;
 import com.ba.app.entity.PayType;
 import com.ba.app.entity.Vehicle;
 import com.ba.app.model.BookingRepository;
 import com.ba.app.model.CustomerRepository;
+import com.ba.app.model.DeliveryListRepository;
 import com.ba.app.model.DeliveryRepository;
 import com.ba.app.model.InventoryRepository;
 import com.ba.app.model.LocationRepository;
+import com.ba.app.model.OutgoingParcelRepository;
 import com.ba.app.model.PayOptionRepository;
 import com.ba.app.model.VehicleRepository;
 import com.ba.app.vo.BookingVo;
-import com.ba.app.vo.DeliveryDto;
 import com.ba.app.vo.DeliveryVo;
 import com.ba.app.vo.InventoryVo;
 import com.ba.app.vo.LocationVo;
+import com.ba.app.vo.OutgoingParcelVo;
 import com.ba.app.vo.PayOptionVo;
 import com.ba.app.vo.VehicleVo;
 import com.ba.utils.Utils;
-import com.ba.app.vo.OutgoingParcelVo;
-import com.ba.app.model.OutgoingParcelRepository;
-import com.ba.app.entity.OutgoingParcel;
 
 @Controller
 public class BookingController {
@@ -60,7 +65,9 @@ public class BookingController {
 	@Autowired
 	private OutgoingParcelRepository outgoingParcelRepository;;
 	@Autowired
-	private InventoryRepository inventoryRepository;;
+	private InventoryRepository inventoryRepository;
+	@Autowired
+	private DeliveryListRepository deliveryListRepository; 
 	
 	
 	private String sessionValidation(HttpServletRequest request, ModelMap model) {
@@ -682,5 +689,33 @@ public class BookingController {
 			return "booking";
 		}
 		return "bookingsuccess";
+	}
+	
+	@RequestMapping("/deliveryListing")
+	public String deliveryList(HttpServletRequest request, ModelMap model) {
+		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
+			
+			Pageable firstPageWithTwoElements = PageRequest.of(0, 10);
+
+			Page<Delivery> allList = deliveryListRepository.findAll(firstPageWithTwoElements);
+			System.out.println(allList.getSize());
+			
+			List<Delivery> deliveryList = new ArrayList<Delivery>();
+			if(allList != null && allList.hasContent()) {
+				deliveryList = allList.getContent();
+			}else {
+				model.addAttribute("errormsg", "No records!");
+			}
+			
+			model.addAttribute("deliveryListing", deliveryList);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Something is wrong! please try again.");
+			return "login";
+		}
+		return "deliveryListing";
 	}
 }
