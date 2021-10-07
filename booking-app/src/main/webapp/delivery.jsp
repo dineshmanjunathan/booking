@@ -18,19 +18,47 @@
 
 <script type="text/javascript" charset="utf-8">
 	function getSearchParcel() {
-		var x = document.getElementById("searchSelection").selectedIndex;
-		var type = document.getElementsByTagName("option")[x].value;
+		/* var x = document.getElementById("searchSelection").selectedIndex;
+		var type = document.getElementsByTagName("option")[x].value; */
 		var value = document.getElementById("txtSearch").value;
-		if (type == 'lrNo') {
+		//if (type == 'lrNo') {
 			value= value.replaceAll('/', '%2F');			
 			window.location.href = "/searchParcelLRNO?lrNumber=" + value;
-		} else {
+		/* } else {
 			window.location.href = "/searchParcelName/" + value;
+		} */
+		toggleFormElements(false);
+	}
+</script>
+<script>
+function toggleFormElements() {
+	var enabled = document.getElementById("demo").innerHTML;
+		if (enabled == '') {
+			var inputs = document.getElementsByTagName("input");
+			for (var i = 0; i < inputs.length; i++) {
+				inputs[i].disabled = true;
+			}
+			var inputs1 = document.getElementsByTagName("select");
+			for (var i = 0; i < inputs1.length; i++) {
+				inputs1[i].disabled = true;
+			}
+			document.getElementById("txtSearch").disabled = false;
+		} else {
+			document.getElementById("demo").innerHTML= '';
+			var inputs = document.getElementsByTagName("input");
+			for (var i = 0; i < inputs.length; i++) {
+				inputs[i].disabled = false;
+			}
+			var inputs1 = document.getElementsByTagName("select");
+			for (var i = 0; i < inputs1.length; i++) {
+				inputs1[i].disabled = false;
+			}
 		}
 	}
 </script>
 
 </head>
+<body onload="toggleFormElements(true)">
 <div class="wrapper">
 	<div class="inner">
 		<div style="width: 15%;">
@@ -46,22 +74,19 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="blog-details-inner">
 							<main>
-								<form action="/addDelivery" method="post" style="width: 100%;">
+								<form action="/addDelivery" method="post" style="width: 100%;" >
 									<input type="hidden" class="form-control" name="id" id="id"
 										value="">
 									<p style="color: red" align="center">${errormsg}</p>
 									<p style="color: green" align="center">${DeliverysuccessMessage}</p>
+									<p id="demo" style="color: green" align="center" display: block>${enabled}</p>
 									<div class="row">
 										<div class="col-md-4 control-margin">
 											<div class="row element-margin">
 												<div class="input-group">
-													<select class="form-select" name="searchSelection"
-														id="searchSelection">
-														<option selected disabled value="">Search Type</option>
-														<option value="lrNo">LR No.</option>
-														<option value="name">Party Name</option>
-													</select> <input type="text" class="form-control"
-														placeholder="Parcel" name="txtSearch" id="txtSearch" >
+													
+														 <input type="text" class="form-control"
+														placeholder="Type LR No" name="txtSearch" id="txtSearch" >
 														<button type="button" class="btn btn-secondary"
 														id="btnSearch" onclick="getSearchParcel();">Search</button>
 												</div>
@@ -92,7 +117,9 @@
 												<div class="col-sm-8">
 													<select class="form-select" name="deliverySelection">
 														<option selected disabled value="">Choose...</option>
-														<option>...</option>
+														<option>Selection 1</option>
+														<option>Selection 2</option>
+														<option>Selection 3</option>
 													</select>
 												</div>
 											</div>
@@ -102,7 +129,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="name"
-														value="${deliveryB.fromName}">
+														value="${deliveryB.toName}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -169,7 +196,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="number" class="form-control" name="no"
-														value="">
+														value="${deliveryB.bookingNo}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -181,7 +208,7 @@
 														value="${deliveryI.ogplNo}">
 												</div>
 											</div>
-											<div class="row element-margin">
+											<%-- <div class="row element-margin">
 												<div class="col-sm-4">
 													<label for="dtFromDate" class="form-label">From
 														Date</label>
@@ -199,7 +226,7 @@
 													<input type="date" class="form-control" name="toDate"
 														placeholder="To Date" value="">
 												</div>
-											</div>
+											</div> --%>
 											<div class="row element-margin">
 												<div class="col-sm-4">
 													<label for="dtFrom" class="form-label">From</label>
@@ -207,8 +234,12 @@
 
 												<div class="col-sm-8">
 													<select class="form-select" name="dtFrom">
-														<option selected disabled value="">Choose...</option>
-														<option>...</option>
+														<c:forEach var="options" items="${locationList}"
+																	varStatus="status">
+																	<%-- <option value="${options.id}" ${options.id == booking.toLocation ? 'selected' : ''}>${options.location}</option> --%>
+																	<option value="${options.id}"
+																		${options.id == booking.fromLocation ? 'selected' : ''}>${options.location}</option>
+																</c:forEach>
 													</select>
 												</div>
 											</div>
@@ -219,8 +250,12 @@
 
 												<div class="col-sm-8">
 													<select class="form-select" name="dtTo">
-														<option selected disabled value="">Choose...</option>
-														<option>...</option>
+														<c:forEach var="options" items="${locationList}"
+																	varStatus="status">
+																	<%-- <option value="${options.id}" ${options.id == booking.toLocation ? 'selected' : ''}>${options.location}</option> --%>
+																	<option value="${options.id}"
+																		${options.id == booking.toLocation ? 'selected' : ''}>${options.location}</option>
+																</c:forEach>
 													</select>
 												</div>
 											</div>
@@ -248,8 +283,8 @@
 														Date</label>
 												</div>
 												<div class="col-sm-8">
-													<input type="date" class="form-control" name="deliveryDate"
-														value="">
+													<input type="text" class="form-control" name="deliveryDate"
+														id="deliveryDate" value="${delivery.deliveryDate}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -269,7 +304,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="hamali"
-														value="">
+														value="0">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -280,7 +315,7 @@
 												<div class="col-sm-8">
 													<input type="text" class="form-control"
 														name="unloadingCharges"
-														value="">
+														value="0">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -291,7 +326,7 @@
 												<div class="col-sm-8">
 													<input type="text" class="form-control"
 														name="doorDeliveryCharges"
-														value="">
+														value="0">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -300,7 +335,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="demurrage"
-														value="">
+														value="0">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -309,7 +344,7 @@
 												</div>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" name="others"
-														value="">
+														value="${deliveryB.othercharges}">
 												</div>
 											</div>
 											<div class="row element-margin">
@@ -370,6 +405,7 @@
 												id="btnDeliver">Deliver</button>
 											<button type="button" class="btn btn-primary button-margin"
 												id="btnPrint">Print</button>
+			
 											<button type="button" class="btn btn-primary button-margin"
 												id="btnPrint">Help</button>
 										</div>
@@ -383,4 +419,5 @@
 		</div>
 	</div>
 </div>
+</body>
 </html>

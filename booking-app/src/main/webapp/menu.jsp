@@ -97,7 +97,7 @@
         </div>
         <h5>Delivery Page</h5>
         <p></p>
-        <a href="delivery.jsp" class="icon-link">
+        <a href="/delivery" class="icon-link">
           Click here
           <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
         </a>

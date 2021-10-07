@@ -1,7 +1,9 @@
 package com.ba.app.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -489,7 +491,14 @@ public class BookingController {
 			}else {
 				model.addAttribute("errormsg", "Invalid LR number provided! ");
 			}
-			
+			Delivery delivery=new Delivery();
+			Date date = new Date();  
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
+			String currentDate = formatter.format(date);  
+			delivery.setDeliveryDate(currentDate);
+			setAllLocationListInModel(model);
+			model.addAttribute("delivery", delivery);
+			model.addAttribute("enabled", false);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg", "Failed To search LR number ");
@@ -717,5 +726,14 @@ public class BookingController {
 			return "login";
 		}
 		return "deliveryListing";
+	}
+	
+	@RequestMapping("/delivery")
+	public String delivery(HttpServletRequest request,ModelMap model) {
+		//SESSION VALIDATION
+		if(sessionValidation(request, model)!=null) return "login";
+		setAllLocationListInModel(model);
+				
+		return "delivery";
 	}
 }
