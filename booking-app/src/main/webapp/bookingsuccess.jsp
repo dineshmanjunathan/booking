@@ -30,7 +30,7 @@ $('document').ready(function() {
 		var barcodeValue = $("#Lrno").val();
 		JsBarcode("#barcode", barcodeValue, {
 			//format: barcodeType,
-			displayValue: false,
+			displayValue: true,
 			lineColor: "#24292e",
 			width:2,
 			height:50,	
@@ -76,7 +76,7 @@ $('document').ready(function() {
 						<div class="row control-margin">
 						<div class="col-md-12 control-margin">
 						<a href="/booking"><button type="button" class="btn btn-primary button-margin" id="BB">Back to Booking</button></a>
-						<button type="button" class="btn btn-primary button-margin" id="generateBarcode" name="generateBarcode" >Print BR Code</button>
+						<button type="button" class="btn btn-primary button-margin" id="generateBarcode" name="generateBarcode" >Print Barcode</button>
 						</div>
 						</div>
 				</div>
