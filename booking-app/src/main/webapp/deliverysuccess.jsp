@@ -14,6 +14,12 @@
 .button-margin {
 	margin-right: 5px;
 }
+.wrapper {
+    min-height: 65vh;
+    display: flex;
+    align-items: center;
+    background-size: cover;
+}
 </style>
 </head>
 

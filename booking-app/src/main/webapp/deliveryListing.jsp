@@ -43,7 +43,7 @@
 							varStatus="status">
 							<tr>
 
-								<td>${details.id}</td>
+								<td>${details.LRNo}</td>
 								<td></td>
 								<td></td>
 								<td>${details.toPay}</td>

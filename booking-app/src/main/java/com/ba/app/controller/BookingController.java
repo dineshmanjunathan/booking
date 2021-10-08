@@ -93,7 +93,7 @@ public class BookingController {
 			Booking booking = new Booking();
 			BeanUtils.copyProperties(bookingVo, booking);
 			model.addAttribute("bookingsuccessmessage", "Booked Successfully.");
-			model.addAttribute("LRNumber", "LR Number : " + booking.getLrNumber());
+			model.addAttribute("LRNumber",booking.getLrNumber());
 
 			Booking bLrNo = bookingRepository.findByLrNumber(booking.getLrNumber());
 			if (bLrNo != null && bLrNo.getLrNumber() != null) {
@@ -706,10 +706,9 @@ public class BookingController {
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
 			
-			Pageable firstPageWithTwoElements = PageRequest.of(0, 10);
+			Pageable firstPageWithTwoElements = PageRequest.of(0, 1000);
 
 			Page<Delivery> allList = deliveryListRepository.findAll(firstPageWithTwoElements);
-			System.out.println(allList.getSize());
 			
 			List<Delivery> deliveryList = new ArrayList<Delivery>();
 			if(allList != null && allList.hasContent()) {
