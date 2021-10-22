@@ -96,6 +96,8 @@ public class BookingController {
 			model.addAttribute("LRNumber",booking.getLrNumber());
 
 			Booking bLrNo = bookingRepository.findByLrNumber(booking.getLrNumber());
+			booking.setIgplStatus("P");
+			
 			if (bLrNo != null && bLrNo.getLrNumber() != null) {
 				booking.setId(bLrNo.getId());
 				bookingRepository.save(booking);
@@ -468,6 +470,11 @@ public class BookingController {
 
 			BeanUtils.copyProperties(deliveryVo, deliveryEntity, "createon", "updatedon");
 			deliveryEntity=	deliveryRepository.save(deliveryEntity);
+			
+			if(deliveryEntity!=null && deliveryEntity.getLRNo()!=null) {
+				bookingRepository.updateIgplStatusByLR("D",deliveryEntity.getLRNo());
+			}
+			
 			model.addAttribute("delivery", deliveryEntity);
 			model.addAttribute("DeliverysuccessMessage", "Save Delivery Successfull!");
 		} catch (Exception e) {
@@ -588,7 +595,7 @@ public class BookingController {
 				model.addAttribute("fromLocation", inventory.getFromLocation());
 				model.addAttribute("toLocation", inventory.getToLocation());
 				model.addAttribute("bookedOn", inventory.getBookedOn());
-				bookingRepository.updateBookingIgplStatus("Y",inventory.getLrnoarray());
+				bookingRepository.updateBookingIgplStatus("A",inventory.getLrnoarray());
 				List<Booking> incomeList = bookingRepository.findByLrNumberIn(inventory.getLrnoarray());
 				model.addAttribute("incomeparcelList", incomeList);
 				model.addAttribute("checkboxchecked", "1");
@@ -651,7 +658,7 @@ public class BookingController {
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
 			OutgoingParcel outgoingParcel=outgoingParcelRepository.findByOgplNo(ogpl);
-			List<Booking> incomingList = bookingRepository.findByLrNumberInAndIgplStatusIsNull(outgoingParcel.getOgpnoarray());
+			List<Booking> incomingList = bookingRepository.findByLrNumberInAndIgplStatus(outgoingParcel.getOgpnoarray(),"P");
 			model.addAttribute("incomeparcelList", incomingList);
 			model.addAttribute("incomeparcel", outgoingParcel);
 			if(outgoingParcel!=null) {
@@ -706,18 +713,21 @@ public class BookingController {
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
 			
-			Pageable firstPageWithTwoElements = PageRequest.of(0, 1000);
+			//Pageable firstPageWithTwoElements = PageRequest.of(0, 1000);
 
-			Page<Delivery> allList = deliveryListRepository.findAll(firstPageWithTwoElements);
+			//Page<Delivery> allList = deliveryListRepository.findAll(firstPageWithTwoElements);
 			
-			List<Delivery> deliveryList = new ArrayList<Delivery>();
-			if(allList != null && allList.hasContent()) {
-				deliveryList = allList.getContent();
-			}else {
-				model.addAttribute("errormsg", "No records!");
-			}
+			//List<Delivery> deliveryList = new ArrayList<Delivery>();
+			//if(allList != null && allList.hasContent()) {
+			//	deliveryList = allList.getContent();
+			//}else {
+			//model.addAttribute("errormsg", "No records!");
+				//}
 			
-			model.addAttribute("deliveryListing", deliveryList);
+			List<Booking> allList = bookingRepository.findByIgplStatus("A");
+
+			
+			model.addAttribute("deliveryListing", allList);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -43,14 +43,14 @@
 							varStatus="status">
 							<tr>
 
-								<td>${details.LRNo}</td>
-								<td></td>
-								<td></td>
-								<td>${details.toPay}</td>
-								<td>${details.name}</td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td>${details.lrNumber}</td>
+								<td>${details.fromLocation}</td>
+								<td>${details.toLocation}</td>
+								<td>${details.topay}</td>
+								<td>${details.fromName}</td>
+								<td>${details.from_phone}</td>
+								<td>${details.toName}</td>
+								<td>${details.to_phone}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
