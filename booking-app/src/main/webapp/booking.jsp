@@ -330,9 +330,9 @@
 														<label for="bookedOn" class="form-label">Date</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="date" class="form-control bg-info text-dark"
+														<input type="text" class="form-control bg-info text-dark"
 															id="bookedOn" placeholder="" name="bookedOn"
-															value="${booking.bookedOn}" required>
+															value="${bookedOn}" required>
 													</div>
 												</div>
 

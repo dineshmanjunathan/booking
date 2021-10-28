@@ -2,7 +2,6 @@ package com.ba.app.controller;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,10 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -168,9 +163,11 @@ public class BookingController {
 		}else {
 			sLR = LocalDate.now()+"/"+nextLRNumber;
 		}
-		
+		Date date = new Date();  
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
+		String currentDate = formatter.format(date);  
 		model.addAttribute("LRnumber", sLR);
-		
+		model.addAttribute("bookedOn", currentDate);
 		return "booking";
 	}
 
