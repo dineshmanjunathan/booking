@@ -22,6 +22,7 @@
 <style type="text/css">
 .form-control {
  border: 1px solid #212529 !important;
+ height: auto;
  }
  #data-table_wrapper {
  border: solid 2px black;

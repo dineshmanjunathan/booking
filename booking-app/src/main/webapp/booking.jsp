@@ -128,17 +128,16 @@
 </script>
 </head>
 
-<body onLoad="loadNonReadBookingForm()">
+<body onLoad="loadNonReadBookingForm()" style="overflow-y: hidden;overflow-x: hidden;">
 	<div class="wrapper">
-		<div class="inner">
-			<div style="width: 250px;">
-				<img src="../../img/product/parcel.jpg" alt="">
+		<div class="inner" style="width: 90%">
+			<div style="width: 15%;">
+			<h3><b>Booking</b></h3>
+				<img src="../../img/product/parcel.jpg" alt="">				
 			</div>
-			<h3>
-				<b>Booking</b>
-			</h3>
+			<b style="width: 5%;"></b>
 			<div class="blog-details-area mg-b-15">
-				<div class="container-fluid" style="width: 90%;">
+				<div class="container-fluid" style="width: 100%;">
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div class="blog-details-inner">

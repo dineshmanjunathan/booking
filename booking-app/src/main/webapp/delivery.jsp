@@ -58,9 +58,9 @@ function toggleFormElements() {
 </script>
 
 </head>
-<body onload="toggleFormElements(true)">
+<body onload="toggleFormElements(true)" style="overflow-y: hidden;overflow-x: hidden;">
 <div class="wrapper">
-	<div class="inner">
+	<div class="inner" style="width: 90%">
 		<div style="width: 15%;">
 		<h3>
 			<b>Delivery</b>
