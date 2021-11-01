@@ -128,7 +128,7 @@
 </script>
 </head>
 
-<body onLoad="loadNonReadBookingForm()" style="overflow-y: hidden;overflow-x: hidden;">
+<body onLoad="loadNonReadBookingForm()" >
 	<div class="wrapper">
 		<div class="inner" style="width: 90%">
 			<div style="width: 15%;">

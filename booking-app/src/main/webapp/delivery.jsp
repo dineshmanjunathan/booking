@@ -58,7 +58,8 @@ function toggleFormElements() {
 </script>
 
 </head>
-<body onload="toggleFormElements(true)" style="overflow-y: hidden;overflow-x: hidden;">
+<!-- style="overflow-y: hidden;overflow-x: hidden;" -->
+<body onload="toggleFormElements(true)" >
 <div class="wrapper">
 	<div class="inner" style="width: 90%">
 		<div style="width: 15%;">
@@ -406,8 +407,6 @@ function toggleFormElements() {
 											<button type="button" class="btn btn-primary button-margin"
 												id="btnPrint">Print</button>
 			
-											<button type="button" class="btn btn-primary button-margin"
-												id="btnPrint">Help</button>
 										</div>
 									</div>
 								</form>
