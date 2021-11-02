@@ -500,6 +500,7 @@ public class BookingController {
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
 			String currentDate = formatter.format(date);  
 			delivery.setDeliveryDate(currentDate);
+			setAllVehileListInModel(model);
 			setAllLocationListInModel(model);
 			model.addAttribute("delivery", delivery);
 			model.addAttribute("enabled", false);
@@ -738,7 +739,7 @@ public class BookingController {
 	public String delivery(HttpServletRequest request,ModelMap model) {
 		//SESSION VALIDATION
 		if(sessionValidation(request, model)!=null) return "login";
-		setAllLocationListInModel(model);
+		//setAllLocationListInModel(model);
 				
 		return "delivery";
 	}
