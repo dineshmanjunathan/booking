@@ -32,8 +32,7 @@
 </script>
 <script>
 	function toggleFormElements() {
-		var enabled = document.getElementById("demo").innerHTML;
-		if (enabled == '') {
+		
 			var inputs = document.getElementsByTagName("input");
 			for (var i = 0; i < inputs.length; i++) {
 				inputs[i].disabled = true;
@@ -43,17 +42,7 @@
 				inputs1[i].disabled = true;
 			}
 			document.getElementById("txtSearch").disabled = false;
-		} else {
-			document.getElementById("demo").innerHTML = '';
-			var inputs = document.getElementsByTagName("input");
-			for (var i = 0; i < inputs.length; i++) {
-				inputs[i].disabled = false;
-			}
-			var inputs1 = document.getElementsByTagName("select");
-			for (var i = 0; i < inputs1.length; i++) {
-				inputs1[i].disabled = false;
-			}
-		}
+	
 	}
 </script>
 
@@ -80,8 +69,7 @@
 											value="">
 										<p style="color: red" align="center">${errormsg}</p>
 										<p style="color: green" align="center">${DeliverysuccessMessage}</p>
-										<p id="demo" style="color: green" align="center" display:
-											block>${enabled}</p>
+										
 										<div class="row">
 											<div class="col-md-4 control-margin">
 												<div class="row element-margin">
