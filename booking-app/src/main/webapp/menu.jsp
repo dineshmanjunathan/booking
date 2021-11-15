@@ -91,6 +91,19 @@
           <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
         </a>
       </div>
+       
+    <div class="feature col">
+        <div class="feature-icon bg-primary bg-gradient">
+          <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
+        </div>
+        <h5>Inventory Page</h5>
+        <p></p>
+        <a href="/deliveryListing" class="icon-link">
+          Click here
+          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
+        </a>
+      </div>
+   
         <div class="feature col">
         <div class="feature-icon bg-primary bg-gradient">
           <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
@@ -104,19 +117,7 @@
       </div>
       
     </div>
-    <div class="row g-4 py-2 row-cols-1 row-cols-lg-4">
-    <div class="feature col">
-        <div class="feature-icon bg-primary bg-gradient">
-          <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
-        </div>
-        <h5>Inventory Page</h5>
-        <p></p>
-        <a href="/deliveryListing" class="icon-link">
-          Click here
-          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
-        </a>
-      </div>
-    </div>
+   
   </div>
   <br>
   <c:if test="${fn:contains(sessionScope.ROLE, 'ADMIN')}">

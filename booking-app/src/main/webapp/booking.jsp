@@ -201,16 +201,6 @@
 														</div>
 													</div>
 												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="fromName">From Name</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" maxlength="30" class="form-control"
-															id="fromName" name="fromName" value="${booking.fromName}"
-															required>
-													</div>
-												</div>
 
 												<div class="row element-margin">
 													<div class="col-sm-4">
@@ -222,6 +212,16 @@
 															class="form-control" placeholder="1234567890" pattern="[0-9]{10}" id="from_phone" name="from_phone"
 															value="${booking.from_phone}"
 															onblur="checkFromNameExists();" required>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="fromName">From Name</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" maxlength="30" class="form-control"
+															id="fromName" name="fromName" value="${booking.fromName}"
+															required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -337,15 +337,6 @@
 
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="toName">To Name</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="tel" class="form-control" id="toName"
-															name="toName" maxlength="30" value="${booking.toName}">
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
 														<label class="form-label" for="to_phone">To Phone
 															No</label>
 													</div>
@@ -353,6 +344,15 @@
 														<input type="tel" placeholder="1234567890" pattern="[0-9]{10}" class="form-control"
 															id="to_phone" name="to_phone" value="${booking.to_phone}"
 															onblur="checkToNameExists();">
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="toName">To Name</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="tel" class="form-control" id="toName"
+															name="toName" maxlength="30" value="${booking.toName}">
 													</div>
 												</div>
 
