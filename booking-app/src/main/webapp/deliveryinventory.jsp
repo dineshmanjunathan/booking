@@ -16,13 +16,13 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<form action="">
-				<h3><b>Inventory</b></h3>
+				<h3><b>Deliver Inventory</b></h3>
 				<p style="color: green" align="center">${successMessage}</p>
 				<p style="color: red" align="center">${errormsg}</p>
 				<div class="row control-margin">
 					<div class="col-md-12">
 						<!-- <a class="btn btn-primary button-margin" href="addLocation.jsp">Add</a> -->
-						<a class="btn btn-primary button-margin" href="/menu">Back</a>
+						<a class="btn btn-primary button-margin" href="/inventoryMenu">Back</a>
 					</div>
 				</div>
 				<table id="data-table" class="table table-striped" style="width:100%">
@@ -39,7 +39,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="details" items="${deliveryListing}"
+						<c:forEach var="details" items="${deliveryinventory}"
 							varStatus="status">
 							<tr>
 

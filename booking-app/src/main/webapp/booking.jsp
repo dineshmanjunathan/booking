@@ -131,10 +131,10 @@
 <body onLoad="loadNonReadBookingForm()" >
 	<div class="wrapper">
 		<div class="inner" style="width: 90%">
-			<div style="width: 15%;">
+			<!-- <div style="width: 15%;">
 			<h3><b>Booking</b></h3>
 				<img src="../../img/product/parcel.jpg" alt="">				
-			</div>
+			</div> -->
 			<b style="width: 5%;"></b>
 			<div class="blog-details-area mg-b-15">
 				<div class="container-fluid" style="width: 100%;">

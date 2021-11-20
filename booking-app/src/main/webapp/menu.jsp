@@ -98,7 +98,7 @@
         </div>
         <h5>Inventory Page</h5>
         <p></p>
-        <a href="/deliveryListing" class="icon-link">
+        <a href="/inventoryMenu" class="icon-link">
           Click here
           <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
         </a>

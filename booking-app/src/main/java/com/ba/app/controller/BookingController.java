@@ -705,8 +705,8 @@ public class BookingController {
 		return "bookingsuccess";
 	}
 	
-	@RequestMapping("/deliveryListing")
-	public String deliveryList(HttpServletRequest request, ModelMap model) {
+	@RequestMapping("/deliveryinventory")
+	public String inventoryList(HttpServletRequest request, ModelMap model) {
 		try {
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
@@ -725,14 +725,14 @@ public class BookingController {
 			List<Booking> allList = bookingRepository.findByIgplStatus("A");
 
 			
-			model.addAttribute("deliveryListing", allList);
+			model.addAttribute("deliveryinventory", allList);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg", "Something is wrong! please try again.");
 			return "login";
 		}
-		return "deliveryListing";
+		return "deliveryinventory";
 	}
 	
 	@RequestMapping("/delivery")
@@ -742,5 +742,35 @@ public class BookingController {
 		//setAllLocationListInModel(model);
 				
 		return "delivery";
+	}
+	@RequestMapping("/bookinginventory")
+	public String deliveryList(HttpServletRequest request, ModelMap model) {
+		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
+			
+			List<Booking> allList = bookingRepository.findByIgplStatus("P");
+			
+			model.addAttribute("bookinginventory", allList);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Something is wrong! please try again.");
+			return "login";
+		}
+		return "bookinginventory";
+	}
+	@RequestMapping("/inventoryMenu")
+	public String inventoryMenu(HttpServletRequest request, ModelMap model) {
+		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Something is wrong! please try again.");
+			return "login";
+		}
+		return "inventoryMenu";
 	}
 }
