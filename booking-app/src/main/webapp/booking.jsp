@@ -125,6 +125,18 @@
 	function enableBillValue() {
 		$('[name="billValue"]').removeAttr("readonly");
 	}
+	
+	function getBillValue() {
+		var value = document.getElementById("billValue").value;
+		if(value >50000){
+			var eValue = document.getElementById("billNumber").value;
+			if(eValue == '' || eValue =='undedined'){
+				alert('E Way Bill Number should be mandatory.');
+			}
+			
+		}
+
+	}
 </script>
 </head>
 
@@ -278,9 +290,9 @@
 															Value</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" max="9999" class="form-control"
+														<input type="number"  class="form-control"
 															id="billValue" name="billValue"
-															value="${booking.billValue}" required>
+															value="${booking.billValue}"  required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -289,9 +301,13 @@
 															Bill Number</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" maxlength="32" class="form-control"
+															<div class="input-group">
+															<input type="text" maxlength="32" class="form-control"
 															id="billNumber" name="billNumber"
-															value="${booking.billNumber}" required>
+															value="${booking.billNumber}">
+															<button type="button" class="btn btn-secondary"
+																id="btnVerify">Verify</button>
+														</div>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -308,7 +324,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="text" maxlength="30" class="form-control"
-															id="bookedBy" name="bookedBy" value="${booking.bookedBy}">
+															id="bookedBy" name="bookedBy" onkeypress ="getBillValue();"  value="${booking.bookedBy}" >
 													</div>
 												</div>
 											</div>
