@@ -41,7 +41,7 @@
 						<div class="row control-margin">
 						<div class="col-md-12 control-margin">
 						<a href="/bookinginventory"><button style="height: 80px;" type="button" class="btn btn-primary button-margin" id="BB">Booking Inventory</button></a>
-						<a href="/deliveryinventory"><button style="height: 80px;" type="button" class="btn btn-primary button-margin" id="BB">Deliver Inventory</button></a>
+						<a href="/deliveryinventory"><button style="height: 80px;" type="button" class="btn btn-primary button-margin" id="BB">Delivery Inventory</button></a>
 						</div>
 						</div>
 				</div>

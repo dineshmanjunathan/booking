@@ -38,6 +38,7 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	List<Booking> findByLrNumberInAndIgplStatus(List<String> lrNumbers,String igplstatus);
 	
 	List<Booking> findByIgplStatus(String igplstatus);
+	List<Booking> findByIgplStatusAndOgplNoIsNull(String igplstatus);
 
 	@Transactional
 	@Modifying

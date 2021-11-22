@@ -16,7 +16,7 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<form action="">
-				<h3><b>Deliver Inventory</b></h3>
+				<h3><b>Delivery Inventory</b></h3>
 				<p style="color: green" align="center">${successMessage}</p>
 				<p style="color: red" align="center">${errormsg}</p>
 				<div class="row control-margin">

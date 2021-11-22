@@ -749,7 +749,7 @@ public class BookingController {
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
 			
-			List<Booking> allList = bookingRepository.findByIgplStatus("P");
+			List<Booking> allList = bookingRepository.findByIgplStatusAndOgplNoIsNull("P");
 			
 			model.addAttribute("bookinginventory", allList);
 			
