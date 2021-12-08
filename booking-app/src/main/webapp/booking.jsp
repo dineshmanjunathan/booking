@@ -128,14 +128,23 @@
 	
 	function getBillValue() {
 		var value = document.getElementById("billValue").value;
-		if(value >50000){
+		var error = document.getElementById("error");
+		if (value > 50000) {
 			var eValue = document.getElementById("billNumber").value;
-			if(eValue == '' || eValue =='undedined'){
-				alert('E Way Bill Number should be mandatory.');
+			if (eValue == '' || eValue == 'undedined') {
+				error.textContent = "E Way Bill Number should be mandatory."
+				error.style.color = "red"
+				document.getElementById("btnSave").disabled = true;
+			} else {
+				error.textContent = ""
+				error.style.color = ""
+				document.getElementById("btnSave").disabled = false;
 			}
-			
+		}else{
+			error.textContent = ""
+			error.style.color = ""
+			document.getElementById("btnSave").disabled = false;
 		}
-
 	}
 </script>
 </head>
@@ -153,6 +162,7 @@
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div class="blog-details-inner">
+							<span id="error"></span>
 								<form name="bookingForm" action="/booking/save" method="POST"
 									onload="disabledFieldsOnLoad();">
 									<input type="hidden" class="form-control" name="bid" id="bid"
@@ -292,7 +302,7 @@
 													<div class="col-sm-8">
 														<input type="number"  class="form-control"
 															id="billValue" name="billValue"
-															value="${booking.billValue}"  required>
+															value="${booking.billValue}" onkeyup="getBillValue();" required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -304,7 +314,7 @@
 															<div class="input-group">
 															<input type="text" maxlength="32" class="form-control"
 															id="billNumber" name="billNumber"
-															value="${booking.billNumber}">
+															value="${booking.billNumber}" onkeyup="getBillValue();">
 															<button type="button" class="btn btn-secondary"
 																id="btnVerify">Verify</button>
 														</div>
@@ -324,7 +334,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="text" maxlength="30" class="form-control"
-															id="bookedBy" name="bookedBy" onkeypress ="getBillValue();"  value="${booking.bookedBy}" >
+															id="bookedBy" name="bookedBy"  value="${booking.bookedBy}" >
 													</div>
 												</div>
 											</div>
@@ -648,7 +658,7 @@
 
 											<div class="col-md-6 control-margin">
 												<button type="submit"
-													class="btn btn-primary button-margin col-md-2" id="btnSave">Save</button>
+													class="btn btn-primary button-margin col-md-2" id="btnSave" disabled>Save</button>
 												<button type="button"
 													class="btn btn-primary button-margin col-md-2" id="btnEdit"
 													onclick="loadReadBookingForm();">Edit</button>
