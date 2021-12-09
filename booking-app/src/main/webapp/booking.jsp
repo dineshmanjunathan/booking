@@ -26,6 +26,13 @@
 		(document.getElementById("doorpickcharges").value = "");
 		document.getElementById("topay").value = "";
 		document.getElementById("paid").value = "";
+		if(strUser=='FC'){
+			document.getElementById("topay").value = 0.0;
+			document.getElementById("paid").value = 0.0;
+			document.getElementById("freightvalue").value = 0.0;
+			document.getElementById("loadingcharges").value = 0.0;
+			document.getElementById("doorpickcharges").value = 0.0;
+		}
 		document.getElementById("loadingchargespay").disabled = true;
 		document.getElementById("doorpickchargespay").disabled = true;
 	}
@@ -76,7 +83,7 @@
 		let total = frieght + loading + doorPick;
 		if (option == 'TOPAY') {
 			document.getElementById("topay").value = total;
-		} else {
+		} else if (option == 'PAID') {
 			document.getElementById("paid").value = total;
 		}
 	}
@@ -417,6 +424,8 @@
 																${booking.payOption == 'TOPAY' ? 'selected' : ''}>TOPAY</option>
 															<option value="PAID"
 																${booking.payOption == 'PAID' ? 'selected' : ''}>PAID</option>
+															<option value="FC"
+																${booking.payOption == 'freecharge' ? 'selected' : ''}>FreeCharge</option>
 														</select>
 													</div>
 													<div class="col-sm-4">
@@ -439,6 +448,8 @@
 																${booking.payOption == 'TOPAY' ? 'selected' : ''}>TOPAY</option>
 															<option value="PAID"
 																${booking.payOption == 'PAID' ? 'selected' : ''}>PAID</option>
+															<option value="FC"
+																${booking.payOption == 'freecharge' ? 'selected' : ''}>FreeCharge</option>
 														</select>
 													</div>
 													<div class="col-sm-4">
@@ -461,6 +472,8 @@
 																${booking.payOption == 'TOPAY' ? 'selected' : ''}>TOPAY</option>
 															<option value="PAID"
 																${booking.payOption == 'PAID' ? 'selected' : ''}>PAID</option>
+															<option value="FC"
+																${booking.payOption == 'freecharge' ? 'selected' : ''}>FreeCharge</option>
 														</select>
 													</div>
 													<div class="col-sm-4">
