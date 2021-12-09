@@ -121,6 +121,14 @@ public class BookingController {
 			customer.setPhoneNumber(bookingVo.getFrom_phone());
 			customerRepository.save(customer);
 		}
+		
+		if(customerRepository.findByPhoneNumber(bookingVo.getFrom_phone())!=null) {
+			Customer customer=customerRepository.findByPhoneNumber(bookingVo.getFrom_phone());
+			if(customerRepository.findByCustName(bookingVo.getFromName())==null) {
+				customer.setCustName(bookingVo.getFromName());
+				customerRepository.save(customer);
+			}
+		}
 	}
 	private void saveToCustomer(BookingVo bookingVo) {
 		if(customerRepository.findByPhoneNumber(bookingVo.getTo_phone())==null) {
@@ -128,6 +136,13 @@ public class BookingController {
 			customer.setCustName(bookingVo.getToName());
 			customer.setPhoneNumber(bookingVo.getTo_phone());
 			customerRepository.save(customer);
+		}
+		if(customerRepository.findByPhoneNumber(bookingVo.getTo_phone())!=null) {
+			Customer customer=customerRepository.findByPhoneNumber(bookingVo.getTo_phone());
+			if(customerRepository.findByCustName(bookingVo.getToName())==null) {
+				customer.setCustName(bookingVo.getToName());
+				customerRepository.save(customer);
+			}
 		}
 	}
 	@RequestMapping("/outgoingParcel")
