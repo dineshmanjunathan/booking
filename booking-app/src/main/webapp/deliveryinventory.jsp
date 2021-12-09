@@ -36,6 +36,7 @@
 							<th scope="col">From Number</th>
 							<th scope="col">To Name</th>
 							<th scope="col">To Number</th>
+							<th scope="col">OGPL no</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -51,6 +52,7 @@
 								<td>${details.from_phone}</td>
 								<td>${details.toName}</td>
 								<td>${details.to_phone}</td>
+								<td>${details.ogplNo}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
