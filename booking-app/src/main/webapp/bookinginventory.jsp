@@ -31,6 +31,7 @@
 							<th scope="col">LR</th>
 							<th scope="col">From</th>
 							<th scope="col">To</th>
+							<th scope="col">Paid</th>
 							<th scope="col">To Pay</th>
 							<th scope="col">From Name</th>
 							<th scope="col">From Number</th>
@@ -46,6 +47,7 @@
 								<td>${details.lrNumber}</td>
 								<td>${details.fromLocation}</td>
 								<td>${details.toLocation}</td>
+								<td>${details.paid}</td>
 								<td>${details.topay}</td>
 								<td>${details.fromName}</td>
 								<td>${details.from_phone}</td>
