@@ -219,7 +219,7 @@
 															<select class="form-select bg-info text-dark"
 																id="toLocation" name="toLocation" required>
 
-																<option>-Select To Location-</option>
+																<option value="">-Select To Location-</option>
 																<c:forEach var="options" items="${locationList}"
 																	varStatus="status">
 																	<%-- <option value="${options.id}" ${options.id == booking.toLocation ? 'selected' : ''}>${options.location}</option> --%>
