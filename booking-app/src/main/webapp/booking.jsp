@@ -32,6 +32,9 @@
 			document.getElementById("freightvalue").value = 0.0;
 			document.getElementById("loadingcharges").value = 0.0;
 			document.getElementById("doorpickcharges").value = 0.0;
+			document.getElementById("freightvalue").disabled = true;
+			document.getElementById("loadingcharges").disabled = true;
+			document.getElementById("doorpickcharges").disabled = true;
 		}
 		document.getElementById("loadingchargespay").disabled = true;
 		document.getElementById("doorpickchargespay").disabled = true;
@@ -86,6 +89,8 @@
 		} else if (option == 'PAID') {
 			document.getElementById("paid").value = total;
 		}
+		total =total+(total/100) *5;
+		document.getElementById("total").value = total;
 	}
 	function getLRNumberSearch() {
 		var x = document.getElementById("lrNumber").value;
@@ -109,7 +114,10 @@
 			$.each($('form').serializeArray(), function(index, value) {
 				if (value.name == 'lrNumber' || value.name == 'paid' || value.name == 'topay' 
 					|| value.name == 'fromValue' || value.name == 'freightvalue' || value.name == 'loadingcharges'
-						|| value.name == 'doorpickcharges'|| value.name == 'billValue'|| value.name == 'weight'){
+						|| value.name == 'doorpickcharges'|| value.name == 'billValue'|| value.name == 'weight'|| value.name=='bookedOn' 
+						|| value.name=='billOptions' || value.name=='item_count' || value.name=='weight' || value.name=='payOption' || value.name=='loadingchargespay' 
+						|| value.name=='doorpickchargespay' || value.name=='total' || value.name=='cash' || value.name=='refund' || value.name=='invNo' || value.name=='billNumber'
+						|| value.name=='bookedBy' || value.name=='fromLocation' || value.name=='toLocation'){
 				} else {
 					$('[name="' + value.name + '"]').removeAttr("readonly");
 				}
@@ -150,6 +158,22 @@
 		}else{
 			error.textContent = ""
 			error.style.color = ""
+			document.getElementById("btnSave").disabled = false;
+		}
+	}
+	function selectBillValue(){
+		var value = document.querySelector('input[name="billOptions"]:checked').value;
+		if (value == 1) {
+			document.getElementById("invNo").disabled = false;
+			document.getElementById("billValue").disabled = false;
+			document.getElementById("billNumber").disabled = false;
+			document.getElementById("btnVerify").disabled = false;
+			document.getElementById("btnSave").disabled = true;
+		} else {
+			document.getElementById("invNo").disabled = true;
+			document.getElementById("billValue").disabled = true;
+			document.getElementById("billNumber").disabled = true;
+			document.getElementById("btnVerify").disabled = true;
 			document.getElementById("btnSave").disabled = false;
 		}
 	}
@@ -259,7 +283,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="text" maxlength="180" class="form-control"
-															id="remarks" name="remarks" value="${booking.remarks}">
+															id="remarks" name="remarks" value="${booking.remarks}" required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -269,7 +293,23 @@
 													<div class="col-sm-8">
 														<input type="number" max="9999" class="form-control"
 															id="fromValue" name="fromValue"
-															value="${booking.fromValue}">
+															value="${booking.fromValue}" required>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-8">
+														<div class="form-check form-check-inline">
+															<input class="form-check-input" type="radio"
+																name="billOptions" id="withBill"
+																value="1" onclick="selectBillValue();" checked> <label class="form-check-label"
+																for="inlineRadio1">With Bill</label>
+														</div>
+														<div class="form-check form-check-inline">
+															<input class="form-check-input" type="radio"
+																name="billOptions" id="withoutBill"
+																value="2" onclick="selectBillValue();"> <label class="form-check-label"
+																for="inlineRadio2">Without Bill</label>
+														</div>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -278,29 +318,10 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="text" maxlength="32" class="form-control"
-															id="invNo" name="invNo" value="${booking.invNo}">
+															id="invNo" name="invNo" value="${booking.invNo}" required>
 													</div>
 												</div>
 
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="tinNo">Cons TIN No</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" maxlength="32" class="form-control"
-															id="tinNo" name="tinNo" value="${booking.tinNo}">
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="billDesc">Bill Desc</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" maxlength="100" class="form-control"
-															id="billDesc" name="billDesc" value="${booking.billDesc}"
-															required>
-													</div>
-												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="billValue">Bill
@@ -321,10 +342,10 @@
 															<div class="input-group">
 															<input type="text" maxlength="32" class="form-control"
 															id="billNumber" name="billNumber"
-															value="${booking.billNumber}" onkeyup="getBillValue();">
-															<button type="button" class="btn btn-secondary"
-																id="btnVerify">Verify</button>
+															value="${booking.billNumber}" onkeyup="getBillValue();" required>
 														</div>
+														<button type="button" class="btn btn-secondary btn-sm"
+																id="btnVerify">Verify</button>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -341,7 +362,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="text" maxlength="30" class="form-control"
-															id="bookedBy" name="bookedBy"  value="${booking.bookedBy}" >
+															id="bookedBy" name="bookedBy"  value="${booking.bookedBy}" required >
 													</div>
 												</div>
 											</div>
@@ -376,7 +397,7 @@
 													<div class="col-sm-8">
 														<input type="tel" placeholder="1234567890" pattern="[0-9]{10}" class="form-control"
 															id="to_phone" name="to_phone" value="${booking.to_phone}"
-															onblur="checkToNameExists();">
+															onblur="checkToNameExists();" required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -385,7 +406,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="tel" class="form-control" id="toName"
-															name="toName" maxlength="30" value="${booking.toName}">
+															name="toName" maxlength="30" value="${booking.toName}" required>
 													</div>
 												</div>
 
@@ -397,7 +418,7 @@
 													<div class="col-sm-8">
 														<input type="number" max="99" class="form-control"
 															id="item_count" name="item_count"
-															value="${booking.item_count}">
+															value="${booking.item_count}" required>
 													</div>
 												</div>
 
@@ -408,7 +429,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" placeholder="0.000" max="999999" step="0.001"  pattern="^\d+(?:\.\d{1,3})?$" class="form-control"
-															id="weight" name="weight" value="${booking.weight}">
+															id="weight" name="weight" value="${booking.weight}" required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -418,7 +439,7 @@
 													<div class="col-sm-4">
 														<select class="form-select bg-info text-dark"
 															id="payOption" name="payOption"
-															onchange="selectPayOption();">
+															onchange="selectPayOption();" required>
 															<option value="">-Select-</option>
 															<option value="TOPAY"
 																${booking.payOption == 'TOPAY' ? 'selected' : ''}>TOPAY</option>
@@ -461,8 +482,7 @@
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="doorpickcharges">Door
-															Pickup Charges</label>
+														<label class="form-label" for="doorpickcharges"> Fuel Charges</label>
 													</div>
 													<div class="col-sm-4">
 														<select class="form-select bg-info text-dark"
@@ -483,34 +503,31 @@
 													</div>
 
 												</div>
-
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="other_charges">Others</label>
+														<label class="form-label" for="txtTotal">Total</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control"
-															id="othercharges" name="othercharges"
-															value="${booking.othercharges}">
-													</div>
-												</div>
-
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="paid">Paid</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="number" class="form-control" id="paid"
-															name="paid" value="${booking.paid}" readonly>
+														<input type="number" class="form-control" id="total"
+															name="total" value="${booking.total}">
 													</div>
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="topay">To Pay</label>
+														<label class="form-label" for="txtTotal">Cash</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="topay"
-															name="topay" value="${booking.topay}" readonly>
+														<input type="number" class="form-control" id="cash"
+															name="cash" value="${booking.cash}">
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="txtRefund">Refund</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="number" class="form-control" id="refund"
+															name="refund" value="${booking.refund}">
 													</div>
 												</div>
 
@@ -621,34 +638,25 @@
 												</div>
 
 
-
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="txtTotal">Total</label>
+														<label class="form-label" for="paid">Paid</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="total"
-															name="total" value="${booking.total}">
+														<input type="number" class="form-control" id="paid"
+															name="paid" value="${booking.paid}" readonly>
 													</div>
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="txtTotal">Cash</label>
+														<label class="form-label" for="topay">To Pay</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="cash"
-															name="cash" value="${booking.cash}">
+														<input type="number" class="form-control" id="topay"
+															name="topay" value="${booking.topay}" readonly>
 													</div>
 												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="txtRefund">Refund</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="number" class="form-control" id="refund"
-															name="refund" value="${booking.refund}">
-													</div>
-												</div>
+												
 
 											</div>
 										</div>
