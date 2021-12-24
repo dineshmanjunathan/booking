@@ -32,16 +32,20 @@
 			document.getElementById("freightvalue").value = 0.0;
 			document.getElementById("loadingcharges").value = 0.0;
 			document.getElementById("doorpickcharges").value = 0.0;
-			document.getElementById("freightvalue").disabled = true;
-			document.getElementById("loadingcharges").disabled = true;
-			document.getElementById("doorpickcharges").disabled = true;
+			document.getElementById("freightvalue").readOnly  = true;
+			document.getElementById("loadingcharges").readOnly  = true;
+			document.getElementById("doorpickcharges").readOnly  = true;
+		}else{
+			document.getElementById("freightvalue").readOnly  = false;
+			document.getElementById("loadingcharges").readOnly  = false;
+			document.getElementById("doorpickcharges").readOnly  = false;
 		}
-		document.getElementById("loadingchargespay").disabled = true;
-		document.getElementById("doorpickchargespay").disabled = true;
+		document.getElementById("loadingchargespay").readOnly  = true;
+		document.getElementById("doorpickchargespay").readOnly  = true;
 	}
 	function disabledFieldsOnLoad() {
-		document.getElementById("loadingchargespay").disabled = false;
-		document.getElementById("doorpickchargespay").disabled = false;
+		document.getElementById("loadingchargespay").readOnly  = false;
+		document.getElementById("doorpickchargespay").readOnly  = false;
 		document.getElementById("refund").disabled = true;
 	}
 	function checkFromNameExists() {
@@ -102,9 +106,12 @@
 		var id = document.getElementById("bid").value;
 		if (id > 0) {
 			document.getElementById("bclear").disabled = true;
+			document.getElementById("new").disabled = false;
 			$.each($('form').serializeArray(), function(index, value) {
 				$('[name="' + value.name + '"]').attr('readonly', 'readonly');
 			});
+		}else{
+			document.getElementById("new").disabled = true;
 		}
 	}
 	function loadReadBookingForm() {
@@ -340,7 +347,7 @@
 													</div>
 													<div class="col-sm-8">
 															<div class="input-group">
-															<input type="text" maxlength="32" class="form-control"
+															<input type="text" maxlength="12" minlength="12" class="form-control"
 															id="billNumber" name="billNumber"
 															value="${booking.billNumber}" onkeyup="getBillValue();" required>
 														</div>
@@ -385,7 +392,7 @@
 													<div class="col-sm-8">
 														<input type="text" class="form-control bg-info text-dark"
 															id="bookedOn" placeholder="" name="bookedOn"
-															value="${bookedOn}" required>
+															value="${bookedOn}" readonly required>
 													</div>
 												</div>
 
@@ -509,7 +516,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" id="total"
-															name="total" value="${booking.total}">
+															name="total" value="${booking.total}" readonly>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -668,6 +675,8 @@
 												<button type="button"
 													class="btn btn-primary button-margin col-md-2"
 													id="btnPrint">Print</button>
+													<a href="/booking"><button type="button"
+														class="btn btn-primary button-margin col-md-2" id="new">New</button></a>
 												<c:choose>
 													<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
 														<button type="button"
