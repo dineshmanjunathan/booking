@@ -35,10 +35,21 @@
 			document.getElementById("freightvalue").readOnly  = true;
 			document.getElementById("loadingcharges").readOnly  = true;
 			document.getElementById("doorpickcharges").readOnly  = true;
+			document.getElementById("total").value = 0.0;
+			document.getElementById("cash").value = 0.0;
+			document.getElementById("total").readOnly  = true;
+			document.getElementById("cash").readOnly  = true;
+			document.getElementById("refund").readOnly  = true;
 		}else{
 			document.getElementById("freightvalue").readOnly  = false;
 			document.getElementById("loadingcharges").readOnly  = false;
 			document.getElementById("doorpickcharges").readOnly  = false;
+			document.getElementById("total").readOnly  = false;
+			document.getElementById("cash").readOnly  = false;
+			document.getElementById("refund").readOnly  = false;
+			document.getElementById("total").value = '';
+			document.getElementById("cash").value = '';
+			
 		}
 		document.getElementById("loadingchargespay").readOnly  = true;
 		document.getElementById("doorpickchargespay").readOnly  = true;
@@ -96,6 +107,14 @@
 		total =total+(total/100) *5;
 		document.getElementById("total").value = total;
 	}
+	
+	function sumRefund() {
+		var total = Number(document.getElementById("total").value);
+		var cash = Number(document.getElementById("cash").value);
+		let refund = cash -total;
+		document.getElementById("refund").value = refund;
+	}
+	
 	function getLRNumberSearch() {
 		var x = document.getElementById("lrNumber").value;
 		x = x.replaceAll('/', '%2F');
@@ -298,7 +317,7 @@
 														<label class="form-label" for="fromValue">Value</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" max="9999" class="form-control"
+														<input type="number" class="form-control"
 															id="fromValue" name="fromValue"
 															value="${booking.fromValue}" required>
 													</div>
@@ -525,7 +544,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" id="cash"
-															name="cash" value="${booking.cash}">
+															name="cash" value="${booking.cash}" onblur="sumRefund();">
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -558,11 +577,23 @@
 												</div>
 
 
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label"></label>
-													</div>
-													<div class="col-sm-8"></div>
+												
+													<div class="col-md-18 control-margin">
+												<a href="/menu"><button type="button"
+														class="btn btn-primary button-margin col-md-2" id="bc">Back</button></a>
+												<button type="button"
+													class="btn btn-primary button-margin col-md-2"
+													id="btnPrint">Print</button>
+													<a href="/booking"><button type="button"
+														class="btn btn-primary button-margin col-md-2" id="new">New</button></a>
+												<c:choose>
+													<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
+														<button type="button"
+															class="btn btn-primary button-margin col-md-2"
+															id="btnBill" onclick="enableBillValue();">Bill</button>
+													</c:when>
+												</c:choose>
+											
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
@@ -570,24 +601,24 @@
 													</div>
 													<div class="col-sm-8"></div>
 												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label"></label>
-													</div>
-													<div class="col-sm-8"></div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label"></label>
-													</div>
-													<div class="col-sm-8"></div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label"></label>
-													</div>
-													<div class="col-sm-8"></div>
-												</div>
+												<div class="col-md-18 control-margin">
+												<button type="submit"
+													class="btn btn-primary button-margin col-md-2" id="btnSave" disabled>Save</button>
+												<button type="button"
+													class="btn btn-primary button-margin col-md-2" id="btnEdit"
+													onclick="loadReadBookingForm();">Edit</button>
+												<button type="button"
+													class="btn btn-primary button-margin col-md-2" id="bclear"
+													onclick="clear_fetch();">Clear</button>
+
+												<a
+													onclick="return confirm('Are you sure you want to delete?')"
+													href="/bookingReq/delete?bid=${booking.id}"><button
+														type="button"
+														class="btn btn-primary button-margin col-md-2" id="delete">Delete</button></a>
+
+											</div>
+												
 
 												<div class="row element-margin">
 													<div class="col-sm-4">
@@ -669,40 +700,6 @@
 										</div>
 										<div class="row control-margin">
 											
-											<div class="col-md-6 control-margin">
-												<a href="/menu"><button type="button"
-														class="btn btn-primary button-margin col-md-2" id="bc">Back</button></a>
-												<button type="button"
-													class="btn btn-primary button-margin col-md-2"
-													id="btnPrint">Print</button>
-													<a href="/booking"><button type="button"
-														class="btn btn-primary button-margin col-md-2" id="new">New</button></a>
-												<c:choose>
-													<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
-														<button type="button"
-															class="btn btn-primary button-margin col-md-2"
-															id="btnBill" onclick="enableBillValue();">Bill</button>
-													</c:when>
-												</c:choose>
-											</div>
-
-											<div class="col-md-6 control-margin">
-												<button type="submit"
-													class="btn btn-primary button-margin col-md-2" id="btnSave" disabled>Save</button>
-												<button type="button"
-													class="btn btn-primary button-margin col-md-2" id="btnEdit"
-													onclick="loadReadBookingForm();">Edit</button>
-												<button type="button"
-													class="btn btn-primary button-margin col-md-2" id="bclear"
-													onclick="clear_fetch();">Clear</button>
-
-												<a
-													onclick="return confirm('Are you sure you want to delete?')"
-													href="/bookingReq/delete?bid=${booking.id}"><button
-														type="button"
-														class="btn btn-primary button-margin col-md-2" id="delete">Delete</button></a>
-
-											</div>
 										</div>
 									</main>
 								</form>
