@@ -44,9 +44,15 @@
 								<td>${details.phonenumber}</td>
 								<td>${details.location.location}</td>
 								<td>${details.role}</td>
+								<c:choose>
+								<c:when test="${details.userId eq 'ADMIN'}">
+								</c:when>
+								<c:otherwise>
 								<td><a class="btn btn-primary button-margin" href="/user/edit?id=${details.id}" id="${details.id}">Edit</a>
 								 <a class="btn btn-primary button-margin" onclick="return confirm('Are you sure you want to delete?')"  
 								 href="/user/delete?id=${details.id}">Delete</a></td>
+								 </c:otherwise>
+								 </c:choose>
 							</tr>
 						</c:forEach>
 					</tbody>
