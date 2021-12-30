@@ -393,7 +393,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 control-margin">
-												<div class="row element-margin">
+												<%-- <div class="row element-margin">
 													<div class="col-sm-4">
 														<label for="bookingNo" class="form-label">Book No</label>
 													</div>
@@ -403,7 +403,7 @@
 															id="bookingNo" name="bookingNo"
 															value="${booking.bookingNo}" required>
 													</div>
-												</div>
+												</div> --%>
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label for="bookedOn" class="form-label">Date</label>
