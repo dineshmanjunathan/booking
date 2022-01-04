@@ -2,6 +2,7 @@ package com.ba.app.controller;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class BookingController {
 	@Autowired
 	private DeliveryListRepository deliveryListRepository; 
 	
-	
+	private String lRNumber;
 	private String sessionValidation(HttpServletRequest request, ModelMap model) {
 		try {
 			if (request.getSession().getAttribute("USER_ID") != null) {
@@ -88,7 +89,8 @@ public class BookingController {
 			Booking booking = new Booking();
 			BeanUtils.copyProperties(bookingVo, booking);
 			model.addAttribute("bookingsuccessmessage", "Booked Successfully.");
-			model.addAttribute("LRNumber",booking.getLrNumber());
+			lRNumber=booking.getLrNumber();
+			model.addAttribute("LRNumber",lRNumber);
 
 			Booking bLrNo = bookingRepository.findByLrNumber(booking.getLrNumber());
 			booking.setIgplStatus("P");
@@ -178,10 +180,21 @@ public class BookingController {
 		}else {
 			sLR = LocalDate.now()+"/"+nextLRNumber;
 		}
+		//From and To location should not be Same starts
+		ArrayList<Location> locationList=(ArrayList)model.get("locationList");
+		for(int i=0; i <locationList.size();i++) {
+			Location location=locationList.get(i);
+			if(location !=null && location.getId() !=null && location.getId().trim().equalsIgnoreCase(fromlocationcode)) {
+				locationList.remove(i);
+			}
+		}
+		model.addAttribute("locationList", locationList);
+		//From and To location should not be Same ends
 		Date date = new Date();  
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
-		String currentDate = formatter.format(date);  
-		model.addAttribute("LRnumber", sLR);
+		String currentDate = formatter.format(date); 
+		lRNumber=sLR;
+		model.addAttribute("LRnumber", lRNumber);
 		model.addAttribute("bookedOn", currentDate);
 		return "booking";
 	}
@@ -637,6 +650,7 @@ public class BookingController {
 		try {
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
+			lRNumber=lrNumber;
 			if (lrNumber != null && !lrNumber.trim().isEmpty()) {
 				Booking bookingEntity = bookingRepository.findByLrNumber(lrNumber);
 				if (bookingEntity != null && bookingEntity.getLrNumber() != null) {
@@ -645,15 +659,16 @@ public class BookingController {
 					BeanUtils.copyProperties(bookingEntity, bookingVO, "createon", "updatedon");
 
 					model.addAttribute("booking", bookingVO);
-					model.addAttribute("LRnumber", bookingEntity.getLrNumber());
+					
+					model.addAttribute("LRnumber", lRNumber);
 					setAllLocationListInModel(model);
 				} else {
-					model.addAttribute("LRnumber", lrNumber);
+					model.addAttribute("LRnumber", lRNumber);
 					model.addAttribute("errormsg", "No record(s) found.");
 				}
 			}else {
 				setAllLocationListInModel(model);
-				model.addAttribute("LRnumber", lrNumber);
+				model.addAttribute("LRnumber", lRNumber);
 				model.addAttribute("errormsg", "Enter LR number and try again.");
 			}
 			
@@ -706,6 +721,7 @@ public class BookingController {
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
 			if (id != null) {
+				model.addAttribute("LRNumber",lRNumber);
 				bookingRepository.deleteById(Long.parseLong(id));
 				model.addAttribute("bookingsuccessmessage", "Booking request successfully deleted.");
 			} else {

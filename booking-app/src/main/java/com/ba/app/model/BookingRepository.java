@@ -22,7 +22,7 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	List<Booking> findByLrNumberIn(List<String> lrNumbers);
 	Optional<Booking> findById(Long id);
 	List<Booking> findByFromLocationAndToLocationAndOgplNoIsNull(String fromLocation,String toLocation);
-
+	void deleteByLrNumber(String lrNumber);
 	@Query(value = "select NEXTVAL('LRNUMBER_SEQ')", nativeQuery =true)
     Long getNextLRNumber();
 	

@@ -44,12 +44,10 @@
 			document.getElementById("freightvalue").readOnly  = false;
 			document.getElementById("loadingcharges").readOnly  = false;
 			document.getElementById("doorpickcharges").readOnly  = false;
-			document.getElementById("total").readOnly  = false;
 			document.getElementById("cash").readOnly  = false;
 			document.getElementById("refund").readOnly  = false;
 			document.getElementById("total").value = '';
 			document.getElementById("cash").value = '';
-			
 		}
 		document.getElementById("loadingchargespay").readOnly  = true;
 		document.getElementById("doorpickchargespay").readOnly  = true;
@@ -161,7 +159,11 @@
 			});
 			$('[name="lrNumber"]').removeAttr("readonly");
 		}
-
+		document.getElementById("freightvalue").readOnly  = false;
+		document.getElementById("loadingcharges").readOnly  = false;
+		document.getElementById("doorpickcharges").readOnly  = false;
+		document.getElementById("cash").readOnly  = false;
+		document.getElementById("refund").readOnly  = false;
 	}
 	function enableBillValue() {
 		$('[name="billValue"]').removeAttr("readonly");
