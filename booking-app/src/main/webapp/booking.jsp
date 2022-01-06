@@ -370,7 +370,7 @@
 															<div class="input-group">
 															<input type="text" maxlength="12" minlength="12" class="form-control"
 															id="billNumber" name="billNumber"
-															value="${booking.billNumber}" onkeyup="getBillValue();" required>
+															value="${booking.billNumber}" onkeyup="getBillValue();">
 														</div>
 														<button type="button" class="btn btn-secondary btn-sm"
 																id="btnVerify">Verify</button>
