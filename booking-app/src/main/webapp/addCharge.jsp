@@ -28,41 +28,46 @@
 			</div>
 
 			<c:choose>
-				<c:when test="${not empty location}">
-					<c:url var="action" value="/editLocation" />
+				<c:when test="${not empty charge}">
+					<c:url var="action" value="/editCharge" />
 				</c:when>
 				<c:otherwise>
-					<c:url var="action" value="/addLocation" />
+					<c:url var="action" value="/addCharge" />
 				</c:otherwise>
 			</c:choose>
 			<form action="${action}" method="post">
 				<h3>
-					<b>Location</b>
+					<b>Manage Charges</b>
 				</h3>
 				<p style="color: red" align="center">${errormsg}</p>
-				
-				<c:choose>
-				<c:when test="${not empty location}">
+				<input type="hidden" class="form-control" name="id"
+						id="id" placeholder="id" value="${charge.id}"
+						>
+				<select name="chargetype" id="chargetype" class="form-control" required>
+																		<option value="">-Select Charge Type-</option>
+																		<option value="FREIGHT"
+																			${charge.chargetype == 'FREIGHT' ? 'selected' : ''}>Freight</option>
+																		<option value="LOADING CHARGES"
+																			${charge.chargetype == 'LOADING CHARGES' ? 'selected' : ''}>Loading Charges</option>
+																		<option value="FUEL CHARGES"
+																			${charge.chargetype == 'FUEL CHARGES' ? 'selected' : ''}>Fuel Charges</option>
+				</select>
+				<br>
+				<select name="paytype" id="paytype" class="form-control" required>
+																		<option value="">-Select Pay Type-</option>
+																		<option value="TOPAY"
+																			${charge.paytype == 'TOPAY' ? 'selected' : ''}>TOPAY</option>
+																		<option value="PAID"
+																			${charge.paytype == 'PAID' ? 'selected' : ''}>PAID</option>
+																		<option value="FREESERVICE"
+																			${charge.paytype == 'FREESERVICE' ? 'selected' : ''}>FreeService</option>
+				</select>
+						<br>
 				<div class="form-row">
-					<input type="text" class="form-control" name="id" id="id"
-						placeholder="Code" value="${location.id}" readonly>
-				</div>
-				</c:when>
-				<c:otherwise>
-				<div class="form-row">
-					<input type="text" class="form-control" name="id" id="id"
-						placeholder="Code" value="${location.id}" required>
-				</div>
-				</c:otherwise>
-				</c:choose>
-				
-				<div class="form-row">
-					<input type="text" class="form-control" name="location"
-						id="location" placeholder="Location" value="${location.location}"
+					<input type="text" class="form-control" name="value"
+						id="value" placeholder="Value" value="${charge.value}"
 						required>
 				</div>
-				<textarea name="address" id="address" placeholder="Address"
-					class="form-control" style="height: 130px;">${location.address}</textarea>
 				<br>
 				<div class="row control-margin">
 					<div class="col-md-4">
@@ -70,11 +75,7 @@
 							id="btnClear">Save</button>
 					</div>
 					<div class="col-md-4">
-						<button type="reset" class="btn btn-primary button-margin"
-							id="btnClear">Clear</button>
-					</div>
-					<div class="col-md-4">
-						<a href="/locationListing"><button type="button"
+						<a href="/chargeListing"><button type="button"
 								class="btn btn-primary button-margin" id="btnClear">Back</button></a>
 					</div>
 				</div>

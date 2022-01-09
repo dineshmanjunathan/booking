@@ -38,7 +38,7 @@
 					<div class="form-row">
 						<input type="password" class="form-control" name="password" id="password" placeholder="*******" value="${user.password}" required>
 						
-						<select name="location" id="location" class="form-control">
+						<select name="location" id="location" class="form-control" required>
 						<option value="">-Select location-</option>
 						<c:forEach var="options" items="${locationList}"
 							varStatus="status">
@@ -53,7 +53,7 @@
 						<input type="tel" class="form-control" placeholder="Phone Number" pattern="[1-9]{1}[0-9]{9}" name="phonenumber" id="phonenumber" value="${user.phonenumber}" >
 					</div>
 					<div class="form-row">
-						<select name="role" id="role" class="form-control">
+						<select name="role" id="role" class="form-control" required>
 																		<option value="">-Select role-</option>
 																		<option value="ADMIN"
 																			${user.role == 'ADMIN' ? 'selected' : ''}>ADMIN</option>
