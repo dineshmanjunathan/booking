@@ -28,8 +28,9 @@ public class Charge implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String chargetype;
-	private String paytype;
 	private String value;
+	private String fromLocation;
+	private String toLocation ;
 	private LocalDateTime createon = LocalDateTime.now();
 	private LocalDateTime updatedon = LocalDateTime.now();
 	

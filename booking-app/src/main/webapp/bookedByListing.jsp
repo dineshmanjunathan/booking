@@ -29,7 +29,7 @@
 					<thead>
 						<tr>
 							<th scope="col">Code</th>
-							<th scope="col">Name</th>
+							<th scope="col">Description</th>
 							<th scope="col">Action</th>
 						</tr>
 					</thead>

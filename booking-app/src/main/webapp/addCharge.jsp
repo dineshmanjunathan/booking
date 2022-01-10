@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -40,9 +39,36 @@
 					<b>Manage Charges</b>
 				</h3>
 				<p style="color: red" align="center">${errormsg}</p>
-				<input type="hidden" class="form-control" name="id"
-						id="id" placeholder="id" value="${charge.id}"
-						>
+				<input type="hidden" class="form-control" name="id"	id="id" placeholder="id" value="${charge.id}">
+			<div class="row element-margin">
+				<div class="col-sm-5">
+					<select class="form-select bg-info text-dark" id="fromLocation"
+						name="fromLocation" required>
+
+						<option value="">-Select From Location-</option>
+						<c:forEach var="options" items="${locationList}"
+							varStatus="status">
+							<option value="${options.id}"
+								${options.id == charge.fromLocation ? 'selected' : ''}>${options.location}</option>
+						</c:forEach>
+					</select>
+					</div>
+					<div class="col-sm-1"><h4><b>←→</b></h4></div>
+					<div class="col-sm-5">
+					<select class="form-select bg-info text-dark" id="toLocation"
+						name="toLocation" required>
+
+						<option value="">-Select To Location-</option>
+						<c:forEach var="options" items="${locationList}"
+							varStatus="status">
+							<%-- <option value="${options.id}" ${options.id == booking.toLocation ? 'selected' : ''}>${options.location}</option> --%>
+							<option value="${options.id}"
+								${options.id == charge.toLocation ? 'selected' : ''}>${options.location}</option>
+						</c:forEach>
+					</select>
+				</div>
+				</div>
+
 				<select name="chargetype" id="chargetype" class="form-control" required>
 																		<option value="">-Select Charge Type-</option>
 																		<option value="FREIGHT"
@@ -53,16 +79,6 @@
 																			${charge.chargetype == 'FUEL CHARGES' ? 'selected' : ''}>Fuel Charges</option>
 				</select>
 				<br>
-				<select name="paytype" id="paytype" class="form-control" required>
-																		<option value="">-Select Pay Type-</option>
-																		<option value="TOPAY"
-																			${charge.paytype == 'TOPAY' ? 'selected' : ''}>TOPAY</option>
-																		<option value="PAID"
-																			${charge.paytype == 'PAID' ? 'selected' : ''}>PAID</option>
-																		<option value="FREESERVICE"
-																			${charge.paytype == 'FREESERVICE' ? 'selected' : ''}>FreeService</option>
-				</select>
-						<br>
 				<div class="form-row">
 					<input type="text" class="form-control" name="value"
 						id="value" placeholder="Value" value="${charge.value}"

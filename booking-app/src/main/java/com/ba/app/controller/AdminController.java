@@ -16,10 +16,12 @@ import com.ba.app.entity.BookedBy;
 import com.ba.app.entity.Charge;
 import com.ba.app.entity.Conductor;
 import com.ba.app.entity.Driver;
+import com.ba.app.entity.Location;
 import com.ba.app.model.BookedByRepository;
 import com.ba.app.model.ChargeRepository;
 import com.ba.app.model.ConductorRepository;
 import com.ba.app.model.DriverRepository;
+import com.ba.app.model.LocationRepository;
 import com.ba.app.vo.BookedByVo;
 import com.ba.app.vo.ChargeVo;
 import com.ba.app.vo.ConductorVo;
@@ -40,6 +42,8 @@ public class AdminController {
 	@Autowired
 	private ChargeRepository chargeRepository;
 
+	@Autowired
+	private LocationRepository locationRepository;
 	
 	private String sessionValidation(HttpServletRequest request, ModelMap model) {
 		try {
@@ -356,10 +360,24 @@ public class AdminController {
 			if(sessionValidation(request, model)!=null) return "login";
 			if(chargeVo!=null) {
 				try {
-					List<Charge> list = chargeRepository.findByChargetypeAndPaytype(chargeVo.getChargetype(),chargeVo.getPaytype());
+					setAllLocationListInModel(model);
+					if(chargeVo.getFromLocation().equals(chargeVo.getToLocation())) {
+						model.addAttribute("errormsg", "From location and To location should not be the same!");
+						model.addAttribute("charge", chargeVo);
+						return "addCharge";
+					}
+					List<Charge> list = chargeRepository.findByChargetypeAndFromLocationAndToLocation(chargeVo.getChargetype(),chargeVo.getFromLocation(),chargeVo.getToLocation());
 					if(list!=null && list.size()>0) {
 						model.addAttribute("errormsg", "Charge Type is already exist! ");
+						model.addAttribute("charge", chargeVo);
 						return "addCharge";
+					}else {
+						list = chargeRepository.findByChargetypeAndToLocationAndFromLocation(chargeVo.getChargetype(),chargeVo.getFromLocation(),chargeVo.getToLocation());
+						if(list!=null && list.size()>0) {
+							model.addAttribute("errormsg", "Charge Type is already exist! ");
+							model.addAttribute("charge", chargeVo);
+							return "addCharge";
+						}
 					}
 				} catch (Exception e) {
 					// do nothing
@@ -391,6 +409,7 @@ public class AdminController {
 			ChargeVo chargeVo = new ChargeVo();
 			BeanUtils.copyProperties(chargeEntiry, chargeVo);
 			model.addAttribute("charge", chargeVo);
+			setAllLocationListInModel(model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -415,6 +434,31 @@ public class AdminController {
 		try {			
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
+			if(chargeVo!=null) {
+				try {
+					setAllLocationListInModel(model);
+					if(chargeVo.getFromLocation().equals(chargeVo.getToLocation())) {
+						model.addAttribute("errormsg", "Two locations should not be the same!");
+						model.addAttribute("charge", chargeVo);
+						return "addCharge";
+					}
+					List<Charge> list = chargeRepository.findByChargetypeAndFromLocationAndToLocation(chargeVo.getChargetype(),chargeVo.getFromLocation(),chargeVo.getToLocation());
+					if(list!=null && list.size()>0) {
+						model.addAttribute("errormsg", "Charge Type is already exist! ");
+						model.addAttribute("charge", chargeVo);
+						return "addCharge";
+					}else {
+						list = chargeRepository.findByChargetypeAndToLocationAndFromLocation(chargeVo.getChargetype(),chargeVo.getFromLocation(),chargeVo.getToLocation());
+						if(list!=null && list.size()>0) {
+							model.addAttribute("errormsg", "Charge Type is already exist! ");
+							model.addAttribute("charge", chargeVo);
+							return "addCharge";
+						}
+					}
+				} catch (Exception e) {
+					// do nothing
+				}
+			}
 			Charge chargeEntity = new Charge();
 			Long id = chargeVo.getId();
 			
@@ -432,5 +476,20 @@ public class AdminController {
 			return "addDriver";
 		}
 		return "chargeListing";
+	}
+	@RequestMapping("/addchargepage")
+	public String addChargePage(HttpServletRequest request, ModelMap model, ChargeVo chargeVo) {
+		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
+			setAllLocationListInModel(model);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "addCharge";
+	}
+	private void setAllLocationListInModel(ModelMap model) {
+		Iterable<Location> locaIterable = locationRepository.findAll();
+		model.addAttribute("locationList", locaIterable);
 	}
 }

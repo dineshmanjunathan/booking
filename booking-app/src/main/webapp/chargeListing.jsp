@@ -21,7 +21,7 @@
 				<p style="color: red" align="center">${errormsg}</p>
 				<div class="row control-margin">
 					<div class="col-md-12">
-						<a class="btn btn-primary button-margin" href="addCharge.jsp">Add</a>
+						<a class="btn btn-primary button-margin" href="/addchargepage">Add</a>
 						<a class="btn btn-primary button-margin" href="/menu">Back</a>
 					</div>
 				</div>
@@ -29,8 +29,9 @@
 					<thead>
 						<tr>
 							<th scope="col">Id</th>
+							<th scope="col">From Location</th>
+							<th scope="col">To Location</th>
 							<th scope="col">Charge Type</th>
-							<th scope="col">Pay Type</th>
 							<th scope="col">Charge Value</th>
 						</tr>
 					</thead>
@@ -40,8 +41,9 @@
 							<tr>
 
 								<td>${details.id}</td>
+								<td>${details.fromLocation}</td>
+								<td>${details.toLocation}</td>
 								<td>${details.chargetype}</td>
-								<td>${details.paytype}</td>
 								<td>${details.value}</td>
 								<td><a class="btn btn-primary button-margin"
 									href="/charge/edit/${details.id}" id="${details.id}">Edit</a>

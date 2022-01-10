@@ -56,7 +56,7 @@
 				</c:choose>
 				<div class="form-row">
 					<input type="text" class="form-control" name="name"
-						id="name" placeholder="Name" value="${bookedby.name}"
+						id="name" placeholder="Description" value="${bookedby.name}"
 						required>
 				</div>
 				<br>
