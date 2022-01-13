@@ -389,8 +389,18 @@
 														<label class="form-label" for="bookedBy">Booked By</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" maxlength="30" class="form-control"
-															id="bookedBy" name="bookedBy"  value="${booking.bookedBy}" required >
+													
+													<select class="form-select bg-info text-dark"
+															id="bookedBy" name="bookedBy" required>
+
+															<option value="">-Booked By-</option>
+															<c:forEach var="options" items="${bookedNameList}"
+																varStatus="status">
+																<option value="${options.id}"
+																	${options.id == booking.bookedBy ? 'selected' : ''}>${options.name} [${options.id}]</option>
+															</c:forEach
+															>
+													</select>
 													</div>
 												</div>
 											</div>

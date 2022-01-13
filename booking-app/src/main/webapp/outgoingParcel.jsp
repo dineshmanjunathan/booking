@@ -185,11 +185,27 @@
 						</c:forEach>
 				</table>
 				<br>
-				<div class="form-row">
-					<input type="text" id="driver" name="driver" class="form-control"
-						placeholder="Driver" value="${outgoingparcel.driver}">
-						<input type="text" id="conductor" name="conductor"
-						class="form-control" placeholder="Conductor" value="${outgoingparcel.conductor}">&nbsp;&nbsp;
+				<div class="form-row">						
+						<select class="form-select bg-info text-dark" id="driver" name="driver" required>
+						<option value="">-Select Driver-</option>
+						<c:forEach var="options" items="${driverList}"
+							varStatus="status">
+							<option value="${options.id}"
+								${options.id == outgoingparcel.driver ? 'selected' : ''}>${options.name} [${options.id}]</option>
+						</c:forEach>
+					   </select>
+						 &nbsp;&nbsp;
+						<select class="form-select bg-info text-dark" id="conductor"
+						name="conductor" required>
+
+						<option value="">-Select Conductor-</option>
+						<c:forEach var="options" items="${conductorList}"
+							varStatus="status">
+							<option value="${options.id}"
+								${options.id == outgoingparcel.Conductor ? 'selected' : ''}>${options.name} [${options.id}]</option>
+						</c:forEach>
+					   </select> &nbsp;&nbsp;
+					   
 						<input type="text" id="preparedBy" name="preparedBy"
 						class="form-control" placeholder="Prepared By" value="${outgoingparcel.preparedBy}">
 				</div>

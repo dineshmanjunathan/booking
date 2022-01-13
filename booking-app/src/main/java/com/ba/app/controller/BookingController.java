@@ -19,18 +19,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ba.app.entity.BookedBy;
 import com.ba.app.entity.Booking;
+import com.ba.app.entity.Conductor;
 import com.ba.app.entity.Customer;
 import com.ba.app.entity.Delivery;
+import com.ba.app.entity.Driver;
 import com.ba.app.entity.Inventory;
 import com.ba.app.entity.Location;
 import com.ba.app.entity.OutgoingParcel;
 import com.ba.app.entity.PayType;
 import com.ba.app.entity.Vehicle;
+import com.ba.app.model.BookedByRepository;
 import com.ba.app.model.BookingRepository;
+import com.ba.app.model.ConductorRepository;
 import com.ba.app.model.CustomerRepository;
 import com.ba.app.model.DeliveryListRepository;
 import com.ba.app.model.DeliveryRepository;
+import com.ba.app.model.DriverRepository;
 import com.ba.app.model.InventoryRepository;
 import com.ba.app.model.LocationRepository;
 import com.ba.app.model.OutgoingParcelRepository;
@@ -65,7 +71,11 @@ public class BookingController {
 	@Autowired
 	private InventoryRepository inventoryRepository;
 	@Autowired
-	private DeliveryListRepository deliveryListRepository; 
+	private DriverRepository driverRepository;
+	@Autowired
+	private ConductorRepository conductorRepository;
+	@Autowired
+	private BookedByRepository bookedByRepository;
 	
 	private String lRNumber;
 	private String sessionValidation(HttpServletRequest request, ModelMap model) {
@@ -155,6 +165,8 @@ public class BookingController {
 		
 		setAllLocationListInModel(model);
 		setAllVehileListInModel(model);
+		setAllConductorListInModel(model);		
+		setAllDriverListInModel(model);
 		return "outgoingParcel";
 	}
 	
@@ -196,6 +208,8 @@ public class BookingController {
 		lRNumber=sLR;
 		model.addAttribute("LRnumber", lRNumber);
 		model.addAttribute("bookedOn", currentDate);
+		setAllBookednameListInModel(model); //to set all booked name
+		
 		return "booking";
 	}
 
@@ -803,5 +817,17 @@ public class BookingController {
 			return "login";
 		}
 		return "inventoryMenu";
+	}
+	private void setAllDriverListInModel(ModelMap model) {
+		Iterable<Driver> locaIterable = driverRepository.findAll();
+		model.addAttribute("driverList", locaIterable);
+	}
+	private void setAllConductorListInModel(ModelMap model) {
+		Iterable<Conductor> locaIterable = conductorRepository.findAll();
+		model.addAttribute("conductorList", locaIterable);
+	}
+	private void setAllBookednameListInModel(ModelMap model) {
+		Iterable<BookedBy> locaIterable = bookedByRepository.findAll();
+		model.addAttribute("bookedNameList", locaIterable);
 	}
 }
