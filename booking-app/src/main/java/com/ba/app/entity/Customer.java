@@ -19,6 +19,7 @@ public class Customer {
 	private Long id;
 	private String custName;
 	private Long phoneNumber;
+	private String customerType;
 	
 
 }

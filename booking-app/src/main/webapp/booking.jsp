@@ -135,6 +135,7 @@
 		var id = document.getElementById("bid").value;
 		if (id > 0) {
 			document.getElementById("bclear").disabled = false;
+			document.getElementById("btnSave").disabled = false;
 			$.each($('form').serializeArray(), function(index, value) {
 				if (value.name == 'lrNumber' || value.name == 'paid' || value.name == 'topay' 
 					|| value.name == 'fromValue' || value.name == 'freightvalue' || value.name == 'loadingcharges'

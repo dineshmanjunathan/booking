@@ -77,7 +77,7 @@
 									<c:forEach var="options" items="${locationList}"
 										varStatus="status">
 										<option value="${options.id}"
-											${options.id == fromLocation ? 'selected="selected"':''}>${options.location}</option>
+											${options.id == toLocation ? 'selected="selected"':''}>${options.location}</option>
 									</c:forEach>
 								</select>
 								<i class="zmdi zmdi-chevron-down"></i>
@@ -87,11 +87,11 @@
 					<c:choose>
 							<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
 						<select name="toLocation" id="toLocation" class="form-control">
-							<option value="">-Select To Location-</option>
+							<option value="">-Select From Location-</option>
 							<c:forEach var="options" items="${locationList}"
 								varStatus="status">
 								<option value="${options.id}"
-									${options.id== toLocation ? 'selected="selected"':''}>${options.location}</option>
+									${options.id== fromLocation ? 'selected="selected"':''}>${options.location}</option>
 							</c:forEach>
 						</select>
 						<i class="zmdi zmdi-chevron-down"></i>
@@ -193,7 +193,7 @@
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-holder">
 						<select name="deliveredBy" id="deliveredBy" class="form-control">
-							<option value="" disabled selected>Delivered By</option>
+							<option value="" disabled selected>-Delivered By-</option>
 							<option value="class 01"
 				${incomeparcel.deliveredBy == 'class 01' ? 'selected' : ''}>Class 01</option>
 				<option value="class 02"
@@ -210,8 +210,29 @@
 					</div>
 				</div>
 				<div class="form-row">
-					<input type="text" name="driver" id="driver" class="form-control" placeholder="Driver" value="${incomeparcel.driver}">
-					<input type="text" name="conductor" id="conductor" class="form-control" placeholder="Conductor" value="${incomeparcel.conductor}">&nbsp;&nbsp;
+					
+					<div class="form-holder">
+						<select name="driver" id="driver" class="form-control">
+							<option value="">-Driver-</option>
+							<c:forEach var="options" items="${driverList}"
+								varStatus="status">
+								<option value="${options.id}"
+									${options.id==incomeparcel.driver ? 'selected' : ''}>${options.name} [${options.id}]</option>
+							</c:forEach>
+						</select><i class="zmdi zmdi-chevron-down"></i>
+					</div>	
+					&nbsp;
+					<div class="form-holder">
+						<select name="conductor" id="conductor" class="form-control">
+							<option value="">-Conductor-</option>
+							<c:forEach var="options" items="${conductorList}"
+								varStatus="status">
+								<option value="${options.id}"
+									${options.id==incomeparcel.conductor ? 'selected' : ''}>${options.name} [${options.id}]</option>
+							</c:forEach>
+						</select><i class="zmdi zmdi-chevron-down"></i>
+					</div>
+					&nbsp;						
 					<input type="text" name="preparedBy" id="preparedBy" class="form-control" placeholder="Prepared By" value="${incomeparcel.preparedBy}">
 				</div>
 				<textarea name="details" id="details" placeholder="Details" class="form-control"

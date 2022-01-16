@@ -124,37 +124,49 @@ public class BookingController {
 		}
 		return "bookingsuccess";
 	}
+
 	private void saveFromCustomer(BookingVo bookingVo) {
-		
-		//System.out.println("From Phone ----- "+bookingVo.get);
-		if(customerRepository.findByPhoneNumber(bookingVo.getFrom_phone())==null) {
-			Customer customer=new Customer();
-			customer.setCustName(bookingVo.getFromName());
-			customer.setPhoneNumber(bookingVo.getFrom_phone());
-			customerRepository.save(customer);
-		}
-		
-		if(customerRepository.findByPhoneNumber(bookingVo.getFrom_phone())!=null) {
-			Customer customer=customerRepository.findByPhoneNumber(bookingVo.getFrom_phone());
-			if(customerRepository.findByCustName(bookingVo.getFromName())==null) {
+		try {
+			// System.out.println("From Phone ----- "+bookingVo.get);
+			Long phoneNumber = customerRepository.findByPhoneNumber(bookingVo.getFrom_phone(), "FROM");
+			if (phoneNumber != null && phoneNumber > 0) {
+				Customer customer = customerRepository.findByAllPhoneNumber(bookingVo.getFrom_phone(), "FROM");
+				if (customer != null) {
+					customer.setCustName(bookingVo.getFromName());
+					customer.setCustomerType("FROM");
+					customerRepository.save(customer);
+				}
+			} else {
+				Customer customer = new Customer();
 				customer.setCustName(bookingVo.getFromName());
+				customer.setPhoneNumber(bookingVo.getFrom_phone());
+				customer.setCustomerType("FROM");
 				customerRepository.save(customer);
 			}
+		} catch (Exception e) {
+
 		}
 	}
+
 	private void saveToCustomer(BookingVo bookingVo) {
-		if(customerRepository.findByPhoneNumber(bookingVo.getTo_phone())==null) {
-			Customer customer=new Customer();
-			customer.setCustName(bookingVo.getToName());
-			customer.setPhoneNumber(bookingVo.getTo_phone());
-			customerRepository.save(customer);
-		}
-		if(customerRepository.findByPhoneNumber(bookingVo.getTo_phone())!=null) {
-			Customer customer=customerRepository.findByPhoneNumber(bookingVo.getTo_phone());
-			if(customerRepository.findByCustName(bookingVo.getToName())==null) {
+		try {
+			Long phoneNumber = customerRepository.findByPhoneNumber(bookingVo.getFrom_phone(), "TO");
+			if (phoneNumber != null && phoneNumber > 0) {
+				Customer customer = customerRepository.findByAllPhoneNumber(bookingVo.getTo_phone(), "TO");
+				if (customer != null) {
+					customer.setCustName(bookingVo.getToName());
+					customer.setCustomerType("TO");
+					customerRepository.save(customer);
+				}
+			} else {
+				Customer customer = new Customer();
 				customer.setCustName(bookingVo.getToName());
+				customer.setPhoneNumber(bookingVo.getTo_phone());
+				customer.setCustomerType("TO");
 				customerRepository.save(customer);
 			}
+		} catch (Exception e) {
+
 		}
 	}
 	@RequestMapping("/outgoingParcel")
@@ -176,6 +188,8 @@ public class BookingController {
 		if(sessionValidation(request, model)!=null) return "login";
 		setAllLocationListInModel(model);
 		setAllVehileListInModel(model);
+		setAllConductorListInModel(model);		
+		setAllDriverListInModel(model);
 		return "incomingParcel";
 	}
 	
@@ -386,6 +400,8 @@ public class BookingController {
 		model.addAttribute("bookedOn", bookedOn);
 		setAllLocationListInModel(model);
 		setAllVehileListInModel(model);
+		setAllConductorListInModel(model);		
+		setAllDriverListInModel(model);
 		if(ogplList !=null && ogplList.size() > 0) {
 		model.addAttribute("successMessage","Parcels Imported Successfully! Please select OGPL to load Parcel");
 		}else {
@@ -413,6 +429,8 @@ public class BookingController {
 			model.addAttribute("outgoingparcel", outgoingParcel);
 			setAllLocationListInModel(model);
 			setAllVehileListInModel(model);
+			setAllConductorListInModel(model);		
+			setAllDriverListInModel(model);
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg","Failed to Import Parcel!");
@@ -574,7 +592,7 @@ public class BookingController {
 	@RequestMapping(value = "/searchCustomerName/{phone}", method = RequestMethod.GET)
 	public ResponseEntity<String> searchCustomerName(@PathVariable("phone") Long phone, HttpServletRequest request, ModelMap model) {
 		try {
-			Customer customer=customerRepository.findByPhoneNumber(phone);
+			Customer customer=customerRepository.findByAllPhoneNumber(phone,"FROM");
 			if(customer!=null) {
 				return new ResponseEntity<String>(customer.getCustName(), HttpStatus.OK);
 			}
@@ -603,6 +621,8 @@ public class BookingController {
 			if(outgoingParcel!=null) {
 				setAllLocationListInModel(model);
 				setAllVehileListInModel(model);
+				setAllConductorListInModel(model);		
+				setAllDriverListInModel(model);
 				model.addAttribute("outgoingparcel", outgoingParcel);
 				bookingRepository.updateBookingOgpl(ogplNo,outgoingParcel.getOgpnoarray());
 				List<Booking> outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
@@ -630,6 +650,8 @@ public class BookingController {
 			if(inventory!=null) {
 				setAllLocationListInModel(model);
 				setAllVehileListInModel(model);
+				setAllConductorListInModel(model);		
+				setAllDriverListInModel(model);
 				model.addAttribute("incomeparcel", inventory);
 				model.addAttribute("ogplno", inventoryVo.getOgplNo());
 				model.addAttribute("fromLocation", inventory.getFromLocation());
@@ -652,6 +674,8 @@ public class BookingController {
 			ex.printStackTrace();
 			setAllLocationListInModel(model);
 			setAllVehileListInModel(model);
+			setAllConductorListInModel(model);		
+			setAllDriverListInModel(model);
 			model.addAttribute("errormsg", "Failed to income Parcel");
 			return "incomingParcel";
 		}
@@ -676,12 +700,14 @@ public class BookingController {
 					
 					model.addAttribute("LRnumber", lRNumber);
 					setAllLocationListInModel(model);
+					setAllBookednameListInModel(model);
 				} else {
 					model.addAttribute("LRnumber", lRNumber);
 					model.addAttribute("errormsg", "No record(s) found.");
 				}
 			}else {
 				setAllLocationListInModel(model);
+				setAllBookednameListInModel(model);
 				model.addAttribute("LRnumber", lRNumber);
 				model.addAttribute("errormsg", "Enter LR number and try again.");
 			}
@@ -721,6 +747,8 @@ public class BookingController {
 
 			setAllLocationListInModel(model);
 			setAllVehileListInModel(model);
+			setAllConductorListInModel(model);		
+			setAllDriverListInModel(model);
 			model.addAttribute("successMessage","Parcels listed to income for OGPL: "+ogpl);	
 		}catch(Exception e) {
 			e.printStackTrace();

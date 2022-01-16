@@ -185,27 +185,30 @@
 						</c:forEach>
 				</table>
 				<br>
-				<div class="form-row">						
-						<select class="form-select bg-info text-dark" id="driver" name="driver" required>
-						<option value="">-Select Driver-</option>
-						<c:forEach var="options" items="${driverList}"
-							varStatus="status">
-							<option value="${options.id}"
-								${options.id == outgoingparcel.driver ? 'selected' : ''}>${options.name} [${options.id}]</option>
-						</c:forEach>
-					   </select>
-						 &nbsp;&nbsp;
-						<select class="form-select bg-info text-dark" id="conductor"
-						name="conductor" required>
-
-						<option value="">-Select Conductor-</option>
-						<c:forEach var="options" items="${conductorList}"
-							varStatus="status">
-							<option value="${options.id}"
-								${options.id == outgoingparcel.Conductor ? 'selected' : ''}>${options.name} [${options.id}]</option>
-						</c:forEach>
-					   </select> &nbsp;&nbsp;
-					   
+				<div class="form-row">	
+					<div class="form-holder">
+						<select name="driver" id="driver" class="form-control">
+							<option value="">-Driver-</option>
+							<c:forEach var="options" items="${driverList}"
+								varStatus="status">
+								<option value="${options.id}"
+									${options.id==outgoingparcel.driver ? 'selected' : ''}>${options.name} [${options.id}]</option>
+							</c:forEach>
+						</select><i class="zmdi zmdi-chevron-down"></i>
+					</div>					
+					&nbsp;&nbsp;
+					<div class="form-holder">
+						<select name="conductor" id="conductor" class="form-control">
+							<option value="">-Conductor-</option>
+							<c:forEach var="options" items="${conductorList}"
+								varStatus="status">
+								<option value="${options.id}"
+									${options.id==outgoingparcel.conductor ? 'selected' : ''}>${options.name} [${options.id}]</option>
+							</c:forEach>
+						</select><i class="zmdi zmdi-chevron-down"></i>
+					</div>
+					&nbsp;&nbsp;
+										   
 						<input type="text" id="preparedBy" name="preparedBy"
 						class="form-control" placeholder="Prepared By" value="${outgoingparcel.preparedBy}">
 				</div>
