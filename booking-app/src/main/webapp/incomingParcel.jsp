@@ -73,7 +73,7 @@
 				<div class="form-row">
 					<div class="form-holder">
 								<select name="fromLocation" id="fromLocation" class="form-control">
-									<option value="">-Select To Location-</option>
+									<option value="">-Select From Location-</option>
 									<c:forEach var="options" items="${locationList}"
 										varStatus="status">
 										<option value="${options.id}"
@@ -87,7 +87,7 @@
 					<c:choose>
 							<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
 						<select name="toLocation" id="toLocation" class="form-control">
-							<option value="">-Select From Location-</option>
+							<option value="">-Select To Location-</option>
 							<c:forEach var="options" items="${locationList}"
 								varStatus="status">
 								<option value="${options.id}"

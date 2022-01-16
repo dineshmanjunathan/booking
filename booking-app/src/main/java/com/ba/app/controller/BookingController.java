@@ -384,18 +384,18 @@ public class BookingController {
 			if(sessionValidation(request, model)!=null) return "login";
 		List<OutgoingParcel> ogplList;
 		if(bookedOn !=null && bookedOn.trim().length() >0) {
-		ogplList = outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation,toLocation,bookedOn);
+		ogplList = outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(toLocation,fromLocation,bookedOn);
 		}else {
-			ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(fromLocation,toLocation);
+			ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(toLocation,fromLocation);
 		}
 		model.addAttribute("ogplList", ogplList);
 		if(ogplList!=null && ogplList.size() > 0) {
 			OutgoingParcel og=ogplList.get(0);
-			model.addAttribute("fromLocation", og.getFromLocation());
-			model.addAttribute("toLocation", og.getToLocation());
+			model.addAttribute("fromLocation", og.getToLocation());
+			model.addAttribute("toLocation", og.getFromLocation());
 		}else {
-			model.addAttribute("fromLocation", fromLocation);
-			model.addAttribute("toLocation", toLocation);
+			model.addAttribute("toLocation", fromLocation);
+			model.addAttribute("fromLocation", toLocation);
 		}
 		model.addAttribute("bookedOn", bookedOn);
 		setAllLocationListInModel(model);
@@ -730,17 +730,17 @@ public class BookingController {
 			model.addAttribute("incomeparcelList", incomingList);
 			model.addAttribute("incomeparcel", outgoingParcel);
 			if(outgoingParcel!=null) {
-				model.addAttribute("fromLocation", outgoingParcel.getFromLocation());
-				model.addAttribute("toLocation", outgoingParcel.getToLocation());
+				model.addAttribute("fromLocation", outgoingParcel.getToLocation());
+				model.addAttribute("toLocation", outgoingParcel.getFromLocation());
 				model.addAttribute("bookedOn", outgoingParcel.getBookedOn());
 			}
 			model.addAttribute("ogplno", ogpl);
 
 			List<OutgoingParcel> ogplList;
 			if(bookedOn !=null && bookedOn.trim().length() >0) {
-				ogplList= outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation,toLocation,bookedOn);
+				ogplList= outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(toLocation,fromLocation,bookedOn);
 			}else {
-				ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(fromLocation,toLocation);
+				ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(toLocation,fromLocation);
 
 			}
 			model.addAttribute("ogplList", ogplList);
