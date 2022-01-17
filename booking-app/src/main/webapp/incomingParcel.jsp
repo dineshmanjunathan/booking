@@ -77,7 +77,7 @@
 									<c:forEach var="options" items="${locationList}"
 										varStatus="status">
 										<option value="${options.id}"
-											${options.id == toLocation ? 'selected="selected"':''}>${options.location}</option>
+											${options.id == toLocation ? 'selected="selected"':''}>${options.location} [${options.id}]</option>
 									</c:forEach>
 								</select>
 								<i class="zmdi zmdi-chevron-down"></i>
@@ -91,7 +91,7 @@
 							<c:forEach var="options" items="${locationList}"
 								varStatus="status">
 								<option value="${options.id}"
-									${options.id== fromLocation ? 'selected="selected"':''}>${options.location}</option>
+									${options.id== fromLocation ? 'selected="selected"':''}>${options.location} [${options.id}]</option>
 							</c:forEach>
 						</select>
 						<i class="zmdi zmdi-chevron-down"></i>

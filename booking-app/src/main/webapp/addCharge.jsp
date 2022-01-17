@@ -49,7 +49,7 @@
 						<c:forEach var="options" items="${locationList}"
 							varStatus="status">
 							<option value="${options.id}"
-								${options.id == charge.fromLocation ? 'selected' : ''}>${options.location}</option>
+								${options.id == charge.fromLocation ? 'selected' : ''}>${options.location} [${options.id}]</option>
 						</c:forEach>
 					</select>
 					</div>
@@ -63,7 +63,7 @@
 							varStatus="status">
 							<%-- <option value="${options.id}" ${options.id == booking.toLocation ? 'selected' : ''}>${options.location}</option> --%>
 							<option value="${options.id}"
-								${options.id == charge.toLocation ? 'selected' : ''}>${options.location}</option>
+								${options.id == charge.toLocation ? 'selected' : ''}>${options.location} [${options.id}]</option>
 						</c:forEach>
 					</select>
 				</div>

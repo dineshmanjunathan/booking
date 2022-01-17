@@ -102,6 +102,8 @@
 		}
 
 		if(payOption=='FS'){
+			document.getElementById("loadingcharges").readOnly  = true;
+			document.getElementById("doorpickcharges").readOnly  = true;
 			document.getElementById("freightvalue").value=0;
 			document.getElementById("loadingcharges").value=0;
 			document.getElementById("doorpickcharges").value=0;	
@@ -142,6 +144,8 @@
 					}else if(thirdValue.includes("LOADING CHARGES")==true){
 						document.getElementById("loadingcharges").value = thirdValue.split((/[=]+/))[1];
 					}
+					document.getElementById("loadingcharges").readOnly  = true;
+					document.getElementById("doorpickcharges").readOnly  = true;
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -611,7 +615,7 @@
 														</select>
 													</div>
 													<div class="col-sm-4">
-														<input type="number" class="form-control"
+														<input type="number" max="150" class="form-control"
 															id="freightvalue" name="freightvalue"
 															value="${booking.freightvalue}" onblur="sumAmount();">
 													</div>
@@ -624,7 +628,7 @@
 													</div>
 													<div class="col-sm-4">
 														<select class="form-select bg-info text-dark"
-															id="loadingchargespay" name="loadingchargespay" onchange="getLoadingCharges();">
+															id="loadingchargespay" name="loadingchargespay" >
 															<option value="">-Select-</option>
 															<option value="TOPAY"
 																${booking.payOption == 'TOPAY' ? 'selected' : ''}>TOPAY</option>
@@ -647,7 +651,7 @@
 													</div>
 													<div class="col-sm-4">
 														<select class="form-select bg-info text-dark"
-															id="doorpickchargespay" name="doorpickchargespay" onchange="getFuelCharges();">
+															id="doorpickchargespay" name="doorpickchargespay" >
 															<option value="">-Select-</option>
 															<option value="TOPAY"
 																${booking.payOption == 'TOPAY' ? 'selected' : ''}>TOPAY</option>
