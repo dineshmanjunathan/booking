@@ -60,7 +60,7 @@
 	function checkFromNameExists() {
 		var value = document.getElementById("from_phone").value;
 		$.ajax({
-			url : "/searchCustomerName/" + value,
+			url : "/searchFromCustomerName/" + value,
 			type : "get",
 			cache : false,
 			success : function(data) {
@@ -77,12 +77,138 @@
 	function checkToNameExists() {
 		var value = document.getElementById("to_phone").value;
 		$.ajax({
-			url : "/searchCustomerName/" + value,
+			url : "/searchToCustomerName/" + value,
 			type : "get",
 			cache : false,
 			success : function(data) {
 				if (data.length > 0) {
 					document.getElementById("toName").value = data;
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log('ERROR:' + XMLHttpRequest.status
+						+ ', status text: ' + XMLHttpRequest.statusText);
+			}
+		});
+	}
+	function getCharges() {
+		var fromLocation = document.getElementById("fromLocation").value;
+		var toLocation = document.getElementById("toLocation").value;
+		var payOption = document.getElementById("payOption").value;
+
+		if(fromLocation.length==0 && toLocation.length==0){
+			alert('Select From and To Location!');
+			return false;
+		}
+
+		if(payOption=='FS'){
+			document.getElementById("freightvalue").value=0;
+			document.getElementById("loadingcharges").value=0;
+			document.getElementById("doorpickcharges").value=0;	
+			return true;
+		}
+		$.ajax({
+			url : "/getCharges",
+			type : "POST",
+			cache : false,
+			data: { 
+				fromLocation: $("#fromLocation").val(), 
+				toLocation: $("#toLocation").val(),
+				loadingchargespay: $("#loadingchargespay").val()
+			  },
+			success : function(data) {
+				alert(data);
+				if (data.length > 0) {
+
+					var val=data.replace("}","").split((/[,]+/));
+
+					var firstValue = val[0];
+					var secondValue = val[1];
+					var thirdValue = val[2];
+					
+					if(firstValue.includes("FREIGHT")==true){
+						document.getElementById("freightvalue").value = firstValue.split((/[=]+/))[1];
+					}
+					
+					if(firstValue.includes("FUEL CHARGES")==true){
+						document.getElementById("doorpickcharges").value = firstValue.split((/[=]+/))[1];
+					}else if(secondValue.includes("FUEL CHARGES")==true){
+						document.getElementById("doorpickcharges").value = secondValue.split((/[=]+/))[1];
+					}
+					
+					if(firstValue.includes("LOADING CHARGES")==true){
+						document.getElementById("loadingcharges").value = firstValue.split((/[=]+/))[1];
+					}else if(secondValue.includes("LOADING CHARGES")==true){
+						document.getElementById("loadingcharges").value = secondValue.split((/[=]+/))[1];
+					}else if(thirdValue.includes("LOADING CHARGES")==true){
+						document.getElementById("loadingcharges").value = thirdValue.split((/[=]+/))[1];
+					}
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log('ERROR:' + XMLHttpRequest.status
+						+ ', status text: ' + XMLHttpRequest.statusText);
+			}
+		});
+	}
+	function getLoadingCharges() {
+		var fromLocation = document.getElementById("fromLocation").value;
+		var toLocation = document.getElementById("toLocation").value;
+		var payOption = document.getElementById("loadingchargespay").value;
+
+		if(fromLocation.length==0 && toLocation.length==0){
+			alert('Select From and To Location!');
+			return false;
+		}
+
+		if(payOption=='FS'){
+			document.getElementById("loadingcharges").value=0;
+			return true;
+		}
+		$.ajax({
+			url : "/getLoadingCharges",
+			type : "POST",
+			cache : false,
+			data: { 
+				fromLocation: $("#fromLocation").val(), 
+				toLocation: $("#toLocation").val(),
+			  },
+			success : function(data) {
+				if (data.length > 0) {
+					document.getElementById("loadingcharges").value = data;
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log('ERROR:' + XMLHttpRequest.status
+						+ ', status text: ' + XMLHttpRequest.statusText);
+			}
+		});
+	}
+	function getFuelCharges() {
+		var fromLocation = document.getElementById("fromLocation").value;
+		var toLocation = document.getElementById("toLocation").value;
+		var payOption = document.getElementById("doorpickchargespay").value;
+
+		if(fromLocation.length==0 && toLocation.length==0){
+			alert('Select From and To Location!');
+			return false;
+		}
+
+		if(payOption=='FS'){
+			document.getElementById("doorpickcharges").value=0;
+			return true;
+		}
+		$.ajax({
+			url : "/getFuelCharges",
+			type : "POST",
+			cache : false,
+			data: { 
+				fromLocation: $("#fromLocation").val(), 
+				toLocation: $("#toLocation").val(),
+			  },
+			success : function(data) {
+				if (data.length > 0) {
+					document.getElementById("doorpickcharges").value = data;
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -391,17 +517,14 @@
 													</div>
 													<div class="col-sm-8">
 													
-													<select class="form-select bg-info text-dark"
-															id="bookedBy" name="bookedBy" required>
-
+													<select name="bookedBy" id="bookedBy" class="form-control">
 															<option value="">-Booked By-</option>
 															<c:forEach var="options" items="${bookedNameList}"
 																varStatus="status">
 																<option value="${options.id}"
-																	${options.id == booking.bookedBy ? 'selected' : ''}>${options.name} [${options.id}]</option>
-															</c:forEach
-															>
-													</select>
+																	${options.id==booking.bookedBy ? 'selected' : ''}>${options.name} [${options.id}]</option>
+															</c:forEach>
+														</select><i class="zmdi zmdi-chevron-down"></i>
 													</div>
 												</div>
 											</div>
@@ -478,7 +601,7 @@
 													<div class="col-sm-4">
 														<select class="form-select bg-info text-dark"
 															id="payOption" name="payOption"
-															onchange="selectPayOption();" required>
+															onchange="getCharges();selectPayOption();" required>
 															<option value="">-Select-</option>
 															<option value="TOPAY"
 																${booking.payOption == 'TOPAY' ? 'selected' : ''}>TOPAY</option>
@@ -502,7 +625,7 @@
 													</div>
 													<div class="col-sm-4">
 														<select class="form-select bg-info text-dark"
-															id="loadingchargespay" name="loadingchargespay">
+															id="loadingchargespay" name="loadingchargespay" onchange="getLoadingCharges();">
 															<option value="">-Select-</option>
 															<option value="TOPAY"
 																${booking.payOption == 'TOPAY' ? 'selected' : ''}>TOPAY</option>
@@ -525,7 +648,7 @@
 													</div>
 													<div class="col-sm-4">
 														<select class="form-select bg-info text-dark"
-															id="doorpickchargespay" name="doorpickchargespay">
+															id="doorpickchargespay" name="doorpickchargespay" onchange="getFuelCharges();">
 															<option value="">-Select-</option>
 															<option value="TOPAY"
 																${booking.payOption == 'TOPAY' ? 'selected' : ''}>TOPAY</option>

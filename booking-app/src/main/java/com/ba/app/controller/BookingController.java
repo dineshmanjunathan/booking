@@ -4,7 +4,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ba.app.entity.BookedBy;
 import com.ba.app.entity.Booking;
+import com.ba.app.entity.Charge;
 import com.ba.app.entity.Conductor;
 import com.ba.app.entity.Customer;
 import com.ba.app.entity.Delivery;
@@ -32,6 +36,7 @@ import com.ba.app.entity.PayType;
 import com.ba.app.entity.Vehicle;
 import com.ba.app.model.BookedByRepository;
 import com.ba.app.model.BookingRepository;
+import com.ba.app.model.ChargeRepository;
 import com.ba.app.model.ConductorRepository;
 import com.ba.app.model.CustomerRepository;
 import com.ba.app.model.DeliveryListRepository;
@@ -50,6 +55,7 @@ import com.ba.app.vo.OutgoingParcelVo;
 import com.ba.app.vo.PayOptionVo;
 import com.ba.app.vo.VehicleVo;
 import com.ba.utils.Utils;
+import com.google.gson.JsonObject;
 
 @Controller
 public class BookingController {
@@ -76,6 +82,8 @@ public class BookingController {
 	private ConductorRepository conductorRepository;
 	@Autowired
 	private BookedByRepository bookedByRepository;
+	@Autowired
+	private ChargeRepository chargeRepository;
 	
 	private String lRNumber;
 	private String sessionValidation(HttpServletRequest request, ModelMap model) {
@@ -128,45 +136,41 @@ public class BookingController {
 	private void saveFromCustomer(BookingVo bookingVo) {
 		try {
 			// System.out.println("From Phone ----- "+bookingVo.get);
-			Long phoneNumber = customerRepository.findByPhoneNumber(bookingVo.getFrom_phone(), "FROM");
+			Long phoneNumber = customerRepository.findByPhoneNumber(bookingVo.getFrom_phone());
 			if (phoneNumber != null && phoneNumber > 0) {
-				Customer customer = customerRepository.findByAllPhoneNumber(bookingVo.getFrom_phone(), "FROM");
+				Customer customer = customerRepository.findByAllPhoneNumber(bookingVo.getFrom_phone());
 				if (customer != null) {
 					customer.setCustName(bookingVo.getFromName());
-					customer.setCustomerType("FROM");
 					customerRepository.save(customer);
 				}
 			} else {
 				Customer customer = new Customer();
 				customer.setCustName(bookingVo.getFromName());
 				customer.setPhoneNumber(bookingVo.getFrom_phone());
-				customer.setCustomerType("FROM");
 				customerRepository.save(customer);
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
 	private void saveToCustomer(BookingVo bookingVo) {
 		try {
-			Long phoneNumber = customerRepository.findByPhoneNumber(bookingVo.getFrom_phone(), "TO");
+			Long phoneNumber = customerRepository.findByPhoneNumber(bookingVo.getTo_phone());
 			if (phoneNumber != null && phoneNumber > 0) {
-				Customer customer = customerRepository.findByAllPhoneNumber(bookingVo.getTo_phone(), "TO");
+				Customer customer = customerRepository.findByAllPhoneNumber(bookingVo.getTo_phone());
 				if (customer != null) {
 					customer.setCustName(bookingVo.getToName());
-					customer.setCustomerType("TO");
 					customerRepository.save(customer);
 				}
 			} else {
 				Customer customer = new Customer();
 				customer.setCustName(bookingVo.getToName());
 				customer.setPhoneNumber(bookingVo.getTo_phone());
-				customer.setCustomerType("TO");
 				customerRepository.save(customer);
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 	@RequestMapping("/outgoingParcel")
@@ -589,10 +593,97 @@ public class BookingController {
 		return "delivery";
 	}
 	
-	@RequestMapping(value = "/searchCustomerName/{phone}", method = RequestMethod.GET)
-	public ResponseEntity<String> searchCustomerName(@PathVariable("phone") Long phone, HttpServletRequest request, ModelMap model) {
+	@RequestMapping(value = "/getCharges", method = RequestMethod.POST)
+	public ResponseEntity<String> getCharges(HttpServletRequest request, ModelMap model) {
 		try {
-			Customer customer=customerRepository.findByAllPhoneNumber(phone,"FROM");
+			String fromLocation = request.getParameter("fromLocation");
+			String toLocation = request.getParameter("toLocation");
+
+			List<Charge> charge = chargeRepository.findByFromLocationAndToLocation(fromLocation, toLocation);
+			if (charge != null && charge.size() > 0) {
+
+			} else {
+				charge = chargeRepository.findByFromLocationAndToLocation(toLocation, fromLocation);
+			}
+			Map<String, String> map = new TreeMap<String, String>();
+			if (charge != null && charge.size() > 0) {
+				for (Charge ch : charge) {
+					map.put(ch.getChargetype(), ch.getValue());
+				}
+			}
+			return new ResponseEntity<String>(map.toString(), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed To search Charges");
+		}
+		return new ResponseEntity<String>("", HttpStatus.OK);
+	}
+	@RequestMapping(value = "/getLoadingCharges", method = RequestMethod.POST)
+	public ResponseEntity<String> getLoadingCharges(HttpServletRequest request, ModelMap model) {
+		try {
+			String fromLocation = request.getParameter("fromLocation");
+			String toLocation = request.getParameter("toLocation");
+
+			Charge charge = chargeRepository.findByFromLocationAndToLocationAndChargetype(fromLocation, toLocation,"LOADING CHARGES");
+			if (charge != null && charge.getValue()!=null) {
+
+			} else {
+				charge = chargeRepository.findByFromLocationAndToLocationAndChargetype(toLocation, fromLocation,"LOADING CHARGES");
+			}
+			if (charge != null && charge.getValue()!=null) {
+				return new ResponseEntity<String>(charge.getValue(), HttpStatus.OK);	
+			}else {
+				return new ResponseEntity<String>("", HttpStatus.OK);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed To search Charges");
+		}
+		return new ResponseEntity<String>("", HttpStatus.OK);
+	}
+	@RequestMapping(value = "/getFuelCharges", method = RequestMethod.POST)
+	public ResponseEntity<String> getFuelCharges(HttpServletRequest request, ModelMap model) {
+		try {
+			String fromLocation = request.getParameter("fromLocation");
+			String toLocation = request.getParameter("toLocation");
+
+			Charge charge = chargeRepository.findByFromLocationAndToLocationAndChargetype(fromLocation, toLocation,"FUEL CHARGES");
+			if (charge != null && charge.getValue()!=null) {
+
+			} else {
+				charge = chargeRepository.findByFromLocationAndToLocationAndChargetype(toLocation, fromLocation,"FUEL CHARGES");
+			}
+			if (charge != null && charge.getValue()!=null) {
+				return new ResponseEntity<String>(charge.getValue(), HttpStatus.OK);	
+			}else {
+				return new ResponseEntity<String>("", HttpStatus.OK);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed To search Charges");
+		}
+		return new ResponseEntity<String>("", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/searchFromCustomerName/{phone}", method = RequestMethod.GET)
+	public ResponseEntity<String> searchFromCustomerName(@PathVariable("phone") Long phone, HttpServletRequest request, ModelMap model) {
+		try {
+			Customer customer=customerRepository.findByAllPhoneNumber(phone);
+			if(customer!=null) {
+				return new ResponseEntity<String>(customer.getCustName(), HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed To search Customer Name");
+		}
+		return new ResponseEntity<String>("", HttpStatus.OK);
+	}
+	@RequestMapping(value = "/searchToCustomerName/{phone}", method = RequestMethod.GET)
+	public ResponseEntity<String> searchToCustomerName(@PathVariable("phone") Long phone, HttpServletRequest request, ModelMap model) {
+		try {
+			Customer customer=customerRepository.findByAllPhoneNumber(phone);
 			if(customer!=null) {
 				return new ResponseEntity<String>(customer.getCustName(), HttpStatus.OK);
 			}

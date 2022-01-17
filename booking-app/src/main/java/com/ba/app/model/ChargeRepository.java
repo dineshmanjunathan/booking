@@ -8,6 +8,8 @@ import com.ba.app.entity.Charge;
 
 public interface ChargeRepository extends CrudRepository<Charge,Long>{
 
+	List<Charge> findByFromLocationAndToLocation(String filter1,String filter2);
+	Charge findByFromLocationAndToLocationAndChargetype(String filter1,String filter2,String filter3);
 	List<Charge> findByChargetypeAndFromLocationAndToLocation(String filter1,String filter2,String filter3);
 	List<Charge> findByChargetypeAndToLocationAndFromLocation(String filter1,String filter2,String filter3);
 }

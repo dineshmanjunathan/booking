@@ -80,8 +80,8 @@
 				</select>
 				<br>
 				<div class="form-row">
-					<input type="text" class="form-control" name="value"
-						id="value" placeholder="Value" value="${charge.value}"
+					<input type="number" class="form-control" name="value"
+						id="value" placeholder="Value" step="0.001"  pattern="^\d+(?:\.\d{1,3})?$" value="${charge.value}"
 						required>
 				</div>
 				<br>
