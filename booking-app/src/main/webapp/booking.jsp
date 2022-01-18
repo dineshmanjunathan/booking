@@ -128,7 +128,11 @@
 					var thirdValue = val[2];
 					
 					if(firstValue.includes("FREIGHT")==true){
-						document.getElementById("freightvalue").value = firstValue.split((/[=]+/))[1];
+						var fv = firstValue.split((/[=]+/))[1]
+						document.getElementById("freightvalue").value = fv;
+						$("#freightvalue").attr({"min" : fv});
+						sumAmount();
+						
 					}
 					
 					if(firstValue.includes("FUEL CHARGES")==true){
@@ -619,7 +623,7 @@
 														</select>
 													</div>
 													<div class="col-sm-4">
-														<input type="number" max="150" class="form-control"
+														<input type="number" class="form-control"
 															id="freightvalue" name="freightvalue"
 															value="${booking.freightvalue}" onblur="sumAmount();">
 													</div>
