@@ -228,12 +228,12 @@
 		let total = frieght + loading + doorPick;
 		total =total+(total/100) *5;
 		if (option == 'TOPAY') {
-			document.getElementById("topay").value = total;
+			document.getElementById("topay").value = Math.round(total);
 		} else if (option == 'PAID') {
-			document.getElementById("paid").value = total;
+			document.getElementById("paid").value = Math.round(total);
 		}
 		
-		document.getElementById("total").value = total;
+		document.getElementById("total").value = Math.round(total);
 	}
 	
 	function sumRefund() {
@@ -283,7 +283,11 @@
 		if (confirm('Are you sure you want to clear?')) {
 			$.each($('form').serializeArray(), function(index, value) {
 				try {
-					$('#' + value.name + '').val('');
+					if (value.name == 'fromdummy' ){
+						
+					}else{
+					$('[name="' + value.name + '"]').val('');
+					}
 				} catch (e) {
 					alert(e);
 				}
@@ -294,7 +298,6 @@
 		document.getElementById("loadingcharges").readOnly  = false;
 		document.getElementById("doorpickcharges").readOnly  = false;
 		document.getElementById("cash").readOnly  = false;
-		document.getElementById("refund").readOnly  = false;
 	}
 	function enableBillValue() {
 		$('[name="billValue"]').removeAttr("readonly");
@@ -551,7 +554,7 @@
 													<div class="col-sm-8">
 														<input type="text" class="form-control bg-info text-dark"
 															id="bookedOn" placeholder="" name="bookedOn"
-															value="${bookedOn}" readonly required>
+															value="${booking.bookedOn}" readonly required>
 													</div>
 												</div>
 
@@ -595,7 +598,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" placeholder="0.000" max="999999" step="0.001"  pattern="^\d+(?:\.\d{1,3})?$" class="form-control"
-															id="weight" name="weight" value="${booking.weight}" required>
+															id="weight" name="weight" value="${booking.weight}">
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -693,7 +696,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" id="refund"
-															name="refund" value="${booking.refund}">
+															name="refund" value="${booking.refund}" readonly>
 													</div>
 												</div>
 
