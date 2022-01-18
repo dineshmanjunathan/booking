@@ -912,8 +912,8 @@ public class BookingController {
 		try {
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
-			
-			List<Booking> allList = bookingRepository.findByIgplStatusAndOgplNoIsNull("P");
+			String fromlocationcode = ""+request.getSession().getAttribute("USER_LOCATIONID");
+			List<Booking> allList = bookingRepository.findByIgplStatusAndFromLocationAndOgplNoIsNull("P",fromlocationcode);
 			
 			model.addAttribute("bookinginventory", allList);
 			
