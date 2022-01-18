@@ -226,12 +226,13 @@
 		var loading = Number(document.getElementById("loadingcharges").value);
 		var doorPick = Number(document.getElementById("doorpickcharges").value);
 		let total = frieght + loading + doorPick;
+		total =total+(total/100) *5;
 		if (option == 'TOPAY') {
 			document.getElementById("topay").value = total;
 		} else if (option == 'PAID') {
 			document.getElementById("paid").value = total;
 		}
-		total =total+(total/100) *5;
+		
 		document.getElementById("total").value = total;
 	}
 	
@@ -628,7 +629,7 @@
 													</div>
 													<div class="col-sm-4">
 														<select class="form-select bg-info text-dark"
-															id="loadingchargespay" name="loadingchargespay" >
+															id="loadingchargespay" name="loadingchargespay" disabled>
 															<option value="">-Select-</option>
 															<option value="TOPAY"
 																${booking.payOption == 'TOPAY' ? 'selected' : ''}>TOPAY</option>
@@ -651,7 +652,7 @@
 													</div>
 													<div class="col-sm-4">
 														<select class="form-select bg-info text-dark"
-															id="doorpickchargespay" name="doorpickchargespay" >
+															id="doorpickchargespay" name="doorpickchargespay" disabled>
 															<option value="">-Select-</option>
 															<option value="TOPAY"
 																${booking.payOption == 'TOPAY' ? 'selected' : ''}>TOPAY</option>
@@ -715,16 +716,47 @@
 													</div>
 												</div>
 
-
-												
-													<div class="col-md-18 control-margin">
-												<a href="/menu"><button type="button"
-														class="btn btn-primary button-margin col-md-2" id="bc">Back</button></a>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label"></label>
+													</div>
+													<div class="col-sm-8"></div>
+												</div>
+												<div class="col-md-18 control-margin">
+												<button type="submit"
+													class="btn btn-primary button-margin col-md-2" id="btnSave" disabled>Save</button>
 												<button type="button"
+													class="btn btn-primary button-margin col-md-2" id="btnEdit"
+													onclick="loadReadBookingForm();">Edit</button>
+														<button type="button"
 													class="btn btn-primary button-margin col-md-2"
 													id="btnPrint">Print</button>
+													<a href="/menu"><button type="button"
+														class="btn btn-primary button-margin col-md-2" id="bc">Back</button></a>
+											
+
+											</div>
+												
+													<div class="col-md-18 control-margin">
+													
+													<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label"></label>
+													</div>
+													<div class="col-sm-8"></div>
+												</div>
+											
 													<a href="/booking"><button type="button"
 														class="btn btn-primary button-margin col-md-2" id="new">New</button></a>
+															<button type="button"
+													class="btn btn-primary button-margin col-md-2" id="bclear"
+													onclick="clear_fetch();">Clear</button>
+
+												<a
+													onclick="return confirm('Are you sure you want to delete?')"
+													href="/bookingReq/delete?bid=${booking.id}"><button
+														type="button"
+														class="btn btn-primary button-margin col-md-2" id="delete">Delete</button></a>
 												<c:choose>
 													<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
 														<button type="button"
@@ -740,7 +772,7 @@
 													</div>
 													<div class="col-sm-8"></div>
 												</div>
-												<div class="col-md-18 control-margin">
+									<%-- 			<div class="col-md-18 control-margin">
 												<button type="submit"
 													class="btn btn-primary button-margin col-md-2" id="btnSave" disabled>Save</button>
 												<button type="button"
@@ -756,7 +788,7 @@
 														type="button"
 														class="btn btn-primary button-margin col-md-2" id="delete">Delete</button></a>
 
-											</div>
+											</div> --%>
 												
 
 												<div class="row element-margin">

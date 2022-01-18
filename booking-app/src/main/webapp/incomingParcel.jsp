@@ -192,7 +192,7 @@
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-holder">
-						<select name="deliveredBy" id="deliveredBy" class="form-control">
+						<select name="deliveredBy" id="deliveredBy" class="form-control"disabled>
 							<option value="" disabled selected>-Delivered By-</option>
 							<option value="class 01"
 				${incomeparcel.deliveredBy == 'class 01' ? 'selected' : ''}>Class 01</option>
@@ -212,7 +212,7 @@
 				<div class="form-row">
 					
 					<div class="form-holder">
-						<select name="driver" id="driver" class="form-control">
+						<select name="driver" id="driver" class="form-control"disabled>
 							<option value="">-Driver-</option>
 							<c:forEach var="options" items="${driverList}"
 								varStatus="status">
@@ -223,7 +223,7 @@
 					</div>	
 					&nbsp;
 					<div class="form-holder">
-						<select name="conductor" id="conductor" class="form-control">
+						<select name="conductor" id="conductor" class="form-control"disabled>
 							<option value="">-Conductor-</option>
 							<c:forEach var="options" items="${conductorList}"
 								varStatus="status">
