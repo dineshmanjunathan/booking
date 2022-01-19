@@ -225,7 +225,10 @@ public class BookingController {
 		String currentDate = formatter.format(date); 
 		lRNumber=sLR;
 		model.addAttribute("LRnumber", lRNumber);
-		model.addAttribute("bookedOn", currentDate);
+		//model.addAttribute("bookedOn", currentDate);
+		BookingVo bookingVO=new BookingVo();
+		bookingVO.setBookedOn(currentDate);
+		model.addAttribute("booking", bookingVO);
 		setAllBookednameListInModel(model); //to set all booked name
 		
 		return "booking";

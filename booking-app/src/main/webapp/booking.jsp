@@ -423,147 +423,6 @@
 
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="from_phone">From
-															Phone No</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="tel"
-															class="form-control" placeholder="1234567890" pattern="[0-9]{10}" id="from_phone" name="from_phone"
-															value="${booking.from_phone}"
-															onblur="checkFromNameExists();" required>
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="fromName">From Name</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" maxlength="30" class="form-control"
-															id="fromName" name="fromName" value="${booking.fromName}"
-															required>
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="remarks">Remarks</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" maxlength="180" class="form-control"
-															id="remarks" name="remarks" value="${booking.remarks}" required>
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="fromValue">Value</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="number" class="form-control"
-															id="fromValue" name="fromValue"
-															value="${booking.fromValue}" required>
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-8">
-														<div class="form-check form-check-inline">
-															<input class="form-check-input" type="radio"
-																name="billOptions" id="withBill"
-																value="1" onclick="selectBillValue();" checked> <label class="form-check-label"
-																for="inlineRadio1">With Bill</label>
-														</div>
-														<div class="form-check form-check-inline">
-															<input class="form-check-input" type="radio"
-																name="billOptions" id="withoutBill"
-																value="2" onclick="selectBillValue();"> <label class="form-check-label"
-																for="inlineRadio2">Without Bill</label>
-														</div>
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="invNo">Cons INV No</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" maxlength="32" class="form-control"
-															id="invNo" name="invNo" value="${booking.invNo}" required>
-													</div>
-												</div>
-
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="billValue">Bill
-															Value</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="number"  class="form-control"
-															id="billValue" name="billValue"
-															value="${booking.billValue}" onkeyup="getBillValue();" required>
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="billNumber">E Way
-															Bill Number</label>
-													</div>
-													<div class="col-sm-8">
-															<div class="input-group">
-															<input type="text" maxlength="12" minlength="12" class="form-control"
-															id="billNumber" name="billNumber"
-															value="${booking.billNumber}" onkeyup="getBillValue();">
-														</div>
-														<button type="button" class="btn btn-secondary btn-sm"
-																id="btnVerify">Verify</button>
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<input type="checkbox" class="form-check-input"
-															id="isPrinted" name="isPrinted"
-															value="${booking.isPrinted}" disabled> <label
-															class="form-check-label" for="isPrinted">Printed</label>
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="bookedBy">Booked By</label>
-													</div>
-													<div class="col-sm-8">
-													
-													<select name="bookedBy" id="bookedBy" class="form-control">
-															<option value="">-Booked By-</option>
-															<c:forEach var="options" items="${bookedNameList}"
-																varStatus="status">
-																<option value="${options.id}"
-																	${options.id==booking.bookedBy ? 'selected' : ''}>${options.name} [${options.id}]</option>
-															</c:forEach>
-														</select><i class="zmdi zmdi-chevron-down"></i>
-													</div>
-												</div>
-											</div>
-											<div class="col-md-4 control-margin">
-												<%-- <div class="row element-margin">
-													<div class="col-sm-4">
-														<label for="bookingNo" class="form-label">Book No</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="number"
-															class="form-control bg-info text-dark" max="999999"
-															id="bookingNo" name="bookingNo"
-															value="${booking.bookingNo}" required>
-													</div>
-												</div> --%>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label for="bookedOn" class="form-label">Date</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" class="form-control bg-info text-dark"
-															id="bookedOn" placeholder="" name="bookedOn"
-															value="${booking.bookedOn}" readonly required>
-													</div>
-												</div>
-
-												<div class="row element-margin">
-													<div class="col-sm-4">
 														<label class="form-label" for="to_phone">To Phone
 															No</label>
 													</div>
@@ -691,7 +550,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" id="cash"
-															name="cash" value="${booking.cash}" onblur="sumRefund();">
+															name="cash" value="${booking.cash}" onblur="sumRefund();" required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -703,7 +562,136 @@
 															name="refund" value="${booking.refund}" readonly>
 													</div>
 												</div>
+											</div>
+											<div class="col-md-4 control-margin">
+														
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label for="bookedOn" class="form-label">Date</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" class="form-control bg-info text-dark"
+															id="bookedOn" placeholder="" name="bookedOn"
+															value="${booking.bookedOn}" readonly required>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="from_phone">From
+															Phone No</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="tel"
+															class="form-control" placeholder="1234567890" pattern="[0-9]{10}" id="from_phone" name="from_phone"
+															value="${booking.from_phone}"
+															onblur="checkFromNameExists();" required>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="fromName">From Name</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" maxlength="30" class="form-control"
+															id="fromName" name="fromName" value="${booking.fromName}"
+															required>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="remarks">Remarks</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" maxlength="180" class="form-control"
+															id="remarks" name="remarks" value="${booking.remarks}" required>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="fromValue">Value</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="number" class="form-control"
+															id="fromValue" name="fromValue"
+															value="${booking.fromValue}" required>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-8">
+														<div class="form-check form-check-inline">
+															<input class="form-check-input" type="radio"
+																name="billOptions" id="withBill"
+																value="1" onclick="selectBillValue();" checked> <label class="form-check-label"
+																for="inlineRadio1">With Bill</label>
+														</div>
+														<div class="form-check form-check-inline">
+															<input class="form-check-input" type="radio"
+																name="billOptions" id="withoutBill"
+																value="2" onclick="selectBillValue();"> <label class="form-check-label"
+																for="inlineRadio2">Without Bill</label>
+														</div>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="invNo">Cons INV No</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" maxlength="32" class="form-control"
+															id="invNo" name="invNo" value="${booking.invNo}" required>
+													</div>
+												</div>
 
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="billValue">Bill
+															Value</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="number"  class="form-control"
+															id="billValue" name="billValue"
+															value="${booking.billValue}" onkeyup="getBillValue();" required>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="billNumber">E Way
+															Bill Number</label>
+													</div>
+													<div class="col-sm-8">
+															<div class="input-group">
+															<input type="text" maxlength="12" minlength="12" class="form-control"
+															id="billNumber" name="billNumber"
+															value="${booking.billNumber}" onkeyup="getBillValue();">
+														</div>
+														<button type="button" class="btn btn-secondary btn-sm"
+																id="btnVerify">Verify</button>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<input type="checkbox" class="form-check-input"
+															id="isPrinted" name="isPrinted"
+															value="${booking.isPrinted}" disabled> <label
+															class="form-check-label" for="isPrinted">Printed</label>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="bookedBy">Booked By</label>
+													</div>
+													<div class="col-sm-8">
+													
+													<select name="bookedBy" id="bookedBy" class="form-select bg-info text-dark">
+															<option value="">-Booked By-</option>
+															<c:forEach var="options" items="${bookedNameList}"
+																varStatus="status">
+																<option value="${options.id}"
+																	${options.id==booking.bookedBy ? 'selected' : ''}>${options.name} [${options.id}]</option>
+															</c:forEach>
+														</select>
+													</div>
+												</div>
 
 											</div>
 											<div class="col-md-4 control-margin">
@@ -779,24 +767,6 @@
 													</div>
 													<div class="col-sm-8"></div>
 												</div>
-									<%-- 			<div class="col-md-18 control-margin">
-												<button type="submit"
-													class="btn btn-primary button-margin col-md-2" id="btnSave" disabled>Save</button>
-												<button type="button"
-													class="btn btn-primary button-margin col-md-2" id="btnEdit"
-													onclick="loadReadBookingForm();">Edit</button>
-												<button type="button"
-													class="btn btn-primary button-margin col-md-2" id="bclear"
-													onclick="clear_fetch();">Clear</button>
-
-												<a
-													onclick="return confirm('Are you sure you want to delete?')"
-													href="/bookingReq/delete?bid=${booking.id}"><button
-														type="button"
-														class="btn btn-primary button-margin col-md-2" id="delete">Delete</button></a>
-
-											</div> --%>
-												
 
 												<div class="row element-margin">
 													<div class="col-sm-4">
@@ -846,14 +816,6 @@
 													</div>
 													<div class="col-sm-8"></div>
 												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label"></label>
-													</div>
-													<div class="col-sm-8"></div>
-												</div>
-
-
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="paid">Paid</label>

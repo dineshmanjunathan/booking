@@ -128,11 +128,11 @@
 						class="form-control" id="ogpldate" placeholder="OGPL Date"> -->
 											</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;
-					<div class="form-check">
+					<!-- <div class="form-check">
 						<input class="form-check-input" type="checkbox" value=""
 							id="defaultCheck1"> <label class="form-check-label"
 							for="defaultCheck1"> Manual </label>
-					</div>
+					</div> -->
 				</div>
 			
 				<table id="data-table" class="table table-striped"
@@ -181,7 +181,7 @@
 				<br>
 				<div class="form-row">
 					<div class="form-holder">
-						<select name="vehicleNo" id="vehicleNo" class="form-control">
+						<select name="vehicleNo" id="vehicleNo" class="form-control" disabled>
 							<option value="">-Vehicle No-</option>
 							<c:forEach var="options1" items="${vehicleList}"
 								varStatus="status">
@@ -203,11 +203,11 @@
 						</select> <i class="zmdi zmdi-chevron-down"></i>
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<div class="form-check">
+					<!-- <div class="form-check">
 						<input class="form-check-input" type="checkbox" value=""
 							id="defaultCheck1"> <label class="form-check-label"
 							for="defaultCheck1"> Verified </label>
-					</div>
+					</div> -->
 				</div>
 				<div class="form-row">
 					

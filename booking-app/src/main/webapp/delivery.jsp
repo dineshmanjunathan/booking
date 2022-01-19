@@ -42,7 +42,14 @@
 				inputs1[i].disabled = true;
 			}
 			document.getElementById("txtSearch").disabled = false;
+			document.getElementById("unloadingCharges").disabled = false;
 	
+	}
+	function sumAmount() {
+		var unloadingCharges = document.getElementById("unloadingCharges").value;
+		var total = Number(document.getElementById("total").value);
+		let sum = unloadingCharges + total;
+		document.getElementById("total").value = (sum);
 	}
 </script>
 
@@ -99,7 +106,7 @@
 															Bill</label>
 													</div>
 												</div>
-												<div class="row element-margin">
+												<!-- <div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="deliverySelection">Delivery
 															Section</label>
@@ -112,17 +119,26 @@
 															<option>Selection 3</option>
 														</select>
 													</div>
+												</div> -->
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="txtName">From Name</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" class="form-control" name="fromName"
+															value="${deliveryB.fromName}">
+													</div>
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="txtName">Name</label>
+														<label class="form-label" for="txtName">To Name</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" name="name"
+														<input type="text" class="form-control" name="toName"
 															value="${deliveryB.toName}">
 													</div>
 												</div>
-												<div class="row element-margin">
+												<%-- <div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtPaid">Paid</label>
 													</div>
@@ -130,7 +146,7 @@
 														<input type="text" class="form-control" name="paid"
 															value="${deliveryB.paid}">
 													</div>
-												</div>
+												</div> --%>
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtNoofItem">No. of
@@ -186,7 +202,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 control-margin">
-												<div class="row element-margin">
+												<%-- <div class="row element-margin">
 													<div class="col-sm-4">
 														<label for="txtNo" class="form-label">No</label>
 													</div>
@@ -194,7 +210,7 @@
 														<input type="number" class="form-control" name="no"
 															value="${deliveryB.bookingNo}">
 													</div>
-												</div>
+												</div> --%>
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label for="txtOGPL" class="form-label">OGPL</label>
@@ -289,18 +305,9 @@
 															value="${delivery.deliveryDate}">
 													</div>
 												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="txtToPay">To Pay</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" class="form-control" name="toPay"
-															value="${deliveryB.topay}">
-													</div>
-												</div>
 											</div>
 											<div class="col-md-4 control-margin">
-												<div class="row element-margin">
+												<!-- <div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtHamali">Hamali</label>
 													</div>
@@ -308,7 +315,7 @@
 														<input type="text" class="form-control" name="hamali"
 															value="0">
 													</div>
-												</div>
+												</div> -->
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtUnloadingCharges">Unloading
@@ -316,8 +323,8 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="text" class="form-control"
-															name="unloadingCharges" value="0">
-													</div>
+															name="unloadingCharges" id="unloadingCharges" onblur="sumAmount();">
+												</div>
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
@@ -338,7 +345,7 @@
 															value="0">
 													</div>
 												</div>
-												<div class="row element-margin">
+												<%--<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtOthers">Others</label>
 													</div>
@@ -346,37 +353,49 @@
 														<input type="text" class="form-control" name="others"
 															value="${deliveryB.othercharges}">
 													</div>
+												</div> --%>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="txtPaidTotal">Paid</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" class="form-control" name="paid"
+															value="${deliveryB.paid}">
+													</div>
+													
 												</div>
 												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="txtToPay">To Pay</label>
+													</div>
 													<div class="col-sm-8">
+														<input type="text" class="form-control" name="toPay"
+															value="${deliveryB.topay}">
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
 														<label class="form-label" for="txtTotal">TOTAL</label>
 													</div>
-													<div class="col-sm-4">
-														<input type="number" class="form-control" name="total"
+													<div class="col-sm-8">
+														<input type="number" class="form-control" name="total" id="total"
 															value="${deliveryB.total}">
 													</div>
 												</div>
 												<div class="row element-margin">
-													<div class="col-sm-2">
-														<label class="form-label" for="txtPaidTotal">Paid</label>
-													</div>
-													<div class="col-sm-6">
-														<input type="text" class="form-control" name="txtPaidBy">
-													</div>
 													<div class="col-sm-4">
-														<input type="text" class="form-control" name="paid"
-															value="${deliveryB.paid}">
+														<label class="form-label" for="txtTotal">Cash</label>
 													</div>
-													<div class="mt-0" style="padding-left: 80px">
-														<label for="txtPaidBy" class="form-label"><small>(Cheque
-																No;Bank;Branch)</small></label>
+													<div class="col-sm-8">
+														<input type="number" class="form-control" id="cash"
+															name="cash" value="${bookingB.cash}" required>
 													</div>
 												</div>
 												<div class="row element-margin">
-													<div class="col-sm-8">
+													<div class="col-sm-4">
 														<label class="form-label" for="txtRefund">Refund</label>
 													</div>
-													<div class="col-sm-4">
+													<div class="col-sm-8">
 														<input type="text" class="form-control" name="refund"
 															value="${deliveryB.refund}">
 													</div>

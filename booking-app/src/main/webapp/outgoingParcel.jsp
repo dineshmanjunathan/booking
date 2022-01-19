@@ -146,21 +146,17 @@
 							<th scope="col">LR No.</th>
 							<th scope="col">OGP</th>
 							<th scope="col">To Name</th>
-							<th scope="col">NOs</th>
+							<th scope="col">No Of Items</th>
 							<th scope="col">Remarks</th>
 							<th scope="col">Paid</th>
 							<th scope="col">To Pay</th>
-							<th scope="col">Charges</th>
 							<th scope="col">Booked Date</th>
-							<th scope="col">Br</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="outgoingList" items="${outgoingList}"
 							varStatus="status">
 							<tr>
-								<!-- 							<th scope="row">1</th>
- -->
 								<td>${outgoingList.lrNumber}</td>
 								<c:choose>
 									<c:when test="${checkboxchecked=='1'}">
@@ -173,13 +169,11 @@
 									</c:otherwise>
 								</c:choose>
 								<td>${outgoingList.toName}</td>
-								<td>${outgoingList.bookingNo}</td>
+								<td>${outgoingList.item_count}</td>
 								<td>${outgoingList.remarks}</td>
 								<td>${outgoingList.paid}</td>
 								<td>${outgoingList.topay}</td>
-								<td>${outgoingList.total_charges}</td>
 								<td>${outgoingList.bookedOn}</td>
-								<td>dummy br</td>
 
 							</tr>
 						</c:forEach>
