@@ -54,7 +54,7 @@
 	
 	}
 	function sumAmount() {
-		var unloadingCharges = document.getElementById("unloadingCharges").value;
+		var unloadingCharges =Number( document.getElementById("unloadingCharges").value);
 		var total = Number(document.getElementById("total").value);
 		let sum = unloadingCharges + total;
 		document.getElementById("total").value = (sum);
