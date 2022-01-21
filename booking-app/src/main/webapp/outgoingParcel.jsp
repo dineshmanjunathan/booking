@@ -151,6 +151,8 @@
 							<th scope="col">Paid</th>
 							<th scope="col">To Pay</th>
 							<th scope="col">Booked Date</th>
+							<th scope="col">To Phone</th>
+							<th scope="col"> EWAY Bill number</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -174,6 +176,8 @@
 								<td>${outgoingList.paid}</td>
 								<td>${outgoingList.topay}</td>
 								<td>${outgoingList.bookedOn}</td>
+								<td>${outgoingList.toPhone}</td>
+								<td>${outgoingList.billNumber}</td>
 
 							</tr>
 						</c:forEach>
@@ -213,17 +217,15 @@
 
 
 				<div class="row control-margin">
-					<div class="col-md-4">
-						<button type="submit" class="btn btn-primary button-margin"
+					<div class="col-md-6 control-margin">
+						<button type="submit" class="btn btn-primary button-margin col-md-2"
 							id="btnSave">Save</button>
-					</div>
-					<div class="col-md-4">		
-						<button type="reset" class="btn btn-primary button-margin"
+						<button type="reset" class="btn btn-primary button-margin col-md-2"
 							name="submit">Clear</button>
-					</div>		
-					<div class="col-md-4">
 						<a href="/menu"><button type="button"
-								class="btn btn-primary button-margin" id="btnClear">Back</button></a>
+								class="btn btn-primary button-margin col-md-2" id="btnClear">Back</button></a>
+						<button type="button" class="btn btn-primary button-margin col-md-2"
+							name="print">Print</button>
 					</div>
 				</div>
 			</form>

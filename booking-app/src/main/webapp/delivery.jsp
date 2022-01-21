@@ -29,6 +29,12 @@
 		} */
 		toggleFormElements(false);
 	}
+	function sumRefund() {
+		var total = Number(document.getElementById("total").value);
+		var cash = Number(document.getElementById("cash").value);
+		let refund = cash -total;
+		document.getElementById("refund").value = refund;
+	}
 </script>
 <script>
 	function toggleFormElements() {
@@ -43,6 +49,8 @@
 			}
 			document.getElementById("txtSearch").disabled = false;
 			document.getElementById("unloadingCharges").disabled = false;
+			document.getElementById("cash").disabled = false;
+			
 	
 	}
 	function sumAmount() {
@@ -92,34 +100,7 @@
 																LR No. or Party Name and press Search)</small></label>
 													</div>
 												</div>
-												<div class="row element-margin">
-													<div class="col-sm-6">
-														<input type="checkbox" class="form-check-input"
-															name="chkDeliveredParcel"> <label
-															class="form-check-label" for="chkDeliveredParcel">Include
-															Delivered Parcels</label>
-													</div>
-													<div class="col-sm-6">
-														<input type="checkbox" class="form-check-input"
-															name="chkDeliveredParcel"> <label
-															class="form-check-label" for="chkDeliveredParcel">Search
-															Bill</label>
-													</div>
-												</div>
-												<!-- <div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="deliverySelection">Delivery
-															Section</label>
-													</div>
-													<div class="col-sm-8">
-														<select class="form-select" name="deliverySelection">
-															<option selected disabled value="">Choose...</option>
-															<option>Selection 1</option>
-															<option>Selection 2</option>
-															<option>Selection 3</option>
-														</select>
-													</div>
-												</div> -->
+												
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtName">From Name</label>
@@ -211,6 +192,29 @@
 															value="${deliveryB.bookingNo}">
 													</div>
 												</div> --%>
+													<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="from_phone">From
+															Phone No</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="tel"
+															class="form-control" placeholder="1234567890" pattern="[0-9]{10}" id="from_phone" name="from_phone"
+															value="${deliveryB.from_phone}"
+															 required>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="to_phone">To Phone
+															No</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="tel" placeholder="1234567890" pattern="[0-9]{10}" class="form-control"
+															id="to_phone" name="to_phone" value="${deliveryB.to_phone}"
+															 required>
+													</div>
+												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label for="txtOGPL" class="form-label">OGPL</label>
@@ -388,7 +392,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" id="cash"
-															name="cash" value="${bookingB.cash}" required>
+															name="cash" onblur="sumRefund();" required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -397,34 +401,27 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="text" class="form-control" name="refund"
-															value="${deliveryB.refund}">
+															>
 													</div>
 												</div>
 											</div>
 										</div>
-
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label"></label>
+													</div>
+													<div class="col-sm-8"></div>
+												</div>
 										<div class="row control-margin">
 											<div class="col-md-6 control-margin">
-												<button type="submit" class="btn btn-primary button-margin"
+												<button type="submit" class="btn btn-primary button-margin col-md-2"
 													id="btnSave">Save</button>
-												<button type="reset" class="btn btn-primary button-margin"
-													id="btnClear">Clear</button>
 												<a href="/menu"><button type="button"
 														class="btn btn-primary button-margin col-md-2"
 														id="btnClear">Back</button></a>
-											</div>
-											<!-- 										<div class="col-md-4 control-margin"> -->
-											<!-- 											<button type="button" class="btn btn-primary button-margin" -->
-											<!-- 												id="btnNext">Next</button> -->
-											<!-- 											<button type="button" class="btn btn-primary button-margin" -->
-											<!-- 												id="btnPrevious">Previous</button> -->
-											<!-- 											<button type="button" class="btn btn-primary button-margin" -->
-											<!-- 												id="btnCurrent">Current</button> -->
-											<!-- 										</div> -->
-											<div class="col-md-6 control-margin">
-												<button type="button" class="btn btn-primary button-margin"
+											<button type="button" class="btn btn-primary button-margin col-md-2"
 													id="btnDeliver">Deliver</button>
-												<button type="button" class="btn btn-primary button-margin"
+												<button type="button" class="btn btn-primary button-margin col-md-2"
 													id="btnPrint">Print</button>
 
 											</div>

@@ -139,21 +139,17 @@
 					style="width: 100%">
 					<thead>
 						<tr>
-							<th scope="col">No.</th>
 							<th scope="col">Name</th>
 							<th scope="col">Nos LR</th>
 							<th scope="col">Paid</th>
 							<th scope="col">To Pay</th>
 							<th scope="col">Charges</th>
-							<th scope="col">Hamali Rem</th>
-							<th scope="col">Free Hold Status To</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="incomelist"  items="${incomeparcelList}"
 							varStatus="status">
 							<tr>
-								<th scope="row">1</th>
 								<td>${incomelist.toName}</td>
 
 								<c:choose>
@@ -171,8 +167,6 @@
 								<td>${incomelist.paid}</td>
 								<td>${incomelist.topay}</td>
 								<td>${incomelist.total_charges}</td>
-								<td>Hamali Rem</td>
-								<td>Free Hold Status To</td>
 							</tr>
 						</c:forEach>
 
