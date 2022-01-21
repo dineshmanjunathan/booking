@@ -35,6 +35,11 @@
 		let refund = cash -total;
 		document.getElementById("refund").value = refund;
 	}
+	function save_confirm(){
+		if (confirm('Are you sure you want to save?')) {
+			 document.getElementById("deliveryform").submit();
+		}
+	}
 </script>
 <script>
 	function toggleFormElements() {
@@ -48,15 +53,15 @@
 				inputs1[i].disabled = true;
 			}
 			document.getElementById("txtSearch").disabled = false;
-			document.getElementById("unloadingCharges").disabled = false;
+			document.getElementById("doorDeliveryCharges").disabled = false;
 			document.getElementById("cash").disabled = false;
 			
 	
 	}
 	function sumAmount() {
-		var unloadingCharges =Number( document.getElementById("unloadingCharges").value);
+		var doorDeliveryCharges =Number( document.getElementById("doorDeliveryCharges").value);
 		var total = Number(document.getElementById("total").value);
-		let sum = unloadingCharges + total;
+		let sum = doorDeliveryCharges + total;
 		document.getElementById("total").value = (sum);
 	}
 </script>
@@ -79,7 +84,7 @@
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div class="blog-details-inner">
 								<main>
-									<form action="/addDelivery" method="post" style="width: 100%;">
+									<form action="/addDelivery" method="post" style="width: 100%;" name="deliveryform" id="deliveryform">
 										<input type="hidden" class="form-control" name="id" id="id"
 											value="">
 										<p style="color: red" align="center">${errormsg}</p>
@@ -414,8 +419,8 @@
 												</div>
 										<div class="row control-margin">
 											<div class="col-md-6 control-margin">
-												<button type="submit" class="btn btn-primary button-margin col-md-2"
-													id="btnSave">Save</button>
+												<button type="button" class="btn btn-primary button-margin col-md-2"
+													id="btnSave" onclick="save_confirm();">Save</button>
 												<a href="/menu"><button type="button"
 														class="btn btn-primary button-margin col-md-2"
 														id="btnClear">Back</button></a>
