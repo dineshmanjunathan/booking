@@ -176,7 +176,7 @@
 								<td>${outgoingList.paid}</td>
 								<td>${outgoingList.topay}</td>
 								<td>${outgoingList.bookedOn}</td>
-								<td>${outgoingList.toPhone}</td>
+								<td>${outgoingList.to_phone}</td>
 								<td>${outgoingList.billNumber}</td>
 
 							</tr>
