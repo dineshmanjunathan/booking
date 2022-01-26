@@ -2,6 +2,7 @@ package com.ba.app.controller;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,10 +30,14 @@ import com.ba.app.entity.Conductor;
 import com.ba.app.entity.Customer;
 import com.ba.app.entity.Delivery;
 import com.ba.app.entity.Driver;
+import com.ba.app.entity.Expence;
+import com.ba.app.entity.ExpenceCategory;
+import com.ba.app.entity.ExpenceSubCategory;
 import com.ba.app.entity.Inventory;
 import com.ba.app.entity.Location;
 import com.ba.app.entity.OutgoingParcel;
 import com.ba.app.entity.PayType;
+import com.ba.app.entity.PaymentType;
 import com.ba.app.entity.Vehicle;
 import com.ba.app.model.BookedByRepository;
 import com.ba.app.model.BookingRepository;
@@ -42,17 +47,25 @@ import com.ba.app.model.CustomerRepository;
 import com.ba.app.model.DeliveryListRepository;
 import com.ba.app.model.DeliveryRepository;
 import com.ba.app.model.DriverRepository;
+import com.ba.app.model.ExpenceCategoryRepository;
+import com.ba.app.model.ExpenceRepository;
+import com.ba.app.model.ExpenceSubCategoryRepository;
 import com.ba.app.model.InventoryRepository;
 import com.ba.app.model.LocationRepository;
 import com.ba.app.model.OutgoingParcelRepository;
 import com.ba.app.model.PayOptionRepository;
+import com.ba.app.model.PaymentTypeRepository;
 import com.ba.app.model.VehicleRepository;
 import com.ba.app.vo.BookingVo;
 import com.ba.app.vo.DeliveryVo;
+import com.ba.app.vo.ExpenceCategoryVo;
+import com.ba.app.vo.ExpenceSubCategoryVo;
+import com.ba.app.vo.ExpenceVo;
 import com.ba.app.vo.InventoryVo;
 import com.ba.app.vo.LocationVo;
 import com.ba.app.vo.OutgoingParcelVo;
 import com.ba.app.vo.PayOptionVo;
+import com.ba.app.vo.PaymentTypeVo;
 import com.ba.app.vo.VehicleVo;
 import com.ba.utils.Utils;
 import com.google.gson.JsonObject;
@@ -84,6 +97,14 @@ public class BookingController {
 	private BookedByRepository bookedByRepository;
 	@Autowired
 	private ChargeRepository chargeRepository;
+	@Autowired
+	private ExpenceRepository expenceRepository;
+	@Autowired
+	private ExpenceCategoryRepository expenceCategoryRepository;
+	@Autowired
+	private ExpenceSubCategoryRepository expenceSubCategoryRepository;
+	@Autowired
+	private PaymentTypeRepository paymentTypeRepository;
 	
 	private String lRNumber;
 	private String sessionValidation(HttpServletRequest request, ModelMap model) {
@@ -951,5 +972,403 @@ public class BookingController {
 	private void setAllBookednameListInModel(ModelMap model) {
 		Iterable<BookedBy> locaIterable = bookedByRepository.findAll();
 		model.addAttribute("bookedNameList", locaIterable);
+	}
+	
+	@RequestMapping("/expence")
+	public String expence(HttpServletRequest request, ModelMap model) {
+		if (sessionValidation(request, model) != null)
+			return "login";
+		Long nextExpenceNumber = expenceRepository.getcurrentExpenceNumber();
+		String fromlocationcode = "" + request.getSession().getAttribute("USER_LOCATIONID");
+		String expenceNo = "";
+		if (fromlocationcode != null && !fromlocationcode.isEmpty() && !fromlocationcode.equalsIgnoreCase("NULL")) {
+			expenceNo = fromlocationcode + "/" + LocalDate.now() + "/" + nextExpenceNumber;
+		} else {
+			expenceNo = LocalDate.now() + "/" + nextExpenceNumber;
+		}
+		model.addAttribute("expenceNo", expenceNo);
+		return "expence";
+	}
+
+	@RequestMapping("/expence/add")
+	public String expenceAdd(HttpServletRequest request, ModelMap model) {
+		if (sessionValidation(request, model) != null)
+			return "login";
+		Long nextExpenceNumber = expenceRepository.getcurrentExpenceNumber();
+		String fromlocationcode = "" + request.getSession().getAttribute("USER_LOCATIONID");
+		String expenceNo = "";
+		if (fromlocationcode != null && !fromlocationcode.isEmpty() && !fromlocationcode.equalsIgnoreCase("NULL")) {
+			expenceNo = request.getSession().getAttribute("USER_ID") + "/" + fromlocationcode + "/"
+					+ LocalDate.now().format(DateTimeFormatter.ofPattern("ddMMyyyy")) + "/" + nextExpenceNumber;
+		} else {
+			expenceNo = LocalDate.now() + "/" + nextExpenceNumber;
+		}
+		model.addAttribute("expenceNo", expenceNo);
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		String currentDate = formatter.format(date);
+		model.addAttribute("expenceAddedOn", currentDate);
+		Iterable<ExpenceCategory> expenceCategoryIterable = expenceCategoryRepository.findAll();
+		model.addAttribute("expenceCategoryListing", expenceCategoryIterable);
+		Iterable<Location> locaIterable = locationRepository.findAll();
+		model.addAttribute("locationListing", locaIterable);
+		return "addExpence";
+	}
+
+	@RequestMapping(value = "/addExpence", method = RequestMethod.POST)
+	public String saveExpence(HttpServletRequest request, ExpenceVo expenceVo, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			if (expenceVo != null) {
+				try {
+					Expence expence1 = expenceRepository.findById(expenceVo.getId()).get();
+					if (expence1 != null && expence1.getId() != null) {
+						model.addAttribute("errormsg", "Expence Code [" + expence1.getId() + "] is already exist! ");
+						return "addExpence";
+					}
+				} catch (Exception e) {
+				}
+			}
+
+			Expence expenceEntity = new Expence();
+
+			BeanUtils.copyProperties(expenceVo, expenceEntity, "createon", "updatedon");
+			expenceEntity = expenceRepository.save(expenceEntity);
+			model.addAttribute("successMessage", expenceEntity.getExpenseNumber() + " - Expence added! ");
+			Iterable<Expence> expenceIterable = expenceRepository.findAll();
+			model.addAttribute("expence", expenceIterable);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed to add new expence! ");
+			return "addExpence";
+		}
+		return "locationListing";
+	}
+
+	@RequestMapping("/expenseCategoryListing")
+	public String expenseCategoryListing(HttpServletRequest request, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			Iterable<ExpenceCategory> expenceCategory = expenceCategoryRepository.findAll();
+			model.addAttribute("expenceCategoryListing", expenceCategory);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "expenseCategoryListing";
+	}
+
+	@RequestMapping(value = "/addExpenseCategory", method = RequestMethod.POST)
+	public String saveExpenseCategory(HttpServletRequest request, ExpenceCategoryVo expenceCategoryVo, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			if (expenceCategoryVo != null) {
+				try {
+					ExpenceCategory expenceCategory = expenceCategoryRepository.findById(expenceCategoryVo.getId())
+							.get();
+					if (expenceCategory != null && expenceCategory.getId() != null) {
+						model.addAttribute("errormsg",
+								"ExpenceCategory [" + expenceCategory.getId() + "] is already exist! ");
+						return "addExpenseCategory";
+					}
+				} catch (Exception e) {
+				}
+			}
+
+			ExpenceCategory expenceCategoryEntity = new ExpenceCategory();
+
+			BeanUtils.copyProperties(expenceCategoryVo, expenceCategoryEntity, "createon", "updatedon");
+			expenceCategoryEntity = expenceCategoryRepository.save(expenceCategoryEntity);
+			model.addAttribute("successMessage", expenceCategoryEntity.getCategory() + " - category added! ");
+			Iterable<ExpenceCategory> expenceCategoryIterable = expenceCategoryRepository.findAll();
+			model.addAttribute("expenceCategoryListing", expenceCategoryIterable);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed to add new category! ");
+			return "addExpenseCategory";
+		}
+		return "expenseCategoryListing";
+	}
+
+	@RequestMapping(value = "/editExpenseCategory", method = RequestMethod.POST)
+	public String updateExpenseCategory(HttpServletRequest request, ExpenceCategoryVo expenceCategoryVo,
+			ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			ExpenceCategory expenceCategoryEntity = new ExpenceCategory();
+
+			BeanUtils.copyProperties(expenceCategoryVo, expenceCategoryEntity, "createon", "updatedon");
+			expenceCategoryEntity = expenceCategoryRepository.save(expenceCategoryEntity);
+			model.addAttribute("successMessage", expenceCategoryEntity.getCategory() + " - category updated! ");
+			Iterable<ExpenceCategory> expenceCategoryIterable = expenceCategoryRepository.findAll();
+			model.addAttribute("expenceCategoryListing", expenceCategoryIterable);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed to update category! ");
+			return "addExpenseCategory";
+		}
+		return "expenseCategoryListing";
+	}
+
+	@RequestMapping(value = "/expenseCategory/edit/{id}", method = RequestMethod.GET)
+	public String expenseCategoryEdit(@PathVariable("id") Long id, HttpServletRequest request, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			ExpenceCategory expenceCategory = expenceCategoryRepository.findById(id).get();
+			ExpenceCategoryVo expenceCategoryVo = new ExpenceCategoryVo();
+			BeanUtils.copyProperties(expenceCategory, expenceCategoryVo);
+			model.addAttribute("expenceCategory", expenceCategoryVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "addExpenseCategory";
+	}
+
+	@RequestMapping(value = "/expenseCategory/delete/{id}", method = RequestMethod.GET)
+	public String expenseCategoryDelete(@PathVariable("id") Long id, HttpServletRequest request, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			expenceCategoryRepository.deleteById(id);
+			model.addAttribute("deletesuccessmessage", "Deleted Successfully");
+			Iterable<ExpenceCategory> expenceCategoryIterable = expenceCategoryRepository.findAll();
+			model.addAttribute("expenceCategoryListing", expenceCategoryIterable);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "expenseCategoryListing";
+	}
+
+	@RequestMapping("/expenseSubCategoryListing")
+	public String expenseSubCategoryListing(HttpServletRequest request, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			Iterable<ExpenceSubCategory> expenceSubCategory = expenceSubCategoryRepository.findAll();
+			model.addAttribute("expenceSubCategoryListing", expenceSubCategory);
+//			Iterable<ExpenceCategory> expenceCategory = expenceCategoryRepository.findAll();
+//			model.addAttribute("expenceCategoryListing", expenceCategory);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "expenseSubCategoryListing";
+	}
+
+	@RequestMapping(value = "/addExpenseSubCategory", method = RequestMethod.POST)
+	public String saveExpenseSubCategory(HttpServletRequest request, ExpenceSubCategoryVo expenceSubCategoryVo,
+			ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			if (expenceSubCategoryVo != null) {
+				try {
+					ExpenceSubCategory expenceSubCategory = expenceSubCategoryRepository
+							.findById(expenceSubCategoryVo.getId()).get();
+					if (expenceSubCategory != null && expenceSubCategory.getId() != null) {
+						model.addAttribute("errormsg",
+								"ExpenceSubCategory [" + expenceSubCategory.getId() + "] is already exist! ");
+						return "addExpenseSubCategory";
+					}
+				} catch (Exception e) {
+				}
+			}
+
+			ExpenceSubCategory expenceSubCategoryEntity = new ExpenceSubCategory();
+
+			BeanUtils.copyProperties(expenceSubCategoryVo, expenceSubCategoryEntity, "createon", "updatedon");
+			expenceSubCategoryEntity = expenceSubCategoryRepository.save(expenceSubCategoryEntity);
+			model.addAttribute("successMessage", expenceSubCategoryEntity.getSubCategory() + " - sub category added! ");
+			Iterable<ExpenceSubCategory> expenceSubCategoryIterable = expenceSubCategoryRepository.findAll();
+			model.addAttribute("expenceSubCategoryListing", expenceSubCategoryIterable);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed to add new sub category! ");
+			return "addExpenseSubCategory";
+		}
+		return "expenseSubCategoryListing";
+	}
+
+	@RequestMapping(value = "/editExpenseSubCategory", method = RequestMethod.POST)
+	public String updateExpenseSubCategory(HttpServletRequest request, ExpenceSubCategoryVo expenceSubCategoryVo,
+			ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			ExpenceSubCategory expenceSubCategoryEntity = new ExpenceSubCategory();
+
+			BeanUtils.copyProperties(expenceSubCategoryVo, expenceSubCategoryEntity, "createon", "updatedon");
+			expenceSubCategoryEntity = expenceSubCategoryRepository.save(expenceSubCategoryEntity);
+			model.addAttribute("successMessage",
+					expenceSubCategoryEntity.getSubCategory() + " - sub category updated! ");
+			Iterable<ExpenceSubCategory> expenceSubCategoryIterable = expenceSubCategoryRepository.findAll();
+			model.addAttribute("expenceSubCategoryListing", expenceSubCategoryIterable);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed to update sub category! ");
+			return "addExpenseSubCategory";
+		}
+		return "expenseSubCategoryListing";
+	}
+
+	@RequestMapping(value = "/expenseSubCategory/edit/{id}", method = RequestMethod.GET)
+	public String expenseSubCategoryEdit(@PathVariable("id") Long id, HttpServletRequest request, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			ExpenceSubCategory expenceSubCategory = expenceSubCategoryRepository.findById(id).get();
+			ExpenceSubCategoryVo expenceSubCategoryVo = new ExpenceSubCategoryVo();
+			BeanUtils.copyProperties(expenceSubCategory, expenceSubCategoryVo);
+			model.addAttribute("expenceSubCategory", expenceSubCategoryVo);
+			Iterable<ExpenceCategory> expenceCategoryIterable = expenceCategoryRepository.findAll();
+			model.addAttribute("expenceCategoryListing", expenceCategoryIterable);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "addExpenseSubCategory";
+	}
+
+	@RequestMapping(value = "/expenseSubCategory/delete/{id}", method = RequestMethod.GET)
+	public String expenseSubCategoryDelete(@PathVariable("id") Long id, HttpServletRequest request, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			expenceSubCategoryRepository.deleteById(id);
+			model.addAttribute("deletesuccessmessage", "Deleted Successfully");
+			Iterable<ExpenceSubCategory> expenceSubCategoryIterable = expenceSubCategoryRepository.findAll();
+			model.addAttribute("expenceSubCategoryListing", expenceSubCategoryIterable);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "expenseSubCategoryListing";
+	}
+
+	@RequestMapping(value = "/expenseSubCategory/add", method = RequestMethod.GET)
+	public String expenseSubCategoryAdd(HttpServletRequest request, ModelMap model) {
+		try {
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
+			Iterable<ExpenceCategory> expenceCategory = expenceCategoryRepository.findAll();
+			model.addAttribute("expenceCategoryListing", expenceCategory);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "addExpenseSubCategory";
+	}
+
+	@RequestMapping("/paymentTypeListing")
+	public String paymentTypeListing(HttpServletRequest request, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			Iterable<PaymentType> paymentTypeListing = paymentTypeRepository.findAll();
+			model.addAttribute("paymentTypeListing", paymentTypeListing);
+//			Iterable<ExpenceCategory> expenceCategory = expenceCategoryRepository.findAll();
+//			model.addAttribute("expenceCategoryListing", expenceCategory);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "paymentTypeListing";
+	}
+
+	@RequestMapping(value = "/addPaymentType", method = RequestMethod.POST)
+	public String savePaymentType(HttpServletRequest request, PaymentTypeVo paymentTypeVo, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			if (paymentTypeVo != null) {
+				try {
+					PaymentType paymentType = paymentTypeRepository.findById(paymentTypeVo.getId()).get();
+					if (paymentType != null && paymentType.getId() != null) {
+						model.addAttribute("errormsg", "Payment Type [" + paymentType.getId() + "] is already exist! ");
+						return "addPaymentType";
+					}
+				} catch (Exception e) {
+				}
+			}
+
+			PaymentType paymentTypeEntity = new PaymentType();
+
+			BeanUtils.copyProperties(paymentTypeVo, paymentTypeEntity, "createon", "updatedon");
+			paymentTypeEntity = paymentTypeRepository.save(paymentTypeEntity);
+			model.addAttribute("successMessage", paymentTypeEntity.getPaymentType() + " - Payment type added! ");
+			Iterable<PaymentType> paymentTypeIterable = paymentTypeRepository.findAll();
+			model.addAttribute("paymentTypeListing", paymentTypeIterable);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed to add new sub payment type! ");
+			return "addPaymentType";
+		}
+		return "paymentTypeListing";
+	}
+
+	@RequestMapping(value = "/editPaymentType", method = RequestMethod.POST)
+	public String updatePaymentType(HttpServletRequest request, PaymentTypeVo paymentTypeVo, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			PaymentType paymentTypeEntity = new PaymentType();
+
+			BeanUtils.copyProperties(paymentTypeVo, paymentTypeEntity, "createon", "updatedon");
+			paymentTypeEntity = paymentTypeRepository.save(paymentTypeEntity);
+			model.addAttribute("successMessage", paymentTypeEntity.getPaymentType() + " - payment type updated! ");
+			Iterable<PaymentType> paymentTypeIterable = paymentTypeRepository.findAll();
+			model.addAttribute("paymentTypeListing", paymentTypeIterable);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed to update payment type! ");
+			return "addPaymentType";
+		}
+		return "paymentTypeListing";
+	}
+
+	@RequestMapping(value = "/paymentType/edit/{id}", method = RequestMethod.GET)
+	public String paymentTypeEdit(@PathVariable("id") Long id, HttpServletRequest request, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			PaymentType paymentType = paymentTypeRepository.findById(id).get();
+			PaymentTypeVo paymentTypeVo = new PaymentTypeVo();
+			BeanUtils.copyProperties(paymentType, paymentTypeVo);
+			model.addAttribute("paymentType", paymentTypeVo);
+			Iterable<PaymentType> paymentTypeIterable = paymentTypeRepository.findAll();
+			model.addAttribute("paymentTypeListing", paymentTypeIterable);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "addPaymentType";
+	}
+
+	@RequestMapping(value = "/paymentType/delete/{id}", method = RequestMethod.GET)
+	public String paymentTypeDelete(@PathVariable("id") Long id, HttpServletRequest request, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			paymentTypeRepository.deleteById(id);
+			model.addAttribute("deletesuccessmessage", "Deleted Successfully");
+			Iterable<PaymentType> paymentTypeIterable = paymentTypeRepository.findAll();
+			model.addAttribute("paymentTypeListing", paymentTypeIterable);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "paymentTypeListing";
+	}
+
+	@RequestMapping(value = "/paymentType/add", method = RequestMethod.GET)
+	public String paymentTypeAdd(HttpServletRequest request, ModelMap model) {
+		try {
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
+			Iterable<PaymentType> paymentType = paymentTypeRepository.findAll();
+			model.addAttribute("paymentTypeListing", paymentType);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "addPaymentType";
 	}
 }
