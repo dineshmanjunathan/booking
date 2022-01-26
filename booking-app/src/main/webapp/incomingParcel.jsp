@@ -144,6 +144,11 @@
 							<th scope="col">Paid</th>
 							<th scope="col">To Pay</th>
 							<th scope="col">Charges</th>
+							<th scope="col">From Name</th>
+							<th scope="col">To Name</th>
+							<th scope="col">From Phone</th>
+							<th scope="col">To Phone</th>
+							<th scope="col">E-Way Bill Number</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -167,6 +172,11 @@
 								<td>${incomelist.paid}</td>
 								<td>${incomelist.topay}</td>
 								<td>${incomelist.total_charges}</td>
+								<td>${incomelist.fromName}</td>
+								<td>${incomelist.toName}</td>
+								<td>${incomelist.from_phone}</td>
+								<td>${incomelist.to_phone}</td>
+								<td>${incomelist.billNumber}</td>
 							</tr>
 						</c:forEach>
 

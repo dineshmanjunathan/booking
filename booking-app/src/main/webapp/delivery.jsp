@@ -420,12 +420,10 @@
 										<div class="row control-margin">
 											<div class="col-md-6 control-margin">
 												<button type="button" class="btn btn-primary button-margin col-md-2"
-													id="btnSave" onclick="save_confirm();">Save</button>
+													id="btnSave" onclick="save_confirm();">Deliver</button>
 												<a href="/menu"><button type="button"
 														class="btn btn-primary button-margin col-md-2"
 														id="btnClear">Back</button></a>
-											<button type="button" class="btn btn-primary button-margin col-md-2"
-													id="btnDeliver">Deliver</button>
 												<button type="button" class="btn btn-primary button-margin col-md-2"
 													id="btnPrint">Print</button>
 
