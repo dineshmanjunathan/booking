@@ -442,7 +442,7 @@ public class AdminController {
 						model.addAttribute("charge", chargeVo);
 						return "addCharge";
 					}
-					List<Charge> list = chargeRepository.findByChargetypeAndFromLocationAndToLocation(chargeVo.getChargetype(),chargeVo.getFromLocation(),chargeVo.getToLocation());
+					/*List<Charge> list = chargeRepository.findByChargetypeAndFromLocationAndToLocation(chargeVo.getChargetype(),chargeVo.getFromLocation(),chargeVo.getToLocation());
 					if(list!=null && list.size()>0) {
 						model.addAttribute("errormsg", "Charge Type is already exist! ");
 						model.addAttribute("charge", chargeVo);
@@ -454,13 +454,13 @@ public class AdminController {
 							model.addAttribute("charge", chargeVo);
 							return "addCharge";
 						}
-					}
+					}*/
 				} catch (Exception e) {
 					// do nothing
 				}
 			}
 			Charge chargeEntity = new Charge();
-			Long id = chargeVo.getId();
+			//Long id = chargeVo.getId();
 			
 			BeanUtils.copyProperties(chargeVo, chargeEntity, "createon", "updatedon");
 			
