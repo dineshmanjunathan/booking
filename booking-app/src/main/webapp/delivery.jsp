@@ -5,6 +5,8 @@
 <html class="no-js" lang="en">
 <head>
 <%@ include file="header.jsp"%>
+<link rel="stylesheet" href="../../css/printjs/print.min.css">
+<script src="../../js/printjs/print.min.js"></script>
 <style>
 .element-margin {
 	margin-bottom: 5px;
@@ -63,6 +65,25 @@
 		var total = Number(document.getElementById("total").value);
 		let sum = doorDeliveryCharges + total;
 		document.getElementById("total").value = (sum);
+	}
+
+	function getBookingLuggaeSlip() {
+		var x = document.getElementById("txtSearch").value;
+		if (x) {
+			$.ajax({
+				url : "/booking/print?lrNumber=" + x,
+				type : "GET",
+				cache : false,
+				success : function(data) {
+					printJS({printable: data, type: 'pdf', base64: true})
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert('Could not print the LR. - '+ textStatus);
+					console.log('ERROR:' + XMLHttpRequest.status
+							+ ', status text: ' + XMLHttpRequest.statusText);
+				}
+			});
+		}
 	}
 </script>
 
@@ -425,7 +446,7 @@
 														class="btn btn-primary button-margin col-md-2"
 														id="btnClear">Back</button></a>
 												<button type="button" class="btn btn-primary button-margin col-md-2"
-													id="btnPrint">Print</button>
+													onclick="getBookingLuggaeSlip()" id="btnPrint">Print</button>
 
 											</div>
 										</div>
