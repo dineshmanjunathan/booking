@@ -61,7 +61,7 @@
 		<div class="container px-4 py-1" style="background-color: whitesmoke;"
 			id="featured-3">
 			<h3 class="pb-2 border-bottom">Parcel Management</h3>
-			<div class="row g-4 py-2 row-cols-1 row-cols-lg-4">
+			<div class="row g-5 py-2 row-cols-1 row-cols-lg-5">
 				<div class="feature col">
 					<div class="feature-icon bg-primary bg-gradient">
 						<svg class="bi" width="1em" height="1em">
@@ -124,7 +124,7 @@
 							<use xlink:href="#chevron-right" /></svg>
 					</a>
 				</div>
-				
+
 				<div class="feature col">
 					<div class="feature-icon bg-primary bg-gradient">
 						<svg class="bi" width="1em" height="1em">
@@ -146,7 +146,7 @@
 			<div class="container px-4 py-1"
 				style="background-color: whitesmoke;" id="featured-3">
 				<h3 class="pb-2 border-bottom">Admin Management</h3>
-				<div class="row g-4 py-2 row-cols-1 row-cols-lg-4">
+				<div class="row g-5 py-2 row-cols-1 row-cols-lg-5">
 					<div class="feature col">
 						<div class="feature-icon bg-primary bg-gradient">
 							<svg class="bi" width="1em" height="1em">
@@ -198,11 +198,6 @@
 								<use xlink:href="#chevron-right" /></svg>
 						</a>
 					</div>
-
-				</div>
-
-				<div class="row g-4 py-2 row-cols-1 row-cols-lg-4">
-
 					<div class="feature col">
 						<div class="feature-icon bg-primary bg-gradient">
 							<svg class="bi" width="1em" height="1em">
@@ -215,6 +210,9 @@
 								<use xlink:href="#chevron-right" /></svg>
 						</a>
 					</div>
+				</div>
+
+				<div class="row g-5 py-2 row-cols-1 row-cols-lg-5">
 					<div class="feature col">
 						<div class="feature-icon bg-primary bg-gradient">
 							<svg class="bi" width="1em" height="1em">
@@ -232,7 +230,7 @@
 							<svg class="bi" width="1em" height="1em">
 								<use xlink:href="#collection" /></svg>
 						</div>
-						<h5>Manage Booked Name</h5>
+						<h5>Manage Booked By</h5>
 						<p></p>
 						<a href="/bookedByListing" class="icon-link"> Click here <svg
 								class="bi" width="1em" height="1em">
@@ -270,7 +268,7 @@
 							<svg class="bi" width="1em" height="1em">
 								<use xlink:href="#collection" /></svg>
 						</div>
-						<h5>Expense Sub Category</h5>
+						<h5>E-Sub Category</h5>
 						<p></p>
 						<a href="/expenseSubCategoryListing" class="icon-link"> Click
 							here <svg class="bi" width="1em" height="1em">
@@ -278,7 +276,7 @@
 						</a>
 					</div>
 
-					<div class="feature col">
+					<!-- <div class="feature col">
 						<div class="feature-icon bg-primary bg-gradient">
 							<svg class="bi" width="1em" height="1em">
 								<use xlink:href="#collection" /></svg>
@@ -289,9 +287,66 @@
 								class="bi" width="1em" height="1em">
 								<use xlink:href="#chevron-right" /></svg>
 						</a>
+					</div> -->
+				</div>
+
+			</div>
+			<br>
+			<div class="container px-4 py-1"
+				style="background-color: whitesmoke;" id="featured-3">
+				<h3 class="pb-2 border-bottom">Report Management</h3>
+				<div class="row g-5 py-2 row-cols-1 row-cols-lg-5">
+					<div class="feature col">
+						<div class="feature-icon bg-primary bg-gradient">
+							<svg class="bi" width="1em" height="1em">
+								<use xlink:href="#collection" /></svg>
+						</div>
+						<h5>Booking</h5>
+						<p></p>
+						<a href="#" class="icon-link"> Click here <svg
+								class="bi" width="1em" height="1em">
+								<use xlink:href="#chevron-right" /></svg>
+						</a>
+					</div>
+					<div class="feature col">
+						<div class="feature-icon bg-primary bg-gradient">
+							<svg class="bi" width="1em" height="1em">
+								<use xlink:href="#collection" /></svg>
+						</div>
+						<h5>OGPL</h5>
+						<p></p>
+						<a href="#" class="icon-link"> Click here <svg
+								class="bi" width="1em" height="1em">
+								<use xlink:href="#chevron-right" /></svg>
+						</a>
+					</div>
+					<div class="feature col">
+						<div class="feature-icon bg-primary bg-gradient">
+							<svg class="bi" width="1em" height="1em">
+								<use xlink:href="#collection" /></svg>
+						</div>
+						<h5>Delivery</h5>
+						<p></p>
+						<a href="#" class="icon-link"> Click here <svg
+								class="bi" width="1em" height="1em">
+								<use xlink:href="#chevron-right" /></svg>
+						</a>
+					</div>
+					<div class="feature col">
+						<div class="feature-icon bg-primary bg-gradient">
+							<svg class="bi" width="1em" height="1em">
+								<use xlink:href="#collection" /></svg>
+						</div>
+						<h5>Expense</h5>
+						<p></p>
+						<a href="#" class="icon-link"> Click here <svg
+								class="bi" width="1em" height="1em">
+								<use xlink:href="#chevron-right" /></svg>
+						</a>
 					</div>
 				</div>
 			</div>
+
 		</c:if>
 	</main>
 

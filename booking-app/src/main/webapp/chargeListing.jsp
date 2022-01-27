@@ -16,7 +16,9 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
 			<form action="">
-				<h3><b>Manage Charges</b></h3>
+				<h3>
+					<b>Manage Charges</b>
+				</h3>
 				<p style="color: green" align="center">${successMessage}</p>
 				<p style="color: red" align="center">${errormsg}</p>
 				<div class="row control-margin">
@@ -25,7 +27,8 @@
 						<a class="btn btn-primary button-margin" href="/menu">Back</a>
 					</div>
 				</div>
-				<table id="data-table" class="table table-striped" style="width:100%">
+				<table id="data-table" class="table table-striped"
+					style="width: 100%">
 					<thead>
 						<tr>
 							<th scope="col">Id</th>
@@ -46,7 +49,7 @@
 								<td>${details.chargetype}</td>
 								<td>${details.value}</td>
 								<td><a class="btn btn-primary button-margin"
-									href="/charge/edit/${details.id}" id="${details.id}">Edit</a>
+									href="/charge/edit/${details.id}" id="${details.id}">Edit</a> 
 									<a class="btn btn-primary button-margin"
 									href="/charge/delete/${details.id}">Delete</a></td>
 							</tr>

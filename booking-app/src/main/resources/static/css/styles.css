@@ -103,7 +103,7 @@ h3, .h3 {
 }
 @media (min-width: 1200px) {
   h3, .h3 {
-    font-size: 1.75rem;
+    font-size: 1.40rem;
   }
 }
 
@@ -5379,7 +5379,7 @@ textarea.form-control-lg {
 @media (min-width: 576px) {
   .modal-dialog {
     max-width: 500px;
-    margin: 1.75rem auto;
+    margin: 1.40rem auto;
   }
 
   .modal-dialog-scrollable {
@@ -10818,7 +10818,7 @@ textarea.form-control-lg {
   }
 
   .fs-3 {
-    font-size: 1.75rem !important;
+    font-size: 1.40rem !important;
   }
 
   .fs-4 {
@@ -11012,7 +11012,7 @@ body {
   flex-wrap: nowrap;
 }
 .sb-sidenav .sb-sidenav-menu .nav .sb-sidenav-menu-heading {
-  padding: 1.75rem 1rem 0.75rem;
+  padding: 1.40rem 1rem 0.75rem;
   font-size: 0.75rem;
   font-weight: bold;
   text-transform: uppercase;

@@ -16,7 +16,9 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
 			<form action="">
-				<h3><b>Manage Booked Name</b></h3>
+				<h3>
+					<b>Manage Booked Name</b>
+				</h3>
 				<p style="color: green" align="center">${successMessage}</p>
 				<p style="color: red" align="center">${errormsg}</p>
 				<div class="row control-margin">
@@ -25,7 +27,8 @@
 						<a class="btn btn-primary button-margin" href="/menu">Back</a>
 					</div>
 				</div>
-				<table id="data-table" class="table table-striped" style="width:100%">
+				<table id="data-table" class="table table-striped"
+					style="width: 100%">
 					<thead>
 						<tr>
 							<th scope="col">Code</th>
