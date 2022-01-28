@@ -14,11 +14,15 @@
 <link rel="stylesheet" href="../../css/incoming/style.css">
 <link rel="stylesheet" href="../../css/style.css">
 <link rel="stylesheet" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" href="../../css/printjs/print.min.css">
+
 <script src="../../js/jquery-3.5.1.js"></script>
 <script src="../../js/main.js"></script>
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/dataTables.bootstrap5.min.js"></script>
 <script src="../../js/dataTables.select.min.js"></script>
+<script src="../../js/printjs/print.min.js"></script>
+
 <style type="text/css">
 .form-control {
  border: 1px solid #212529 !important;

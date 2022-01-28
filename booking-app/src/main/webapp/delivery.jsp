@@ -5,8 +5,6 @@
 <html class="no-js" lang="en">
 <head>
 <%@ include file="header.jsp"%>
-<link rel="stylesheet" href="../../css/printjs/print.min.css">
-<script src="../../js/printjs/print.min.js"></script>
 <style>
 .element-margin {
 	margin-bottom: 5px;

@@ -49,6 +49,24 @@ $('document').ready(function() {
 	});
 	
 });
+function getBookingLuggaeSlip() {
+	var x = document.getElementById("Lrno").value;
+	if (x) {
+		$.ajax({
+			url : "/booking/print?lrNumber=" + x,
+			type : "GET",
+			cache : false,
+			success : function(data) {
+				printJS({printable: data, type: 'pdf', base64: true})
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert('Could not print the LR. - '+ textStatus);
+				console.log('ERROR:' + XMLHttpRequest.status
+						+ ', status text: ' + XMLHttpRequest.statusText);
+			}
+		});
+	}
+}
 </script>
 </head>
 
@@ -62,26 +80,41 @@ $('document').ready(function() {
 	<div class="blog-details-area mg-b-15">
 		<div class="container-fluid" style="width: 100%;">
 			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="blog-details-inner">
-						<br><br>
-						<p style="color: green" align="center">${bookingsuccessmessage}</p>
-						<%-- <p style="color: green;font-weight: bold; " align="center">${LRNumber}</p> --%>
-						<p style="color: green;font-weight: bold; " align="center">LR Number : ${LRNumber}</p>
-						<input type="hidden" class="form-control" name="Lrno" id="Lrno" value="${LRNumber}">
-						<br>
-						<div class="col-md-4" id="barcodediv" style="display: none;">		
-							<svg id="barcode"></svg>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="blog-details-inner">
+									<br>
+									<br>
+									<p style="color: green" align="center">${bookingsuccessmessage}</p>
+									<%-- <p style="color: green;font-weight: bold; " align="center">${LRNumber}</p> --%>
+									<p style="color: green; font-weight: bold;" align="center">LR
+										Number : ${LRNumber}</p>
+									<input type="hidden" class="form-control" name="Lrno" id="Lrno"
+										value="${LRNumber}"> <br>
+									<div class="col-md-4" id="barcodediv" style="display: none;">
+										<svg id="barcode"></svg>
+									</div>
+									<div class="row control-margin">
+										<div class="col-md-12 control-margin">
+											<div class="col-md-7 offset-2">
+												<button type="button" class="btn btn-primary button-margin my-1" onclick="getBookingLuggaeSlip()"
+													id="generateLR" name="generateLR">Print LR</button>
+											</div>
+											<div class="col-md-7 offset-2">
+												<button type="button" class="btn btn-primary button-margin my-1"
+													id="generateBarcode" name="generateBarcode">Print
+													Barcode</button>
+											</div>
+											<div class="col-md-7 offset-2">
+												<a href="/booking">
+													<button type="button" class="btn btn-primary button-margin my-1"
+														id="BB">Back to Booking</button>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="row control-margin">
-						<div class="col-md-12 control-margin">
-						<a href="/booking"><button type="button" class="btn btn-primary button-margin" id="BB">Back to Booking</button></a>
-						<button type="button" class="btn btn-primary button-margin" id="generateBarcode" name="generateBarcode" >Print Barcode</button>
-						</div>
-						</div>
-				</div>
-			</div>
-		</div>
 	</div>
 	</div>
 	</div>
