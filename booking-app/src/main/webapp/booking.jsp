@@ -91,6 +91,23 @@
 			}
 		});
 	}
+	function getBillingDoc() {
+		$.ajax({
+			url : "/searchToCustomerName/" + value,
+			type : "get",
+			cache : false,
+			success : function(data) {
+				if (data.length > 0) {
+					document.getElementById("toName").value = data;
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log('ERROR:' + XMLHttpRequest.status
+						+ ', status text: ' + XMLHttpRequest.statusText);
+			}
+		});
+	}
+	
 	function getCharges() {
 		var fromLocation = document.getElementById("fromLocation").value;
 		var toLocation = document.getElementById("toLocation").value;
@@ -348,6 +365,25 @@
 			 document.getElementById("bookingForm").submit();
 		}
 	}
+	function getBookingLuggaeSlip() {
+		var x = document.getElementById("lrNumber").value;
+		if (x) {
+			$.ajax({
+				url : "/booking/print?lrNumber=" + x,
+				type : "GET",
+				cache : false,
+				success : function(data) {
+					printJS({printable: data, type: 'pdf', base64: true})
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert('Could not print the LR. - '+ textStatus);
+					console.log('ERROR:' + XMLHttpRequest.status
+							+ ', status text: ' + XMLHttpRequest.statusText);
+				}
+			});
+		}
+	}
+	
 </script>
 </head>
 
@@ -728,7 +764,7 @@
 												<button type="button"
 													class="btn btn-primary button-margin col-md-2" id="btnEdit"
 													onclick="loadReadBookingForm();">Edit</button>
-														<button type="button"
+														<button type="button" onclick="getBookingLuggaeSlip()"
 													class="btn btn-primary button-margin col-md-2"
 													id="btnPrint">Print</button>
 													<a href="/menu"><button type="button"
@@ -855,7 +891,6 @@
 			</div>
 		</div>
 	</div>
-
-
+	
 </body>
 </html>
