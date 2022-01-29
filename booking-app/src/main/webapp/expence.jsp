@@ -14,7 +14,7 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
 			<form action="" >
-				<h3><b>Expence</b></h3>
+				<h3><b>Expense</b></h3>
 				<p style="color: green" align="center">${successMessage}</p>
 				<div class="row control-margin">
 					<div class="col-md-12">
@@ -37,17 +37,18 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="details" items="${payOptionListing}"
+						<c:forEach var="expense" items="${expences}"
 							varStatus="status">
 							<tr>
-								<td>${details.payOption}</td>
-								<td>${details.details}</td>
-								<td>${details.payOption}</td>
-								<td>${details.details}</td>
-								<td>${details.payOption}</td>
-								<td>${details.details}</td>
-								<td>${details.payOption}</td>
-								<td><a class="btn btn-primary button-margin" href="/payOption/edit/${details.id}" id="${details.id}">edit</a> <a class="btn btn-primary button-margin" href="/payOption/delete/${details.id}">Delete</a></td>
+								<td>${expense.expenseNumber}</td>
+								<td>${expense.expenseDate}</td>
+								<td>${expense.expenseBranch}</td>
+								<td>${expense.expenseCategory}</td>
+								<td>${expense.expenseSubCategory}</td>
+								<td>${expense.description}</td>
+								<td>${expense.paymentMode}</td>
+								<td>${expense.amount}</td>
+								<td><a class="btn btn-primary button-margin" href="/expence/edit/${expense.id}" id="${expense.id}">edit</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

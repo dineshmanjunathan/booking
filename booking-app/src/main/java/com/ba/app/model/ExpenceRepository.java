@@ -2,9 +2,9 @@ package com.ba.app.model;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import com.ba.app.entity.Expence;
+import com.ba.app.entity.Expense;
 
-public interface ExpenceRepository extends CrudRepository<Expence,Long>{
+public interface ExpenceRepository extends CrudRepository<Expense,Long>{
 	
 	@Query(value = "select NEXTVAL('EXPENCENUMBER_SEQ')", nativeQuery =true)
     Long getNextExpenceNumber();
