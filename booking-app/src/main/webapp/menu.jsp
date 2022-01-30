@@ -321,7 +321,7 @@
 						</div>
 						<h5>OGPL</h5>
 						<p></p>
-						<a href="#" class="icon-link"> Click here <svg
+						<a href="/report/ogpl" class="icon-link"> Click here <svg
 								class="bi" width="1em" height="1em">
 								<use xlink:href="#chevron-right" /></svg>
 						</a>
