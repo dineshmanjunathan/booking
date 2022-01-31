@@ -46,15 +46,15 @@
 		
 			var inputs = document.getElementsByTagName("input");
 			for (var i = 0; i < inputs.length; i++) {
-				inputs[i].disabled = true;
+				inputs[i].readOnly  = true;
 			}
 			var inputs1 = document.getElementsByTagName("select");
 			for (var i = 0; i < inputs1.length; i++) {
-				inputs1[i].disabled = true;
+				inputs1[i].readOnly = true;
 			}
-			document.getElementById("txtSearch").disabled = false;
-			document.getElementById("doorDeliveryCharges").disabled = false;
-			document.getElementById("cash").disabled = false;
+			document.getElementById("txtSearch").readOnly  = false;
+			document.getElementById("doorDeliveryCharges").readOnly  = false;
+			document.getElementById("cash").readOnly = false;
 			
 	
 	}
