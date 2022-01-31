@@ -25,5 +25,5 @@ public class OGPLReport implements Serializable {
 	private String doorpickcharges ;
 	private String totalpaid ;
 	private String totaltopay ;
-
+	private String LRno ;
 }

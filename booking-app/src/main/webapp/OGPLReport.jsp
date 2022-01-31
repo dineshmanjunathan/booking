@@ -21,31 +21,32 @@
 					<thead>
 						<tr>
 							
-							<th scope="col">Booked on</th>
-							<th scope="col">From Location</th>
-							<th scope="col">To Location</th>
+							<!-- <th scope="col">Booked on</th> -->
 							<th scope="col">OGPL No</th>
+							<th scope="col">LR Number</th>
+							<th scope="col">From</th>
+							<th scope="col">To</th>
 							<th scope="col">Vehicle No</th>
 							<th scope="col">Driver</th>
 							<th scope="col">Conductor</th>
 							<th scope="col">Prepared by</th>
 							<th scope="col">Pay Type</th>
 							<th scope="col">Freight Value</th>
-							<th scope="col">Loading Charges</th>
-							<th scope="col">Fuel Charges</th>
+							<th scope="col">Loading Charge</th>
+							<th scope="col">Fuel Charge</th>
 							<th scope="col">Total Paid</th>
 							<th scope="col">Total ToPay</th>
+							
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="details" items="${OGPL}"
 							varStatus="status">
 							<tr>
-								
-								<td>${details.bookedon}</td>
+								<td>${details.ogplNo}</td>
+								<td>${details.LRno}</td>
 								<td>${details.fromLocation}</td>
 								<td>${details.toLocation}</td>
-								<td>${details.ogplNo}</td>
 								<td>${details.vehicleNo}</td>
 								<td>${details.driver}</td>
 								<td>${details.conductor}</td>

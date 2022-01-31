@@ -61,6 +61,7 @@ public class ReportController {
 				ogplReport.setDoorpickcharges((""+str[11]).replace("null", "-"));
 				ogplReport.setTotalpaid((""+str[12]).replace("null", "-"));
 				ogplReport.setTotaltopay((""+str[13]).replace("null", "-"));
+				ogplReport.setLRno((""+str[14]).replace("null", "-"));
 				ogplReportList.add(ogplReport);
 			}
 			
