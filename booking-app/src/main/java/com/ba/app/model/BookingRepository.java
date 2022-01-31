@@ -50,6 +50,8 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	@Modifying
 	@Query(value = "UPDATE T_BOOKING SET IGPL_STATUS=:igplstatus WHERE LR_NUMBER=:lrnumbers", nativeQuery =true)
     int updateIgplStatusByLR(@Param("igplstatus") String igplstatus,@Param("lrnumbers") String lrnumbers);
+	
+	List<Booking> findByLrNumberAndIgplStatus(String lrNumbers,String igplstatus);
 
 
 }

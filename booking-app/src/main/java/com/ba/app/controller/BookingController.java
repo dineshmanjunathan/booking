@@ -582,6 +582,14 @@ public class BookingController {
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
 				return "login";
+			
+			if (deliveryVo != null && deliveryVo.getLRNo() != null) {
+				List checkList =bookingRepository.findByLrNumberAndIgplStatus(deliveryVo.getLRNo(),"D");
+				if(checkList!=null && checkList.size()>0){
+					model.addAttribute("warningmsg", "LR Number already deliveried!");
+					return "delivery";
+				}
+			}
 			Delivery deliveryEntity = new Delivery();
 
 			BeanUtils.copyProperties(deliveryVo, deliveryEntity, "createon", "updatedon");
@@ -591,8 +599,8 @@ public class BookingController {
 				bookingRepository.updateIgplStatusByLR("D", deliveryEntity.getLRNo());
 			}
 
-			model.addAttribute("delivery", deliveryEntity);
-			model.addAttribute("DeliverysuccessMessage", "Save Delivery Successfull!");
+			model.addAttribute("delivery", deliveryVo);
+			model.addAttribute("DeliverysuccessMessage", deliveryEntity.getLRNo()+" - Save Delivery Successfull!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg", "Failed to add new location! ");

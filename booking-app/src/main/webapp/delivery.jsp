@@ -107,6 +107,7 @@
 										<input type="hidden" class="form-control" name="id" id="id"
 											value="">
 										<p style="color: red" align="center">${errormsg}</p>
+										<p style="color: orange" align="center">${warningmsg}</p>
 										<p style="color: green" align="center">${DeliverysuccessMessage}</p>
 										
 										<div class="row">
