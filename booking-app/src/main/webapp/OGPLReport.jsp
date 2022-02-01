@@ -22,6 +22,7 @@
 						<tr>
 							
 							<!-- <th scope="col">Booked on</th> -->
+							<th scope="col">S.No</th>
 							<th scope="col">OGPL No</th>
 							<th scope="col">LR Number</th>
 							<th scope="col">From</th>
@@ -43,6 +44,7 @@
 						<c:forEach var="details" items="${OGPL}"
 							varStatus="status">
 							<tr>
+								<td>${details.id}</td>
 								<td>${details.ogplNo}</td>
 								<td>${details.LRno}</td>
 								<td>${details.fromLocation}</td>

@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "t_delivery")
+@Table(name = "t_item_delivery")
 public class Delivery implements Serializable {
 
 	private static final long serialVersionUID = -7187348510206952329L;
@@ -28,28 +28,28 @@ public class Delivery implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String name;
-	private BigDecimal paid;
-	private Long item_count;
+	private String fromName;
+	private String toName;
+	private String noOfItems;
+	private String ddVehicle;
+	private String status;
 	private String deliveredBy;
-	//private String deliveredBy;
-	private Long no;
+	private String from_phone;
+	private String to_phone;
 	private String ogpl;
-	private String fromDate;
-	private String toDate;
+	private String fromLocation;
+	private String toLocation;
 	private String lRNo;
-	private Long deliveryBillNo;
+	private String deliveryBillNo;
 	private String deliveryDate;
-	private String toPay;
-	private String hamali;
 	private String unloadingCharges;
 	private String doorDeliveryCharges;
 	private String demurrage;
-	private String others;
-	private String status;
-	private String refund;
-	private String ddVehicle;
+	private String paid;
+	private String toPay;
 	private String total;
+	private String cash;
+	private String refund;
 	private LocalDateTime createon = LocalDateTime.now();
 	private LocalDateTime updatedon = LocalDateTime.now();
 	

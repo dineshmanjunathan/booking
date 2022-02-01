@@ -416,7 +416,7 @@
 														<label class="form-label" for="txtTotal">Cash</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" id="cash"
+														<input type="number" class="form-control" c
 															name="cash" onblur="sumRefund();" required>
 													</div>
 												</div>
@@ -425,7 +425,8 @@
 														<label class="form-label" for="txtRefund">Refund</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" name="refund"
+														<input type="text" id="refund"
+															name="refund" class="form-control" name="refund"
 															>
 													</div>
 												</div>

@@ -2,11 +2,9 @@ package com.ba.app.controller;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -14,7 +12,6 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,9 +30,6 @@ import com.ba.app.entity.Conductor;
 import com.ba.app.entity.Customer;
 import com.ba.app.entity.Delivery;
 import com.ba.app.entity.Driver;
-import com.ba.app.entity.Expense;
-import com.ba.app.entity.ExpenceCategory;
-import com.ba.app.entity.ExpenceSubCategory;
 import com.ba.app.entity.Inventory;
 import com.ba.app.entity.Location;
 import com.ba.app.entity.OutgoingParcel;
@@ -47,12 +41,8 @@ import com.ba.app.model.BookingRepository;
 import com.ba.app.model.ChargeRepository;
 import com.ba.app.model.ConductorRepository;
 import com.ba.app.model.CustomerRepository;
-import com.ba.app.model.DeliveryListRepository;
 import com.ba.app.model.DeliveryRepository;
 import com.ba.app.model.DriverRepository;
-import com.ba.app.model.ExpenceCategoryRepository;
-import com.ba.app.model.ExpenceRepository;
-import com.ba.app.model.ExpenceSubCategoryRepository;
 import com.ba.app.model.InventoryRepository;
 import com.ba.app.model.LocationRepository;
 import com.ba.app.model.OutgoingParcelRepository;
@@ -61,9 +51,6 @@ import com.ba.app.model.PaymentTypeRepository;
 import com.ba.app.model.VehicleRepository;
 import com.ba.app.vo.BookingVo;
 import com.ba.app.vo.DeliveryVo;
-import com.ba.app.vo.ExpenceCategoryVo;
-import com.ba.app.vo.ExpenceSubCategoryVo;
-import com.ba.app.vo.ExpenseVo;
 import com.ba.app.vo.InventoryVo;
 import com.ba.app.vo.LocationVo;
 import com.ba.app.vo.OutgoingParcelVo;
@@ -72,7 +59,6 @@ import com.ba.app.vo.PaymentTypeVo;
 import com.ba.app.vo.VehicleVo;
 import com.ba.utils.LuggageSlipGenerator;
 import com.ba.utils.Utils;
-import com.google.gson.JsonObject;
 
 @Controller
 public class BookingController {
@@ -641,24 +627,18 @@ public class BookingController {
 		return "delivery";
 	}
 
-	@RequestMapping(value = "/searchParcelName/{name}", method = RequestMethod.GET)
-	public String searchParcelName(@PathVariable("name") String name, HttpServletRequest request, ModelMap model) {
-		try {
-			// SESSION VALIDATION
-			if (sessionValidation(request, model) != null)
-				return "login";
-			Delivery deliveryEntity = deliveryRepository.findByName(name);
-			DeliveryVo deliveryVo = new DeliveryVo();
-			BeanUtils.copyProperties(deliveryEntity, deliveryVo);
-			model.addAttribute("delivery", deliveryVo);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("errormsg", "Failed To search Party Name ");
-			return "delivery";
-		}
-		return "delivery";
-	}
+	/*
+	 * @RequestMapping(value = "/searchParcelName/{name}", method =
+	 * RequestMethod.GET) public String searchParcelName(@PathVariable("name")
+	 * String name, HttpServletRequest request, ModelMap model) { try { // SESSION
+	 * VALIDATION if (sessionValidation(request, model) != null) return "login";
+	 * Delivery deliveryEntity = deliveryRepository.findByName(name); DeliveryVo
+	 * deliveryVo = new DeliveryVo(); BeanUtils.copyProperties(deliveryEntity,
+	 * deliveryVo); model.addAttribute("delivery", deliveryVo);
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); model.addAttribute("errormsg",
+	 * "Failed To search Party Name "); return "delivery"; } return "delivery"; }
+	 */
 
 	@RequestMapping(value = "/getCharges", method = RequestMethod.POST)
 	public ResponseEntity<String> getCharges(HttpServletRequest request, ModelMap model) {

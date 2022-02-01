@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ba.app.entity.Delivery;
 import com.ba.app.entity.Location;
+import com.ba.app.model.DeliveryRepository;
 import com.ba.app.model.LocationRepository;
 import com.ba.app.model.OutgoingParcelRepository;
 import com.ba.app.vo.OGPLReport;
@@ -20,6 +22,9 @@ public class ReportController {
 
 	@Autowired
 	private OutgoingParcelRepository reportRepository;
+	
+	@Autowired
+	private DeliveryRepository deliveryRepository;
 
 	@Autowired
 	private LocationRepository locationRepository;
@@ -62,6 +67,7 @@ public class ReportController {
 				ogplReport.setTotalpaid((""+str[12]).replace("null", "-"));
 				ogplReport.setTotaltopay((""+str[13]).replace("null", "-"));
 				ogplReport.setLRno((""+str[14]).replace("null", "-"));
+				ogplReport.setId((""+str[15]).replace("null", "-"));
 				ogplReportList.add(ogplReport);
 			}
 			
@@ -72,6 +78,22 @@ public class ReportController {
 			e.printStackTrace();
 		}
 		return "OGPLReport";
+	}
+	
+	@RequestMapping("/report/delivery")
+	public String deliveryReport(HttpServletRequest request, ModelMap model) {
+		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
+			
+			Iterable<Delivery> delivery = deliveryRepository.findAll();
+			
+			model.addAttribute("DeliveryReport", delivery);
+			setAllLocationListInModel(model);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "DeliveryReport";
 	}
 	
 	private void setAllLocationListInModel(ModelMap model) {
