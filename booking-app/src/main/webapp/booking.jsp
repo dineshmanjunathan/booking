@@ -360,11 +360,7 @@
 			document.getElementById("btnSave").disabled = false;
 		}
 	}
-	function save_confirm(){
-		if (confirm('Are you sure you want to save?')) {
-			 document.getElementById("bookingForm").submit();
-		}
-	}
+	
 	function getBookingLuggaeSlip() {
 		var x = document.getElementById("lrNumber").value;
 		if (x) {
@@ -402,7 +398,7 @@
 							<div class="blog-details-inner">
 							<span id="error"></span>
 								<form name="bookingForm" action="/booking/save" method="POST"
-									onload="disabledFieldsOnLoad();" id="bookingForm">
+									onload="disabledFieldsOnLoad();" id="bookingForm" onsubmit="return confirm('Are you sure you want to save?');">
 									<input type="hidden" class="form-control" name="bid" id="bid"
 										value="${booking.id}">
 									<p style="color: red" align="center">${errormsg}</p>
@@ -759,8 +755,8 @@
 													<div class="col-sm-8"></div>
 												</div>
 												<div class="col-md-18 control-margin">
-												<button type="button"
-													class="btn btn-primary button-margin col-md-2" id="btnSave" onclick="save_confirm();"disabled>Save</button>
+												<button type="submit"
+													class="btn btn-primary button-margin col-md-2" id="btnSave" disabled>Save</button>
 												<button type="button"
 													class="btn btn-primary button-margin col-md-2" id="btnEdit"
 													onclick="loadReadBookingForm();">Edit</button>
