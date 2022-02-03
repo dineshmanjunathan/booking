@@ -924,7 +924,8 @@ public class BookingController {
 			if (id != null) {
 				model.addAttribute("LRNumber", lRNumber);
 				bookingRepository.deleteById(Long.parseLong(id));
-				model.addAttribute("bookingsuccessmessage", "Booking request successfully deleted.");
+				model.addAttribute("bookingsuccessmessage", "Booking request successfully deleted.  "
+						+ " LR Number : " +lRNumber);
 			} else {
 				model.addAttribute("errormsg", "Invalid booking request! ");
 				return "booking";
@@ -934,7 +935,7 @@ public class BookingController {
 			model.addAttribute("errormsg", "Invalid booking request! ");
 			return "booking";
 		}
-		return "bookingsuccess";
+		return "booking";
 	}
 
 	@RequestMapping("/deliveryinventory")

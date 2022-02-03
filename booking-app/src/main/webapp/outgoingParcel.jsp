@@ -144,7 +144,7 @@
 					<thead>
 						<tr>
 							<th scope="col">LR No.</th>
-							<th scope="col">OGP</th>
+							<th scope="col">OGPL</th>
 							<th scope="col">To Name</th>
 							<th scope="col">No Of Items</th>
 							<th scope="col">Remarks</th>

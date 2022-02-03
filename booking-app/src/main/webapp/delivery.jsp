@@ -37,7 +37,10 @@
 	}
 	function save_confirm(){
 		if (confirm('Are you sure you want to save?')) {
-			 document.getElementById("deliveryform").submit();
+			document.getElementById("status").disabled  = false;
+			document.getElementById("fromLocation").disabled  = false;
+			document.getElementById("toLocation").disabled  = false;
+			document.getElementById("deliveryform").submit();
 		}
 	}
 </script>
@@ -60,9 +63,11 @@
 	}
 	function sumAmount() {
 		var doorDeliveryCharges =Number( document.getElementById("doorDeliveryCharges").value);
+		document.getElementById("total").readOnly = false;
 		var total = Number(document.getElementById("total").value);
 		let sum = doorDeliveryCharges + total;
 		document.getElementById("total").value = (sum);
+		document.getElementById("total").readOnly = true;
 	}
 
 	function getBookingLuggaeSlip() {
@@ -165,8 +170,7 @@
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="txtddVehicle">DD
-															Vehicle</label>
+														<label class="form-label" for="txtddVehicle">Vechile No</label>
 													</div>
 													<div class="col-sm-8">
 														<select id="ddVehicle" name="ddVehicle"
@@ -181,18 +185,18 @@
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<input type="radio" class="form-check-input" name="status"
-															value="HOLD"> <label class="form-check-label"
+														<input type="radio" class="form-check-input" name="status" id="status"
+															value="HOLD" disabled> <label class="form-check-label"
 															for="chkHold">Hold</label>
 													</div>
 													<div class="col-sm-4">
-														<input type="radio" class="form-check-input" name="status"
-															value="DELIVERED"> <label
-															class="form-check-label" for="chkDelivered">Delivered</label>
+														<input type="radio" class="form-check-input" name="status" id="status"
+															value="DELIVERED" disabled> <label
+															class="form-check-label" for="chkDelivered" >Delivered</label>
 													</div>
 													<div class="col-sm-4">
-														<input type="radio" class="form-check-input" name="status"
-															value="PRINTED"> <label class="form-check-label"
+														<input type="radio" class="form-check-input" name="status" id="status"
+															value="PRINTED" disabled> <label class="form-check-label"
 															for="chkPrinted">Printed</label>
 													</div>
 												</div>
@@ -276,7 +280,7 @@
 													<div class="col-sm-8">
 														<c:choose>
 															<c:when test="${deliveryB.fromLocation ne ''}">
-																<select class="form-select" name=fromLocation>
+																<select class="form-select" name=fromLocation id=fromLocation disabled>
 																	<c:forEach var="options" items="${locationList}"
 																		varStatus="status">
 																		<%-- <option value="${options.id}" ${options.id == booking.toLocation ? 'selected' : ''}>${options.location}</option> --%>
@@ -294,7 +298,7 @@
 													</div>
 
 													<div class="col-sm-8">
-														<select class="form-select" name="toLocation">
+														<select class="form-select" name="toLocation" id=toLocation disabled>
 															<c:forEach var="options" items="${locationList}"
 																varStatus="status">
 																<%-- <option value="${options.id}" ${options.id == booking.toLocation ? 'selected' : ''}>${options.location}</option> --%>
@@ -352,7 +356,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="text" class="form-control"
-															name="unloadingCharges" id="unloadingCharges" onblur="sumAmount();">
+															name="unloadingCharges" id="unloadingCharges" >
 												</div>
 												</div>
 												<div class="row element-margin">
@@ -362,7 +366,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="text" class="form-control"
-															name="doorDeliveryCharges" value="0">
+															name="doorDeliveryCharges" id="doorDeliveryCharges" onblur="sumAmount();">
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -416,8 +420,8 @@
 														<label class="form-label" for="txtTotal">Cash</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" c
-															name="cash" onblur="sumRefund();" required>
+														<input type="number" class="form-control" 
+															name="cash" id="cash" onblur="sumRefund();" required>
 													</div>
 												</div>
 												<div class="row element-margin">

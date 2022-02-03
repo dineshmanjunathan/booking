@@ -327,7 +327,7 @@
 	function getBillValue() {
 		var value = document.getElementById("billValue").value;
 		var error = document.getElementById("error");
-		if (value > 50000) {
+		if (value >= 50000) {
 			var eValue = document.getElementById("billNumber").value;
 			if (eValue == '' || eValue == 'undedined') {
 				error.textContent = "E Way Bill Number should be mandatory."
@@ -402,8 +402,7 @@
 									<input type="hidden" class="form-control" name="bid" id="bid"
 										value="${booking.id}">
 									<p style="color: red" align="center">${errormsg}</p>
-									<p style="color: green" align="center">${bookingsuccessmessage}</p>
-									<p style="color: green; font-weight: bold;" align="center">${LRNumber}</p>
+									<p style="color: green; font-weight: bold;" align="center">${bookingsuccessmessage}</p>
 									<main>
 										<div class="row">
 											<div class="col-md-4 control-margin">
