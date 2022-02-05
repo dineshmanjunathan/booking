@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ba.app.entity.Booking;
 import com.ba.app.entity.Delivery;
 import com.ba.app.entity.Location;
+import com.ba.app.model.BookingRepository;
 import com.ba.app.model.DeliveryRepository;
 import com.ba.app.model.LocationRepository;
 import com.ba.app.model.OutgoingParcelRepository;
@@ -25,6 +27,9 @@ public class ReportController {
 	
 	@Autowired
 	private DeliveryRepository deliveryRepository;
+	
+	@Autowired
+	private BookingRepository bookingRepository;
 
 	@Autowired
 	private LocationRepository locationRepository;
@@ -94,6 +99,22 @@ public class ReportController {
 			e.printStackTrace();
 		}
 		return "DeliveryReport";
+	}
+	
+	@RequestMapping("/report/booking")
+	public String bookingReport(HttpServletRequest request, ModelMap model) {
+		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
+			
+			Iterable<Booking> booking = bookingRepository.findAll();
+			
+			model.addAttribute("Booking", booking);
+			setAllLocationListInModel(model);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "bookingReport";
 	}
 	
 	private void setAllLocationListInModel(ModelMap model) {

@@ -309,7 +309,7 @@
 						</div>
 						<h5>Booking</h5>
 						<p></p>
-						<a href="#" class="icon-link"> Click here <svg
+						<a href="/report/booking" class="icon-link"> Click here <svg
 								class="bi" width="1em" height="1em">
 								<use xlink:href="#chevron-right" /></svg>
 						</a>
