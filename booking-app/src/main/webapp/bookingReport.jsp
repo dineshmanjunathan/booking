@@ -35,7 +35,7 @@
 							<th scope="col">From Number</th>
 							<th scope="col">To Name</th>
 							<th scope="col">To Number</th>
-							<th scope="col">no of Item</th>
+							<th scope="col">No Of Items</th>
 							<th scope="col">Weight</th>
 							<th scope="col">Pay Type</th>
 							<th scope="col">Feright Value</th>
@@ -45,7 +45,7 @@
 							<th scope="col">Booked By</th>
 							<th scope="col">With Bill</th>
 							<th scope="col">Without Bill</th>
-							<th scope="col">Cons Inv</th>
+							<th scope="col">Cons INV No</th>
 							<th scope="col">Bill Value</th>
 							<th scope="col">Eway Bill</th>
 							<th scope="col">Remark</th>
@@ -65,20 +65,21 @@
 								<td>${details.from_phone}</td>
 								<td>${details.toName}</td>
 								<td>${details.to_phone}</td>
+								<td>${details.item_count}</td>
 								<td>${details.weight}</td>
+								<td>${details.payOption}</td>
+								<td>${details.freightvalue}</td>
+								<td>${details.loadingcharges}</td>
+								<td>${details.doorpickcharges}</td>
+								<td>${details.total}</td>
+								<td>${details.bookedBy}</td>
 								<td>-</td>
 								<td>-</td>
-								<td>-</td>
-								<td>-</td>
-								<td>-</td>
-								<td>-</td>
-								<td>-</td>
-								<td>-</td>
-								<td>-</td>
-								<td>-</td>
-								<td>-</td>
-								<td>-</td>
-								<td>-</td>
+								<td>${details.invNo}</td>
+								<td>${details.billValue}</td>
+								<td>${details.billNumber}</td>
+								<td>${details.remarks}</td>
+								<td>${details.fromValue}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
