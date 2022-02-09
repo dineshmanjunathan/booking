@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -615,6 +616,19 @@ public class BookingController {
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 			String currentDate = formatter.format(date);
 			delivery.setDeliveryDate(currentDate);
+			if (booking != null && booking.getBookedOn() != null) {
+				String startDate=booking.getBookedOn();
+				Date stDate=formatter.parse(startDate);
+				date=formatter.parse(currentDate);
+				long diffTime=date.getTime()-stDate.getTime();
+				long diffDays=TimeUnit.MILLISECONDS.toDays(diffTime)%365;
+				if(diffDays <7) {
+					delivery.setDemurrage("0");
+				}else {
+					long charge=(diffDays-6)*10;
+					delivery.setDemurrage(""+charge);
+				}
+			}
 			setAllVehileListInModel(model);
 			setAllLocationListInModel(model);
 			model.addAttribute("delivery", delivery);

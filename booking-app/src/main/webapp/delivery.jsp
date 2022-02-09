@@ -64,7 +64,7 @@
 	function sumAmount() {
 		var doorDeliveryCharges =Number( document.getElementById("doorDeliveryCharges").value);
 		document.getElementById("total").readOnly = false;
-		var total = Number(document.getElementById("total").value);
+		var total = Number(document.getElementById("orgTotal").value);
 		let sum = doorDeliveryCharges + total;
 		document.getElementById("total").value = (sum);
 		document.getElementById("total").readOnly = true;
@@ -174,7 +174,7 @@
 													</div>
 													<div class="col-sm-8">
 														<select id="ddVehicle" name="ddVehicle"
-															class="form-control">
+															class="form-control" disabled>
 															<c:forEach var="options1" items="${vehicleList}"
 																varStatus="status">
 																<option value="${options1.id}"
@@ -374,8 +374,7 @@
 														<label class="form-label" for="txtDemurrage">Demurrage</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" name="demurrage"
-															value="0">
+														<input type="text" class="form-control" name="demurrage" id="demurrage" value="${delivery.demurrage}">
 													</div>
 												</div>
 												<%--<div class="row element-margin">
@@ -412,6 +411,8 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" name="total" id="total"
+															value="${deliveryB.total}">
+															<input type="hidden" class="form-control" name="orgTotal" id="orgTotal"
 															value="${deliveryB.total}">
 													</div>
 												</div>
