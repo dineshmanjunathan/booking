@@ -59,6 +59,7 @@ import com.ba.app.vo.OutgoingParcelVo;
 import com.ba.app.vo.PayOptionVo;
 import com.ba.app.vo.PaymentTypeVo;
 import com.ba.app.vo.VehicleVo;
+import com.ba.utils.DeliverySlipGenerator;
 import com.ba.utils.LuggageSlipGenerator;
 import com.ba.utils.Utils;
 
@@ -1184,4 +1185,28 @@ public class BookingController {
 
 		}
 	}
+	
+	@RequestMapping(value = "/delivery/print", method = RequestMethod.GET)
+	public void printDelivery(@RequestParam(required = true) String lrNumber, HttpServletRequest request, ModelMap model,
+			HttpServletResponse response) {
+		try {
+			if (sessionValidation(request, model) == null) {
+
+				Delivery deliveryEntity = deliveryRepository.findByLRNo(lrNumber);
+				if (deliveryEntity != null && deliveryEntity.getLRNo() != null) {
+					DeliveryVo deliveryVo = new DeliveryVo();
+					BeanUtils.copyProperties(deliveryEntity, deliveryVo, "createon", "updatedon");
+					byte[] bookingData = DeliverySlipGenerator.getInstance().getReportDataSource(deliveryVo);
+					String base64Response = Base64.getEncoder().encodeToString(bookingData);
+					response.getWriter().write(base64Response);
+				} else {
+					response.getWriter().write("LRnumber No record(s) found.");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+	}
+	
 }

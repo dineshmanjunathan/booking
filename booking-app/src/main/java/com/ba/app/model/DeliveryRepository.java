@@ -6,4 +6,6 @@ import com.ba.app.entity.Delivery;
 
 public interface DeliveryRepository extends CrudRepository<Delivery,Long>{
 
+	Delivery findByLRNo(String lrNumber);
+	
 } 

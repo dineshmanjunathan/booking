@@ -70,11 +70,11 @@
 		document.getElementById("total").readOnly = true;
 	}
 
-	function getBookingLuggaeSlip() {
+	function getDeliverySlip() {
 		var x = document.getElementById("txtSearch").value;
 		if (x) {
 			$.ajax({
-				url : "/booking/print?lrNumber=" + x,
+				url : "/delivery/print?lrNumber=" + x,
 				type : "GET",
 				cache : false,
 				success : function(data) {
@@ -451,7 +451,7 @@
 														class="btn btn-primary button-margin col-md-2"
 														id="btnClear">Back</button></a>
 												<button type="button" class="btn btn-primary button-margin col-md-2"
-													onclick="getBookingLuggaeSlip()" id="btnPrint">Print</button>
+													onclick="getDeliverySlip()" id="btnPrint">Print</button>
 
 											</div>
 										</div>

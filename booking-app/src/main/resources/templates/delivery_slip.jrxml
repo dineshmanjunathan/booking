@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="delivery_slip" pageWidth="359" pageHeight="240" columnWidth="355" leftMargin="2" rightMargin="2" topMargin="2" bottomMargin="2" uuid="be746c0b-d653-4ce7-9f15-c976a2aac1e5">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="TO_LOC" class="java.lang.String"/>
+	<parameter name="FROM_LOC" class="java.lang.String"/>
+	<parameter name="CONSIGNEE" class="java.lang.String"/>
+	<parameter name="CONSIGNOR" class="java.lang.String"/>
+	<parameter name="LR_NO" class="java.lang.String"/>
+	<parameter name="DATE" class="java.lang.String"/>
+	<parameter name="TIME" class="java.lang.String"/>
+	<parameter name="NO_OF_ARTICLES" class="java.lang.Integer"/>
+	<parameter name="TO_PAY" class="java.lang.String"/>
+	<parameter name="UNLOADING_CHARGES" class="java.lang.String"/>
+	<parameter name="DEMURRAGE" class="java.lang.String"/>
+	<parameter name="TOTAL" class="java.lang.String"/>
+	<parameter name="RUPEES_TEXT" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="36" splitType="Stretch"/>
+	</title>
+	<detail>
+		<band height="11">
+			<textField>
+				<reportElement x="49" y="0" width="130" height="11" uuid="77f2ce60-837f-47f8-abf9-f6200ca88b6c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{FROM_LOC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="218" y="0" width="136" height="11" uuid="7470d81d-3f40-47a4-87ed-62b51069f75e">
+					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{TO_LOC}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="11">
+			<textField>
+				<reportElement x="49" y="0" width="130" height="11" uuid="d5743dea-6957-4820-a8f7-cbcc3e389c1e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{CONSIGNOR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="218" y="0" width="136" height="11" uuid="2348cdd1-bcd8-4c86-8c4b-2709b5b09b21">
+					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{CONSIGNEE}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="11">
+			<textField>
+				<reportElement x="218" y="0" width="136" height="11" uuid="66263059-d74e-404b-b778-c8764517cccd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="49" y="0" width="130" height="11" uuid="0e5a7455-ba80-49fc-84e7-ca8c7ae3b557"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{LR_NO}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="11"/>
+		<band height="98">
+			<textField>
+				<reportElement x="20" y="20" width="130" height="30" uuid="3140f421-279e-4392-bc58-c4bcf23471de"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{NO_OF_ARTICLES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="80" width="150" height="18" uuid="0cf32951-d66e-4bf3-9878-05c5027c3239"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{TIME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="240" y="0" width="116" height="20" uuid="6b821d13-3d7d-4329-adf5-4922a44906fd">
+					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{TO_PAY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="240" y="20" width="116" height="20" uuid="69284ca9-61cb-4b2a-9c89-14a298ef83e8">
+					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{UNLOADING_CHARGES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="240" y="39" width="116" height="20" uuid="60ad0bda-8dd4-4f9a-a37f-018a7ed77fec">
+					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{DEMURRAGE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="240" y="78" width="113" height="20" uuid="d4fbf4ec-e887-49e5-b501-a475929b35c7"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{TOTAL}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="22">
+			<textField>
+				<reportElement x="40" y="2" width="316" height="19" uuid="e9cd0de2-40ae-4b57-9e7a-4c21ef8840b6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{RUPEES_TEXT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
