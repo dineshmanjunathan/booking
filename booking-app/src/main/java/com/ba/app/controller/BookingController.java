@@ -7,6 +7,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
@@ -1167,6 +1168,10 @@ public class BookingController {
 				if (bookingEntity != null && bookingEntity.getLrNumber() != null) {
 					BookingVo bookingVO = new BookingVo();
 					BeanUtils.copyProperties(bookingEntity, bookingVO, "createon", "updatedon");
+					Optional<Location> location = locationRepository.findByLocation(bookingEntity.getFromLocation());
+					if (location.isPresent()) {
+						bookingVO.setBillDesc(location.get().getAddress());
+					}
 					byte[] bookingData = LuggageSlipGenerator.getInstance().getReportDataSource(bookingVO);
 					String base64Response = Base64.getEncoder().encodeToString(bookingData);
 					response.getWriter().write(base64Response);

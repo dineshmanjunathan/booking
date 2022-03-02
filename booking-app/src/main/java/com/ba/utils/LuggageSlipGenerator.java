@@ -63,7 +63,8 @@ public class LuggageSlipGenerator {
 		params.put("LOADING_CHARGES", bookingVo.getLoadingcharges());
 		params.put("PAYMENT_MODE", StringUtils.trimToEmpty(bookingVo.getPayOption()));
 		params.put("CASH_PAID", bookingVo.getCash());
-		params.put("RUPEES_TEXT", bookingVo.getCash());
+		params.put("RUPEES_TEXT", NumberToWordsConverter.getInstance().convert(bookingVo.getCash().intValue()));
+		
 		params.put("DELIVERY_OFFICE_ADDRESS", StringUtils.trimToEmpty(bookingVo.getBillDesc()));
 		
 		

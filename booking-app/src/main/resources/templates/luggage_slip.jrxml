@@ -31,12 +31,12 @@
 	<detail>
 		<band height="23">
 			<textField>
-				<reportElement x="64" y="1" width="76" height="22" uuid="77f2ce60-837f-47f8-abf9-f6200ca88b6c"/>
+				<reportElement x="49" y="1" width="76" height="22" uuid="77f2ce60-837f-47f8-abf9-f6200ca88b6c"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{FROM_LOC}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="210" y="0" width="136" height="22" uuid="7470d81d-3f40-47a4-87ed-62b51069f75e">
+				<reportElement x="202" y="0" width="136" height="22" uuid="7470d81d-3f40-47a4-87ed-62b51069f75e">
 					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
@@ -45,12 +45,12 @@
 		</band>
 		<band height="23">
 			<textField>
-				<reportElement x="64" y="-1" width="76" height="22" uuid="d5743dea-6957-4820-a8f7-cbcc3e389c1e"/>
+				<reportElement x="49" y="-1" width="76" height="22" uuid="d5743dea-6957-4820-a8f7-cbcc3e389c1e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{CONSIGNOR}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="210" y="-1" width="136" height="22" uuid="2348cdd1-bcd8-4c86-8c4b-2709b5b09b21">
+				<reportElement x="202" y="-1" width="136" height="22" uuid="2348cdd1-bcd8-4c86-8c4b-2709b5b09b21">
 					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
@@ -59,39 +59,39 @@
 		</band>
 		<band height="23">
 			<textField>
-				<reportElement x="210" y="1" width="136" height="22" uuid="66263059-d74e-404b-b778-c8764517cccd"/>
+				<reportElement x="202" y="1" width="136" height="22" uuid="66263059-d74e-404b-b778-c8764517cccd"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{DATE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="64" y="1" width="76" height="22" uuid="0e5a7455-ba80-49fc-84e7-ca8c7ae3b557"/>
+				<reportElement x="49" y="1" width="76" height="22" uuid="0e5a7455-ba80-49fc-84e7-ca8c7ae3b557"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{LR_NO}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="130">
 			<textField>
-				<reportElement x="50" y="4" width="90" height="22" uuid="582e96c8-cc38-474b-89cb-50d5036d7ba0"/>
+				<reportElement x="35" y="4" width="90" height="22" uuid="582e96c8-cc38-474b-89cb-50d5036d7ba0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{NO_OF_ARTICLES}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="50" y="40" width="90" height="22" uuid="da66fbda-466a-46d8-9202-dfd37aa44231"/>
+				<reportElement x="35" y="40" width="90" height="22" uuid="da66fbda-466a-46d8-9202-dfd37aa44231"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{WEIGHT}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="50" y="62" width="90" height="22" uuid="02df0320-acb3-4c2b-81b2-5e64eac7ba7f"/>
+				<reportElement x="35" y="62" width="90" height="22" uuid="02df0320-acb3-4c2b-81b2-5e64eac7ba7f"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{VALUE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="50" y="84" width="90" height="22" uuid="7a579b4e-791d-4164-b0bb-bf86448895e5"/>
+				<reportElement x="35" y="84" width="90" height="22" uuid="7a579b4e-791d-4164-b0bb-bf86448895e5"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{REMARK}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="50" y="106" width="90" height="22" uuid="3f60ef11-f8ad-4d2d-a869-9db3174e3932"/>
+				<reportElement x="35" y="106" width="90" height="22" uuid="3f60ef11-f8ad-4d2d-a869-9db3174e3932"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{TIME}]]></textFieldExpression>
 			</textField>
