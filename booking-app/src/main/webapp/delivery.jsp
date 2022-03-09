@@ -71,7 +71,7 @@
 	}
 
 	function getDeliverySlip() {
-		var x = document.getElementById("txtSearch").value;
+		var x = document.getElementsByName('lRNo')[0].value;
 		if (x) {
 			$.ajax({
 				url : "/delivery/print?lrNumber=" + x,
