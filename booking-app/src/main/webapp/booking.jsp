@@ -379,7 +379,47 @@
 			});
 		}
 	}
-	
+	function add(){
+	    var new_chq_no = parseInt($('#total_chq').val())+1;
+	    var new_input="<input placeholder='Select Check Point' class ='form-control' type='text' name='new_"+new_chq_no+"' id='new_"+new_chq_no+"'>";
+	    $('#new_chq').append(new_input);
+	    $('#total_chq').val(new_chq_no)
+	  }
+	  function remove(){
+	    var last_chq_no = $('#total_chq').val();
+	    if(last_chq_no>1){
+	      $('#new_'+last_chq_no).remove();
+	      $('#total_chq').val(last_chq_no-1);
+	    }
+	  }
+	  function addCheckPointVal(){
+		     var newval1 = $('#new_1').val();	     
+			 var newval2 = $('#new_2').val();
+			 var newval3 = $('#new_3').val();
+			 var newval4 = $('#new_4').val();
+			 var newval5 = $('#new_5').val();
+			 if(newval1==='undefined'){
+		    	 newval1='';
+			  }
+		     if(newval2==='undefined'){
+		    	 newval2='';
+			  }
+		     if(newval3==='undefined'){
+		    	 newval3='';
+			  }
+		     if(newval4==='undefined'){
+		    	 newval4='';
+			  }
+		     if(newval5==='undefined'){
+		    	 newval5='';
+			  }
+		 alert(newval1);
+		 alert(newval2);		 
+		 alert(newval3);		 
+		 alert(newval4);		 
+		 alert(newval5);		 		 
+		 $('#checkpoint').val(newval1+","+newval2+","+newval3+","+newval4+","+newval5)
+	   }
 </script>
 </head>
 
@@ -435,6 +475,21 @@
 																</c:otherwise>
 															</c:choose>
 														</div>
+														
+													  <div class="col-sm-6">	
+													  
+													  <div class="col-md-18 control-margin">
+													  <button type="button" class="btn btn-primary button-margin col-md-5" onclick="add()">Add</button>
+													  <button type="button" class="btn btn-primary button-margin col-md-5" onclick="remove()">remove</button>
+													  </div>
+													   </div>
+													   <div class="col-sm-6">
+													   	<input class="form-control" type="text" id="new_1" name="new_1" placeholder='Select Check Point'>
+													  <div id="new_chq"></div>
+													  <input type="hidden" value="1" id="total_chq">
+													  <input type="hidden" value="" name="checkpoint" id="checkpoint">
+													 	</div>
+														
 													</div>
 													<div class="row element-margin">
 														<div class="col-sm-4">
@@ -754,7 +809,7 @@
 													<div class="col-sm-8"></div>
 												</div>
 												<div class="col-md-18 control-margin">
-												<button type="submit"
+												<button onclick="addCheckPointVal()"type="submit"
 													class="btn btn-primary button-margin col-md-2" id="btnSave" disabled>Save</button>
 												<button type="button"
 													class="btn btn-primary button-margin col-md-2" id="btnEdit"

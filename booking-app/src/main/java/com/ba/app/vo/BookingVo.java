@@ -55,4 +55,5 @@ public class BookingVo implements Serializable {
 	private BigDecimal doorpickcharges;
 	private BigDecimal othercharges;
 	private BigDecimal freightvalue;
+	private String checkpoint;
 }

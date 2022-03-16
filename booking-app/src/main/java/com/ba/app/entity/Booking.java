@@ -65,4 +65,5 @@ public class Booking implements Serializable {
 	private BigDecimal othercharges;
 	private BigDecimal freightvalue;
 	private String igplStatus;
+	private String checkpoint;
 }
