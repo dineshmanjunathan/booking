@@ -397,27 +397,7 @@
 			 var newval2 = $('#new_2').val();
 			 var newval3 = $('#new_3').val();
 			 var newval4 = $('#new_4').val();
-			 var newval5 = $('#new_5').val();
-			 if(newval1==='undefined'){
-		    	 newval1='';
-			  }
-		     if(newval2==='undefined'){
-		    	 newval2='';
-			  }
-		     if(newval3==='undefined'){
-		    	 newval3='';
-			  }
-		     if(newval4==='undefined'){
-		    	 newval4='';
-			  }
-		     if(newval5==='undefined'){
-		    	 newval5='';
-			  }
-		 alert(newval1);
-		 alert(newval2);		 
-		 alert(newval3);		 
-		 alert(newval4);		 
-		 alert(newval5);		 		 
+			 var newval5 = $('#new_5').val();		 		 
 		 $('#checkpoint').val(newval1+","+newval2+","+newval3+","+newval4+","+newval5)
 	   }
 </script>
