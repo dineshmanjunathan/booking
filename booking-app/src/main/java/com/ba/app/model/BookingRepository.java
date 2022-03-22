@@ -21,7 +21,11 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	Booking findByLrNumber(String lrNumber);
 	List<Booking> findByLrNumberIn(List<String> lrNumbers);
 	Optional<Booking> findById(Long id);
+	
 	List<Booking> findByFromLocationAndToLocationAndOgplNoIsNull(String fromLocation,String toLocation);
+	@Query(value = "select * from t_booking where From_Location=:filter1 and To_Location=:filter2 and (ogpl_no IS NULL OR ogpl_conn_point = true) ", nativeQuery =true)
+	List<Booking> getOGPLlist(@Param("filter1") String filter1,@Param("filter2") String filter2);
+	
 	void deleteByLrNumber(String lrNumber);
 	@Query(value = "select NEXTVAL('LRNUMBER_SEQ')", nativeQuery =true)
     Long getNextLRNumber();
@@ -32,13 +36,15 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE T_BOOKING SET OGPL_NO=:ogplno WHERE LR_NUMBER IN(:lrnumbers)", nativeQuery =true)
+	@Query(value = "UPDATE T_BOOKING SET CONNECTION_POINT=false,OGPL_NO=:ogplno WHERE LR_NUMBER IN(:lrnumbers)", nativeQuery =true)
     int updateBookingOgpl(@Param("ogplno") long ogplno,@Param("lrnumbers") ArrayList<String> lrnumbers);
 	
 	List<Booking> findByLrNumberInAndIgplStatus(List<String> lrNumbers,String igplstatus);
 	
 	List<Booking> findByIgplStatus(String igplstatus);
-	List<Booking> findByIgplStatusAndFromLocationAndOgplNoIsNull(String igplstatus,String fromLocation);
+	
+	@Query(value = "select * from t_booking where igpl_status in ('P','A') and From_Location=:filter1 and (ogpl_no IS NULL OR ogpl_conn_point = true)", nativeQuery =true)
+	List<Booking> getBookingInventory(@Param("filter1") String filter1);
 
 	@Transactional
 	@Modifying
@@ -52,6 +58,13 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
     int updateIgplStatusByLR(@Param("igplstatus") String igplstatus,@Param("lrnumbers") String lrnumbers);
 	
 	List<Booking> findByLrNumberAndIgplStatus(String lrNumbers,String igplstatus);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE T_BOOKING SET ogpl_conn_point=false WHERE LR_NUMBER =:lrnumber", nativeQuery =true)
+    int updateBookingOgplConnPoint(@Param("lrnumber") String lrnumbers);
+	//List<Booking> findByLrNumberInAndIgplStatusIsNull(List<String> lrNumbers);
+	
 
 
 }

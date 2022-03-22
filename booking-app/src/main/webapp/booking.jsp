@@ -456,7 +456,7 @@
 															</c:choose>
 														</div>
 														
-													  <div class="col-sm-6">	
+												<!-- 	  <div class="col-sm-6">	
 													  
 													  <div class="col-md-18 control-margin">
 													  <button type="button" class="btn btn-primary button-margin col-md-5" onclick="add()">Add</button>
@@ -468,7 +468,7 @@
 													  <div id="new_chq"></div>
 													  <input type="hidden" value="1" id="total_chq">
 													  <input type="hidden" value="" name="checkpoint" id="checkpoint">
-													 	</div>
+													 	</div> -->
 														
 													</div>
 													<div class="row element-margin">

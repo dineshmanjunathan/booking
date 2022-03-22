@@ -153,6 +153,7 @@
 							<th scope="col">Booked Date</th>
 							<th scope="col">To Phone</th>
 							<th scope="col"> EWAY Bill number</th>
+							<th scope="col">Connection Point</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -178,6 +179,7 @@
 								<td>${outgoingList.bookedOn}</td>
 								<td>${outgoingList.to_phone}</td>
 								<td>${outgoingList.billNumber}</td>
+								<td>${outgoingList.connectionPoint}</td>
 
 							</tr>
 						</c:forEach>

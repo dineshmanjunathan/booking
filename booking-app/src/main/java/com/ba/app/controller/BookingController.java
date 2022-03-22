@@ -29,6 +29,7 @@ import com.ba.app.entity.BookedBy;
 import com.ba.app.entity.Booking;
 import com.ba.app.entity.Charge;
 import com.ba.app.entity.Conductor;
+import com.ba.app.entity.ConnectionPoint;
 import com.ba.app.entity.Customer;
 import com.ba.app.entity.Delivery;
 import com.ba.app.entity.Driver;
@@ -42,6 +43,7 @@ import com.ba.app.model.BookedByRepository;
 import com.ba.app.model.BookingRepository;
 import com.ba.app.model.ChargeRepository;
 import com.ba.app.model.ConductorRepository;
+import com.ba.app.model.ConnectionPointRepository;
 import com.ba.app.model.CustomerRepository;
 import com.ba.app.model.DeliveryRepository;
 import com.ba.app.model.DriverRepository;
@@ -93,6 +95,9 @@ public class BookingController {
 	
 	@Autowired
 	private PaymentTypeRepository paymentTypeRepository;
+	
+	@Autowired
+	private ConnectionPointRepository connectionPointRepository;
 
 	private String lRNumber;
 
@@ -125,6 +130,11 @@ public class BookingController {
 			Booking bLrNo = bookingRepository.findByLrNumber(booking.getLrNumber());
 			booking.setIgplStatus("P");
 
+			ConnectionPoint connPointList =connectionPointRepository.findByFromLocationAndToLocation(booking.getFromLocation(), booking.getToLocation());
+			if(connPointList!=null && connPointList.getCheckPoint()!=null) {
+				booking.setConnectionPoint(true);
+				booking.setOgplConnPoint(true);
+			}
 			if (bLrNo != null && bLrNo.getLrNumber() != null) {
 				booking.setId(bLrNo.getId());
 				bookingRepository.save(booking);
@@ -421,10 +431,10 @@ public class BookingController {
 				return "login";
 			List<OutgoingParcel> ogplList;
 			if (bookedOn != null && bookedOn.trim().length() > 0) {
-				ogplList = outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(toLocation, fromLocation,
+				ogplList = outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation, toLocation,
 						bookedOn);
 			} else {
-				ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(toLocation, fromLocation);
+				ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(fromLocation, toLocation);
 			}
 			model.addAttribute("ogplList", ogplList);
 			if (ogplList != null && ogplList.size() > 0) {
@@ -432,8 +442,8 @@ public class BookingController {
 				model.addAttribute("fromLocation", og.getToLocation());
 				model.addAttribute("toLocation", og.getFromLocation());
 			} else {
-				model.addAttribute("toLocation", fromLocation);
-				model.addAttribute("fromLocation", toLocation);
+				model.addAttribute("toLocation", toLocation);
+				model.addAttribute("fromLocation", fromLocation);
 			}
 			model.addAttribute("bookedOn", bookedOn);
 			setAllLocationListInModel(model);
@@ -460,8 +470,24 @@ public class BookingController {
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
 				return "login";
-			List<Booking> outgoingList = bookingRepository.findByFromLocationAndToLocationAndOgplNoIsNull(fromLocation,
-					toLocation);
+			
+			ConnectionPoint connectionPoint= connectionPointRepository.findByFromLocationAndCheckPoint(fromLocation, toLocation);
+			List<Booking> outgoingList =null;
+			
+			if(connectionPoint!=null && connectionPoint.getCheckPoint()!=null){
+				outgoingList = bookingRepository.getOGPLlist(fromLocation,
+						connectionPoint.getToLocation());
+				if(outgoingList!=null && outgoingList.size()>0){
+					
+				}else {
+					outgoingList = bookingRepository.getOGPLlist(connectionPoint.getToLocation(),
+							toLocation);
+				}
+			}else {
+				outgoingList = bookingRepository.getOGPLlist(fromLocation,
+						toLocation);
+			}
+			
 			model.addAttribute("outgoingList", outgoingList);
 			OutgoingParcel outgoingParcel = new OutgoingParcel();
 			outgoingParcel.setFromLocation(fromLocation);
@@ -775,11 +801,29 @@ public class BookingController {
 			OutgoingParcel outgoingParcel = new OutgoingParcel();
 
 			BeanUtils.copyProperties(outgoingParcelVo, outgoingParcel);
+			
 			long ogplNo = Utils.getOrderNumber();
-			outgoingParcel.setOgplNo(ogplNo);
-			String sCurrentDate = Utils.getStringCurrentDatewithFormat("YYYY-MM-dd");
-			outgoingParcel.setBookedOn(sCurrentDate);
-			outgoingParcelRepository.save(outgoingParcel);
+			List<Booking> outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
+			for (Booking booking : outgoingList) {
+
+				ConnectionPoint connectionPoint = null;
+				if (outgoingParcel != null && outgoingParcel.getFromLocation() != null) {
+
+					connectionPoint = connectionPointRepository.findByFromLocationAndToLocation(
+							outgoingParcel.getFromLocation(), outgoingParcel.getToLocation());
+					if (booking.isConnectionPoint() && connectionPoint != null && connectionPoint.getCheckPoint() != null) {
+						outgoingParcel.setToLocation(connectionPoint.getCheckPoint());
+					}else {
+						outgoingParcel.setFromLocation(connectionPoint.getCheckPoint());
+					}
+				
+				}
+				outgoingParcel.setOgplNo(ogplNo);
+				String sCurrentDate = Utils.getStringCurrentDatewithFormat("YYYY-MM-dd");
+				outgoingParcel.setBookedOn(sCurrentDate);
+				outgoingParcelRepository.save(outgoingParcel);
+
+			}
 			model.addAttribute("outgoingsuccessmessage", "Parcel Out Successfully");
 			model.addAttribute("ogplno", "OGPL Number : " + ogplNo);
 			if (outgoingParcel != null) {
@@ -788,8 +832,16 @@ public class BookingController {
 				setAllConductorListInModel(model);
 				setAllDriverListInModel(model);
 				model.addAttribute("outgoingparcel", outgoingParcel);
+				
+				List<Booking> incomeList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
+				for (Booking booking : incomeList) {
+					if(!booking.isConnectionPoint()) {
+						bookingRepository.updateBookingOgplConnPoint(booking.getLrNumber());
+					}
+				}
+				
 				bookingRepository.updateBookingOgpl(ogplNo, outgoingParcel.getOgpnoarray());
-				List<Booking> outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
+				outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
 				model.addAttribute("outgoingList", outgoingList);
 				model.addAttribute("checkboxchecked", "1");
 			}
@@ -822,8 +874,11 @@ public class BookingController {
 				model.addAttribute("fromLocation", inventory.getFromLocation());
 				model.addAttribute("toLocation", inventory.getToLocation());
 				model.addAttribute("bookedOn", inventory.getBookedOn());
+				
 				bookingRepository.updateBookingIgplStatus("A", inventory.getLrnoarray());
+				
 				List<Booking> incomeList = bookingRepository.findByLrNumberIn(inventory.getLrnoarray());
+				
 				model.addAttribute("incomeparcelList", incomeList);
 				model.addAttribute("checkboxchecked", "1");
 				List<OutgoingParcel> ogplList;
@@ -1002,8 +1057,7 @@ public class BookingController {
 			if (sessionValidation(request, model) != null)
 				return "login";
 			String fromlocationcode = "" + request.getSession().getAttribute("USER_LOCATIONID");
-			List<Booking> allList = bookingRepository.findByIgplStatusAndFromLocationAndOgplNoIsNull("P",
-					fromlocationcode);
+			List<Booking> allList = bookingRepository.getBookingInventory(fromlocationcode);
 
 			model.addAttribute("bookinginventory", allList);
 
@@ -1208,5 +1262,4 @@ public class BookingController {
 
 		}
 	}
-	
 }
