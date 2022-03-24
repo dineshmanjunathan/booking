@@ -9,4 +9,6 @@ public interface ConnectionPointRepository extends CrudRepository<ConnectionPoin
 	ConnectionPoint findByFromLocationAndToLocation(String filter1, String filter2);
 	
 	ConnectionPoint findByFromLocationAndCheckPoint(String filter1, String filter2);
+	
+	ConnectionPoint findByToLocationAndCheckPoint(String filter1, String filter2);
 }
