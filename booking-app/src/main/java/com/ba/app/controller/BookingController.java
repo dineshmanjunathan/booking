@@ -813,8 +813,10 @@ public class BookingController {
 							outgoingParcel.getFromLocation(), outgoingParcel.getToLocation());
 					if (booking.isConnectionPoint() && connectionPoint != null && connectionPoint.getCheckPoint() != null) {
 						outgoingParcel.setToLocation(connectionPoint.getCheckPoint());
-					}else {
+					}else if (!booking.isConnectionPoint() && connectionPoint != null && connectionPoint.getCheckPoint() != null) {
 						outgoingParcel.setFromLocation(connectionPoint.getCheckPoint());
+					}else {
+						// do nothing
 					}
 				
 				}
