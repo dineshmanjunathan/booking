@@ -483,16 +483,14 @@ public class BookingController {
 				System.out.println("connectionPoint.getCheckPoint()-->"+connectionPoint.getCheckPoint());
 				
 				connOutgoingList = bookingRepository.getOGPLlist1(fromLocation,connectionPoint.getToLocation());
-				if(connOutgoingList!=null && connOutgoingList.size()>0){
-					
-				}else {
-					connectionPoint= connectionPointRepository.findByToLocationAndCheckPoint(toLocation, fromLocation);
-					if(connectionPoint!=null && connectionPoint.getCheckPoint()!=null){
-						connOutgoingList = bookingRepository.getOGPLlist2(connectionPoint.getFromLocation(),
-							toLocation);
-					}
-				}
+				
 				outgoingList.addAll(connOutgoingList);
+			}else {
+				connectionPoint= connectionPointRepository.findByToLocationAndCheckPoint(toLocation, fromLocation);
+				if(connectionPoint!=null && connectionPoint.getCheckPoint()!=null){
+					connOutgoingList = bookingRepository.getOGPLlist2(connectionPoint.getFromLocation(),
+						toLocation);
+				}
 			}
 			
 			

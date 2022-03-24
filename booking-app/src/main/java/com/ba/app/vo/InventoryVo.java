@@ -21,5 +21,6 @@ public class InventoryVo {
 	private String deliveredBy;
 	private String vehicleNo;
 	private ArrayList<String> lrnoarray;
-	private Long ogplNo;
+	private long ogplNo;
+	private String status;
 }
