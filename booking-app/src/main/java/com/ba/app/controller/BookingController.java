@@ -474,25 +474,24 @@ public class BookingController {
 				return "login";
 			
 			ConnectionPoint connectionPoint= connectionPointRepository.findByFromLocationAndCheckPoint(fromLocation, toLocation);
+			List<Booking> connOutgoingList =null;
 			List<Booking> outgoingList =null;
+			outgoingList = bookingRepository.getOGPLlist(fromLocation,toLocation);
 			
 			System.out.println("connectionPoint-->"+connectionPoint);
 			if(connectionPoint!=null && connectionPoint.getCheckPoint()!=null){
 				System.out.println("connectionPoint.getCheckPoint()-->"+connectionPoint.getCheckPoint());
-				outgoingList = bookingRepository.getOGPLlist(fromLocation,
-						connectionPoint.getToLocation());
-				if(outgoingList!=null && outgoingList.size()>0){
+				
+				connOutgoingList = bookingRepository.getOGPLlist(fromLocation,connectionPoint.getToLocation());
+				if(connOutgoingList!=null && connOutgoingList.size()>0){
 					
 				}else {
-					outgoingList = bookingRepository.getOGPLlist(connectionPoint.getToLocation(),
+					connOutgoingList = bookingRepository.getOGPLlist(connectionPoint.getToLocation(),
 							toLocation);
 				}
-			}else {
-				outgoingList = bookingRepository.getOGPLlist(fromLocation,
-						toLocation);
-				System.out.println("else-->"+outgoingList.size());
-
+				outgoingList.addAll(connOutgoingList);
 			}
+			
 			
 			model.addAttribute("outgoingList", outgoingList);
 			OutgoingParcel outgoingParcel = new OutgoingParcel();
