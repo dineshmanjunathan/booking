@@ -484,7 +484,6 @@ public class BookingController {
 				
 				connOutgoingList = bookingRepository.getOGPLlist1(fromLocation,connectionPoint.getToLocation());
 				
-				outgoingList.addAll(connOutgoingList);
 			}else {
 				connectionPoint= connectionPointRepository.findByToLocationAndCheckPoint(toLocation, fromLocation);
 				if(connectionPoint!=null && connectionPoint.getCheckPoint()!=null){
@@ -493,6 +492,7 @@ public class BookingController {
 				}
 			}
 			
+			outgoingList.addAll(connOutgoingList);
 			
 			model.addAttribute("outgoingList", outgoingList);
 			OutgoingParcel outgoingParcel = new OutgoingParcel();
