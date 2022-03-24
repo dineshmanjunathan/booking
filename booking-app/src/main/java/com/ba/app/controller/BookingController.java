@@ -961,7 +961,10 @@ public class BookingController {
 			if (sessionValidation(request, model) != null)
 				return "login";
 			OutgoingParcel outgoingParcel = outgoingParcelRepository.findByOgplNo(ogpl);
-			List<Booking> incomingList = bookingRepository.findByLrNumberInAndIgplStatus(outgoingParcel.getOgpnoarray(),"P");
+			 ArrayList<String> list = new ArrayList<String>();
+			 list.add("P");
+			 list.add("A");
+			List<Booking> incomingList = bookingRepository.findByLrNumberInAndIgplStatusIn(outgoingParcel.getOgpnoarray(),list);
 			
 			model.addAttribute("incomeparcelList", incomingList);
 			model.addAttribute("incomeparcel", outgoingParcel);

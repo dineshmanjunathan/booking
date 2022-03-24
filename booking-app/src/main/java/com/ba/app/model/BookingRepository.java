@@ -45,7 +45,7 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	@Query(value = "UPDATE T_BOOKING SET CONNECTION_POINT=false,OGPL_NO=:ogplno WHERE LR_NUMBER IN(:lrnumbers)", nativeQuery =true)
     int updateBookingOgpl(@Param("ogplno") long ogplno,@Param("lrnumbers") ArrayList<String> lrnumbers);
 	
-	List<Booking> findByLrNumberInAndIgplStatus(List<String> lrNumbers,String igplstatus);
+	List<Booking> findByLrNumberInAndIgplStatusIn(List<String> lrNumbers,ArrayList<String> igplstatus);
 	
 	List<Booking> findByIgplStatus(String igplstatus);
 	
