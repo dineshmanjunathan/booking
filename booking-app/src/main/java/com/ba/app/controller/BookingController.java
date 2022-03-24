@@ -437,14 +437,16 @@ public class BookingController {
 				ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(fromLocation, toLocation);
 			}
 			model.addAttribute("ogplList", ogplList);
-			if (ogplList != null && ogplList.size() > 0) {
-				OutgoingParcel og = ogplList.get(0);
-				model.addAttribute("fromLocation", og.getToLocation());
-				model.addAttribute("toLocation", og.getFromLocation());
-			} else {
-				model.addAttribute("toLocation", toLocation);
-				model.addAttribute("fromLocation", fromLocation);
-			}
+			/*
+			 * if (ogplList != null && ogplList.size() > 0) { OutgoingParcel og =
+			 * ogplList.get(0); model.addAttribute("fromLocation", og.getToLocation());
+			 * model.addAttribute("toLocation", og.getFromLocation()); } else {
+			 * model.addAttribute("toLocation", toLocation);
+			 * model.addAttribute("fromLocation", fromLocation); }
+			 */
+			model.addAttribute("toLocation", toLocation);
+			model.addAttribute("fromLocation", fromLocation);
+			
 			model.addAttribute("bookedOn", bookedOn);
 			setAllLocationListInModel(model);
 			setAllVehileListInModel(model);
