@@ -476,7 +476,9 @@ public class BookingController {
 			ConnectionPoint connectionPoint= connectionPointRepository.findByFromLocationAndCheckPoint(fromLocation, toLocation);
 			List<Booking> outgoingList =null;
 			
+			System.out.println("connectionPoint-->"+connectionPoint);
 			if(connectionPoint!=null && connectionPoint.getCheckPoint()!=null){
+				System.out.println("connectionPoint.getCheckPoint()-->"+connectionPoint.getCheckPoint());
 				outgoingList = bookingRepository.getOGPLlist(fromLocation,
 						connectionPoint.getToLocation());
 				if(outgoingList!=null && outgoingList.size()>0){
@@ -488,6 +490,8 @@ public class BookingController {
 			}else {
 				outgoingList = bookingRepository.getOGPLlist(fromLocation,
 						toLocation);
+				System.out.println("else-->"+outgoingList.size());
+
 			}
 			
 			model.addAttribute("outgoingList", outgoingList);

@@ -13,11 +13,11 @@ public interface OutgoingParcelRepository extends CrudRepository<OutgoingParcel,
 
 	OutgoingParcel findByOgplNo(long ogplNo);
 	
-	@Query(value="select * from t_outgoing_parcel where ogpl_no not in (select ogpl_no from t_inventory ti2) and from_location =?2 and to_location =?1 and booked_on =?3",nativeQuery=true)
+	@Query(value="select * from t_outgoing_parcel where ogpl_no not in (select ogpl_no from t_inventory ti2) and from_location =?1 and to_location =?2 and booked_on =?3",nativeQuery=true)
 
 	List<OutgoingParcel> findByFromLocationAndToLocationAndBookedOn(String fromLocation,String toLocation,String bookedOn);
 	
-	@Query(value="select * from t_outgoing_parcel where ogpl_no not in (select ogpl_no from t_inventory ti2) and from_location =?2 and to_location =?1",nativeQuery=true)
+	@Query(value="select * from t_outgoing_parcel where ogpl_no not in (select ogpl_no from t_inventory ti2) and from_location =?1 and to_location =?2",nativeQuery=true)
 
 	List<OutgoingParcel> findByFromLocationAndToLocation(String fromLocation,String toLocation);
 	
