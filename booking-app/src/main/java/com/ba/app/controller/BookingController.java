@@ -961,23 +961,23 @@ public class BookingController {
 			if (sessionValidation(request, model) != null)
 				return "login";
 			OutgoingParcel outgoingParcel = outgoingParcelRepository.findByOgplNo(ogpl);
-			List<Booking> incomingList = bookingRepository.findByLrNumberInAndIgplStatus(outgoingParcel.getOgpnoarray(),
-					"P");
+			List<Booking> incomingList = bookingRepository.findByLrNumberInAndIgplStatus(outgoingParcel.getOgpnoarray(),"P");
+			
 			model.addAttribute("incomeparcelList", incomingList);
 			model.addAttribute("incomeparcel", outgoingParcel);
 			if (outgoingParcel != null) {
-				model.addAttribute("fromLocation", outgoingParcel.getToLocation());
-				model.addAttribute("toLocation", outgoingParcel.getFromLocation());
+				model.addAttribute("fromLocation", outgoingParcel.getFromLocation());
+				model.addAttribute("toLocation", outgoingParcel.getToLocation());
 				model.addAttribute("bookedOn", outgoingParcel.getBookedOn());
 			}
 			model.addAttribute("ogplno", ogpl);
 
 			List<OutgoingParcel> ogplList;
 			if (bookedOn != null && bookedOn.trim().length() > 0) {
-				ogplList = outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(toLocation, fromLocation,
+				ogplList = outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(fromLocation, toLocation,
 						bookedOn);
 			} else {
-				ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(toLocation, fromLocation);
+				ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(fromLocation, toLocation);
 
 			}
 			model.addAttribute("ogplList", ogplList);
