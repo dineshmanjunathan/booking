@@ -43,7 +43,7 @@ updated_on DATE
 );
 
 
-
+CREATE SEQUENCE LRNUMBER_SEQ START  101
 
 drop table hibernate_sequence;
 CREATE TABLE  hibernate_sequence(
