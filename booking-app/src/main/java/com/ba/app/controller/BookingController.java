@@ -7,6 +7,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
@@ -129,7 +130,9 @@ public class BookingController {
 
 			Booking bLrNo = bookingRepository.findByLrNumber(booking.getLrNumber());
 			booking.setIgplStatus("P");
-
+			booking.setPointStatus(0);
+			booking.setCurrentLocation(booking.getFromLocation());
+			
 			ConnectionPoint connPointList =connectionPointRepository.findByFromLocationAndToLocation(booking.getFromLocation(), booking.getToLocation());
 			if(connPointList!=null && connPointList.getCheckPoint()!=null) {
 				booking.setConnectionPoint(true);
@@ -488,7 +491,22 @@ public class BookingController {
 				connectionPoint= connectionPointRepository.findByToLocationAndCheckPoint(toLocation, fromLocation);
 				if(connectionPoint!=null && connectionPoint.getCheckPoint()!=null){
 					connOutgoingList = bookingRepository.getOGPLlist2(connectionPoint.getFromLocation(),
-						toLocation);
+						toLocation,fromLocation);
+				
+				}
+				else
+				{
+					outgoingList=new ArrayList<Booking>();
+					connOutgoingList = bookingRepository.getOGPLlist3(fromLocation,toLocation);
+
+					if(Objects.nonNull(connOutgoingList.get(0).getOgplNo()))
+					{
+						
+						connOutgoingList = bookingRepository.getOGPLlist2(connectionPoint.getFromLocation(),
+								toLocation,fromLocation);	
+					}
+					
+					
 				}
 			}
 			
@@ -637,11 +655,21 @@ public class BookingController {
 			if (sessionValidation(request, model) != null)
 				return "login";
 			Booking booking = bookingRepository.findByLrNumber(lrNumber);
+			
 			if (booking != null && booking.getOgplNo() != null) {
+				
+				if(booking.getCurrentLocation().equals(booking.getToLocation()) && booking.getPointStatus()==2)
+				{
 				Inventory inventory = inventoryRepository.findByOgplNo(booking.getOgplNo());
 				model.addAttribute("deliveryB", booking);
 				model.addAttribute("deliveryI", inventory);
 				model.addAttribute("DeliverysuccessMessage", "Search by LR number: " + lrNumber);
+				}
+				else
+				{
+					model.addAttribute("errormsg", "Not Yet to Reach Location");
+
+				}
 			} else {
 				model.addAttribute("errormsg", "Invalid LR number provided! ");
 			}
@@ -821,6 +849,7 @@ public class BookingController {
 						outgoingParcel.setToLocation(connectionPoint.getCheckPoint());
 					}else if (!booking.isConnectionPoint() && connectionPoint != null && connectionPoint.getCheckPoint() != null) {
 						outgoingParcel.setFromLocation(connectionPoint.getCheckPoint());
+						
 					}else {
 						// do nothing
 					}
@@ -883,9 +912,30 @@ public class BookingController {
 				model.addAttribute("toLocation", inventory.getToLocation());
 				model.addAttribute("bookedOn", inventory.getBookedOn());
 				
-				bookingRepository.updateBookingIgplStatus("A", inventory.getLrnoarray());
+				
+				
+				
+				
+				bookingRepository.updateBookingIgplStatus("A",inventory.getLrnoarray());
+
+				
 				
 				List<Booking> incomeList = bookingRepository.findByLrNumberIn(inventory.getLrnoarray());
+				
+				
+				for(Booking data: incomeList)
+				{
+					if(inventory.getToLocation().equals(data.getToLocation()))
+					{
+					bookingRepository.updateBookingIgplCurrentLocationStatus(inventory.getToLocation(),2,data.getLrNumber());
+					}
+					else
+					{
+						bookingRepository.updateBookingIgplCurrentLocationStatus(inventory.getToLocation(),0,data.getLrNumber());
+
+					}
+				}
+				
 				
 				model.addAttribute("incomeparcelList", incomeList);
 				model.addAttribute("checkboxchecked", "1");
