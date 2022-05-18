@@ -1089,7 +1089,7 @@ public class BookingController {
 			// model.addAttribute("errormsg", "No records!");
 			// }
 
-			List<Booking> allList = bookingRepository.findByIgplStatus("A");
+			List<Booking> allList = bookingRepository.getDeliveryInventory();
 
 			model.addAttribute("deliveryinventory", allList);
 
@@ -1118,7 +1118,7 @@ public class BookingController {
 			if (sessionValidation(request, model) != null)
 				return "login";
 			String fromlocationcode = "" + request.getSession().getAttribute("USER_LOCATIONID");
-			List<Booking> allList = bookingRepository.getBookingInventory(fromlocationcode);
+			List<Booking> allList = bookingRepository.getBookingInventoryNew();
 
 			model.addAttribute("bookinginventory", allList);
 
