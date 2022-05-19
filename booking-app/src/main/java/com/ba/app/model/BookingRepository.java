@@ -26,6 +26,10 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	@Query(value = "select * from t_booking where From_Location=:filter1 and To_Location=:filter2 and (ogpl_no IS NULL OR ogpl_conn_point = true) ", nativeQuery =true)
 	List<Booking> getOGPLlist(@Param("filter1") String filter1,@Param("filter2") String filter2);
 	
+	@Query(value = "select lr_number from t_booking where lr_number like :lrNumber", nativeQuery =true)
+	List<String> getLrNumberForDropDown(@Param("lrNumber") String lrNumber);
+	
+	
 	@Query(value = "select * from t_booking where From_Location=:filter1 and To_Location=:filter2 and (ogpl_no IS NULL OR (ogpl_conn_point = true and connection_point=true)) ", nativeQuery =true)
 	List<Booking> getOGPLlist1(@Param("filter1") String filter1,@Param("filter2") String filter2);
 	

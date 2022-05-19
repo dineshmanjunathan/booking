@@ -656,6 +656,18 @@ public class BookingController {
 		}
 		return "delivery";
 	}
+	
+	
+	@RequestMapping(value = "/dbSearchParcelLRNO", method = RequestMethod.GET)
+	public List<String> dbSearchParcelLRNO(@RequestParam(required = true) String lrNumber) {
+		List<String> booking=new ArrayList<String>();	
+		try {
+			 booking = bookingRepository.getLrNumberForDropDown("%"+lrNumber+"%");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return booking;
+	}
 
 	@RequestMapping(value = "/searchParcelLRNO", method = RequestMethod.GET)
 	public String searchParcelLRNO(@RequestParam(required = true) String lrNumber, HttpServletRequest request,
@@ -693,10 +705,10 @@ public class BookingController {
 				date=formatter.parse(currentDate);
 				long diffTime=date.getTime()-stDate.getTime();
 				long diffDays=TimeUnit.MILLISECONDS.toDays(diffTime)%365;
-				if(diffDays <7) {
+				if(diffDays <3) {
 					delivery.setDemurrage("0");
 				}else {
-					long charge=(diffDays-6)*10;
+					long charge=(diffDays-2)*10;
 					delivery.setDemurrage(""+charge);
 				}
 			}
