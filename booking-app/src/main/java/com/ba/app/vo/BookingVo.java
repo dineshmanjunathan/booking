@@ -2,6 +2,7 @@ package com.ba.app.vo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 import lombok.Getter;
@@ -56,4 +57,5 @@ public class BookingVo implements Serializable {
 	private BigDecimal othercharges;
 	private BigDecimal freightvalue;
 	private String checkpoint;
+	private LocalDateTime createon;
 }

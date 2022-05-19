@@ -50,7 +50,7 @@ public class Delivery implements Serializable {
 	private String total;
 	private String cash;
 	private String refund;
-	private LocalDateTime createon = LocalDateTime.now();
+	private LocalDateTime createon;
 	private LocalDateTime updatedon = LocalDateTime.now();
 	
 	

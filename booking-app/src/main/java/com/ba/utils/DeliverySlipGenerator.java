@@ -51,19 +51,18 @@ final static String templateName = "templates/delivery_slip.jrxml";
 		params.put("FROM_LOC", StringUtils.trimToEmpty(deliveryVO.getFromLocation()));
 		params.put("TO_LOC", StringUtils.trimToEmpty(deliveryVO.getToLocation()));
 		params.put("CONSIGNOR", StringUtils.trimToEmpty(deliveryVO.getFromName()));
-		params.put("CONSIGNEE", StringUtils.trimToEmpty(deliveryVO.getToName()));
-		
+		params.put("CONSIGNEE", StringUtils.trimToEmpty(deliveryVO.getToName()));		
 		params.put("LR_NO", StringUtils.trimToEmpty(deliveryVO.getLRNo()));
 		params.put("DATE", StringUtils.trimToEmpty(deliveryVO.getDeliveryDate()));
-		params.put("TIME", "");
-		params.put("NO_OF_ARTICLES", (deliveryVO.getNoOfItems()));
 		
+		params.put("TIME",DateUtil.localDateTimeToTimeString(deliveryVO.getCreateon()));
+		params.put("NO_OF_ARTICLES", (deliveryVO.getNoOfItems()));
 		params.put("TO_PAY", deliveryVO.getToPay());
 		params.put("UNLOADING_CHARGES", deliveryVO.getUnloadingCharges());
 		params.put("DEMURRAGE", deliveryVO.getDemurrage());
 		params.put("TOTAL", deliveryVO.getTotal());
 		
-		params.put("RUPEES_TEXT", deliveryVO.getTotal());
+		params.put("RUPEES_TEXT",NumberToWordsConverter.getInstance().convert((int) Float.parseFloat(deliveryVO.getTotal())));
 		
 		
 		return params;

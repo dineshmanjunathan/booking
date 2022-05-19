@@ -54,7 +54,7 @@ public class LuggageSlipGenerator {
 		params.put("CONSIGNEE", StringUtils.trimToEmpty(bookingVo.getToName()));
 		params.put("LR_NO", StringUtils.trimToEmpty(bookingVo.getLrNumber()));
 		params.put("DATE", StringUtils.trimToEmpty(bookingVo.getBookedOn()));
-		params.put("TIME", StringUtils.trimToEmpty(bookingVo.getBookedOn()));
+		params.put("TIME",DateUtil.localDateTimeToTimeString(bookingVo.getCreateon()));
 		params.put("NO_OF_ARTICLES", (bookingVo.getItem_count()));
 		params.put("WEIGHT", (bookingVo.getWeight()));
 		params.put("VALUE", (bookingVo.getFromValue()));

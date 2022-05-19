@@ -2,6 +2,7 @@ package com.ba.app.controller;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -132,6 +133,8 @@ public class BookingController {
 			booking.setIgplStatus("P");
 			booking.setPointStatus(0);
 			booking.setCurrentLocation(booking.getFromLocation());
+			booking.setCreateon(LocalDateTime.now());
+			
 			
 			ConnectionPoint connPointList =connectionPointRepository.findByFromLocationAndToLocation(booking.getFromLocation(), booking.getToLocation());
 			if(connPointList!=null && connPointList.getCheckPoint()!=null) {
@@ -632,6 +635,8 @@ public class BookingController {
 			Delivery deliveryEntity = new Delivery();
 
 			BeanUtils.copyProperties(deliveryVo, deliveryEntity, "createon", "updatedon");
+			
+			deliveryEntity.setCreateon(LocalDateTime.now());
 			deliveryEntity = deliveryRepository.save(deliveryEntity);
 
 			if (deliveryEntity != null && deliveryEntity.getLRNo() != null) {
@@ -1283,6 +1288,7 @@ public class BookingController {
 				Booking bookingEntity = bookingRepository.findByLrNumber(lrNumber);
 				if (bookingEntity != null && bookingEntity.getLrNumber() != null) {
 					BookingVo bookingVO = new BookingVo();
+					bookingVO.setCreateon(bookingEntity.getCreateon());
 					BeanUtils.copyProperties(bookingEntity, bookingVO, "createon", "updatedon");
 					
 					Optional<Location> location = locationRepository.findById(bookingEntity.getFromLocation());
@@ -1311,9 +1317,16 @@ public class BookingController {
 			if (sessionValidation(request, model) == null) {
 
 				Delivery deliveryEntity = deliveryRepository.findByLRNo(lrNumber);
+				
+				System.out.println(deliveryEntity.getCreateon());
+				
 				if (deliveryEntity != null && deliveryEntity.getLRNo() != null) {
 					DeliveryVo deliveryVo = new DeliveryVo();
+					deliveryVo.setCreateon(deliveryEntity.getCreateon());
 					BeanUtils.copyProperties(deliveryEntity, deliveryVo, "createon", "updatedon");
+					
+					System.out.println(deliveryVo.getCreateon());
+
 					byte[] bookingData = DeliverySlipGenerator.getInstance().getReportDataSource(deliveryVo);
 					String base64Response = Base64.getEncoder().encodeToString(bookingData);
 					response.getWriter().write(base64Response);

@@ -2,9 +2,15 @@ package com.ba.utils;
  
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;  
 
 public class DateUtil {
+	
+	public static final DateTimeFormatter HH_MM_AM_PM_FORMAT = DateTimeFormatter.ofPattern("hh:mm a");  
+
+	
 	public static Date getDateFromStringinup(String incomingDate) { 
 		Date date=null;
 		try { 
@@ -75,7 +81,10 @@ public class DateUtil {
 		return date; 
 	}*/
 	
-	
+	public static String localDateTimeToTimeString(LocalDateTime date)
+	{
+        return date.format(HH_MM_AM_PM_FORMAT);
+	}
 }
 
  
