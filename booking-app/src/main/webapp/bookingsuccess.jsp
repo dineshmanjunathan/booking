@@ -28,6 +28,7 @@
 $('document').ready(function() {
 	$('#generateBarcode').on('click', function() {	
 		var barcodeValue = $("#Lrno").val();
+		
 		JsBarcode("#barcode", barcodeValue, {
 			//format: barcodeType,
 			displayValue: true,
@@ -87,12 +88,27 @@ function getBookingLuggaeSlip() {
 									<p style="color: green" align="center">${bookingsuccessmessage}</p>
 									<%-- <p style="color: green;font-weight: bold; " align="center">${LRNumber}</p> --%>
 									<p style="color: green; font-weight: bold;" align="center">LR
-										Number : ${LRNumber}</p>
+										Number : ${LRNumber} </p>
 									<input type="hidden" class="form-control" name="Lrno" id="Lrno"
-										value="${LRNumber}"> <br>
+										value="${LRNumber}">
+										
+										 <br>
 									<div class="col-md-4" id="barcodediv" style="display: none;">
-										<svg id="barcode"></svg>
-									</div>
+									<table>
+										<tr>
+											<td>CITY EXPRESS PARCEL</td>
+											<td>${FromToLocation}</td>
+										</tr>
+										<tr>
+											<td><svg id="barcode"></svg></td>
+											<td></td>
+										</tr>	
+										<tr>
+											<td>${sessionScope.USER_NAME}</td>
+											<td>${BookingDate}</td>
+										</tr>										
+									</table>
+										</div>
 									<div class="row control-margin">
 										<div class="col-md-12 control-margin">
 											<div class="col-md-7 offset-2">

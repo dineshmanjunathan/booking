@@ -101,7 +101,7 @@ public class BookingController {
 	@Autowired
 	private ConnectionPointRepository connectionPointRepository;
 
-	private String lRNumber;
+	private String lRNumber,bookingDate,fromToLocation;
 
 	private String sessionValidation(HttpServletRequest request, ModelMap model) {
 		try {
@@ -127,7 +127,11 @@ public class BookingController {
 			BeanUtils.copyProperties(bookingVo, booking);
 			model.addAttribute("bookingsuccessmessage", "Booked Successfully.");
 			lRNumber = booking.getLrNumber();
+			bookingDate=booking.getBookedOn();
+			fromToLocation=booking.getFromLocation()+" - "+booking.getToLocation();
 			model.addAttribute("LRNumber", lRNumber);
+			model.addAttribute("BookingDate", bookingDate);
+			model.addAttribute("FromToLocation", fromToLocation);
 
 			Booking bLrNo = bookingRepository.findByLrNumber(booking.getLrNumber());
 			booking.setIgplStatus("P");
