@@ -9,7 +9,7 @@
 	<parameter name="LR_NO" class="java.lang.String"/>
 	<parameter name="DATE" class="java.lang.String"/>
 	<parameter name="TIME" class="java.lang.String"/>
-	<parameter name="NO_OF_ARTICLES" class="java.lang.Integer"/>
+	<parameter name="NO_OF_ARTICLES" class="java.lang.String"/>
 	<parameter name="TO_PAY" class="java.lang.String"/>
 	<parameter name="UNLOADING_CHARGES" class="java.lang.String"/>
 	<parameter name="DEMURRAGE" class="java.lang.String"/>

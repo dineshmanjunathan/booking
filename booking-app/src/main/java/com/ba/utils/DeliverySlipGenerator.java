@@ -63,7 +63,7 @@ final static String templateName = "templates/delivery_slip.jrxml";
 		params.put("DEMURRAGE", deliveryVO.getDemurrage());
 		params.put("TOTAL", deliveryVO.getTotal());
 		
-		params.put("RUPEES_TEXT", NumberToWordsConverter.getInstance().convert(Integer.parseInt(deliveryVO.getTotal())));
+		params.put("RUPEES_TEXT", deliveryVO.getTotal());
 		
 		
 		return params;

@@ -1284,10 +1284,13 @@ public class BookingController {
 				if (bookingEntity != null && bookingEntity.getLrNumber() != null) {
 					BookingVo bookingVO = new BookingVo();
 					BeanUtils.copyProperties(bookingEntity, bookingVO, "createon", "updatedon");
-					Optional<Location> location = locationRepository.findByLocation(bookingEntity.getFromLocation());
+					
+					Optional<Location> location = locationRepository.findById(bookingEntity.getFromLocation());
 					if (location.isPresent()) {
 						bookingVO.setBillDesc(location.get().getAddress());
 					}
+					
+					
 					byte[] bookingData = LuggageSlipGenerator.getInstance().getReportDataSource(bookingVO);
 					String base64Response = Base64.getEncoder().encodeToString(bookingData);
 					response.getWriter().write(base64Response);
