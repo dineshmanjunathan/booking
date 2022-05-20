@@ -31,6 +31,7 @@ import com.ba.app.entity.BookedBy;
 import com.ba.app.entity.Booking;
 import com.ba.app.entity.Charge;
 import com.ba.app.entity.Conductor;
+import com.ba.app.entity.ConfigProperty;
 import com.ba.app.entity.ConnectionPoint;
 import com.ba.app.entity.Customer;
 import com.ba.app.entity.Delivery;
@@ -45,6 +46,7 @@ import com.ba.app.model.BookedByRepository;
 import com.ba.app.model.BookingRepository;
 import com.ba.app.model.ChargeRepository;
 import com.ba.app.model.ConductorRepository;
+import com.ba.app.model.ConfigPropertyRepository;
 import com.ba.app.model.ConnectionPointRepository;
 import com.ba.app.model.CustomerRepository;
 import com.ba.app.model.DeliveryRepository;
@@ -63,6 +65,7 @@ import com.ba.app.vo.OutgoingParcelVo;
 import com.ba.app.vo.PayOptionVo;
 import com.ba.app.vo.PaymentTypeVo;
 import com.ba.app.vo.VehicleVo;
+import com.ba.utils.ConfigProperties;
 import com.ba.utils.DeliverySlipGenerator;
 import com.ba.utils.LuggageSlipGenerator;
 import com.ba.utils.Utils;
@@ -100,6 +103,9 @@ public class BookingController {
 	
 	@Autowired
 	private ConnectionPointRepository connectionPointRepository;
+	
+	@Autowired
+	private ConfigPropertyRepository configPropertyRepository;
 
 	private String lRNumber,bookingDate,fromToLocation;
 
@@ -266,6 +272,15 @@ public class BookingController {
 		BookingVo bookingVO = new BookingVo();
 		bookingVO.setBookedOn(currentDate);
 		model.addAttribute("booking", bookingVO);
+		
+		Optional<ConfigProperty> mobileNumberFirstDigitValidation=configPropertyRepository.findById(ConfigProperties.MOBILE_F_D_V.get());
+		
+		if(mobileNumberFirstDigitValidation.isPresent())
+		{
+			model.addAttribute(ConfigProperties.MOBILE_F_D_V.get(),Integer.parseInt(mobileNumberFirstDigitValidation.get().getValue()));
+		}
+		
+		
 		setAllBookednameListInModel(model); // to set all booked name
 
 		return "booking";
