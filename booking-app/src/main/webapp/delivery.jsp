@@ -88,6 +88,14 @@
 			});
 		}
 	}
+	
+	function  deliveryCheck(data) {
+		if(data != "")
+		{
+			$('input[value="DELIVERED"]').prop("checked", true);
+
+		}
+	}
 </script>
 
 </head>
@@ -190,6 +198,8 @@
 															for="chkHold">Hold</label>
 													</div>
 													<div class="col-sm-4">
+													
+													
 														<input type="radio" class="form-check-input" name="status" id="status"
 															value="DELIVERED" disabled> <label
 															class="form-check-label" for="chkDelivered" >Delivered</label>
@@ -465,4 +475,8 @@
 		</div>
 	</div>
 </body>
+
+<script type="text/javascript">
+deliveryCheck("${deliveryB.fromName}");
+</script>
 </html>

@@ -11,11 +11,11 @@
 <body>
 
 	<div class="wrapper">
-		<div class="inner col-lg-10">
-			<div style="width: 350px;">
+		<div class="inner col-lg-4">
+			<!-- <div style="width: 350px;">
 				<img src="../../img/product/parcel.jpg" alt="">
-			</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<form action="">
+			</div> -->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<form action="" style="margin-left:9px">
 				<h3><b>Delivery Inventory</b></h3>
 				<p style="color: green" align="center">${successMessage}</p>
 				<p style="color: red" align="center">${errormsg}</p>

@@ -11,11 +11,11 @@
 <body>
 
 	<div class="wrapper">
-		<div class="inner col-lg-10">
-			<div style="width: 350px;">
+		<div class="inner col-lg-4">
+			<!-- <div style="width: 350px;">
 				<img src="../../img/product/parcel.jpg" alt="">
-			</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<form action="">
+			</div> -->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<form action="" style="margin-left:9px">
 				<h3><b>Booking Inventory</b></h3>
 				<p style="color: green" align="center">${successMessage}</p>
 				<p style="color: red" align="center">${errormsg}</p>
@@ -25,7 +25,8 @@
 						<a class="btn btn-primary button-margin" href="/inventoryMenu">Back</a>
 					</div>
 				</div>
-				<table id="data-table" class="table table-striped" style="width:100%">
+				
+				<table id="data-table" class="table table-striped" style="width:100%;">
 					<thead>
 						<tr>
 							<th scope="col">LR</th>
