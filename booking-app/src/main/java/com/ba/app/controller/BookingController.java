@@ -1002,18 +1002,28 @@ public class BookingController {
 	public String searchBookingParcelLRNO(@RequestParam(required = true) String lrNumber, HttpServletRequest request,
 			ModelMap model) {
 		try {
+			
+			Boolean printStatus=false;
+			
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
 				return "login";
 			lRNumber = lrNumber;
 			if (lrNumber != null && !lrNumber.trim().isEmpty()) {
 				Booking bookingEntity = bookingRepository.findByLrNumber(lrNumber);
+				
+				if(Objects.nonNull(bookingEntity.getIsPrinted()))
+				{
+					printStatus=bookingEntity.getIsPrinted();
+				}
+				
 				if (bookingEntity != null && bookingEntity.getLrNumber() != null) {
 
 					BookingVo bookingVO = new BookingVo();
 					BeanUtils.copyProperties(bookingEntity, bookingVO, "createon", "updatedon");
 
 					model.addAttribute("booking", bookingVO);
+					model.addAttribute("printStatus",printStatus);
 
 					model.addAttribute("LRnumber", lRNumber);
 					setAllLocationListInModel(model);
@@ -1317,6 +1327,12 @@ public class BookingController {
 			if (sessionValidation(request, model) == null) {
 
 				Booking bookingEntity = bookingRepository.findByLrNumber(lrNumber);
+				
+				// change printing status
+				
+				bookingEntity.setIsPrinted(true);
+				bookingRepository.save(bookingEntity);				
+				
 				if (bookingEntity != null && bookingEntity.getLrNumber() != null) {
 					BookingVo bookingVO = new BookingVo();
 					bookingVO.setCreateon(bookingEntity.getCreateon());

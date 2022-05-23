@@ -923,4 +923,16 @@
 	</div>
 	
 </body>
+<script type="text/javascript">
+function printStatus(status) {
+		if(status)
+		{
+		document.getElementById("isPrinted").checked = true;
+		}
+}
+
+
+printStatus(${printStatus});
+</script>
+
 </html>

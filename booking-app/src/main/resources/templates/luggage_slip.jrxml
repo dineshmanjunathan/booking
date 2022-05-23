@@ -64,7 +64,7 @@
 				<textFieldExpression><![CDATA[$P{DATE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="49" y="1" width="90" height="22" uuid="0e5a7455-ba80-49fc-84e7-ca8c7ae3b557"/>
+				<reportElement x="49" y="1" width="300" height="22" uuid="0e5a7455-ba80-49fc-84e7-ca8c7ae3b557"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{LR_NO}]]></textFieldExpression>
 			</textField>

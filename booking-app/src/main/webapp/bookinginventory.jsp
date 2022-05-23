@@ -11,20 +11,19 @@
 <body>
 
 	<div class="wrapper">
-		<div class="inner col-lg-4">
-			<!-- <div style="width: 350px;">
-				<img src="../../img/product/parcel.jpg" alt="">
-			</div> -->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<form action="" style="margin-left:9px">
-				<h3><b>Booking Inventory</b></h3>
-				<p style="color: green" align="center">${successMessage}</p>
-				<p style="color: red" align="center">${errormsg}</p>
+		<div class="inner">
+			
+			<form action="" style="margin-left:30px">
+				<h3>
+					<b>Booking Inventory</b>
+				</h3>
 				<div class="row control-margin">
 					<div class="col-md-12">
-						<!-- <a class="btn btn-primary button-margin" href="addLocation.jsp">Add</a> -->
 						<a class="btn btn-primary button-margin" href="/inventoryMenu">Back</a>
 					</div>
 				</div>
+				
+		
 				
 				<table id="data-table" class="table table-striped" style="width:100%;">
 					<thead>
@@ -45,15 +44,15 @@
 							varStatus="status">
 							<tr>
 
-								<td>${details.lrNumber}</td>
-								<td>${details.fromLocation}</td>
-								<td>${details.toLocation}</td>
-								<td>${details.paid}</td>
-								<td>${details.topay}</td>
-								<td>${details.fromName}</td>
-								<td>${details.from_phone}</td>
-								<td>${details.toName}</td>
-								<td>${details.to_phone}</td>
+								<td id="tdBook">${details.lrNumber}</td>
+								<td id="tdBook">${details.fromLocation}</td>
+								<td id="tdBook">${details.toLocation}</td>
+								<td id="tdBook">${details.paid}</td>
+								<td id="tdBook">${details.topay}</td>
+								<td id="tdBook">${details.fromName}</td>
+								<td id="tdBook">${details.from_phone}</td>
+								<td id="tdBook">${details.toName}</td>
+								<td id="tdBook">${details.to_phone}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -63,7 +62,12 @@
 			</form>
 		</div>
 	</div>
-
+<style>
+#tdBook
+{
+width:100px;
+}
+</style>
 	<script src="js/main.js"></script>
 </body>
 <!-- This templates was made by Colorlib (https://colorlib.com) -->
