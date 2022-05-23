@@ -59,37 +59,49 @@
 	}
 	function checkFromNameExists() {
 		var value = document.getElementById("from_phone").value;
-		$.ajax({
-			url : "/searchFromCustomerName/" + value,
-			type : "get",
-			cache : false,
-			success : function(data) {
-				if (data.length > 0) {
-					document.getElementById("fromName").value = data;
-				}
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				console.log('ERROR:' + XMLHttpRequest.status
-						+ ', status text: ' + XMLHttpRequest.statusText);
-			}
-		});
+		if(!checkIfValidIndianMobileNumber(value)){
+			alert('Please Enter a Valid Mobile Number');
+			document.getElementById("from_phone").value="";
+		}
+		else{
+				$.ajax({
+					url : "/searchFromCustomerName/" + value,
+					type : "get",
+					cache : false,
+					success : function(data) {
+						if (data.length > 0) {
+							document.getElementById("fromName").value = data;
+						}
+					},
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						console.log('ERROR:' + XMLHttpRequest.status
+								+ ', status text: ' + XMLHttpRequest.statusText);
+					}
+				});
+		}
 	}
 	function checkToNameExists() {
 		var value = document.getElementById("to_phone").value;
-		$.ajax({
-			url : "/searchToCustomerName/" + value,
-			type : "get",
-			cache : false,
-			success : function(data) {
-				if (data.length > 0) {
-					document.getElementById("toName").value = data;
-				}
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				console.log('ERROR:' + XMLHttpRequest.status
-						+ ', status text: ' + XMLHttpRequest.statusText);
-			}
-		});
+		if(!checkIfValidIndianMobileNumber(value)){
+			alert('Please Enter a Valid Mobile Number');
+			document.getElementById("to_phone").value="";
+		}
+		else{
+					$.ajax({
+						url : "/searchToCustomerName/" + value,
+						type : "get",
+						cache : false,
+						success : function(data) {
+							if (data.length > 0) {
+								document.getElementById("toName").value = data;
+							}
+						},
+						error : function(XMLHttpRequest, textStatus, errorThrown) {
+							console.log('ERROR:' + XMLHttpRequest.status
+									+ ', status text: ' + XMLHttpRequest.statusText);
+						}
+					});
+		}
 	}
 	function getBillingDoc() {
 		$.ajax({
@@ -140,40 +152,57 @@
 
 					var val=data.replace("}","").split((/[,]+/));
 
-					var firstValue = val[0];
-					var secondValue = val[1];
-					var thirdValue = val[2];
-					
-					if(firstValue.includes("FREIGHT")==true){
-						var fv = firstValue.split((/[=]+/))[1]
-						document.getElementById("freightvalue").value = fv;
-						$("#freightvalue").attr({"min" : fv});
-						sumAmount();
-						
+							var firstValue = val[0];
+							var secondValue = val[1];
+							var thirdValue = val[2];
+
+							if (firstValue.includes("FREIGHT") == true) {
+								var fv = firstValue.split((/[=]+/))[1]
+								document.getElementById("freightvalue").value = fv;
+								$("#freightvalue").attr({
+									"min" : fv
+								});
+								sumAmount();
+
+							}
+
+							if (firstValue.includes("FUEL CHARGES") == true) {
+								document.getElementById("doorpickcharges").value = firstValue
+										.split((/[=]+/))[1];
+							} else if (secondValue.includes("FUEL CHARGES") == true) {
+								document.getElementById("doorpickcharges").value = secondValue
+										.split((/[=]+/))[1];
+							}
+
+							var itemcount = document
+									.getElementById("item_count").value;
+
+							if (firstValue.includes("LOADING CHARGES") == true) {
+								var charge = firstValue.split((/[=]+/))[1];
+								charge = charge * itemcount;
+								document.getElementById("loadingcharges").value = charge;
+
+							} else if (secondValue.includes("LOADING CHARGES") == true) {
+								var charge = secondValue.split((/[=]+/))[1];
+								charge = charge * itemcount;
+								document.getElementById("loadingcharges").value = charge;
+							} else if (thirdValue.includes("LOADING CHARGES") == true) {
+								var charge = thirdValue.split((/[=]+/))[1];
+								charge = charge * itemcount;
+								document.getElementById("loadingcharges").value = charge;
+							}
+							sumAmount();
+							document.getElementById("loadingcharges").readOnly = true;
+							document.getElementById("doorpickcharges").readOnly = true;
+						}
+					},
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						console
+								.log('ERROR:' + XMLHttpRequest.status
+										+ ', status text: '
+										+ XMLHttpRequest.statusText);
 					}
-					
-					if(firstValue.includes("FUEL CHARGES")==true){
-						document.getElementById("doorpickcharges").value = firstValue.split((/[=]+/))[1];
-					}else if(secondValue.includes("FUEL CHARGES")==true){
-						document.getElementById("doorpickcharges").value = secondValue.split((/[=]+/))[1];
-					}
-					
-					if(firstValue.includes("LOADING CHARGES")==true){
-						document.getElementById("loadingcharges").value = firstValue.split((/[=]+/))[1];
-					}else if(secondValue.includes("LOADING CHARGES")==true){
-						document.getElementById("loadingcharges").value = secondValue.split((/[=]+/))[1];
-					}else if(thirdValue.includes("LOADING CHARGES")==true){
-						document.getElementById("loadingcharges").value = thirdValue.split((/[=]+/))[1];
-					}
-					document.getElementById("loadingcharges").readOnly  = true;
-					document.getElementById("doorpickcharges").readOnly  = true;
-				}
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				console.log('ERROR:' + XMLHttpRequest.status
-						+ ', status text: ' + XMLHttpRequest.statusText);
-			}
-		});
+				});
 	}
 	function getLoadingCharges() {
 		var fromLocation = document.getElementById("fromLocation").value;
@@ -244,6 +273,9 @@
 	function sumAmount() {
 		var option = document.getElementById("loadingchargespay").value;
 		var frieght = Number(document.getElementById("freightvalue").value);
+		if (frieght < 200) {
+			alert('Frieght value should not be less than 200');
+		}
 		var loading = Number(document.getElementById("loadingcharges").value);
 		var doorPick = Number(document.getElementById("doorpickcharges").value);
 		let total = frieght + loading + doorPick;
@@ -400,6 +432,15 @@
 			 var newval5 = $('#new_5').val();		 		 
 		 $('#checkpoint').val(newval1+","+newval2+","+newval3+","+newval4+","+newval5)
 	   }
+	   
+	   	function checkIfValidIndianMobileNumber(str) {
+		var regexExp = /^[6-9]\d{9}$/gi;
+		if (regexExp.test(str)) {
+			return true;
+
+		}
+		return false;
+	}
 </script>
 </head>
 
@@ -521,7 +562,8 @@
 													<div class="col-sm-8">
 														<input type="number" max="99" class="form-control"
 															id="item_count" name="item_count"
-															value="${booking.item_count}" required>
+															value="${booking.item_count}" oninput="getCharges();sumAmount();"
+															required>
 													</div>
 												</div>
 
@@ -749,11 +791,36 @@
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
+														<label class="form-label" for="userid">User ID</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" maxlength="180"
+															class="form-control bg-info text-dark" id="user_id"
+															name="userid" value="${sessionScope.USER_ID}" readonly
+															required>
+													</div>
+												</div>
+
+												<div class="row element-margin">
+													<div class="col-sm-4">
 														<label class="form-label" for="bookedBy">Booked By</label>
 													</div>
 													<div class="col-sm-8">
-													
-													<select name="bookedBy" id="bookedBy" class="form-select bg-info text-dark">
+														<input type="text" maxlength="180"
+															class="form-control bg-info text-dark" id="bookedby"
+															name="bookedby" value="${sessionScope.USER_NAME}" readonly
+															required>
+													</div>
+												</div>
+
+									<%-- <div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="bookedBy">Booked By</label>
+													</div>
+													<div class="col-sm-8">
+
+														<select name="bookedBy" id="bookedBy"
+															class="form-select bg-info text-dark">
 															<option value="">-Booked By-</option>
 															<c:forEach var="options" items="${bookedNameList}"
 																varStatus="status">
@@ -762,7 +829,7 @@
 															</c:forEach>
 														</select>
 													</div>
-												</div>
+												</div> --%>
 
 											</div>
 											<div class="col-md-4 control-margin">
@@ -806,17 +873,19 @@
 													<div class="col-md-18 control-margin">
 													
 													<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label"></label>
+														<div class="col-sm-4">
+															<label class="form-label"></label>
+														</div>
+														<div class="col-sm-8"></div>
 													</div>
-													<div class="col-sm-8"></div>
-												</div>
-											
-													<a href="/booking"><button type="button"
-														class="btn btn-primary button-margin col-md-2" id="new">New</button></a>
-															<button type="button"
-													class="btn btn-primary button-margin col-md-2" id="bclear"
-													onclick="clear_fetch();">Clear</button>
+
+													<!-- <a href="/booking"><button type="button"
+															class="btn btn-primary button-margin col-md-2" id="new" >New</button></a> -->
+													<button type="button" onclick="location.href='/booking'"
+															class="btn btn-primary button-margin col-md-2" id="new" >New</button>
+													<button type="button"
+														class="btn btn-primary button-margin col-md-2" id="bclear"
+														onclick="clear_fetch();">Clear</button>
 
 												<a
 													onclick="return confirm('Are you sure you want to delete?')"

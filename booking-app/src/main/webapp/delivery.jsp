@@ -329,8 +329,8 @@
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="txtDeliveryBillNo">Delivery
-															Bill No.</label>
+														<label class="form-label" for="txtDeliveryBillNo">E-Way Bill NO
+															</label>
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control"
