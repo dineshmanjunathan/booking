@@ -93,6 +93,9 @@
 		if(data != "")
 		{
 			$('input[value="DELIVERED"]').prop("checked", true);
+			document.getElementById("doorDeliveryCharges").disabled = true;
+			document.getElementById("cash").disabled = true;
+			
 
 		}
 	}
@@ -478,5 +481,6 @@
 
 <script type="text/javascript">
 deliveryCheck("${deliveryB.fromName}");
+
 </script>
 </html>
