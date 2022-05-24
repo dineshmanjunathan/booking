@@ -236,6 +236,19 @@
 
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<script src="js/main.js"></script>
+	
+	<script type="text/javascript">
+	
+	function disableSaveButton(message) {
+		if(message==1)
+		{
+		document.getElementById("btnSave").disabled=true;	
+		}
+	}
+	
+	disableSaveButton(${ogplno != null ? 1:0});
+
+	</script>
 </body>
 <!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

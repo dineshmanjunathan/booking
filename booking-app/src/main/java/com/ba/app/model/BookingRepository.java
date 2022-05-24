@@ -70,7 +70,7 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE T_BOOKING SET IGPL_STATUS=:igplstatus WHERE LR_NUMBER IN(:lrnumbers)", nativeQuery =true)
+	@Query(value = "UPDATE T_BOOKING SET IGPL_STATUS=:igplstatus WHERE LR_NUMBER IN (:lrnumbers)", nativeQuery =true)
     int updateBookingIgplStatus(@Param("igplstatus") String igplstatus,@Param("lrnumbers") ArrayList<String> lrnumbers);
 	//List<Booking> findByLrNumberInAndIgplStatusIsNull(List<String> lrNumbers);
 	
@@ -90,7 +90,7 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE T_BOOKING SET ogpl_conn_point=false WHERE LR_NUMBER =:lrnumber", nativeQuery =true)
+	@Query(value = "UPDATE T_BOOKING SET ogpl_conn_point=false WHERE LR_NUMBER = :lrnumber", nativeQuery =true)
     int updateBookingOgplConnPoint(@Param("lrnumber") String lrnumbers);
 	//List<Booking> findByLrNumberInAndIgplStatusIsNull(List<String> lrNumbers);
 	

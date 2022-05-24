@@ -929,9 +929,13 @@ public class BookingController {
 	@RequestMapping(value = "/incoming/save", method = RequestMethod.POST)
 	public String saveIncomingParcel(HttpServletRequest request, InventoryVo inventoryVo, ModelMap model) {
 		try {
+			
+
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
 				return "login";
+			
+			
 			Inventory inventory = new Inventory();
 			BeanUtils.copyProperties(inventoryVo, inventory);
 			inventoryRepository.save(inventory);
