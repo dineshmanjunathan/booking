@@ -279,14 +279,41 @@
 		var loading = Number(document.getElementById("loadingcharges").value);
 		var doorPick = Number(document.getElementById("doorpickcharges").value);
 		let total = frieght + loading + doorPick;
+		
+		
+		
 		total =total+(total/100) *5;
-		if (option == 'TOPAY') {
-			document.getElementById("topay").value = Math.round(total);
-		} else if (option == 'PAID') {
-			document.getElementById("paid").value = Math.round(total);
+		
+		var roundOff=0;
+		
+		
+		var modValue= Math.round(total)%10;
+		
+		if(modValue >= 0 && modValue <=2 )
+		{
+			roundOff=total-modValue;
 		}
 		
-		document.getElementById("total").value = Math.round(total);
+		if(modValue >= 3 && modValue <=7 )
+		{
+			roundOff=total-modValue+5;
+		}
+		
+		if(modValue >= 8 && modValue <=9 )
+		{
+			roundOff=total-modValue+10;
+		}
+		
+		
+		if (option == 'TOPAY') {
+			document.getElementById("topay").value = Math.round(roundOff);
+		} else if (option == 'PAID') {
+			document.getElementById("paid").value = Math.round(roundOff);
+		}
+		
+		
+		
+		document.getElementById("total").value = Math.round(roundOff);
 	}
 	
 	function sumRefund() {
@@ -1002,6 +1029,10 @@ function printStatus(status) {
 
 
 printStatus(${printStatus});
+
+//Total Round off
+
+
 </script>
 
 </html>
