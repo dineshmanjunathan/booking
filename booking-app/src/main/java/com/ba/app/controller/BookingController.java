@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ba.app.entity.BookedBy;
 import com.ba.app.entity.Booking;
@@ -670,10 +671,13 @@ public class BookingController {
 	}
 
 	@RequestMapping(value = "/dbSearchParcelLRNO", method = RequestMethod.GET)
-	public List<String> dbSearchParcelLRNO(@RequestParam(required = true) String lrNumber) {
+	public @ResponseBody List<String> dbSearchParcelLRNO(@RequestParam(required = true) String lrNumber) {
 		List<String> booking = new ArrayList<String>();
 		try {
+			
 			booking = bookingRepository.getLrNumberForDropDown("%" + lrNumber + "%");
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

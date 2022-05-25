@@ -5,6 +5,12 @@
 <html class="no-js" lang="en">
 <head>
 <%@ include file="header.jsp"%>
+
+   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+       
+       
 <style>
 .element-margin {
 	margin-bottom: 5px;
@@ -29,6 +35,8 @@
 		} */
 		toggleFormElements(false);
 	}
+	
+
 	function sumRefund() {
 		var total = Number(document.getElementById("total").value);
 		var cash = Number(document.getElementById("cash").value);
@@ -42,6 +50,28 @@
 			document.getElementById("toLocation").disabled  = false;
 			document.getElementById("deliveryform").submit();
 		}
+	}
+	
+	function searchLRNumber(lrNumber) {
+		
+		 $(document).ready(function() {
+             $(function() {
+                 $("#txtSearch").autocomplete({
+                     source: function(request, response) {
+                         $.ajax({
+                        	 url : "/dbSearchParcelLRNO?lrNumber="+lrNumber.value,
+                             type: "GET",
+                             success: function(data) {
+                                 response(data);
+                             }
+                         });
+                     }
+                 });
+             });
+         });
+		
+	
+		
 	}
 </script>
 <script>
@@ -131,8 +161,10 @@
 												<div class="row element-margin">
 													<div class="input-group">
 
-														<input type="text" class="form-control"
-															placeholder="Type LR No" name="txtSearch" id="txtSearch">
+
+														 <input type="text" class="form-control"
+															placeholder="Type LR No" name="txtSearch" id="txtSearch" onkeyup="searchLRNumber(this);">
+														 
 														<button type="button" class="btn btn-secondary"
 															id="btnSearch" onclick="getSearchParcel();">Search</button>
 													</div>
@@ -482,6 +514,8 @@
 <script type="text/javascript">
 deliveryCheck("${deliveryB.fromName}");
 
+
+
 if(${delivery.demurrage} ||  ${delivery.demurrage} > 0)
 {
 	
@@ -493,6 +527,8 @@ if(${topayValue} == true)
 {
 	document.getElementById("cash").disabled  = false;
 }
+
+
 
 </script>
 </html>
