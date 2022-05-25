@@ -113,7 +113,7 @@
 						onclick="return getSearchParcel();">Import</a>
 				</div>
 				<div class="form-row">
-					<input type="text" class="form-control" id="ogplno" value="${outgoingparcel.ogplNo}" placeholder="OGPL NO">
+					<input type="text" class="form-control" id="ogplno" value="${outgoingparcel.ogplNo}" placeholder="OGPL NO" readonly>
 					<div class="form-holder">
 						<select name="deliveredBy" id="deliveredBy" class="form-control">
 							<option value="" disabled selected>Delivered By</option>

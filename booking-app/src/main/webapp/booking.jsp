@@ -354,7 +354,13 @@
 						|| value.name=='doorpickchargespay' || value.name=='total' || value.name=='cash' || value.name=='refund' || value.name=='invNo' || value.name=='billNumber'
 						|| value.name=='bookedBy' || value.name=='fromLocation' || value.name=='toLocation'){
 				} else {
-					$('[name="' + value.name + '"]').removeAttr("readonly");
+					if(value.name=='fromdummy'){
+						
+					}
+					else{
+						$('[name="' + value.name + '"]').removeAttr("readonly");	
+					}
+					
 				}
 			});
 		}
@@ -366,7 +372,13 @@
 					if (value.name == 'fromdummy' ){
 						
 					}else{
-					$('[name="' + value.name + '"]').val('');
+						if(value.name=='fromLocation' ||value.name == 'lrNumber'|| value.name=='bookedOn' ||value.name=='userid'|| value.name=='bookedby'){
+							
+						}
+						else{
+							$('[name="' + value.name + '"]').val('');
+						}
+					
 					}
 				} catch (e) {
 					alert(e);
