@@ -424,9 +424,9 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" name="total" id="total"
-															value="${deliveryB.total}">
+															value="${deliveryB.total+delivery.demurrage}">
 															<input type="hidden" class="form-control" name="orgTotal" id="orgTotal"
-															value="${deliveryB.total}">
+															value="${deliveryB.total+delivery.demurrage}">
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -481,6 +481,18 @@
 
 <script type="text/javascript">
 deliveryCheck("${deliveryB.fromName}");
+
+if(${delivery.demurrage} ||  ${delivery.demurrage} > 0)
+{
+	
+	document.getElementById("cash").disabled  = false;
+}
+
+
+if(${topayValue} == true)
+{
+	document.getElementById("cash").disabled  = false;
+}
 
 </script>
 </html>

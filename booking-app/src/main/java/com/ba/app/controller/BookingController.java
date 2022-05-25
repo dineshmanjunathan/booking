@@ -687,11 +687,20 @@ public class BookingController {
 			if (sessionValidation(request, model) != null)
 				return "login";
 			Booking booking = bookingRepository.findByLrNumber(lrNumber);
+			
+			Boolean topayValue=false;
 
 			if (booking != null && booking.getOgplNo() != null) {
 
 				if (booking.getCurrentLocation().equals(booking.getToLocation()) && booking.getPointStatus() == 2) {
 					Inventory inventory = inventoryRepository.findByOgplNo(booking.getOgplNo());
+					
+					if(Objects.nonNull(booking.getTopay()))
+					{
+						topayValue=true;
+					}
+					
+					model.addAttribute("topayValue", topayValue);
 					model.addAttribute("deliveryB", booking);
 					model.addAttribute("deliveryI", inventory);
 					model.addAttribute("DeliverysuccessMessage", "Search by LR number: " + lrNumber);
