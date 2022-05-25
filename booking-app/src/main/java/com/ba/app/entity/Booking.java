@@ -69,6 +69,8 @@ public class Booking implements Serializable {
 	private boolean connectionPoint;
 	private boolean ogplConnPoint;
 	
+	private Boolean connectionPointStatus;
+	
 	//0 - booking 1- mid point 2 - ready to delvert
 	
 	private Integer pointStatus;

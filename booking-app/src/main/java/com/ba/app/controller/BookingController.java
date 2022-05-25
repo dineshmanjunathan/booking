@@ -145,7 +145,7 @@ public class BookingController {
 			booking.setPointStatus(0);
 			booking.setCurrentLocation(booking.getFromLocation());
 			booking.setCreateon(LocalDateTime.now());
-
+			booking.setConnectionPointStatus(true);
 			ConnectionPoint connPointList = connectionPointRepository
 					.findByFromLocationAndToLocation(booking.getFromLocation(), booking.getToLocation());
 			if (connPointList != null && connPointList.getCheckPoint() != null) {
@@ -871,6 +871,8 @@ public class BookingController {
 	@RequestMapping(value = "/ogpl/save", method = RequestMethod.POST)
 	public String saveOutgoingParcel(HttpServletRequest request, OutgoingParcelVo outgoingParcelVo, ModelMap model) {
 		try {
+			
+			Boolean connectionPonitStatus=false;
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
 				return "login";
@@ -887,6 +889,14 @@ public class BookingController {
 
 					connectionPoint = connectionPointRepository.findByFromLocationAndToLocation(
 							outgoingParcel.getFromLocation(), outgoingParcel.getToLocation());
+					if(connectionPoint != null)
+					{
+						connectionPonitStatus=true;
+					}
+					
+					bookingRepository.updateConnectionPointStatus(lRNumber, connectionPonitStatus);
+					
+					
 					if (booking.isConnectionPoint() && connectionPoint != null
 							&& connectionPoint.getCheckPoint() != null) {
 						outgoingParcel.setToLocation(connectionPoint.getCheckPoint());
@@ -920,6 +930,7 @@ public class BookingController {
 						bookingRepository.updateBookingOgplConnPoint(booking.getLrNumber());
 					}
 				}
+				
 
 				bookingRepository.updateBookingOgpl(ogplNo, outgoingParcel.getOgpnoarray());
 				outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
