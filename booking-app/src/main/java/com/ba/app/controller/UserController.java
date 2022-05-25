@@ -99,6 +99,7 @@ public class UserController {
 				}
 
 				request.getSession().setAttribute("USER_ID", user.getId());
+				request.getSession().setAttribute("USER_LOGIN_ID", user.getUserId());
 				request.getSession().setAttribute("USER_NAME", user.getName());
 				request.getSession().setAttribute("ROLE", user.getRole());
 				if (user.getLocation() != null && user.getLocation().getLocation() != null) {

@@ -837,6 +837,11 @@
 															class="form-control bg-info text-dark" id="bookedby"
 															name="bookedby" value="${sessionScope.USER_NAME}" readonly
 															required>
+															
+															<input type="hidden" maxlength="180"
+															class="form-control bg-info text-dark" id="bookedby"
+															name="bookedBy" value="${sessionScope.USER_LOGIN_ID}" readonly
+															required>
 													</div>
 												</div>
 

@@ -59,14 +59,14 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	List<Booking> findByIgplStatus(String igplstatus);
 	
 	
-	@Query(value = "select * from t_booking where point_status = 2", nativeQuery =true)
-	List<Booking> getDeliveryInventory();
+	@Query(value = "select * from t_booking where point_status = 2 and booked_by like :userId", nativeQuery =true)
+	List<Booking> getDeliveryInventory(@Param("userId") String userId);
 	
 	@Query(value = "select * from t_booking where igpl_status in ('P','A') and From_Location=:filter1 and (ogpl_no IS NULL OR ogpl_conn_point = true)", nativeQuery =true)
 	List<Booking> getBookingInventory(@Param("filter1") String filter1);
 
-	@Query(value = "select * from t_booking where point_status != 2", nativeQuery =true)
-	List<Booking> getBookingInventoryNew();
+	@Query(value = "select * from t_booking where point_status != 2 and booked_by like :userId", nativeQuery =true)
+	List<Booking> getBookingInventoryNew(@Param("userId") String userId);
 	
 	@Transactional
 	@Modifying
