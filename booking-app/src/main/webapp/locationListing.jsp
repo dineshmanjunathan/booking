@@ -44,7 +44,7 @@
 								<td><a class="btn btn-primary button-margin"
 									href="/location/edit/${details.id}" id="${details.id}">Edit</a>
 									<a class="btn btn-primary button-margin"
-									href="/location/delete/${details.id}">Delete</a></td>
+									href="/locationDelete?id=${details.id}">Delete</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

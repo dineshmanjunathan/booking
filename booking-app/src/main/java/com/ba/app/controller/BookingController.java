@@ -380,14 +380,14 @@ public class BookingController {
 		return "addLocation";
 	}
 
-	@RequestMapping(value = "/location/delete/{id}", method = RequestMethod.GET)
-	public String locationDelete(@PathVariable("id") String id, HttpServletRequest request, ModelMap model) {
+	@RequestMapping(value = "/locationDelete", method = RequestMethod.GET)
+	public String locationDelete(@RequestParam("id") String id, HttpServletRequest request, ModelMap model) {
 		try {
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
 				return "login";
 			locationRepository.deleteById(id);
-			model.addAttribute("deletesuccessmessage", "Deleted Successfully");
+			model.addAttribute("successMessage", "Deleted Successfully");
 			Iterable<Location> locaIterable = locationRepository.findAll();
 			model.addAttribute("locationListing", locaIterable);
 		} catch (Exception e) {
