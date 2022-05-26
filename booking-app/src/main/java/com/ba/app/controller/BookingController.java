@@ -42,6 +42,7 @@ import com.ba.app.entity.Location;
 import com.ba.app.entity.OutgoingParcel;
 import com.ba.app.entity.PayType;
 import com.ba.app.entity.PaymentType;
+import com.ba.app.entity.User;
 import com.ba.app.entity.Vehicle;
 import com.ba.app.model.BookedByRepository;
 import com.ba.app.model.BookingRepository;
@@ -57,6 +58,7 @@ import com.ba.app.model.LocationRepository;
 import com.ba.app.model.OutgoingParcelRepository;
 import com.ba.app.model.PayOptionRepository;
 import com.ba.app.model.PaymentTypeRepository;
+import com.ba.app.model.UserRepository;
 import com.ba.app.model.VehicleRepository;
 import com.ba.app.vo.BookingVo;
 import com.ba.app.vo.DeliveryVo;
@@ -107,6 +109,9 @@ public class BookingController {
 
 	@Autowired
 	private ConfigPropertyRepository configPropertyRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	private String lRNumber, bookingDate, fromToLocation;
 
@@ -671,11 +676,17 @@ public class BookingController {
 	}
 
 	@RequestMapping(value = "/dbSearchParcelLRNO", method = RequestMethod.GET)
-	public @ResponseBody List<String> dbSearchParcelLRNO(@RequestParam(required = true) String lrNumber) {
+	public @ResponseBody List<String> dbSearchParcelLRNO(@RequestParam(required = true) String lrNumber,@RequestParam(required = true) String userId) {
 		List<String> booking = new ArrayList<String>();
 		try {
+			String location="%";
 			
-			booking = bookingRepository.getLrNumberForDropDown("%" + lrNumber + "%");
+			if (!userId.equalsIgnoreCase("ADMIN")) {
+			
+				location =userRepository.findByUserIdIgnoreCase(userId).getLocation().getId();
+
+			}
+			booking = bookingRepository.getLrNumberForDropDown("%" + lrNumber + "%",location);
 			
 			
 		} catch (Exception e) {
@@ -1147,12 +1158,19 @@ public class BookingController {
 			// }
 
 			String userId = request.getSession().getAttribute("USER_LOGIN_ID").toString();
+			String location="%";
+			
+			
+			
+			
+			if (!userId.equalsIgnoreCase("ADMIN")) {
+			
+				location =userRepository.findByUserIdIgnoreCase(userId).getLocation().getId();
 
-			if (userId.equalsIgnoreCase("ADMIN")) {
-				userId = "%";
 			}
 			
-			List<Booking> allList = bookingRepository.getDeliveryInventory(userId);
+			
+			List<Booking> allList = bookingRepository.getDeliveryInventory(location);
 
 			model.addAttribute("deliveryinventory", allList);
 

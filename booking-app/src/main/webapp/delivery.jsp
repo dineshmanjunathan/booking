@@ -59,7 +59,7 @@
                  $("#txtSearch").autocomplete({
                      source: function(request, response) {
                          $.ajax({
-                        	 url : "/dbSearchParcelLRNO?lrNumber="+lrNumber.value,
+                        	 url : "/dbSearchParcelLRNO?userId="+document.getElementById("userName").value+"&lrNumber="+lrNumber.value,
                              type: "GET",
                              success: function(data) {
                                  response(data);
@@ -155,6 +155,8 @@
 										<p style="color: red" align="center">${errormsg}</p>
 										<p style="color: orange" align="center">${warningmsg}</p>
 										<p style="color: green" align="center">${DeliverysuccessMessage}</p>
+										
+										<input type="hidden" id="userName" value="${sessionScope.USER_LOGIN_ID}"/>
 										
 										<div class="row">
 											<div class="col-md-4 control-margin">
