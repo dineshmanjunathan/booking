@@ -307,8 +307,10 @@
 		
 		if (option == 'TOPAY') {
 			document.getElementById("topay").value = Math.round(roundOff);
+			document.getElementById("cash").disabled=true;
 		} else if (option == 'PAID') {
 			document.getElementById("paid").value = Math.round(roundOff);
+			document.getElementById("cash").disabled=false;
 		}
 		
 		
