@@ -44,7 +44,7 @@
 								<td><a class="btn btn-primary button-margin"
 									href="/location/edit/${details.id}" id="${details.id}">Edit</a>
 									<a class="btn btn-primary button-margin"
-									href="/locationDelete?id=${details.id}">Delete</a></td>
+									 onclick="deleteItem('${details.id}')">Delete</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -56,6 +56,16 @@
 	</div>
 
 	<script src="js/main.js"></script>
+	
+	<script type="text/javascript">
+	function deleteItem(id) {
+		
+		if (confirm("Are you sure to delete the Location ?") == true) {
+			
+			window.location.href = "/locationDelete?id=" + id;
+}
+	}
+	</script>
 </body>
 <!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
