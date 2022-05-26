@@ -20,6 +20,7 @@ public class Customer {
 	private String custName;
 	private Long phoneNumber;
 	private String customerType;
+	private Integer discount;
 	
 
 }

@@ -894,18 +894,20 @@ public class BookingController {
 			long ogplNo = Utils.getOrderNumber();
 			List<Booking> outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
 			for (Booking booking : outgoingList) {
+				connectionPonitStatus=false;
 
 				ConnectionPoint connectionPoint = null;
 				if (outgoingParcel != null && outgoingParcel.getFromLocation() != null) {
 
 					connectionPoint = connectionPointRepository.findByFromLocationAndToLocation(
 							outgoingParcel.getFromLocation(), outgoingParcel.getToLocation());
+					
 					if(connectionPoint != null)
 					{
 						connectionPonitStatus=true;
 					}
 					
-					bookingRepository.updateConnectionPointStatus(lRNumber, connectionPonitStatus);
+					bookingRepository.updateConnectionPointStatus(booking.getLrNumber(), connectionPonitStatus);
 					
 					
 					if (booking.isConnectionPoint() && connectionPoint != null
@@ -1198,15 +1200,22 @@ public class BookingController {
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
 				return "login";
+			
+			String location="%";
 
 			String userId = request.getSession().getAttribute("USER_LOGIN_ID").toString();
 
-			if (userId.equalsIgnoreCase("ADMIN")) {
-				userId = "%";
+			
+			if (!userId.equalsIgnoreCase("ADMIN")) {
+				
+				location =userRepository.findByUserIdIgnoreCase(userId).getLocation().getId();
+
 			}
+			
+			
 
 			String fromlocationcode = "" + request.getSession().getAttribute("USER_LOCATIONID");
-			List<Booking> allList = bookingRepository.getBookingInventoryNew(userId);
+			List<Booking> allList = bookingRepository.getBookingInventoryNew(location);
 
 			model.addAttribute("bookinginventory", allList);
 
@@ -1424,5 +1433,20 @@ public class BookingController {
 			e.printStackTrace();
 
 		}
+	}
+	
+	//add by guna
+	
+	@RequestMapping(value = "/customerListing", method = RequestMethod.GET)
+	public String adminListingSubmit(HttpServletRequest request, ModelMap model) {
+		try {
+			//SESSION VALIDATION
+			if(sessionValidation(request, model)!=null) return "login";
+			Iterable<Customer> userList = customerRepository.findAllByOrderByIdAsc();
+			model.addAttribute("userList", userList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "customerListing";
 	}
 }
