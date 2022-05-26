@@ -560,7 +560,7 @@
 
 														<div class="col-sm-8">
 															<select class="form-select bg-info text-dark"
-																id="toLocation" name="toLocation" required>
+																id="toLocation" name="toLocation"  onchange="getCharges();"required>
 
 																<option value="">-Select To Location-</option>
 																<c:forEach var="options" items="${locationList}"
@@ -603,7 +603,7 @@
 													<div class="col-sm-8">
 														<input type="number" max="99" class="form-control"
 															id="item_count" name="item_count"
-															value="${booking.item_count}" oninput="getCharges();sumAmount();"
+															value="${booking.item_count}" oninput="getCharges();"
 															required>
 													</div>
 												</div>

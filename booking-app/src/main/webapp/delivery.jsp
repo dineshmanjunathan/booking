@@ -87,7 +87,15 @@
 			}
 			document.getElementById("txtSearch").readOnly  = false;
 			document.getElementById("doorDeliveryCharges").readOnly  = false;
-			document.getElementById("cash").readOnly = false;
+			var toPay=document.getElementById("toPay").value;
+			var paid=document.getElementById("paid").value;
+			if(toPay != ""){
+				document.getElementById("cash").readOnly = false;
+			}
+			else{
+				document.getElementById("cash").readOnly = true;
+			}
+			
 			
 	
 	}
@@ -366,7 +374,7 @@
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="txtDeliveryBillNo">E-Way Bill NO
+														<label class="form-label" for="txtDeliveryBillNo">E-Way Bill No.
 															</label>
 													</div>
 													<div class="col-sm-8">
@@ -438,7 +446,7 @@
 														<label class="form-label" for="txtPaidTotal">Paid</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" name="paid"
+														<input type="text" class="form-control" name="paid" id="paid"
 															value="${deliveryB.paid}">
 													</div>
 													
@@ -448,7 +456,7 @@
 														<label class="form-label" for="txtToPay">To Pay</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" name="toPay"
+														<input type="text" class="form-control" name="toPay" id="toPay"
 															value="${deliveryB.topay}">
 													</div>
 												</div>
