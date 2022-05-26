@@ -482,6 +482,24 @@
 		}
 		return false;
 	}
+function lrNumberUpdate() {
+	
+	var fromLocation=document.getElementById("fromLocation").value;
+	var toLocation=document.getElementById("toLocation").value;
+	var lrNumber=document.getElementById("lrNumber").value;
+	var lrNumberTemp=lrNumber;
+	
+	var lr=lrNumber.split("/");
+	if(lr.length>2){
+		document.getElementById("lrNumber").value=fromLocation+"-"+toLocation+"/"+lr[1]+"/"+lr[2];
+	}else{
+		document.getElementById("lrNumber").value=fromLocation+"-"+toLocation+"/"+lrNumberTemp;
+		}
+	
+	
+	
+}	   	
+	   	
 </script>
 </head>
 
@@ -518,7 +536,7 @@
 															<c:choose>
 																<c:when test="${sessionScope.ROLE eq 'ADMIN'}">
 																	<select class="form-select bg-info text-dark"
-																		id="fromLocation" name="fromLocation" required>
+																		id="fromLocation" name="fromLocation" required onchange="lrNumberUpdate();">
 																		<option value="">-Select From Location-</option>
 																		<c:forEach var="options" items="${locationList}"
 																			varStatus="status">
@@ -560,7 +578,7 @@
 
 														<div class="col-sm-8">
 															<select class="form-select bg-info text-dark"
-																id="toLocation" name="toLocation"  onchange="getCharges();"required>
+																id="toLocation" name="toLocation"  onchange="getCharges();lrNumberUpdate();" required>
 
 																<option value="">-Select To Location-</option>
 																<c:forEach var="options" items="${locationList}"

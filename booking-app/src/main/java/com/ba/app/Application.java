@@ -8,6 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
 import com.ba.app.entity.User;
@@ -16,6 +17,7 @@ import com.ba.app.model.UserRepository;
 @SpringBootApplication
 @ComponentScan("com.ba.app")
 @EnableJpaRepositories
+@EnableScheduling
 public class Application extends SpringBootServletInitializer {
 
 	@Override
