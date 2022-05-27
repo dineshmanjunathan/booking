@@ -29,7 +29,7 @@
 		var value = document.getElementById("txtSearch").value;
 		//if (type == 'lrNo') {
 		value = value.replaceAll('/', '%2F');
-		window.location.href = "/searchParcelLRNO?lrNumber=" + value;
+		window.location.href = "/searchParcelLRNOdbDiscount?lrNumber=" + value;
 		/* } else {
 			window.location.href = "/searchParcelName/" + value;
 		} */
@@ -79,7 +79,11 @@
 		
 			var inputs = document.getElementsByTagName("input");
 			for (var i = 0; i < inputs.length; i++) {
-				inputs[i].readOnly  = true;
+				if(inputs[i].id != "deliverydiscount")
+					{
+					inputs[i].readOnly  = true;
+					}
+				
 			}
 			var inputs1 = document.getElementsByTagName("select");
 			for (var i = 0; i < inputs1.length; i++) {
@@ -95,6 +99,9 @@
 			else{
 				document.getElementById("cash").readOnly = true;
 			}
+			
+
+			
 			
 			
 	
@@ -146,7 +153,7 @@
 		<div class="inner" style="width: 90%">
 			<div style="width: 15%;">
 				<h3>
-					<b>Delivery</b>
+					<b>Add Delivery Discount</b>
 				</h3>
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
@@ -157,7 +164,7 @@
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div class="blog-details-inner">
 								<main>
-									<form action="/addDelivery" method="post" style="width: 100%;" name="deliveryform" id="deliveryform">
+									<form action="/addDeliveryDiscount" method="post" style="width: 100%;" name="deliveryform" id="deliveryform">
 										<input type="hidden" class="form-control" name="id" id="id"
 											value="">
 										<p style="color: red" align="center">${errormsg}</p>
@@ -474,7 +481,7 @@
 														<label class="form-label" for="txtTotal">Delivery Discount</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="number" class="form-control" name="deliverydiscount" id="deliverydiscount"
+														<input type="number" class="form-control" name="deliveryDiscount" id="deliverydiscount"
 															value="${deliveryB.deliveryDiscount}">															
 													</div>
 												</div>
@@ -519,12 +526,11 @@
 										<div class="row control-margin">
 											<div class="col-md-6 control-margin">
 												<button type="button" class="btn btn-primary button-margin col-md-2"
-													id="btnSave" onclick="save_confirm();">Deliver</button>
+													id="btnSave" onclick="save_confirm();">Save</button>
 												<a href="/menu"><button type="button"
 														class="btn btn-primary button-margin col-md-2"
 														id="btnClear">Back</button></a>
-												<button type="button" class="btn btn-primary button-margin col-md-2"
-													onclick="getDeliverySlip()" id="btnPrint">Print</button>
+												
 
 											</div>
 										</div>

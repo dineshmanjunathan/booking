@@ -642,6 +642,7 @@ function lrNumberUpdate() {
 															id="weight" name="weight" value="${booking.weight}">
 													</div>
 												</div>
+												
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="freightvalue">Freight</label>
@@ -666,6 +667,7 @@ function lrNumberUpdate() {
 													</div>
 
 												</div>
+												
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="loadingcharges">Loading
@@ -712,6 +714,15 @@ function lrNumberUpdate() {
 															onblur="sumAmount();" value="${booking.doorpickcharges}">
 													</div>
 
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="remarks">Discount</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" maxlength="180" class="form-control"
+															id="discount" name="discount" readonly value="${booking.discount}" required>
+													</div>
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
@@ -775,15 +786,7 @@ function lrNumberUpdate() {
 															required>
 													</div>
 												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="remarks">Discount</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" maxlength="180" class="form-control"
-															id="discount" name="discount" readonly value="${booking.discount}" required>
-													</div>
-												</div>
+												
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="remarks">Remarks</label>

@@ -59,4 +59,5 @@ public class BookingVo implements Serializable {
 	private String checkpoint;
 	private LocalDateTime createon;
 	private Integer discount;
+	private Integer deliveryDiscount;
 }

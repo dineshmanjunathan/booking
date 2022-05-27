@@ -98,5 +98,11 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	@Modifying
 	@Query(value = "UPDATE T_BOOKING SET connection_point_status=:status WHERE LR_NUMBER = :lrnumber", nativeQuery =true)
     int updateConnectionPointStatus(@Param("lrnumber") String lrnumbers,@Param("status") Boolean status);
+	
+	
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE T_BOOKING SET delivery_discount=:deliveryDiscount WHERE LR_NUMBER=:lrnumbers", nativeQuery =true)
+    int updateDeliveyDiscount(@Param("deliveryDiscount") Integer deliveryDiscount,@Param("lrnumbers") String lrnumbers);
 
 }

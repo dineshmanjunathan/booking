@@ -35,5 +35,7 @@ public class DeliveryVo implements Serializable {
 	private String refund;
 	private LocalDateTime createon;
 	private LocalDateTime updatedon;
+	
+	private Integer deliveryDiscount;
 
 }

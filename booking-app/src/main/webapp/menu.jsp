@@ -205,6 +205,20 @@
 						</a>
 					</div>
 					
+					
+					<div class="feature col">
+						<div class="feature-icon bg-primary bg-gradient">
+							<svg class="bi" width="1em" height="1em">
+								<use xlink:href="#collection" /></svg>
+						</div>
+						<h5>Add Delivery Discount</h5>
+						<p></p>
+						<a href="/deliveryDiscount" class="icon-link"> Click here <svg
+								class="bi" width="1em" height="1em">
+								<use xlink:href="#chevron-right" /></svg>
+						</a>
+					</div>
+					
 					<div class="feature col">
 						<div class="feature-icon bg-primary bg-gradient">
 							<svg class="bi" width="1em" height="1em">

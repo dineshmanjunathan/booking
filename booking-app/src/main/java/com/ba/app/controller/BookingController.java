@@ -1499,4 +1499,95 @@ public class BookingController {
 
 		return "customeredit";
 	}
+	
+	@RequestMapping("/deliveryDiscount")
+	public String deliveryDiscount(HttpServletRequest request, ModelMap model) {
+		// SESSION VALIDATION
+		if (sessionValidation(request, model) != null)
+			return "login";
+		// setAllLocationListInModel(model);
+
+		return "deliveryDiscount";
+	}
+	
+	@RequestMapping(value = "/searchParcelLRNOdbDiscount", method = RequestMethod.GET)
+	public String searchParcelLRNOdbDiscount(@RequestParam(required = true) String lrNumber, HttpServletRequest request,
+			ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			Booking booking = bookingRepository.findByLrNumber(lrNumber);
+
+			Boolean topayValue = false;
+
+			if (booking != null && booking.getOgplNo() != null) {
+
+				if (booking.getCurrentLocation().equals(booking.getToLocation()) && booking.getPointStatus() == 2) {
+					Inventory inventory = inventoryRepository.findByOgplNo(booking.getOgplNo());
+
+					if (Objects.nonNull(booking.getTopay())) {
+						topayValue = true;
+					}
+
+					model.addAttribute("topayValue", topayValue);
+					model.addAttribute("deliveryB", booking);
+					model.addAttribute("deliveryI", inventory);
+					model.addAttribute("DeliverysuccessMessage", "Search by LR number: " + lrNumber);
+				} else {
+					model.addAttribute("errormsg", "Not Yet to Reach Location");
+
+				}
+			} else {
+				model.addAttribute("errormsg", "Invalid LR number provided! ");
+			}
+			Delivery delivery = new Delivery();
+			Date date = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			String currentDate = formatter.format(date);
+			delivery.setDeliveryDate(currentDate);
+			if (booking != null && booking.getBookedOn() != null) {
+				String startDate = booking.getBookedOn();
+				Date stDate = formatter.parse(startDate);
+				date = formatter.parse(currentDate);
+				long diffTime = date.getTime() - stDate.getTime();
+				long diffDays = TimeUnit.MILLISECONDS.toDays(diffTime) % 365;
+				if (diffDays < 3) {
+					delivery.setDemurrage("0");
+				} else {
+					long charge = (diffDays - 2) * 10;
+					delivery.setDemurrage("" + charge);
+				}
+			}
+			setAllVehileListInModel(model);
+			setAllLocationListInModel(model);
+			model.addAttribute("delivery", delivery);
+			model.addAttribute("enabled", false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed To search LR number ");
+			return "deliveryDiscount";
+		}
+		return "deliveryDiscount";
+	}
+	
+	@RequestMapping(value = "/addDeliveryDiscount", method = RequestMethod.POST)
+	public String addDeliveryDiscount(HttpServletRequest request, DeliveryVo deliveryVo, ModelMap model) {
+		try {
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
+
+			
+			
+				bookingRepository.updateDeliveyDiscount(deliveryVo.getDeliveryDiscount(), deliveryVo.getLRNo());
+			
+			model.addAttribute("delivery", deliveryVo);
+			model.addAttribute("DeliverysuccessMessage", deliveryVo.getLRNo() + " - Add Delivery Discount Successfull!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed to add new location! ");
+			return "deliveryDiscount";
+		}
+		return "deliveryDiscount";
+	}
 }
