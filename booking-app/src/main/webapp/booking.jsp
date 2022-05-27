@@ -312,6 +312,9 @@ var discountValue=0;
 		}
 		
 		
+		roundOff=roundOff-document.getElementById("discount").value;
+
+		
 		if (option == 'TOPAY') {
 			document.getElementById("topay").value = Math.round(roundOff);
 			document.getElementById("cash").disabled=true;
@@ -320,7 +323,6 @@ var discountValue=0;
 			document.getElementById("cash").disabled=false;
 		}
 		
-		roundOff=roundOff-document.getElementById("discount").value;
 		document.getElementById("total").value = Math.round(roundOff);
 	}
 	
@@ -867,11 +869,11 @@ function lrNumberUpdate() {
 													</div>
 												</div>
 												<div class="row element-margin">
-													<div class="col-sm-4">
+													<!-- <div class="col-sm-4">
 														<label class="form-label" for="userid">User ID</label>
-													</div>
+													</div> -->
 													<div class="col-sm-8">
-														<input type="text" maxlength="180"
+														<input type="hidden" maxlength="180"
 															class="form-control bg-info text-dark" id="user_id"
 															name="userid" value="${sessionScope.USER_ID}" readonly
 															required>
