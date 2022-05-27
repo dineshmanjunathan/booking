@@ -76,4 +76,5 @@ public class Booking implements Serializable {
 	private Integer pointStatus;
 	private String currentLocation;
 	private LocalDateTime createon;
+	private Integer discount;
 }

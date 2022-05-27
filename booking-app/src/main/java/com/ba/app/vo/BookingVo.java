@@ -58,4 +58,5 @@ public class BookingVo implements Serializable {
 	private BigDecimal freightvalue;
 	private String checkpoint;
 	private LocalDateTime createon;
+	private Integer discount;
 }

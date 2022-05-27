@@ -850,33 +850,37 @@ public class BookingController {
 	}
 
 	@RequestMapping(value = "/searchFromCustomerName/{phone}", method = RequestMethod.GET)
-	public ResponseEntity<String> searchFromCustomerName(@PathVariable("phone") Long phone, HttpServletRequest request,
+	public ResponseEntity<Customer> searchFromCustomerName(@PathVariable("phone") Long phone, HttpServletRequest request,
 			ModelMap model) {
+		
+		Customer customer=null;
 		try {
-			Customer customer = customerRepository.findByAllPhoneNumber(phone);
+		 customer = customerRepository.findByAllPhoneNumber(phone);
 			if (customer != null) {
-				return new ResponseEntity<String>(customer.getCustName(), HttpStatus.OK);
+				return new ResponseEntity<Customer>(customer, HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg", "Failed To search Customer Name");
 		}
-		return new ResponseEntity<String>("", HttpStatus.OK);
+		return new ResponseEntity<Customer>(customer, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/searchToCustomerName/{phone}", method = RequestMethod.GET)
-	public ResponseEntity<String> searchToCustomerName(@PathVariable("phone") Long phone, HttpServletRequest request,
+	public ResponseEntity<Customer> searchToCustomerName(@PathVariable("phone") Long phone, HttpServletRequest request,
 			ModelMap model) {
+		
+		Customer customer=null;
 		try {
-			Customer customer = customerRepository.findByAllPhoneNumber(phone);
+		 customer = customerRepository.findByAllPhoneNumber(phone);
 			if (customer != null) {
-				return new ResponseEntity<String>(customer.getCustName(), HttpStatus.OK);
+				return new ResponseEntity<Customer>(customer, HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg", "Failed To search Customer Name");
 		}
-		return new ResponseEntity<String>("", HttpStatus.OK);
+		return new ResponseEntity<Customer>(customer, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/ogpl/save", method = RequestMethod.POST)

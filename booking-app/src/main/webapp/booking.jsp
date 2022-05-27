@@ -16,6 +16,8 @@
 }
 </style>
 <script type="text/javascript" charset="utf-8">
+var discountValue=0;
+
 	function selectPayOption() {
 		var e = document.getElementById("payOption");
 		var strUser = e.value;
@@ -58,6 +60,8 @@
 		document.getElementById("refund").disabled = true;
 	}
 	function checkFromNameExists() {
+		document.getElementById("item_count").value = "";
+
 		var value = document.getElementById("from_phone").value;
 		if(!checkIfValidIndianMobileNumber(value)){
 			alert('Please Enter a Valid Mobile Number');
@@ -69,8 +73,11 @@
 					type : "get",
 					cache : false,
 					success : function(data) {
-						if (data.length > 0) {
-							document.getElementById("fromName").value = data;
+						
+						if (data) {
+							document.getElementById("fromName").value = data.custName;
+
+							discountValue = data.discount;
 						}
 					},
 					error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -92,8 +99,8 @@
 						type : "get",
 						cache : false,
 						success : function(data) {
-							if (data.length > 0) {
-								document.getElementById("toName").value = data;
+							if (data) {
+								document.getElementById("toName").value = data.custName;
 							}
 						},
 						error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -313,8 +320,7 @@
 			document.getElementById("cash").disabled=false;
 		}
 		
-		
-		
+		roundOff=roundOff-document.getElementById("discount").value;
 		document.getElementById("total").value = Math.round(roundOff);
 	}
 	
@@ -621,7 +627,7 @@ function lrNumberUpdate() {
 													<div class="col-sm-8">
 														<input type="number" max="99" class="form-control"
 															id="item_count" name="item_count"
-															value="${booking.item_count}" oninput="getCharges();"
+															value="${booking.item_count}" onchange="getDiscountValue(this)" oninput="getCharges();"
 															required>
 													</div>
 												</div>
@@ -767,6 +773,15 @@ function lrNumberUpdate() {
 														<input type="text" maxlength="30" class="form-control"
 															id="fromName" name="fromName" value="${booking.fromName}"
 															required>
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="remarks">Discount</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" maxlength="180" class="form-control"
+															id="discount" name="discount" readonly value="${booking.discount}" required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -1068,7 +1083,10 @@ function printStatus(status) {
 printStatus(${printStatus});
 
 //Total Round off
-
+function getDiscountValue(item) {
+	
+	document.getElementById("discount").value=item.value * discountValue;
+}
 
 </script>
 
