@@ -127,15 +127,20 @@
 		}
 	}
 	
-	function  deliveryCheck(data) {
+	function  deliveryCheck(data,status) {
 		if(data != "")
 		{
-			$('input[value="DELIVERED"]').prop("checked", true);
 			document.getElementById("doorDeliveryCharges").disabled = true;
 			document.getElementById("cash").disabled = true;
 			
 
 		}
+		
+		if(status=="D")
+			{
+			$('input[value="DELIVERED"]').prop("checked", true);
+
+			}
 	}
 </script>
 
@@ -540,8 +545,9 @@
 </body>
 
 <script type="text/javascript">
-deliveryCheck("${deliveryB.fromName}");
 
+
+deliveryCheck("${deliveryB.fromName}","${deliveryB.igplStatus}");
 
 
 if(${delivery.demurrage} ||  ${delivery.demurrage} > 0)
