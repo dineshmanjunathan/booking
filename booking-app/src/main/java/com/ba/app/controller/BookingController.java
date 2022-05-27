@@ -67,6 +67,7 @@ import com.ba.app.vo.LocationVo;
 import com.ba.app.vo.OutgoingParcelVo;
 import com.ba.app.vo.PayOptionVo;
 import com.ba.app.vo.PaymentTypeVo;
+import com.ba.app.vo.UserVo;
 import com.ba.app.vo.VehicleVo;
 import com.ba.utils.ConfigProperties;
 import com.ba.utils.DeliverySlipGenerator;
@@ -109,7 +110,7 @@ public class BookingController {
 
 	@Autowired
 	private ConfigPropertyRepository configPropertyRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -676,19 +677,19 @@ public class BookingController {
 	}
 
 	@RequestMapping(value = "/dbSearchParcelLRNO", method = RequestMethod.GET)
-	public @ResponseBody List<String> dbSearchParcelLRNO(@RequestParam(required = true) String lrNumber,@RequestParam(required = true) String userId) {
+	public @ResponseBody List<String> dbSearchParcelLRNO(@RequestParam(required = true) String lrNumber,
+			@RequestParam(required = true) String userId) {
 		List<String> booking = new ArrayList<String>();
 		try {
-			String location="%";
-			
+			String location = "%";
+
 			if (!userId.equalsIgnoreCase("ADMIN")) {
-			
-				location =userRepository.findByUserIdIgnoreCase(userId).getLocation().getId();
+
+				location = userRepository.findByUserIdIgnoreCase(userId).getLocation().getId();
 
 			}
-			booking = bookingRepository.getLrNumberForDropDown("%" + lrNumber + "%",location);
-			
-			
+			booking = bookingRepository.getLrNumberForDropDown("%" + lrNumber + "%", location);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -702,19 +703,18 @@ public class BookingController {
 			if (sessionValidation(request, model) != null)
 				return "login";
 			Booking booking = bookingRepository.findByLrNumber(lrNumber);
-			
-			Boolean topayValue=false;
+
+			Boolean topayValue = false;
 
 			if (booking != null && booking.getOgplNo() != null) {
 
 				if (booking.getCurrentLocation().equals(booking.getToLocation()) && booking.getPointStatus() == 2) {
 					Inventory inventory = inventoryRepository.findByOgplNo(booking.getOgplNo());
-					
-					if(Objects.nonNull(booking.getTopay()))
-					{
-						topayValue=true;
+
+					if (Objects.nonNull(booking.getTopay())) {
+						topayValue = true;
 					}
-					
+
 					model.addAttribute("topayValue", topayValue);
 					model.addAttribute("deliveryB", booking);
 					model.addAttribute("deliveryI", inventory);
@@ -882,8 +882,8 @@ public class BookingController {
 	@RequestMapping(value = "/ogpl/save", method = RequestMethod.POST)
 	public String saveOutgoingParcel(HttpServletRequest request, OutgoingParcelVo outgoingParcelVo, ModelMap model) {
 		try {
-			
-			Boolean connectionPonitStatus=false;
+
+			Boolean connectionPonitStatus = false;
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
 				return "login";
@@ -894,22 +894,20 @@ public class BookingController {
 			long ogplNo = Utils.getOrderNumber();
 			List<Booking> outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
 			for (Booking booking : outgoingList) {
-				connectionPonitStatus=false;
+				connectionPonitStatus = false;
 
 				ConnectionPoint connectionPoint = null;
 				if (outgoingParcel != null && outgoingParcel.getFromLocation() != null) {
 
 					connectionPoint = connectionPointRepository.findByFromLocationAndToLocation(
 							outgoingParcel.getFromLocation(), outgoingParcel.getToLocation());
-					
-					if(connectionPoint != null)
-					{
-						connectionPonitStatus=true;
+
+					if (connectionPoint != null) {
+						connectionPonitStatus = true;
 					}
-					
+
 					bookingRepository.updateConnectionPointStatus(booking.getLrNumber(), connectionPonitStatus);
-					
-					
+
 					if (booking.isConnectionPoint() && connectionPoint != null
 							&& connectionPoint.getCheckPoint() != null) {
 						outgoingParcel.setToLocation(connectionPoint.getCheckPoint());
@@ -943,7 +941,6 @@ public class BookingController {
 						bookingRepository.updateBookingOgplConnPoint(booking.getLrNumber());
 					}
 				}
-				
 
 				bookingRepository.updateBookingOgpl(ogplNo, outgoingParcel.getOgpnoarray());
 				outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
@@ -1160,18 +1157,14 @@ public class BookingController {
 			// }
 
 			String userId = request.getSession().getAttribute("USER_LOGIN_ID").toString();
-			String location="%";
-			
-			
-			
-			
+			String location = "%";
+
 			if (!userId.equalsIgnoreCase("ADMIN")) {
-			
-				location =userRepository.findByUserIdIgnoreCase(userId).getLocation().getId();
+
+				location = userRepository.findByUserIdIgnoreCase(userId).getLocation().getId();
 
 			}
-			
-			
+
 			List<Booking> allList = bookingRepository.getDeliveryInventory(location);
 
 			model.addAttribute("deliveryinventory", allList);
@@ -1200,19 +1193,16 @@ public class BookingController {
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
 				return "login";
-			
-			String location="%";
+
+			String location = "%";
 
 			String userId = request.getSession().getAttribute("USER_LOGIN_ID").toString();
 
-			
 			if (!userId.equalsIgnoreCase("ADMIN")) {
-				
-				location =userRepository.findByUserIdIgnoreCase(userId).getLocation().getId();
+
+				location = userRepository.findByUserIdIgnoreCase(userId).getLocation().getId();
 
 			}
-			
-			
 
 			String fromlocationcode = "" + request.getSession().getAttribute("USER_LOCATIONID");
 			List<Booking> allList = bookingRepository.getBookingInventoryNew(location);
@@ -1434,19 +1424,75 @@ public class BookingController {
 
 		}
 	}
-	
-	//add by guna
-	
+
+	// add by guna
+
 	@RequestMapping(value = "/customerListing", method = RequestMethod.GET)
 	public String adminListingSubmit(HttpServletRequest request, ModelMap model) {
 		try {
-			//SESSION VALIDATION
-			if(sessionValidation(request, model)!=null) return "login";
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
 			Iterable<Customer> userList = customerRepository.findAllByOrderByIdAsc();
 			model.addAttribute("userList", userList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "customerListing";
+	}
+
+	@RequestMapping(value = "/customer/add", method = RequestMethod.GET)
+	public String customerAdd(HttpServletRequest request, ModelMap model) {
+		try {
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
+			setAllLocationListInModel(model);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "customeredit";
+	}
+
+	@RequestMapping(value = "/saveCustomer", method = RequestMethod.POST)
+	public String saveCustomer(HttpServletRequest request, Customer customerRequest, ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+
+			Customer customer = customerRepository.findByAllPhoneNumber(customerRequest.getPhoneNumber());
+
+			if (Objects.nonNull(customer)) {
+				customer.setDiscount(customerRequest.getDiscount());
+				customer = customerRepository.save(customer);
+			} else {
+				customer = customerRepository.save(customerRequest);
+			}
+
+			model.addAttribute("successMessage", "Customer Data Saved Successfully !");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Customer Data Not Saved!");
+		}
+
+		model.addAttribute("userList", customerRepository.findAll());
+
+		return "customerListing";
+	}
+
+	@RequestMapping(value = "/customer/edit", method = RequestMethod.GET)
+	public String customerEdit(Customer customerRequest, HttpServletRequest request, ModelMap model) {
+		try {
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
+			model.addAttribute("user", customerRepository.findById(customerRequest.getId()).get());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "customeredit";
 	}
 }

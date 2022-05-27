@@ -20,6 +20,7 @@
 				<p style="color: green" align="center">${successMessage}</p>
 				<div class="row control-margin">
 					<div class="col-md-12">
+						<a class="btn btn-primary button-margin" href="/customer/add">Add</a>
 						<a class="btn btn-primary button-margin" href="/menu">Back</a>
 					</div>
 				</div>
@@ -40,8 +41,8 @@
 								<td>${details.phoneNumber}</td>
 								<td>${details.custName}</td>
 								<td>${details.discount}</td>
-								<td><a class="btn btn-primary button-margin"
-									 id="${details.id}">Edit</a>
+								<td>
+								<a class="btn btn-primary button-margin" href="/customer/edit?id=${details.id}" id="${details.id}">Edit</a>
 								</td>
 							</tr>
 						</c:forEach>
