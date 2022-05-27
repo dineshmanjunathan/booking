@@ -850,12 +850,12 @@ public class BookingController {
 	}
 
 	@RequestMapping(value = "/searchFromCustomerName/{phone}", method = RequestMethod.GET)
-	public ResponseEntity<Customer> searchFromCustomerName(@PathVariable("phone") Long phone, HttpServletRequest request,
-			ModelMap model) {
-		
-		Customer customer=null;
+	public ResponseEntity<Customer> searchFromCustomerName(@PathVariable("phone") Long phone,
+			HttpServletRequest request, ModelMap model) {
+
+		Customer customer = null;
 		try {
-		 customer = customerRepository.findByAllPhoneNumber(phone);
+			customer = customerRepository.findByAllPhoneNumber(phone);
 			if (customer != null) {
 				return new ResponseEntity<Customer>(customer, HttpStatus.OK);
 			}
@@ -869,10 +869,10 @@ public class BookingController {
 	@RequestMapping(value = "/searchToCustomerName/{phone}", method = RequestMethod.GET)
 	public ResponseEntity<Customer> searchToCustomerName(@PathVariable("phone") Long phone, HttpServletRequest request,
 			ModelMap model) {
-		
-		Customer customer=null;
+
+		Customer customer = null;
 		try {
-		 customer = customerRepository.findByAllPhoneNumber(phone);
+			customer = customerRepository.findByAllPhoneNumber(phone);
 			if (customer != null) {
 				return new ResponseEntity<Customer>(customer, HttpStatus.OK);
 			}
@@ -932,29 +932,32 @@ public class BookingController {
 			}
 			model.addAttribute("outgoingsuccessmessage", "Parcel Out Successfully");
 			model.addAttribute("ogplno", "OGPL Number : " + ogplNo);
-			/*
-			 * if (outgoingParcel != null) { setAllLocationListInModel(model);
-			 * setAllVehileListInModel(model); setAllConductorListInModel(model);
-			 * setAllDriverListInModel(model); model.addAttribute("outgoingparcel",
-			 * outgoingParcel);
-			 * 
-			 * List<Booking> incomeList =
-			 * bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray()); for
-			 * (Booking booking : incomeList) { if (!booking.isConnectionPoint()) {
-			 * bookingRepository.updateBookingOgplConnPoint(booking.getLrNumber()); } }
-			 * 
-			 * bookingRepository.updateBookingOgpl(ogplNo, outgoingParcel.getOgpnoarray());
-			 * outgoingList =
-			 * bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
-			 * model.addAttribute("outgoingList", outgoingList);
-			 * model.addAttribute("checkboxchecked", "1"); }
-			 */
-			
+
+			if (outgoingParcel != null) {
+				setAllLocationListInModel(model);
+				setAllVehileListInModel(model);
+				setAllConductorListInModel(model);
+				setAllDriverListInModel(model);
+//				model.addAttribute("outgoingparcel", outgoingParcel);
+
+				List<Booking> incomeList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
+				for (Booking booking : incomeList) {
+					if (!booking.isConnectionPoint()) {
+						bookingRepository.updateBookingOgplConnPoint(booking.getLrNumber());
+					}
+				}
+
+				bookingRepository.updateBookingOgpl(ogplNo, outgoingParcel.getOgpnoarray());
+				outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
+//				model.addAttribute("outgoingList", outgoingList);
+//				model.addAttribute("checkboxchecked", "1");
+			}
+
 			setAllLocationListInModel(model);
 			setAllVehileListInModel(model);
 			setAllConductorListInModel(model);
 			setAllDriverListInModel(model);
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			model.addAttribute("errormsg", "Failed to out Parcel");
@@ -1015,15 +1018,14 @@ public class BookingController {
 				 * 
 				 * } model.addAttribute("ogplList", ogplList);
 				 */
-				
+
 			}
-			
+
 			setAllLocationListInModel(model);
 			setAllVehileListInModel(model);
 			setAllConductorListInModel(model);
 			setAllDriverListInModel(model);
-			
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			setAllLocationListInModel(model);
@@ -1033,7 +1035,7 @@ public class BookingController {
 			model.addAttribute("errormsg", "Failed to income Parcel");
 			return "incomingParcel";
 		}
-		
+
 		return "incomingParcel";
 	}
 
@@ -1513,7 +1515,7 @@ public class BookingController {
 
 		return "customeredit";
 	}
-	
+
 	@RequestMapping("/deliveryDiscount")
 	public String deliveryDiscount(HttpServletRequest request, ModelMap model) {
 		// SESSION VALIDATION
@@ -1523,7 +1525,7 @@ public class BookingController {
 
 		return "deliveryDiscount";
 	}
-	
+
 	@RequestMapping(value = "/searchParcelLRNOdbDiscount", method = RequestMethod.GET)
 	public String searchParcelLRNOdbDiscount(@RequestParam(required = true) String lrNumber, HttpServletRequest request,
 			ModelMap model) {
@@ -1583,7 +1585,7 @@ public class BookingController {
 		}
 		return "deliveryDiscount";
 	}
-	
+
 	@RequestMapping(value = "/addDeliveryDiscount", method = RequestMethod.POST)
 	public String addDeliveryDiscount(HttpServletRequest request, DeliveryVo deliveryVo, ModelMap model) {
 		try {
@@ -1591,12 +1593,11 @@ public class BookingController {
 			if (sessionValidation(request, model) != null)
 				return "login";
 
-			
-			
-				bookingRepository.updateDeliveyDiscount(deliveryVo.getDeliveryDiscount(), deliveryVo.getLRNo());
-			
+			bookingRepository.updateDeliveyDiscount(deliveryVo.getDeliveryDiscount(), deliveryVo.getLRNo());
+
 			model.addAttribute("delivery", deliveryVo);
-			model.addAttribute("DeliverysuccessMessage", deliveryVo.getLRNo() + " - Add Delivery Discount Successfull!");
+			model.addAttribute("DeliverysuccessMessage",
+					deliveryVo.getLRNo() + " - Add Delivery Discount Successfull!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg", "Failed to add new location! ");
