@@ -42,6 +42,12 @@
 		    });
 		    document.getElementById("lrnoarray").value = files;
 		    
+		    if(files.length === 0){
+		    	alert("Please select any Parcel to In!");
+				return false;	
+		    }
+		   
+		    
 		 });
 
 		})
@@ -265,27 +271,7 @@
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<script src="js/main.js"></script>
 	
-	<script>
-	
-	function addOgplIn(ogplval) {
-		
-		
-		if(ogplval)
-			{
-		var x = document.getElementById("ogplNo");
-		var option = document.createElement("option");
-		option.setAttribute("id",ogplval);
-		option.text = ogplval;
-		x.add(option);
-		
-		document.getElementById(ogplval).selected = "true";
-			}
-	}
-	addOgplIn(${ogplno});
-	
-	
-	
-	</script>
+
 	
 </body>
 <!-- This templates was made by Colorlib (https://colorlib.com) -->

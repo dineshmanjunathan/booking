@@ -981,11 +981,11 @@ public class BookingController {
 				setAllVehileListInModel(model);
 				setAllConductorListInModel(model);
 				setAllDriverListInModel(model);
-				model.addAttribute("incomeparcel", inventory);
-				model.addAttribute("ogplno", inventoryVo.getOgplNo());
-				model.addAttribute("fromLocation", inventory.getFromLocation());
-				model.addAttribute("toLocation", inventory.getToLocation());
-				model.addAttribute("bookedOn", inventory.getBookedOn());
+//				model.addAttribute("incomeparcel", inventory);
+//				model.addAttribute("ogplno", inventoryVo.getOgplNo());
+//				model.addAttribute("fromLocation", inventory.getFromLocation());
+//				model.addAttribute("toLocation", inventory.getToLocation());
+//				model.addAttribute("bookedOn", inventory.getBookedOn());
 
 				bookingRepository.updateBookingIgplStatus("A", inventory.getLrnoarray());
 
