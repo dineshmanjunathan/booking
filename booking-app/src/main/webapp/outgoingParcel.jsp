@@ -239,14 +239,7 @@
 	
 	<script type="text/javascript">
 	
-	function disableSaveButton(message) {
-		if(message==1)
-		{
-		document.getElementById("btnSave").disabled=true;	
-		}
-	}
-	
-	disableSaveButton(${ogplno != null ? 1:0});
+
 
 	</script>
 </body>

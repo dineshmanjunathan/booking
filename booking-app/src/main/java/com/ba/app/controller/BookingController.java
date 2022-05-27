@@ -932,25 +932,29 @@ public class BookingController {
 			}
 			model.addAttribute("outgoingsuccessmessage", "Parcel Out Successfully");
 			model.addAttribute("ogplno", "OGPL Number : " + ogplNo);
-			if (outgoingParcel != null) {
-				setAllLocationListInModel(model);
-				setAllVehileListInModel(model);
-				setAllConductorListInModel(model);
-				setAllDriverListInModel(model);
-				model.addAttribute("outgoingparcel", outgoingParcel);
-
-				List<Booking> incomeList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
-				for (Booking booking : incomeList) {
-					if (!booking.isConnectionPoint()) {
-						bookingRepository.updateBookingOgplConnPoint(booking.getLrNumber());
-					}
-				}
-
-				bookingRepository.updateBookingOgpl(ogplNo, outgoingParcel.getOgpnoarray());
-				outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
-				model.addAttribute("outgoingList", outgoingList);
-				model.addAttribute("checkboxchecked", "1");
-			}
+			/*
+			 * if (outgoingParcel != null) { setAllLocationListInModel(model);
+			 * setAllVehileListInModel(model); setAllConductorListInModel(model);
+			 * setAllDriverListInModel(model); model.addAttribute("outgoingparcel",
+			 * outgoingParcel);
+			 * 
+			 * List<Booking> incomeList =
+			 * bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray()); for
+			 * (Booking booking : incomeList) { if (!booking.isConnectionPoint()) {
+			 * bookingRepository.updateBookingOgplConnPoint(booking.getLrNumber()); } }
+			 * 
+			 * bookingRepository.updateBookingOgpl(ogplNo, outgoingParcel.getOgpnoarray());
+			 * outgoingList =
+			 * bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
+			 * model.addAttribute("outgoingList", outgoingList);
+			 * model.addAttribute("checkboxchecked", "1"); }
+			 */
+			
+			setAllLocationListInModel(model);
+			setAllVehileListInModel(model);
+			setAllConductorListInModel(model);
+			setAllDriverListInModel(model);
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			model.addAttribute("errormsg", "Failed to out Parcel");
@@ -998,19 +1002,28 @@ public class BookingController {
 					}
 				}
 
-				model.addAttribute("incomeparcelList", incomeList);
-				model.addAttribute("checkboxchecked", "1");
-				List<OutgoingParcel> ogplList;
-				if (inventory.getBookedOn() != null && inventory.getBookedOn().trim().length() > 0) {
-					ogplList = outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(
-							inventory.getFromLocation(), inventory.getToLocation(), inventory.getBookedOn());
-				} else {
-					ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(inventory.getFromLocation(),
-							inventory.getToLocation());
-
-				}
-				model.addAttribute("ogplList", ogplList);
+				/*
+				 * model.addAttribute("incomeparcelList", incomeList);
+				 * model.addAttribute("checkboxchecked", "1"); List<OutgoingParcel> ogplList; if
+				 * (inventory.getBookedOn() != null && inventory.getBookedOn().trim().length() >
+				 * 0) { ogplList =
+				 * outgoingParcelRepository.findByFromLocationAndToLocationAndBookedOn(
+				 * inventory.getFromLocation(), inventory.getToLocation(),
+				 * inventory.getBookedOn()); } else { ogplList =
+				 * outgoingParcelRepository.findByFromLocationAndToLocation(inventory.
+				 * getFromLocation(), inventory.getToLocation());
+				 * 
+				 * } model.addAttribute("ogplList", ogplList);
+				 */
+				
 			}
+			
+			setAllLocationListInModel(model);
+			setAllVehileListInModel(model);
+			setAllConductorListInModel(model);
+			setAllDriverListInModel(model);
+			
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			setAllLocationListInModel(model);
@@ -1020,6 +1033,7 @@ public class BookingController {
 			model.addAttribute("errormsg", "Failed to income Parcel");
 			return "incomingParcel";
 		}
+		
 		return "incomingParcel";
 	}
 
