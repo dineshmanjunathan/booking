@@ -11,13 +11,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "t_booking")
+@AllArgsConstructor
 public class Booking implements Serializable {
 	
 	/**
@@ -27,6 +35,7 @@ public class Booking implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonInclude(Include.NON_NULL)
 	private long id;
 	private String fromLocation;
 	private String toLocation ;
@@ -79,4 +88,19 @@ public class Booking implements Serializable {
 	private Integer discount;
 	
 	private Integer deliveryDiscount;
+
+	public Booking(BigDecimal paid, BigDecimal topay, BigDecimal loadingcharges, BigDecimal freightvalue,
+			Integer discount, Integer deliveryDiscount) {
+		super();
+		this.paid = paid;
+		this.topay = topay;
+		this.loadingcharges = loadingcharges;
+		this.freightvalue = freightvalue;
+		this.discount = discount;
+		this.deliveryDiscount = deliveryDiscount;
+	}
+
+
+	
+	
 }

@@ -1,6 +1,7 @@
 package com.ba.app.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -26,6 +27,7 @@ public class Location implements Serializable {
 	private String id;
 	private String location;
 	private String address ;
+	private Integer uploadingCharge;
 	private LocalDateTime createon = LocalDateTime.now();
 	private LocalDateTime updatedon = LocalDateTime.now();
 	

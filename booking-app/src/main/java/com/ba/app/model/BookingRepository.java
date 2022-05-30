@@ -1,6 +1,7 @@
 package com.ba.app.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,11 +11,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.ba.app.entity.Booking;
 
-@Service
 public interface BookingRepository extends CrudRepository<Booking, Long> {
 	
 	List<Booking> findByFromLocationAndToLocationAndBookedOnAndOgplNoIsNull(String fromLocation,String toLocation,String bookedOn);
@@ -104,5 +105,9 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	@Modifying
 	@Query(value = "UPDATE T_BOOKING SET delivery_discount=:deliveryDiscount WHERE LR_NUMBER=:lrnumbers", nativeQuery =true)
     int updateDeliveyDiscount(@Param("deliveryDiscount") Integer deliveryDiscount,@Param("lrnumbers") String lrnumbers);
-
+	
+	@Transactional
+	@Query(value="select sum(o.paid) as paid,sum(o.topay) as topay,sum(o.freightvalue) as freightvalue,sum(o.loadingcharges) as loadingcharges,sum(o.discount) as discount,sum(o.delivery_discount) as delivery_discount from t_booking o where o.lr_number in :list",nativeQuery = true)
+	LinkedList<Object[]> getOgplDetailedReport(@Param("list") ArrayList<String> list); 
+	
 }

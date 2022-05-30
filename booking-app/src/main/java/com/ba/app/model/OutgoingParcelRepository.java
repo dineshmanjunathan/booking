@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import com.ba.app.entity.OutgoingParcel;
 
@@ -28,4 +29,7 @@ public interface OutgoingParcelRepository extends CrudRepository<OutgoingParcel,
 	@Query(value = "select o.booked_on,o.from_location,o.to_location,o.ogpl_no,o.vehicle_no,o.driver,o.conductor,o.prepared_by, b.pay_option as Pay_Type, sum(b.freightvalue) as freight_value, sum(b.loadingcharges) as loading_charges, sum(b.doorpickcharges) as doorpickcharges, sum(b.paid) as total_paid, sum(b.topay) as total_topay,b.Lr_number,ROW_NUMBER () OVER (ORDER BY o.booked_on) as id from t_outgoing_parcel o ,t_booking b where o.ogpl_no = b.ogpl_no group by o.booked_on,o.from_location,o.to_location,o.ogpl_no,o.vehicle_no,o.driver,o.conductor,o.prepared_by, b.pay_option,b.loadingchargespay,b.doorpickchargespay,b.Lr_number", nativeQuery = true)
 
 	LinkedList<Object[]> findAllOgplRecord();
+	
+	@Query(value ="select * from t_outgoing_parcel where CAST(ogpl_no as text) like (?1) and cast(booked_on as date) between cast(?2 as date) and cast(?3 as date)",nativeQuery = true)
+	List<OutgoingParcel> findByDateandOgpl(String ogpl,String fromDate,String toDate);
 }
