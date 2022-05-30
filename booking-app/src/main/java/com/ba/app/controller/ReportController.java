@@ -175,7 +175,6 @@ public class ReportController {
 				if (loData.isPresent()) {
 					uploadingCharge = loData.get().getUploadingCharge() * data.getOgpnoarray().size();
 					
-					System.out.println(uploadingCharge+"---------------");
 				}
 
 				data.getOgpnoarray().stream().forEach(r -> {
@@ -191,7 +190,7 @@ public class ReportController {
 				for (Object[] str : bookings) {
 
 					entity.setOgplNo(data.getOgplNo());
-					entity.setTotLR(data.getOgpnoarray().size());
+					entity.setTotLR(String.valueOf(data.getOgpnoarray().size()));
 					entity.setPaid(("" + str[0]).replace("null", "-"));
 					entity.setToPay(("" + str[1]).replace("null", "-"));
 					entity.setFright(("" + str[2]).replace("null", "-"));
@@ -272,7 +271,7 @@ public class ReportController {
 				for (Object[] str : bookings) {
 
 					entity.setOgplNo(data.getOgplNo());
-					entity.setTotLR(data.getOgpnoarray().size());
+					entity.setTotLR(String.valueOf(data.getOgpnoarray().size()));
 					entity.setPaid(("" + str[0]).replace("null", "-"));
 					entity.setToPay(("" + str[1]).replace("null", "-"));
 					entity.setFright(("" + str[2]).replace("null", "-"));
@@ -298,4 +297,85 @@ public class ReportController {
 		return "OGPLDetailedReport";
 
 	}
+	
+	
+	@RequestMapping(value="/report/ogplConsolidatedFilterReportPOPUp")
+	public String ogplConsolidatedFilterReportPOPUp(@Param("ogpl") Long ogpl,HttpServletRequest request, ModelMap model) {
+		try {
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
+
+			
+			
+			
+			
+			Query query = em.createNativeQuery("select * from t_outgoing_parcel where ogpl_no=?",OutgoingParcel.class);
+			query.setParameter(1, ogpl);
+		
+			
+			
+			List<OutgoingParcel> list = query.getResultList();
+			
+			
+			System.out.println(list.size());
+
+			List<Object> detailReports = new ArrayList<Object>();
+
+			Integer uploadingCharge = 0;
+
+			for (OutgoingParcel data : list) {
+				OgplDetailReport entity = new OgplDetailReport();
+
+				List<Integer> duCharge = new ArrayList<Integer>();
+				Charge chargeData = chargeRepository.findByFromLocationAndToLocationAndChargetype(
+						data.getFromLocation(), data.getToLocation(), "FUEL CHARGES");
+
+				Optional<Location> loData = locationRepository.findByLocation(data.getToLocation());
+
+				if (loData.isPresent()) {
+					uploadingCharge = loData.get().getUploadingCharge() * data.getOgpnoarray().size();
+				}
+
+				data.getOgpnoarray().stream().forEach(r -> {
+					Delivery delivery = deliveryRepository.findByLRNo(r);
+					if (Objects.nonNull(delivery)) {
+						duCharge.add(Integer.parseInt(delivery.getDemurrage()));
+					}
+
+				});
+				entity.setDemurage(String.valueOf(duCharge.stream().reduce(0, (a, b) -> a + b)));
+
+				LinkedList<Object[]> bookings = bookingRepository.getOgplDetailedReportPOPUP(data.getOgpnoarray());
+				for (Object[] str : bookings) {
+
+					entity.setOgplNo(data.getOgplNo());
+					entity.setTotLR(("" + str[6]).replace("null", "-"));
+					entity.setPaid(("" + str[0]).replace("null", "-"));
+					entity.setToPay(("" + str[1]).replace("null", "-"));
+					entity.setFright(("" + str[2]).replace("null", "-"));
+					entity.setLoading(("" + str[3]).replace("null", "-"));
+					entity.setBookingDiscount(("" + str[4]).replace("null", "-"));
+					entity.setDeliveryDiscount(("" + str[5]).replace("null", "-"));
+					entity.setFuel(Objects.nonNull(chargeData)
+							? String.valueOf(Integer.parseInt(chargeData.getValue()) * data.getOgpnoarray().size())
+							: "-");
+					entity.setUnloading(String.valueOf(uploadingCharge));
+					entity.setLrNumber(String.join(",", data.getOgpnoarray()));
+
+					detailReports.add(entity);
+
+				}
+			}
+
+			model.addAttribute("OGPL", detailReports);
+			setAllLocationListInModel(model);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "OGPLDetailedReportPOP";
+
+	}
+	
+	
 }

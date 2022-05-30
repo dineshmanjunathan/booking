@@ -110,4 +110,8 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	@Query(value="select sum(o.paid) as paid,sum(o.topay) as topay,sum(o.freightvalue) as freightvalue,sum(o.loadingcharges) as loadingcharges,sum(o.discount) as discount,sum(o.delivery_discount) as delivery_discount from t_booking o where o.lr_number in :list",nativeQuery = true)
 	LinkedList<Object[]> getOgplDetailedReport(@Param("list") ArrayList<String> list); 
 	
+	@Transactional
+	@Query(value="select o.paid as paid,o.topay as topay,o.freightvalue as freightvalue,o.loadingcharges as loadingcharges,o.discount as discount,o.delivery_discount as delivery_discount,o.lr_number from t_booking o where o.lr_number in :list",nativeQuery = true)
+	LinkedList<Object[]> getOgplDetailedReportPOPUP(@Param("list") ArrayList<String> list); 
+	
 }

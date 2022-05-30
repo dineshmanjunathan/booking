@@ -3,8 +3,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="header.jsp"%>
+<link rel="stylesheet"
+	href="../../fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
 
+<!-- STYLE CSS -->
+<link rel="stylesheet" href="../../css/incoming/style.css">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" href="../../css/buttons.bootstrap5.min.css">
+<link rel="stylesheet" href="../../css/select.bootstrap5.min.css">
+<link rel="stylesheet" href="../../css/printjs/print.min.css">
+
+<script src="../../js/jquery-3.5.1.js"></script>
+<script src="../../js/main.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/dataTables.bootstrap5.min.js"></script>
+<script src="../../js/dataTables.buttons.min.js"></script>
+<script src="../../js/buttons.bootstrap5.min.js"></script>
+<script src="../../js/buttons.html5.min.js"></script>
+<script src="../../js/dataTables.select.min.js"></script>
+<script src="../../js/pdfmake.min.js"></script>
+<script src="../../js/vfs_fonts.js"></script>
+<script src="../../js/jszip.min.js"></script>
+<script src="../../js/printjs/print.min.js"></script>
 </head>
 <style>
 @media (max-width: 767px)
@@ -28,28 +50,12 @@
 		<div class="inner" style=" padding-left: 4%; ">
 			<div id="reportArea">
 				<h3><b>OGPL Report</b></h3>
-				<div class="row control-margin">
-					<div class="col-md-12">
-						<a class="btn btn-primary button-margin" href="/menu">Back</a>
-					</div>
-				</div>
-				<div class="row control-margin" style="margin-top: 15px;margin-bottom: 15px">
-					<div class="col-md-12">
-					OGPL No :	<input type="text" id="ogpl" name="ogpl" placeholder="OGPL No">
-					
-				&nbsp;&nbsp;&nbsp;	From Date :	<input type="date" id="fromDate" name="fromDate" placeholder="From Date">
-				&nbsp;&nbsp;&nbsp;	To Date :	<input type="date" id="toDate" name="toDate" placeholder="To Date">
-				&nbsp;&nbsp;&nbsp;		<button
-														class="btn btn-primary button-margin col-md-2"
-														onclick="getreport();"> Show </button>
-					</div>
-				</div>
+				
 				
 				<table id="data-table" class="table table-striped" style="width:100%">
 					<thead>
 						<tr>
 							
-							<!-- <th scope="col">Booked on</th> -->
 							<th scope="col">OGPL No</th>
 							<th scope="col">Total LR</th>
 							<th scope="col">Paid</th>
@@ -61,7 +67,6 @@
 							<th scope="col">Demurage</th>
 							<th scope="col">Booking Discount</th>
 							<th scope="col">Delivery Discount</th>
-							<th scope="col">Action</th>
 							
 							
 						</tr>
@@ -81,9 +86,7 @@
 								<td>${details.demurage}</td>
 								<td>${details.bookingDiscount}</td>
 								<td>${details.deliveryDiscount}</td>
-								<td>	<button type="button" style="width: auto"
-														class="btn btn-primary button-margin col-md-2" id="bclear"
-														onclick="getreportPOP(${details.ogplNo});">Show</button></td>
+								
 							
 							</tr>
 						</c:forEach>
@@ -142,19 +145,19 @@ function getCurrentDate() {
     return [year, month, day].join('-');
 }
 
+</script>
 
-function getreportPOP(ogpl) {
-	
-
-
-	window.open('/report/ogplConsolidatedFilterReportPOPUp?ogpl='+ogpl,'popUpWindow','height=500,width=1000,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
-	
-
-
-
-
-
-}
+<script >
+$(document).ready(function() {
+    $('#data-table').DataTable({
+    	dom: 'Bfrtip',
+    	buttons: [
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+    });
+} );
 </script>
 </body>
 <!-- This templates was made by Colorlib (https://colorlib.com) -->
