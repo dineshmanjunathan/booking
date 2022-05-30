@@ -167,11 +167,15 @@ public class ReportController {
 				List<Integer> duCharge = new ArrayList<Integer>();
 				Charge chargeData = chargeRepository.findByFromLocationAndToLocationAndChargetype(
 						data.getFromLocation(), data.getToLocation(), "FUEL CHARGES");
+			Optional<Location> loData = locationRepository.findById(data.getFromLocation());
 
-				Optional<Location> loData = locationRepository.findByLocation(data.getToLocation());
+				
 
+				
 				if (loData.isPresent()) {
 					uploadingCharge = loData.get().getUploadingCharge() * data.getOgpnoarray().size();
+					
+					System.out.println(uploadingCharge+"---------------");
 				}
 
 				data.getOgpnoarray().stream().forEach(r -> {
