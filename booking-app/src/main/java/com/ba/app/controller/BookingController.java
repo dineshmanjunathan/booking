@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -468,7 +469,23 @@ public class BookingController {
 			} else {
 				ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(fromLocation, toLocation);
 			}
-			model.addAttribute("ogplList", ogplList);
+			
+			
+			List<OutgoingParcel> finalList=new ArrayList<OutgoingParcel>();
+
+			List<List<OutgoingParcel>> fullList = ogplList.stream()
+			                .collect(Collectors.groupingBy(OutgoingParcel::getOgplNo)) // Or another collector
+			                .entrySet()
+			                .stream()
+			                .map(Map.Entry::getValue)
+			                .collect(Collectors.toList());
+
+			for(List<OutgoingParcel> data:fullList)
+			{
+				finalList.add(data.get(0));
+			}
+			
+			model.addAttribute("ogplList", finalList);
 			/*
 			 * if (ogplList != null && ogplList.size() > 0) { OutgoingParcel og =
 			 * ogplList.get(0); model.addAttribute("fromLocation", og.getToLocation());
@@ -1101,7 +1118,7 @@ public class BookingController {
 			list.add("P");
 			list.add("A");
 			List<Booking> incomingList = bookingRepository
-					.findByLrNumberInAndIgplStatusIn(outgoingParcel.getOgpnoarray(), list);
+					.getByLrNumberInAndIgplStatusIn(outgoingParcel.getOgpnoarray(), list);
 
 			model.addAttribute("incomeparcelList", incomingList);
 			model.addAttribute("incomeparcel", outgoingParcel);
@@ -1120,7 +1137,22 @@ public class BookingController {
 				ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(fromLocation, toLocation);
 
 			}
-			model.addAttribute("ogplList", ogplList);
+			
+			List<OutgoingParcel> finalList=new ArrayList<OutgoingParcel>();
+
+			List<List<OutgoingParcel>> fullList = ogplList.stream()
+			                .collect(Collectors.groupingBy(OutgoingParcel::getOgplNo)) // Or another collector
+			                .entrySet()
+			                .stream()
+			                .map(Map.Entry::getValue)
+			                .collect(Collectors.toList());
+
+			for(List<OutgoingParcel> data:fullList)
+			{
+				finalList.add(data.get(0));
+			}
+			
+			model.addAttribute("ogplList", finalList);
 
 			setAllLocationListInModel(model);
 			setAllVehileListInModel(model);
