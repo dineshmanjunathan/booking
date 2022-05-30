@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.ba.app.dto.OgplDetailReport;
 import com.ba.app.entity.Booking;
 import com.ba.app.entity.Charge;
 import com.ba.app.entity.Delivery;
