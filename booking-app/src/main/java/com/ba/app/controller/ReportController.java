@@ -25,7 +25,6 @@ import com.ba.app.entity.Charge;
 import com.ba.app.entity.Delivery;
 import com.ba.app.entity.Location;
 import com.ba.app.entity.OutgoingParcel;
-import com.ba.app.mobileapp.dto.OgplDetailReport;
 import com.ba.app.model.BookingRepository;
 import com.ba.app.model.ChargeRepository;
 import com.ba.app.model.DeliveryRepository;
