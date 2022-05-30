@@ -61,6 +61,12 @@
 						id="location" placeholder="Location" value="${location.location}"
 						required>
 				</div>
+				
+				<div class="form-row">
+					<input type="text" class="form-control" name="uploadingCharge"
+						id="uploadingCharge" placeholder="Un Loading Charges " value="${location.uploadingCharge}"
+						required>
+				</div>
 				<textarea name="address" id="address" placeholder="Address"
 					class="form-control" style="height: 130px;">${location.address}</textarea>
 				<br>

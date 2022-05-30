@@ -13,6 +13,7 @@ public class LocationVo implements Serializable {
 	private String id;
 	private String location;
 	private String address;
+	private Integer uploadingCharge;
 	private LocalDateTime createon = LocalDateTime.now();
 	private LocalDateTime updatedon = LocalDateTime.now();
 

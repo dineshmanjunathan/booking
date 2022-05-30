@@ -30,6 +30,7 @@
 							<th scope="col">Code</th>
 							<th scope="col">Location</th>
 							<th scope="col">Address</th>
+							<th scope="col">Unload Charge</th>
 							<th scope="col">Action</th>
 						</tr>
 					</thead>
@@ -41,6 +42,8 @@
 								<td>${details.id}</td>
 								<td>${details.location}</td>
 								<td>${details.address}</td>
+								<td>${details.uploadingCharge}</td>
+								
 								<td><a class="btn btn-primary button-margin"
 									href="/location/edit/${details.id}" id="${details.id}">Edit</a>
 									<a class="btn btn-primary button-margin"
