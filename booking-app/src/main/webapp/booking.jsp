@@ -17,6 +17,7 @@
 </style>
 <script type="text/javascript" charset="utf-8">
 var discountValue=0;
+var freightChargesCheck=0;
 
 	function selectPayOption() {
 		var e = document.getElementById("payOption");
@@ -162,10 +163,13 @@ var discountValue=0;
 							var firstValue = val[0];
 							var secondValue = val[1];
 							var thirdValue = val[2];
+							var itemcount = document
+							.getElementById("item_count").value;
 
 							if (firstValue.includes("FREIGHT") == true) {
 								var fv = firstValue.split((/[=]+/))[1];
-								document.getElementById("freightvalue").value = fv;
+								freightChargeCheck=fv;
+								document.getElementById("freightvalue").value = fv*itemcount;
 								$("#freightvalue").attr({
 									"min" : fv
 								});
@@ -180,9 +184,6 @@ var discountValue=0;
 								document.getElementById("doorpickcharges").value = secondValue
 										.split((/[=]+/))[1];
 							}
-
-							var itemcount = document
-									.getElementById("item_count").value;
 
 							if (firstValue.includes("LOADING CHARGES") == true) {
 								var charge = firstValue.split((/[=]+/))[1];
@@ -277,12 +278,16 @@ var discountValue=0;
 			}
 		});
 	}
+	 function freightAmtCheck(){
+		 var frieght = Number(document.getElementById("freightvalue").value);
+		 if (frieght < frieghtChargeCheck) {
+		 alert('Frieght value should not be less than  '+frieghtChargeCheck);
+		 }
+		 }
+
 	function sumAmount() {
 		var option = document.getElementById("loadingchargespay").value;
 		var frieght = Number(document.getElementById("freightvalue").value);
-		if (frieght < 200) {
-			alert('Frieght value should not be less than 200');
-		}
 		var loading = Number(document.getElementById("loadingcharges").value);
 		var doorPick = Number(document.getElementById("doorpickcharges").value);
 		let total = frieght + loading + doorPick;
@@ -632,7 +637,7 @@ function lrNumberUpdate() {
 													<div class="col-sm-8">
 														<input type="number" max="99" class="form-control"
 															id="item_count" name="item_count"
-															value="${booking.item_count}" onchange="getDiscountValue(this)" oninput="getCharges();"
+															value="${booking.item_count}" onchange="getDiscountValue(this); freightAmtCheck();" oninput="getCharges();"
 															required>
 													</div>
 												</div>
