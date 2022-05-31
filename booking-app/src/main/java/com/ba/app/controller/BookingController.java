@@ -726,7 +726,7 @@ public class BookingController {
 			if (booking != null && booking.getOgplNo() != null) {
 
 				if (booking.getCurrentLocation().equals(booking.getToLocation()) && booking.getPointStatus() == 2) {
-					Inventory inventory = inventoryRepository.findByOgplNo(booking.getOgplNo());
+					Inventory inventory = inventoryRepository.findByOgplNo(booking.getOgplNo()).get(0);
 
 					if (Objects.nonNull(booking.getTopay())) {
 						topayValue = true;
@@ -1571,7 +1571,7 @@ public class BookingController {
 			if (booking != null && booking.getOgplNo() != null) {
 
 				if (booking.getCurrentLocation().equals(booking.getToLocation()) && booking.getPointStatus() == 2) {
-					Inventory inventory = inventoryRepository.findByOgplNo(booking.getOgplNo());
+					Inventory inventory = inventoryRepository.findByOgplNo(booking.getOgplNo()).get(0);
 
 					if (Objects.nonNull(booking.getTopay())) {
 						topayValue = true;
