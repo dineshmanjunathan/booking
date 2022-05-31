@@ -1165,6 +1165,8 @@ public class BookingController {
 				finalList.add(data.get(0));
 			}
 			
+			
+
 			model.addAttribute("ogplList", finalList);
 
 			setAllLocationListInModel(model);
