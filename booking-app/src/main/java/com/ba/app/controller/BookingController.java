@@ -761,6 +761,19 @@ public class BookingController {
 					delivery.setDemurrage("" + charge);
 				}
 			}
+			
+			Optional<Location> loData = locationRepository.findById(booking.getToLocation());
+			Integer uploadingCharge=0;
+			
+			if (loData.isPresent()) {
+			 uploadingCharge = (int) (loData.get().getUploadingCharge()*booking.getItem_count());
+			}
+			
+
+			model.addAttribute("unloadingCharges", uploadingCharge);
+
+			
+			
 			setAllVehileListInModel(model);
 			setAllLocationListInModel(model);
 			model.addAttribute("delivery", delivery);

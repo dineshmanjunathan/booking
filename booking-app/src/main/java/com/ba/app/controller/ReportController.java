@@ -169,14 +169,11 @@ public class ReportController {
 				List<Integer> duCharge = new ArrayList<Integer>();
 				Charge chargeData = chargeRepository.findByFromLocationAndToLocationAndChargetype(
 						data.getFromLocation(), data.getToLocation(), "FUEL CHARGES");
-			Optional<Location> loData = locationRepository.findById(data.getFromLocation());
 
-				
+				Optional<Location> loData = locationRepository.findById(data.getToLocation());
 
-				
 				if (loData.isPresent()) {
-					uploadingCharge = loData.get().getUploadingCharge() * data.getOgpnoarray().size();
-					
+					uploadingCharge = loData.get().getUploadingCharge();
 				}
 
 				data.getOgpnoarray().stream().forEach(r -> {
@@ -202,7 +199,8 @@ public class ReportController {
 					entity.setFuel(Objects.nonNull(chargeData)
 							? String.valueOf(Integer.parseInt(chargeData.getValue()) * data.getOgpnoarray().size())
 							: "-");
-					entity.setUnloading(String.valueOf(uploadingCharge));
+					entity.setUnloading(String.valueOf(uploadingCharge *  Integer.parseInt((""+str[6]).replace("null", "0"))));
+
 					entity.setLrNumber(String.join(",", data.getOgpnoarray()));
 
 					detailReports.add(entity);
@@ -254,10 +252,10 @@ public class ReportController {
 				Charge chargeData = chargeRepository.findByFromLocationAndToLocationAndChargetype(
 						data.getFromLocation(), data.getToLocation(), "FUEL CHARGES");
 
-				Optional<Location> loData = locationRepository.findByLocation(data.getToLocation());
+				Optional<Location> loData = locationRepository.findById(data.getToLocation());
 
 				if (loData.isPresent()) {
-					uploadingCharge = loData.get().getUploadingCharge() * data.getOgpnoarray().size();
+					uploadingCharge = loData.get().getUploadingCharge();
 				}
 
 				data.getOgpnoarray().stream().forEach(r -> {
@@ -270,8 +268,9 @@ public class ReportController {
 				entity.setDemurage(String.valueOf(duCharge.stream().reduce(0, (a, b) -> a + b)));
 
 				LinkedList<Object[]> bookings = bookingRepository.getOgplDetailedReport(data.getOgpnoarray());
+				
+				
 				for (Object[] str : bookings) {
-
 					entity.setOgplNo(data.getOgplNo());
 					entity.setTotLR(String.valueOf(data.getOgpnoarray().size()));
 					entity.setPaid(("" + str[0]).replace("null", "-"));
@@ -283,7 +282,11 @@ public class ReportController {
 					entity.setFuel(Objects.nonNull(chargeData)
 							? String.valueOf(Integer.parseInt(chargeData.getValue()) * data.getOgpnoarray().size())
 							: "-");
-					entity.setUnloading(String.valueOf(uploadingCharge));
+					
+
+					
+					
+					entity.setUnloading(String.valueOf(uploadingCharge *  Integer.parseInt((""+str[6]).replace("null", "0"))));
 					entity.setLrNumber(String.join(",", data.getOgpnoarray()));
 
 					detailReports.add(entity);
@@ -339,7 +342,7 @@ public class ReportController {
 			 chargeData = chargeRepository.findByFromLocationAndToLocationAndChargetype(
 						data.getFromLocation(), data.getToLocation(), "FUEL CHARGES");
 
-				Optional<Location> loData = locationRepository.findByLocation(data.getToLocation());
+				Optional<Location> loData = locationRepository.findById(data.getToLocation());
 
 				if (loData.isPresent()) {
 					uploadingCharge = loData.get().getUploadingCharge();
@@ -357,6 +360,7 @@ public class ReportController {
 				
 			}
 
+			Integer totUnloadCharges=0;
 				LinkedList<Object[]> bookings = bookingRepository.getOgplDetailedReportPOPUP(lrArray);
 				for (Object[] str : bookings) {
 					OgplDetailReport entity = new OgplDetailReport();
@@ -373,7 +377,7 @@ public class ReportController {
 					entity.setFuel(Objects.nonNull(chargeData)
 							? String.valueOf(Integer.parseInt(chargeData.getValue()))
 							: "-");
-					entity.setUnloading(String.valueOf(uploadingCharge));
+					entity.setUnloading(String.valueOf(uploadingCharge *  Integer.parseInt(""+str[7])));
 
 					detailReports.add(entity);
 

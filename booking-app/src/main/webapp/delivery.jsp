@@ -416,7 +416,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="text" class="form-control"
-															name="unloadingCharges" id="unloadingCharges" >
+															name="unloadingCharges" id="unloadingCharges" value="${unloadingCharges}">
 												</div>
 												</div>
 												<div class="row element-margin">
