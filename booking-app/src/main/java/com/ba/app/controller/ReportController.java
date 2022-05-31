@@ -1,8 +1,10 @@
 package com.ba.app.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -302,6 +304,10 @@ public class ReportController {
 	@RequestMapping(value="/report/ogplConsolidatedFilterReportPOPUp")
 	public String ogplConsolidatedFilterReportPOPUp(@Param("ogpl") Long ogpl,HttpServletRequest request, ModelMap model) {
 		try {
+			
+			Map<String,Integer> duChargeMap=new HashMap<String, Integer>();
+			
+			ArrayList<String> lrArray=new ArrayList<>();
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
 				return "login";
@@ -321,35 +327,42 @@ public class ReportController {
 			System.out.println(list.size());
 
 			List<Object> detailReports = new ArrayList<Object>();
+			
 
 			Integer uploadingCharge = 0;
+			Charge chargeData=null;
 
-			for (OutgoingParcel data : list) {
-				OgplDetailReport entity = new OgplDetailReport();
+			for (OutgoingParcel data : list) 
+			{
 
 				List<Integer> duCharge = new ArrayList<Integer>();
-				Charge chargeData = chargeRepository.findByFromLocationAndToLocationAndChargetype(
+			 chargeData = chargeRepository.findByFromLocationAndToLocationAndChargetype(
 						data.getFromLocation(), data.getToLocation(), "FUEL CHARGES");
 
 				Optional<Location> loData = locationRepository.findByLocation(data.getToLocation());
 
 				if (loData.isPresent()) {
-					uploadingCharge = loData.get().getUploadingCharge() * data.getOgpnoarray().size();
+					uploadingCharge = loData.get().getUploadingCharge();
 				}
 
 				data.getOgpnoarray().stream().forEach(r -> {
 					Delivery delivery = deliveryRepository.findByLRNo(r);
 					if (Objects.nonNull(delivery)) {
-						duCharge.add(Integer.parseInt(delivery.getDemurrage()));
+						duChargeMap.put(r,Integer.parseInt(delivery.getDemurrage()));
 					}
 
 				});
-				entity.setDemurage(String.valueOf(duCharge.stream().reduce(0, (a, b) -> a + b)));
+				
+				 lrArray=data.getOgpnoarray();
+				
+			}
 
-				LinkedList<Object[]> bookings = bookingRepository.getOgplDetailedReportPOPUP(data.getOgpnoarray());
+				LinkedList<Object[]> bookings = bookingRepository.getOgplDetailedReportPOPUP(lrArray);
 				for (Object[] str : bookings) {
+					OgplDetailReport entity = new OgplDetailReport();
 
-					entity.setOgplNo(data.getOgplNo());
+					entity.setDemurage((String.valueOf(duChargeMap.get(str[6]))).replace("null", "-"));
+					entity.setOgplNo(ogpl);
 					entity.setTotLR(("" + str[6]).replace("null", "-"));
 					entity.setPaid(("" + str[0]).replace("null", "-"));
 					entity.setToPay(("" + str[1]).replace("null", "-"));
@@ -358,15 +371,15 @@ public class ReportController {
 					entity.setBookingDiscount(("" + str[4]).replace("null", "-"));
 					entity.setDeliveryDiscount(("" + str[5]).replace("null", "-"));
 					entity.setFuel(Objects.nonNull(chargeData)
-							? String.valueOf(Integer.parseInt(chargeData.getValue()) * data.getOgpnoarray().size())
+							? String.valueOf(Integer.parseInt(chargeData.getValue()))
 							: "-");
 					entity.setUnloading(String.valueOf(uploadingCharge));
-					entity.setLrNumber(String.join(",", data.getOgpnoarray()));
 
 					detailReports.add(entity);
 
 				}
-			}
+			
+System.out.println(detailReports.toString());
 
 			model.addAttribute("OGPL", detailReports);
 			setAllLocationListInModel(model);
