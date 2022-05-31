@@ -114,7 +114,7 @@
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp; 
 					<input type="date" class="form-control" id="bookedOn"
-						name="bookedOn" placeholder="Date" value="${bookedOn}">
+						name="bookedOn" placeholder="Date">
 						&nbsp;&nbsp; 
 					<a class="btn btn-primary button-margin" id="import"
 						onclick="return getSearchParcel();">Import</a>
