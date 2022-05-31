@@ -164,7 +164,7 @@ var discountValue=0;
 							var thirdValue = val[2];
 
 							if (firstValue.includes("FREIGHT") == true) {
-								var fv = firstValue.split((/[=]+/))[1]
+								var fv = firstValue.split((/[=]+/))[1];
 								document.getElementById("freightvalue").value = fv;
 								$("#freightvalue").attr({
 									"min" : fv
@@ -318,9 +318,12 @@ var discountValue=0;
 		if (option == 'TOPAY') {
 			document.getElementById("topay").value = Math.round(roundOff);
 			document.getElementById("cash").disabled=true;
+			document.getElementById("refund").value="";
+			document.getElementById("refund").disabled=true;
 		} else if (option == 'PAID') {
 			document.getElementById("paid").value = Math.round(roundOff);
 			document.getElementById("cash").disabled=false;
+			document.getElementById("refund").readOnly=true;
 		}
 		
 		document.getElementById("total").value = Math.round(roundOff);
@@ -362,7 +365,7 @@ var discountValue=0;
 						|| value.name == 'doorpickcharges'|| value.name == 'billValue'|| value.name == 'weight'|| value.name=='bookedOn' 
 						|| value.name=='billOptions' || value.name=='item_count' || value.name=='weight' || value.name=='payOption' || value.name=='loadingchargespay' 
 						|| value.name=='doorpickchargespay' || value.name=='total' || value.name=='cash' || value.name=='refund' || value.name=='invNo' || value.name=='billNumber'
-						|| value.name=='bookedBy' || value.name=='fromLocation' || value.name=='toLocation'){
+						|| value.name=='bookedBy' || value.name=='fromLocation' || value.name=='toLocation' || value.name=='discount'){
 				} else {
 					if(value.name=='fromdummy'){
 						
@@ -602,22 +605,22 @@ function lrNumberUpdate() {
 
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="to_phone">To Phone
-															No</label>
+														<label class="form-label" for="from_phone">From
+															Phone No</label>
 													</div>
 													<div class="col-sm-8">
 														<input type="tel" placeholder="1234567890" pattern="[0-9]{10}" class="form-control"
-															id="to_phone" name="to_phone" value="${booking.to_phone}"
-															onblur="checkToNameExists();" required>
+															id="from_phone" name="from_phone" value="${booking.from_phone}"
+															onblur="checkFromNameExists();" required>
 													</div>
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="toName">To Name</label>
+														<label class="form-label" for="fromName">From Name</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="tel" class="form-control" id="toName"
-															name="toName" maxlength="30" value="${booking.toName}" required>
+														<input type="text" class="form-control" id="fromName"
+															name="fromName" maxlength="30" value="${booking.fromName}" oninput="this.value=this.value.toUpperCase(this);" required>
 													</div>
 												</div>
 
@@ -719,7 +722,7 @@ function lrNumberUpdate() {
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="remarks">Discount</label>
+														<label class="form-label" for="remarks">Booking Discount</label>
 													</div>
 													<div class="col-sm-8">
 														<input type="text" maxlength="180" class="form-control"
@@ -768,23 +771,24 @@ function lrNumberUpdate() {
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="from_phone">From
-															Phone No</label>
+														<label class="form-label" for="to_phone">To Phone
+															No</label>
 													</div>
 													<div class="col-sm-8">
 														<input type="tel"
-															class="form-control" placeholder="1234567890" pattern="[0-9]{10}" id="from_phone" name="from_phone"
-															value="${booking.from_phone}"
-															onblur="checkFromNameExists();" required>
+															class="form-control" placeholder="1234567890" pattern="[0-9]{10}" id="to_phone" name="to_phone"
+															value="${booking.to_phone}"
+															onblur="checkToNameExists();" required>
 													</div>
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="fromName">From Name</label>
+														<label class="form-label" for="toName">To Name</label>
 													</div>
 													<div class="col-sm-8">
 														<input type="text" maxlength="30" class="form-control"
-															id="fromName" name="fromName" value="${booking.fromName}"
+															id="toName" name="toName" value="${booking.toName}"
+															oninput="this.value=this.value.toUpperCase(this);"
 															required>
 													</div>
 												</div>
@@ -795,7 +799,7 @@ function lrNumberUpdate() {
 													</div>
 													<div class="col-sm-8">
 														<input type="text" maxlength="180" class="form-control"
-															id="remarks" name="remarks" value="${booking.remarks}" required>
+															id="remarks" name="remarks" value="${booking.remarks}"  oninput="this.value=this.value.toUpperCase(this);" required>
 													</div>
 												</div>
 												<div class="row element-margin">
