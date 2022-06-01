@@ -38,7 +38,7 @@
  height: auto;
  }
  #data-table_wrapper {
- border: solid 2px black;
+
  border-radius: 12px;
  padding-left: 20px;
  padding-top: 10px;
@@ -58,6 +58,15 @@ $(document).ready(function() {
             'csvHtml5',
             'pdfHtml5'
         ]
+    });
+} );
+
+$(document).ready(function() {
+    $('#data-table-without-pdf').DataTable({
+    	dom: 'Bfrtip',
+    	buttons: [
+            'excelHtml5',
+            'csvHtml5'        ]
     });
 } );
 </script>

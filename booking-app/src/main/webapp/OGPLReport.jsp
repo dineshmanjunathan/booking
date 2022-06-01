@@ -29,7 +29,7 @@
 							<th scope="col">To</th>
 							<th scope="col">Vehicle No</th>
 							<th scope="col">Driver</th>
-							<th scope="col">Conductor</th>
+							<th scope="col">Load Incharge</th>
 							<th scope="col">Prepared by</th>
 							<th scope="col">Pay Type</th>
 							<th scope="col">Freight Value</th>

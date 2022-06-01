@@ -234,7 +234,7 @@
 					&nbsp;
 					<div class="form-holder">
 						<select name="conductor" id="conductor" class="form-control"disabled>
-							<option value="">-Conductor-</option>
+							<option value="">-Load Incharge-</option>
 							<c:forEach var="options" items="${conductorList}"
 								varStatus="status">
 								<option value="${options.id}"

@@ -168,7 +168,7 @@ var freightChargesCheck=0;
 
 							if (firstValue.includes("FREIGHT") == true) {
 								var fv = firstValue.split((/[=]+/))[1];
-								freightChargeCheck=fv;
+								freightChargesCheck=fv;
 								document.getElementById("freightvalue").value = fv*itemcount;
 								$("#freightvalue").attr({
 									"min" : fv
@@ -515,7 +515,21 @@ function lrNumberUpdate() {
 	
 	
 }	   	
-	   	
+function validate() {
+	var itemcount = freightChargesCheck * document.getElementById("item_count").value;
+	if((itemcount) > parseInt(document.getElementById("freightvalue").value) || 
+			document.getElementById("freightvalue").value=="")
+		{
+		document.getElementById("freightvalue").value="";
+
+		alert('Freight value should not be less than  '+itemcount);
+		return false;
+		}
+	
+	
+	
+	return confirm('Are you sure you want to save?');
+}	   	
 </script>
 </head>
 
@@ -534,7 +548,7 @@ function lrNumberUpdate() {
 							<div class="blog-details-inner">
 							<span id="error"></span>
 								<form name="bookingForm" action="/booking/save" method="POST"
-									onload="disabledFieldsOnLoad();" id="bookingForm" onsubmit="return confirm('Are you sure you want to save?');">
+									onload="disabledFieldsOnLoad();" id="bookingForm" onsubmit="return validate();">
 									<input type="hidden" class="form-control" name="bid" id="bid"
 										value="${booking.id}">
 									<p style="color: red" align="center">${errormsg}</p>

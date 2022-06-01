@@ -9,7 +9,7 @@
 
 <body>
 	<div class="wrapper">
-		<div class="inner" style="padding-left: 4%;">
+		<div class="" style="padding-left: 4%;width:100%">
 
 			<form action="">
 				<h3>
@@ -20,7 +20,7 @@
 						<a class="btn btn-primary button-margin" href="/menu">Back</a>
 					</div>
 				</div>
-				<table id="data-table" class="table table-striped"
+				<table id="data-table-without-pdf" class="table table-striped"
 					style="width: 100%">
 					<thead>
 						<tr>

@@ -16,7 +16,7 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
 			<form action="">
-				<h3><b>Manage Conductor</b></h3>
+				<h3><b>Manage Load Incharge</b></h3>
 				<p style="color: green" align="center">${successMessage}</p>
 				<p style="color: red" align="center">${errormsg}</p>
 				<div class="row control-margin">

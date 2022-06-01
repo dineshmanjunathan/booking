@@ -115,7 +115,7 @@
 				<div class="form-row">
 					<input type="text" class="form-control" id="ogplno" value="${outgoingparcel.ogplNo}" placeholder="OGPL NO" readonly>
 					<div class="form-holder">
-						<select name="deliveredBy" id="deliveredBy" class="form-control">
+						<select name="deliveredBy" id="deliveredBy" class="form-control" required>
 							<option value="" disabled selected>Delivered By</option>
 				
 								<option value="class 01"
@@ -129,7 +129,7 @@
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-holder">
 						<select id="vehicleNo" name="vehicleNo"
-							class="form-control">
+							class="form-control" required>
 							<option value="">-Vehicle No-</option>
 							<c:forEach var="options1" items="${vehicleList}"
 								varStatus="status">
@@ -187,7 +187,7 @@
 				<br>
 				<div class="form-row">	
 					<div class="form-holder">
-						<select name="driver" id="driver" class="form-control">
+						<select name="driver" id="driver" class="form-control" required>
 							<option value="">-Driver-</option>
 							<c:forEach var="options" items="${driverList}"
 								varStatus="status">
@@ -198,8 +198,8 @@
 					</div>					
 					&nbsp;&nbsp;
 					<div class="form-holder">
-						<select name="conductor" id="conductor" class="form-control">
-							<option value="">-Conductor-</option>
+						<select name="conductor" id="conductor" class="form-control" required>
+							<option value="">-Load Incharge-</option>
 							<c:forEach var="options" items="${conductorList}"
 								varStatus="status">
 								<option value="${options.id}"
@@ -210,7 +210,7 @@
 					&nbsp;&nbsp;
 										   
 						<input type="text" id="preparedBy" name="preparedBy"
-						class="form-control" placeholder="Prepared By" value="${outgoingparcel.preparedBy}">
+						class="form-control" placeholder="Prepared By" value="${outgoingparcel.preparedBy}"required>
 				</div>
 				<textarea id="details" name="details" placeholder="Details" 
 					class="form-control" style="height: 130px;">${outgoingparcel.details}</textarea>

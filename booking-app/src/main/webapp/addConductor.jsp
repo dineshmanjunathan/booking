@@ -37,7 +37,7 @@
 			</c:choose>
 			<form action="${action}" method="post">
 				<h3>
-					<b>Manage Conductor</b>
+					<b>Manage Load Incharge</b>
 				</h3>
 				<p style="color: red" align="center">${errormsg}</p>
 				<c:choose>

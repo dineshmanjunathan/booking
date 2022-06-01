@@ -239,7 +239,7 @@
 							<svg class="bi" width="1em" height="1em">
 								<use xlink:href="#collection" /></svg>
 						</div>
-						<h5>Manage Conductor</h5>
+						<h5>Manage Load Incharge</h5>
 						<p></p>
 						<a href="/conductorListing" class="icon-link"> Click here <svg
 								class="bi" width="1em" height="1em">
