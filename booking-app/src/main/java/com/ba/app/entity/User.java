@@ -10,6 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +23,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "t_user")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable {
 	
 	/**
@@ -27,19 +33,36 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonInclude(Include.NON_NULL)
 	private Long id;
+	@JsonInclude(Include.NON_NULL)
 	private String userId;
+	@JsonInclude(Include.NON_NULL)
 	private String name;
+	@JsonInclude(Include.NON_NULL)
 	private String email;
+	@JsonInclude(Include.NON_NULL)
 	private Long phonenumber;
+	@JsonInclude(Include.NON_NULL)
 	private String password;
+	@JsonInclude(Include.NON_NULL)
 	private LocalDateTime createon = LocalDateTime.now();
+	@JsonInclude(Include.NON_NULL)
 	private LocalDateTime updatedon = LocalDateTime.now();
+	@JsonInclude(Include.NON_NULL)
 	private String role;
+	@JsonInclude(Include.NON_NULL)
 	private String memberStatus;
 	@OneToOne()
 	@JoinColumn(name = "location_code")
+	@JsonInclude(Include.NON_NULL)
 	private Location location;
+	@JsonInclude(Include.NON_NULL)
 	private String loginStatus;
+	
+	@Transient
+	@JsonInclude(Include.NON_NULL)
+	private String token;
+	
 		
 }
