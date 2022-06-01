@@ -181,7 +181,7 @@ public class ReportController {
 				data.getOgpnoarray().stream().forEach(r -> {
 					Delivery delivery = deliveryRepository.findByLRNo(r);
 					if (Objects.nonNull(delivery)) {
-						duCharge.add(Integer.parseInt(delivery.getDemurrage()));
+						duCharge.add(Integer.parseInt(delivery.getDemurrage().isEmpty()?"0":delivery.getDemurrage()));
 					}
 
 				});
@@ -264,7 +264,7 @@ public class ReportController {
 				data.getOgpnoarray().stream().forEach(r -> {
 					Delivery delivery = deliveryRepository.findByLRNo(r);
 					if (Objects.nonNull(delivery)) {
-						duCharge.add(Integer.parseInt(delivery.getDemurrage()));
+						duCharge.add(Integer.parseInt(delivery.getDemurrage().isEmpty()?"0":delivery.getDemurrage()));
 					}
 
 				});
@@ -343,7 +343,7 @@ public class ReportController {
 				data.getOgpnoarray().stream().forEach(r -> {
 					Delivery delivery = deliveryRepository.findByLRNo(r);
 					if (Objects.nonNull(delivery)) {
-						duChargeMap.put(r, Integer.parseInt(delivery.getDemurrage()));
+						duChargeMap.put(r, Integer.parseInt(delivery.getDemurrage().isEmpty()?"0":delivery.getDemurrage()));
 					}
 
 				});
