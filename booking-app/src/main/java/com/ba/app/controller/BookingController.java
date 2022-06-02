@@ -187,12 +187,12 @@ public class BookingController {
 			if (phoneNumber != null && phoneNumber > 0) {
 				Customer customer = customerRepository.findByAllPhoneNumber(bookingVo.getFrom_phone());
 				if (customer != null) {
-					customer.setCustName(bookingVo.getFromName());
+					customer.setCustName(bookingVo.getFromName().toUpperCase());
 					customerRepository.save(customer);
 				}
 			} else {
 				Customer customer = new Customer();
-				customer.setCustName(bookingVo.getFromName());
+				customer.setCustName(bookingVo.getFromName().toUpperCase());
 				customer.setPhoneNumber(bookingVo.getFrom_phone());
 				customerRepository.save(customer);
 			}
@@ -1715,8 +1715,10 @@ public class BookingController {
 
 			if (Objects.nonNull(customer)) {
 				customer.setDiscount(customerRequest.getDiscount());
+				customer.setCustName(customerRequest.getCustName().toUpperCase());
 				customer = customerRepository.save(customer);
 			} else {
+				customerRequest.setCustName(customerRequest.getCustName().toUpperCase());
 				customer = customerRepository.save(customerRequest);
 			}
 
