@@ -143,9 +143,15 @@ var freightChargesCheck=0;
 			document.getElementById("doorpickcharges").readOnly  = true;
 			document.getElementById("freightvalue").value=0;
 			document.getElementById("loadingcharges").value=0;
-			document.getElementById("doorpickcharges").value=0;	
+			document.getElementById("doorpickcharges").value=0;
+			document.getElementById("total").value=0;
+			document.getElementById("discount").value=0;
+			document.getElementById("cash").value=0;
+			document.getElementById("refund").value=0;
+			freightChargesCheck=0;
 			return true;
 		}
+		
 		$.ajax({
 			url : "/getCharges",
 			type : "POST",
@@ -211,6 +217,18 @@ var freightChargesCheck=0;
 										+ XMLHttpRequest.statusText);
 					}
 				});
+		if(payOption=='FS'){
+			document.getElementById("loadingcharges").readOnly  = true;
+			document.getElementById("doorpickcharges").readOnly  = true;
+			document.getElementById("freightvalue").value=0;
+			document.getElementById("loadingcharges").value=0;
+			document.getElementById("doorpickcharges").value=0;
+			
+			freightChargesCheck=0;
+		
+			
+			return true;
+		}
 	}
 	function getLoadingCharges() {
 		var fromLocation = document.getElementById("fromLocation").value;
@@ -525,8 +543,11 @@ function validate() {
 		alert('Freight value should not be less than  '+itemcount);
 		return false;
 		}
-	
-	
+	var refund=document.getElementById("refund").value;
+	if(refund<=0){
+		alert("refund should not be negative");
+		return false;
+	}
 	
 	return confirm('Are you sure you want to save?');
 }	   	

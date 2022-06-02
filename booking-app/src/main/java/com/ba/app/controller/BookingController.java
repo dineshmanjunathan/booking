@@ -632,17 +632,15 @@ public class BookingController {
 
 			model.addAttribute("outgoingList", outgoingList);
 			
-			OutgoingParcel outgoingParcel = new OutgoingParcel();
-			outgoingParcel.setFromLocation(fromLocation);
-			outgoingParcel.setToLocation(toLocation);
+			
 		
 			
-			model.addAttribute("outgoingparcel", outgoingParcel);
 			
 			
 			List<OutgoingParcel> outgoingParcelList = outgoingParcelRepository.findByFromLocationAndToLocationForOGPL(fromLocation,toLocation);
 			
-			
+			model.addAttribute("outgoingparcel", outgoingParcelList.get(0));
+
 			model.addAttribute("outgoingparcelOgpl", outgoingParcelList);
 			setAllLocationListInModel(model);
 			setAllVehileListInModel(model);
@@ -655,6 +653,73 @@ public class BookingController {
 		return "outgoingParcel";
 	}
 
+	
+	@RequestMapping(value = "get/outgoingParcelWithOldOgplFilter", method = RequestMethod.GET)
+	public String outgoingParcelWithOldOgplFilter(@RequestParam("fromLocation") String fromLocation,
+			@RequestParam("toLocation") String toLocation,@RequestParam("ogpl") long ogpl, HttpServletRequest request, ModelMap model) {
+		try {
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
+
+			ConnectionPoint connectionPoint = connectionPointRepository.findByFromLocationAndCheckPoint(fromLocation,
+					toLocation);
+			List<Booking> connOutgoingList = null;
+			List<Booking> outgoingList = null;
+			outgoingList = bookingRepository.getOGPLlist(fromLocation, toLocation);
+
+			System.out.println("connectionPoint-->" + connectionPoint);
+			if (connectionPoint != null && connectionPoint.getCheckPoint() != null) {
+				System.out.println("connectionPoint.getCheckPoint()-->" + connectionPoint.getCheckPoint());
+
+				connOutgoingList = bookingRepository.getOGPLlist1(fromLocation, connectionPoint.getToLocation());
+
+			} else {
+				connectionPoint = connectionPointRepository.findByToLocationAndCheckPoint(toLocation, fromLocation);
+				if (connectionPoint != null && connectionPoint.getCheckPoint() != null) {
+					connOutgoingList = bookingRepository.getOGPLlist2(connectionPoint.getFromLocation(), toLocation,
+							fromLocation);
+
+				} else {
+					outgoingList = new ArrayList<Booking>();
+					connOutgoingList = bookingRepository.getOGPLlist3(fromLocation, toLocation);
+
+					if (Objects.nonNull(connOutgoingList.get(0).getOgplNo())) {
+
+						connOutgoingList = bookingRepository.getOGPLlist2(connectionPoint.getFromLocation(), toLocation,
+								fromLocation);
+					}
+
+				}
+			}
+
+			outgoingList.addAll(connOutgoingList);
+
+			model.addAttribute("outgoingList", outgoingList);
+			
+			
+		
+			
+			
+			
+			List<OutgoingParcel> outgoingParcelList = outgoingParcelRepository.findByFromLocationAndToLocationForOGPL(fromLocation,toLocation);
+			
+			
+			
+			model.addAttribute("outgoingparcel", outgoingParcelRepository.findByOgplNo(ogpl));
+
+			model.addAttribute("outgoingparcelOgpl", outgoingParcelList);
+			setAllLocationListInModel(model);
+			setAllVehileListInModel(model);
+			setAllConductorListInModel(model);
+			setAllDriverListInModel(model);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed to Import Parcel!");
+		}
+		return "outgoingParcel";
+	}
+	
 	private void setAllVehileListInModel(ModelMap model) {
 		Iterable<Vehicle> vechileIterable = vehicleRepository.findAll();
 		model.addAttribute("vehicleList", vechileIterable);

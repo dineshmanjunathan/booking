@@ -69,7 +69,23 @@
 		 });
 
 		})
-		
+	function getOgplDetails(ogpl)
+	{
+		let from = $("#fromLocation").val();
+		if (!from) {
+			alert("Please select From Location");
+			return false;
+		}
+		let to = $("#toLocation").val();
+		if (!to) {
+			alert("Please select To Location");
+			return false;
+		}
+		//let bookedOn = $("#bookedOn").val();
+		window.location.href = "/get/outgoingParcelWithOldOgplFilter?fromLocation=" + from
+				+ "&toLocation=" + to+"&ogpl="+ogpl.value;
+	}
+	
 </script>
 </head>
 
@@ -131,16 +147,16 @@
 				</div>
 				<div class="form-row">
 			<div class="form-holder">
-			<select id="ogplNo" name="ogplNo"
+			<select id="ogplNo" name="ogplNo" onchange="getOgplDetails(this)"
 							class="form-control" required>
 							<c:forEach var="options5" items="${outgoingparcelOgpl}"
-								varStatus="status">
-								<option value="${options5.ogplNo}">${options5.ogplNo}</option>
+								varStatus="status" >
+								<option value="${options5.ogplNo}" ${options5.ogplNo==outgoingparcel.ogplNo ? 'selected="selected"':''}>${options5.ogplNo}</option>
 							</c:forEach>
 						</select>
 				</div>		
 				&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="checkbox" id="usingOldOgpl"> Use to created Ogpl			
+			<input type="checkbox" id="usingOldOgpl"> Use to Created Ogpl			
 					
 					<%-- <input type="text" class="form-control" id="ogplno" value="${outgoingparcel.ogplNo}" placeholder="OGPL NO" readonly> --%>
 					<div class="form-holder">
@@ -284,6 +300,12 @@
 		 
 		});
 
+	
+	if(${outgoingparcelOgpl.size()} > 0 && document.getElementById("ogplNo").value !=0)
+	{
+		document.getElementById("usingOldOgpl").checked=true;
+	}
+	
 	</script>
 </body>
 <!-- This templates was made by Colorlib (https://colorlib.com) -->
