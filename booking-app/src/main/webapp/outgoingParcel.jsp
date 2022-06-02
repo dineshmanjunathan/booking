@@ -27,6 +27,23 @@
 		window.location.href = "/get/outgoingParcel?fromLocation=" + from
 				+ "&toLocation=" + to;
 	}
+	
+	function getSearchParcelOgpl() {
+		let from = $("#fromLocation").val();
+		if (!from) {
+			alert("Please select From Location");
+			return false;
+		}
+		let to = $("#toLocation").val();
+		if (!to) {
+			alert("Please select To Location");
+			return false;
+		}
+		//let bookedOn = $("#bookedOn").val();
+		window.location.href = "/get/outgoingParcelWithOldOgpl?fromLocation=" + from
+				+ "&toLocation=" + to;
+	}
+	
 	/* function today() {
 		document.getElementById("bookedOn").valueAsDate = new Date();
 	}
@@ -113,7 +130,19 @@
 						onclick="return getSearchParcel();">Import</a>
 				</div>
 				<div class="form-row">
-					<input type="text" class="form-control" id="ogplno" value="${outgoingparcel.ogplNo}" placeholder="OGPL NO" readonly>
+			<div class="form-holder">
+			<select id="ogplNo" name="ogplNo"
+							class="form-control" required>
+							<c:forEach var="options5" items="${outgoingparcelOgpl}"
+								varStatus="status">
+								<option value="${options5.ogplNo}">${options5.ogplNo}</option>
+							</c:forEach>
+						</select>
+				</div>		
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" id="usingOldOgpl"> Use to created Ogpl			
+					
+					<%-- <input type="text" class="form-control" id="ogplno" value="${outgoingparcel.ogplNo}" placeholder="OGPL NO" readonly> --%>
 					<div class="form-holder">
 						<select name="deliveredBy" id="deliveredBy" class="form-control" required>
 							<option value="" disabled selected>Delivered By</option>
@@ -239,7 +268,21 @@
 	
 	<script type="text/javascript">
 	
+	$(document).ready(function() {
+		  //set initial state.
+	 $('#usingOldOgpl').change(function() {
+        if(this.checked) {
+        	getSearchParcelOgpl();
+        }
+        else
+        {
+        	getSearchParcel();
+        }
+          
+    });
 
+		 
+		});
 
 	</script>
 </body>

@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -559,7 +560,90 @@ public class BookingController {
 			OutgoingParcel outgoingParcel = new OutgoingParcel();
 			outgoingParcel.setFromLocation(fromLocation);
 			outgoingParcel.setToLocation(toLocation);
+		
+			
 			model.addAttribute("outgoingparcel", outgoingParcel);
+			
+			OutgoingParcel outgoingParcelForOgpl = new OutgoingParcel();
+			outgoingParcel.setFromLocation(fromLocation);
+			outgoingParcel.setToLocation(toLocation);
+			outgoingParcel.setOgplNo(0);
+			
+			List<OutgoingParcel> outgoingParcelList=new ArrayList<OutgoingParcel>();
+			
+			outgoingParcelList.add(outgoingParcel);
+			
+			model.addAttribute("outgoingparcelOgpl", outgoingParcelList);
+
+			
+			setAllLocationListInModel(model);
+			setAllVehileListInModel(model);
+			setAllConductorListInModel(model);
+			setAllDriverListInModel(model);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed to Import Parcel!");
+		}
+		return "outgoingParcel";
+	}
+	
+	
+	
+	@RequestMapping(value = "get/outgoingParcelWithOldOgpl", method = RequestMethod.GET)
+	public String outgoingParcelWithOldOgpl(@RequestParam("fromLocation") String fromLocation,
+			@RequestParam("toLocation") String toLocation, HttpServletRequest request, ModelMap model) {
+		try {
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
+
+			ConnectionPoint connectionPoint = connectionPointRepository.findByFromLocationAndCheckPoint(fromLocation,
+					toLocation);
+			List<Booking> connOutgoingList = null;
+			List<Booking> outgoingList = null;
+			outgoingList = bookingRepository.getOGPLlist(fromLocation, toLocation);
+
+			System.out.println("connectionPoint-->" + connectionPoint);
+			if (connectionPoint != null && connectionPoint.getCheckPoint() != null) {
+				System.out.println("connectionPoint.getCheckPoint()-->" + connectionPoint.getCheckPoint());
+
+				connOutgoingList = bookingRepository.getOGPLlist1(fromLocation, connectionPoint.getToLocation());
+
+			} else {
+				connectionPoint = connectionPointRepository.findByToLocationAndCheckPoint(toLocation, fromLocation);
+				if (connectionPoint != null && connectionPoint.getCheckPoint() != null) {
+					connOutgoingList = bookingRepository.getOGPLlist2(connectionPoint.getFromLocation(), toLocation,
+							fromLocation);
+
+				} else {
+					outgoingList = new ArrayList<Booking>();
+					connOutgoingList = bookingRepository.getOGPLlist3(fromLocation, toLocation);
+
+					if (Objects.nonNull(connOutgoingList.get(0).getOgplNo())) {
+
+						connOutgoingList = bookingRepository.getOGPLlist2(connectionPoint.getFromLocation(), toLocation,
+								fromLocation);
+					}
+
+				}
+			}
+
+			outgoingList.addAll(connOutgoingList);
+
+			model.addAttribute("outgoingList", outgoingList);
+			
+			OutgoingParcel outgoingParcel = new OutgoingParcel();
+			outgoingParcel.setFromLocation(fromLocation);
+			outgoingParcel.setToLocation(toLocation);
+		
+			
+			model.addAttribute("outgoingparcel", outgoingParcel);
+			
+			
+			List<OutgoingParcel> outgoingParcelList = outgoingParcelRepository.findByFromLocationAndToLocationForOGPL(fromLocation,toLocation);
+			
+			
+			model.addAttribute("outgoingparcelOgpl", outgoingParcelList);
 			setAllLocationListInModel(model);
 			setAllVehileListInModel(model);
 			setAllConductorListInModel(model);
@@ -916,7 +1000,9 @@ public class BookingController {
 	@RequestMapping(value = "/ogpl/save", method = RequestMethod.POST)
 	public String saveOutgoingParcel(HttpServletRequest request, OutgoingParcelVo outgoingParcelVo, ModelMap model) {
 		try {
-
+			
+			Boolean ogplStatus=false;
+			long ogplNo=0;
 			Boolean connectionPonitStatus = false;
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
@@ -924,8 +1010,20 @@ public class BookingController {
 			OutgoingParcel outgoingParcel = new OutgoingParcel();
 
 			BeanUtils.copyProperties(outgoingParcelVo, outgoingParcel);
-
-			long ogplNo = Utils.getOrderNumber();
+			
+			if(Long.parseLong(outgoingParcelVo.getOgplNo()) ==0 || Objects.isNull(outgoingParcelVo.getOgplNo()))
+			{
+				ogplNo = Utils.getOrderNumber();
+			}
+			else
+			{
+				ogplNo=Long.parseLong(outgoingParcelVo.getOgplNo());
+				
+				ogplStatus=true;
+			
+				
+			}
+			 
 			List<Booking> outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
 			for (Booking booking : outgoingList) {
 				connectionPonitStatus = false;
@@ -957,8 +1055,28 @@ public class BookingController {
 				outgoingParcel.setOgplNo(ogplNo);
 				String sCurrentDate = Utils.getStringCurrentDatewithFormat("YYYY-MM-dd");
 				outgoingParcel.setBookedOn(sCurrentDate);
+				
+				
+				if(ogplStatus)
+				{
+					OutgoingParcel	outgoingParcelNew=outgoingParcelRepository.findByOgplNo(ogplNo);
+					
+					ArrayList<String> ogplArray=outgoingParcelNew.getOgpnoarray();
+					ArrayList<String> newOgpls=outgoingParcel.getOgpnoarray();
+					
+					ArrayList<String> combinedList = Stream.of(ogplArray, newOgpls)
+	                        .flatMap(x -> x.stream())
+	                        .collect(Collectors
+	                                .toCollection(ArrayList::new));
+				    
+					outgoingParcelNew.setOgpnoarray(combinedList.stream().distinct().collect(Collectors
+                            .toCollection(ArrayList::new)));
+					
+					outgoingParcelRepository.save(outgoingParcelNew);
+				}else
+				{
 				outgoingParcelRepository.save(outgoingParcel);
-
+				}
 			}
 			model.addAttribute("outgoingsuccessmessage", "Parcel Out Successfully");
 			model.addAttribute("ogplno", "OGPL Number : " + ogplNo);

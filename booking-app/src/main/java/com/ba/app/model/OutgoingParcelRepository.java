@@ -32,4 +32,8 @@ public interface OutgoingParcelRepository extends CrudRepository<OutgoingParcel,
 	
 	@Query(value ="select * from t_outgoing_parcel where CAST(ogpl_no as text) like (?1) and cast(booked_on as date) between cast(?2 as date) and cast(?3 as date)",nativeQuery = true)
 	List<OutgoingParcel> findByDateandOgpl(String ogpl,String fromDate,String toDate);
+	
+	@Query(value="select * from t_outgoing_parcel where from_location =?1 and to_location =?2 and booked_on = cast(current_date as varchar)",nativeQuery=true)
+	List<OutgoingParcel> findByFromLocationAndToLocationForOGPL(String fromLocation,String toLocation);
+	
 }
