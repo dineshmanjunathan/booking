@@ -660,7 +660,8 @@ function validate() {
 													</div>
 													<div class="col-sm-8">
 														<input type="text" class="form-control" id="fromName"
-															name="fromName" maxlength="30" value="${booking.fromName}" oninput="this.value=this.value.toUpperCase(this);" required>
+															name="fromName" maxlength="30"  pattern="[A-Z.]+" value="${booking.fromName}" 
+															oninput="this.value=this.value.toUpperCase(this);" required>
 													</div>
 												</div>
 
@@ -827,8 +828,8 @@ function validate() {
 													</div>
 													<div class="col-sm-8">
 														<input type="text" maxlength="30" class="form-control"
-															id="toName" name="toName" value="${booking.toName}"
-															oninput="this.value=this.value.toUpperCase(this);"
+															id="toName" name="toName" pattern="[A-Z.]+"  value="${booking.toName}"
+															oninput="this.value=this.value.toUpperCase(this);" 
 															required>
 													</div>
 												</div>
@@ -874,7 +875,7 @@ function validate() {
 													</div>
 													<div class="col-sm-8">
 														<input type="text" maxlength="32" class="form-control"
-															id="invNo" name="invNo" value="${booking.invNo}" required>
+															id="invNo" name="invNo" value="${booking.invNo}" oninput="this.value=this.value.toUpperCase(this);" required>
 													</div>
 												</div>
 
