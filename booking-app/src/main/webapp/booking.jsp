@@ -544,7 +544,7 @@ function validate() {
 		return false;
 		}
 	var refund=document.getElementById("refund").value;
-	if(refund<=0){
+	if(refund<0){
 		alert("refund should not be negative");
 		return false;
 	}
@@ -896,7 +896,7 @@ function validate() {
 													</div>
 													<div class="col-sm-8">
 															<div class="input-group">
-															<input type="text" maxlength="12" minlength="12" class="form-control"
+															<input type="text" maxlength="12" minlength="12" pattern="[0-9.]+"  class="form-control"
 															id="billNumber" name="billNumber"
 															value="${booking.billNumber}" onkeyup="getBillValue();">
 														</div>
