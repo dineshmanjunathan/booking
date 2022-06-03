@@ -154,10 +154,9 @@
 								<option value="${options5.ogplNo}" ${options5.ogplNo==outgoingparcel.ogplNo ? 'selected="selected"':''}>${options5.ogplNo}</option>
 							</c:forEach>
 						</select>
-				</div>		
+				</div>
+				
 				&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="checkbox" id="usingOldOgpl"> Use to Created Ogpl			
-					
 					<%-- <input type="text" class="form-control" id="ogplno" value="${outgoingparcel.ogplNo}" placeholder="OGPL NO" readonly> --%>
 					<div class="form-holder">
 						<select name="deliveredBy" id="deliveredBy" class="form-control" required>
@@ -184,6 +183,10 @@
 						</select><i class="zmdi zmdi-chevron-down"></i>
 					</div>
 				</div>
+				
+			
+			<input type="checkbox" id="usingOldOgpl" width="40" height="40"> Update Ogpl
+			
 				<table id="data-table" class="table table-striped"
 					style="width: 100%">
 					<thead>
@@ -244,7 +247,7 @@
 					&nbsp;&nbsp;
 					<div class="form-holder">
 						<select name="conductor" id="conductor" class="form-control" required>
-							<option value="">-Load Incharge-</option>
+							<option value="">Load Incharge</option>
 							<c:forEach var="options" items="${conductorList}"
 								varStatus="status">
 								<option value="${options.id}"

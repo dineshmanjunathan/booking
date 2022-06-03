@@ -62,6 +62,8 @@ var freightChargesCheck=0;
 	}
 	function checkFromNameExists() {
 		document.getElementById("item_count").value = "";
+		discountValue =0;
+
 
 		var value = document.getElementById("from_phone").value;
 		if(!checkIfValidIndianMobileNumber(value)){
