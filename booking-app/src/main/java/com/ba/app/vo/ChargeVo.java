@@ -17,5 +17,10 @@ public class ChargeVo implements Serializable {
 	private String toLocation ;
 	private LocalDateTime createon = LocalDateTime.now();
 	private LocalDateTime updatedon = LocalDateTime.now();
+	
+	private String freight;
+	private String loading;
+	private String fuel;
+	
 
 }

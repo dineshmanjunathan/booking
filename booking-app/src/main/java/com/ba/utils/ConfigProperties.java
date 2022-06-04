@@ -1,8 +1,10 @@
 package com.ba.utils;
 
 public enum ConfigProperties {
-	
 	MOBILE_F_D_V("MobileNumberFirstDigitValidation"),
+	FREIGHT_CHARGES("FREIGHT"),
+	LOADING_CHARGES("LOADING CHARGES"),	
+	FUEL_CHARGES("FUEL CHARGES")	
 	;
 
 	

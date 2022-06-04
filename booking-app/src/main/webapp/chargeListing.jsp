@@ -31,11 +31,12 @@
 					style="width: 100%">
 					<thead>
 						<tr>
-							<th scope="col">Id</th>
 							<th scope="col">From Location</th>
 							<th scope="col">To Location</th>
-							<th scope="col">Charge Type</th>
-							<th scope="col">Charge Value</th>
+							<th scope="col">FREIGHT CHARGES</th>
+							<th scope="col">LOADING CHARGES</th>
+							<th scope="col">FUEL CHARGES</th>
+							<th scope="col">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -43,15 +44,16 @@
 							varStatus="status">
 							<tr>
 
-								<td>${details.id}</td>
 								<td>${details.fromLocation}</td>
 								<td>${details.toLocation}</td>
-								<td>${details.chargetype}</td>
-								<td>${details.value}</td>
+								<td>${details.freight}</td>
+								<td>${details.loading}</td>
+								<td>${details.fuel}</td>
+								
 								<td><a class="btn btn-primary button-margin"
-									href="/charge/edit/${details.id}" id="${details.id}">Edit</a> 
+									href="/chargeedit/${details.fromLocation}/${details.toLocation}">Edit</a> 
 									<a class="btn btn-primary button-margin"
-									href="/charge/delete/${details.id}">Delete</a></td>
+									href="/chargedelete/${details.fromLocation}/${details.toLocation}">Delete</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

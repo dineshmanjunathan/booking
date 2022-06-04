@@ -1,6 +1,8 @@
 package com.ba.app.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +28,7 @@ import com.ba.app.vo.BookedByVo;
 import com.ba.app.vo.ChargeVo;
 import com.ba.app.vo.ConductorVo;
 import com.ba.app.vo.DriverVo;
+import com.ba.utils.ConfigProperties;
 
 @Controller
 public class AdminController {
@@ -98,12 +101,58 @@ public class AdminController {
 		try {
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
-			Iterable<Charge> locaIterable = chargeRepository.findAll();
-			model.addAttribute("chargeListing", locaIterable);
+			List<Charge> locaIterable = chargeRepository.getAllChargeData();
+
+			
+			List<ChargeVo> listChargeVos = getListOfChargeData(locaIterable);
+			
+			
+			
+			model.addAttribute("chargeListing", listChargeVos);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "chargeListing";
+	}
+	private List<ChargeVo> getListOfChargeData(List<Charge> locaIterable) {
+		
+		String tempFromLocation="";
+		String tempToLocation="";
+		ChargeVo chargeVo=new ChargeVo();
+		
+		
+		
+		
+		List<ChargeVo> listChargeVos=new ArrayList<ChargeVo>();
+		for(Charge data:locaIterable)
+		{
+			if(!tempFromLocation.equals(data.getFromLocation()) || !tempToLocation.equals(data.getToLocation()))
+			{
+				 chargeVo=new ChargeVo();
+			}
+			
+			if(data.getChargetype().equals(ConfigProperties.FREIGHT_CHARGES.get()))
+			{
+				chargeVo.setFreight(data.getValue());
+			}
+			
+			if(data.getChargetype().equals(ConfigProperties.LOADING_CHARGES.get()))
+			{
+				chargeVo.setLoading(data.getValue());
+			}
+			
+			if(data.getChargetype().equals(ConfigProperties.FUEL_CHARGES.get()))
+			{
+				chargeVo.setFuel(data.getValue());
+			}
+			chargeVo.setFromLocation(data.getFromLocation());
+			chargeVo.setToLocation(data.getToLocation());
+			listChargeVos.add(chargeVo);
+			tempFromLocation=data.getFromLocation();
+			tempToLocation=data.getToLocation();
+			
+		}
+		return listChargeVos.stream().distinct().collect(Collectors.toList());
 	}
 	@RequestMapping(value = "/addDriver", method = RequestMethod.POST)
 	public String saveDelivery(HttpServletRequest request, DriverVo driverVo, ModelMap model) {
@@ -358,41 +407,71 @@ public class AdminController {
 		try {		
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
-			if(chargeVo!=null) {
-				try {
-					setAllLocationListInModel(model);
-					if(chargeVo.getFromLocation().equals(chargeVo.getToLocation())) {
-						model.addAttribute("errormsg", "From location and To location should not be the same!");
-						model.addAttribute("charge", chargeVo);
-						return "addCharge";
-					}
-					List<Charge> list = chargeRepository.findByChargetypeAndFromLocationAndToLocation(chargeVo.getChargetype(),chargeVo.getFromLocation(),chargeVo.getToLocation());
+			
+			List<Charge> inputList=new ArrayList<Charge>();
+			
+			Charge input=new Charge();
+			
+			if(!chargeVo.getFreight().isEmpty())
+			{
+				input=new Charge();
+				input.setFromLocation(chargeVo.getFromLocation());
+				input.setToLocation(chargeVo.getToLocation());
+				input.setChargetype(ConfigProperties.FREIGHT_CHARGES.get());
+				input.setValue(chargeVo.getFreight());
+				inputList.add(input);
+			}
+			
+			if(!chargeVo.getFuel().isEmpty())
+			{
+				input=new Charge();
+				input.setFromLocation(chargeVo.getFromLocation());
+				input.setToLocation(chargeVo.getToLocation());
+				input.setChargetype(ConfigProperties.FUEL_CHARGES.get());
+				input.setValue(chargeVo.getFuel());
+				inputList.add(input);
+			}
+			
+			if(!chargeVo.getLoading().isEmpty())
+			{
+				input=new Charge();
+				input.setFromLocation(chargeVo.getFromLocation());
+				input.setToLocation(chargeVo.getToLocation());
+				input.setChargetype(ConfigProperties.LOADING_CHARGES.get());
+				input.setValue(chargeVo.getLoading());
+				inputList.add(input);
+			}
+			
+			for(Charge data:inputList)
+			{
+				setAllLocationListInModel(model);
+				if(data.getFromLocation().equals(data.getToLocation())) {
+					model.addAttribute("errormsg", "From location and To location should not be the same!");
+					return "addCharge";
+				}
+				List<Charge> list = chargeRepository.findByChargetypeAndFromLocationAndToLocation(data.getChargetype(),data.getFromLocation(),data.getToLocation());
+				if(list!=null && list.size()>0) {
+					model.addAttribute("errormsg", "Charge Type is already exist! ");
+					return "addCharge";
+				}else {
+					list = chargeRepository.findByChargetypeAndToLocationAndFromLocation(chargeVo.getChargetype(),chargeVo.getFromLocation(),chargeVo.getToLocation());
 					if(list!=null && list.size()>0) {
 						model.addAttribute("errormsg", "Charge Type is already exist! ");
 						model.addAttribute("charge", chargeVo);
 						return "addCharge";
-					}else {
-						list = chargeRepository.findByChargetypeAndToLocationAndFromLocation(chargeVo.getChargetype(),chargeVo.getFromLocation(),chargeVo.getToLocation());
-						if(list!=null && list.size()>0) {
-							model.addAttribute("errormsg", "Charge Type is already exist! ");
-							model.addAttribute("charge", chargeVo);
-							return "addCharge";
-						}
 					}
-				} catch (Exception e) {
-					// do nothing
 				}
+				
 			}
-			Charge chargeEntity = new Charge();
+			
+			chargeRepository.saveAll(inputList);
+			
+			
+			List<Charge> locaIterable = chargeRepository.getAllChargeData();
+			
+			List<ChargeVo> listChargeVos = getListOfChargeData(locaIterable);
 
-			BeanUtils.copyProperties(chargeVo, chargeEntity, "createon", "updatedon");
-			chargeEntity = chargeRepository.save(chargeEntity);
-			
-			model.addAttribute("charge", chargeEntity);
-			model.addAttribute("successMessage", "Charge type successfully added");
-			
-			Iterable<Charge> locaIterable = chargeRepository.findAll();
-			model.addAttribute("chargeListing", locaIterable);
+			model.addAttribute("chargeListing", listChargeVos);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg", "Failed to add new location! ");
@@ -400,30 +479,73 @@ public class AdminController {
 		}
 		return "chargeListing";
 	}
-	@RequestMapping(value = "/charge/edit/{id}", method = RequestMethod.GET)
-	public String chargeEdit(@PathVariable("id") Long id, HttpServletRequest request, ModelMap model) {
+	@RequestMapping(value = "/chargeedit/{fromLocation}/{toLocation}", method = RequestMethod.GET)
+	public String chargeEdit(@PathVariable("fromLocation") String fromLocation, @PathVariable("toLocation") String toLocation, HttpServletRequest request, ModelMap model) {
 		try {
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
-			Charge chargeEntiry  = chargeRepository.findById(id).get();
-			ChargeVo chargeVo = new ChargeVo();
-			BeanUtils.copyProperties(chargeEntiry, chargeVo);
-			model.addAttribute("charge", chargeVo);
+			List<Charge> chargeEntiry  = chargeRepository.findByFromLocationAndToLocation(fromLocation, toLocation);
+			String tempFromLocation="";
+			String tempToLocation="";
+			
+ChargeVo chargeVo=new ChargeVo();
+			
+			List<ChargeVo> listChargeVos=new ArrayList<ChargeVo>();
+			for(Charge data:chargeEntiry)
+			{
+				if(!tempFromLocation.equals(data.getFromLocation()) && !tempToLocation.equals(data.getToLocation()))
+				{
+					 chargeVo=new ChargeVo();
+				}
+				
+				if(data.getChargetype().equals(ConfigProperties.FREIGHT_CHARGES.get()))
+				{
+					chargeVo.setFreight(data.getValue());
+				}
+				
+				if(data.getChargetype().equals(ConfigProperties.LOADING_CHARGES.get()))
+				{
+					chargeVo.setLoading(data.getValue());
+				}
+				
+				if(data.getChargetype().equals(ConfigProperties.FUEL_CHARGES.get()))
+				{
+					chargeVo.setFuel(data.getValue());
+				}
+				chargeVo.setFromLocation(data.getFromLocation());
+				chargeVo.setToLocation(data.getToLocation());
+				listChargeVos.add(chargeVo);
+				tempFromLocation=data.getFromLocation();
+				tempToLocation=data.getToLocation();
+				
+			}
+			
+			
+			model.addAttribute("charge", listChargeVos.get(0));
 			setAllLocationListInModel(model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "addCharge";
 	}
-	@RequestMapping(value = "/charge/delete/{id}", method = RequestMethod.GET)
-	public String chargeDelete(@PathVariable("id") Long id, HttpServletRequest request, ModelMap model) {
+	@RequestMapping(value = "/chargedelete/{fromLocation}/{toLocation}", method = RequestMethod.GET)
+	public String chargeDelete(@PathVariable("fromLocation") String fromLocation, @PathVariable("toLocation") String toLocation, HttpServletRequest request, ModelMap model) {
 		try {
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
-			chargeRepository.deleteById(id);
+			
+			List<Charge> listCharge=chargeRepository.findByFromLocationAndToLocation(fromLocation, toLocation);
+			
+			
+			for(Charge data:listCharge)
+			{
+			chargeRepository.deleteById(data.getId());
+			}
+			
 			model.addAttribute("successMessage", "Deleted Successfully");
-			Iterable<Charge> locaIterable = chargeRepository.findAll();
-			model.addAttribute("chargeListing", locaIterable);
+			List<Charge> locaIterable = chargeRepository.getAllChargeData();
+			
+			model.addAttribute("chargeListing", getListOfChargeData(locaIterable));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -434,42 +556,53 @@ public class AdminController {
 		try {			
 			//SESSION VALIDATION
 			if(sessionValidation(request, model)!=null) return "login";
-			if(chargeVo!=null) {
-				try {
-					setAllLocationListInModel(model);
-					if(chargeVo.getFromLocation().equals(chargeVo.getToLocation())) {
-						model.addAttribute("errormsg", "Two locations should not be the same!");
-						model.addAttribute("charge", chargeVo);
-						return "addCharge";
-					}
-					/*List<Charge> list = chargeRepository.findByChargetypeAndFromLocationAndToLocation(chargeVo.getChargetype(),chargeVo.getFromLocation(),chargeVo.getToLocation());
-					if(list!=null && list.size()>0) {
-						model.addAttribute("errormsg", "Charge Type is already exist! ");
-						model.addAttribute("charge", chargeVo);
-						return "addCharge";
-					}else {
-						list = chargeRepository.findByChargetypeAndToLocationAndFromLocation(chargeVo.getChargetype(),chargeVo.getFromLocation(),chargeVo.getToLocation());
-						if(list!=null && list.size()>0) {
-							model.addAttribute("errormsg", "Charge Type is already exist! ");
-							model.addAttribute("charge", chargeVo);
-							return "addCharge";
-						}
-					}*/
-				} catch (Exception e) {
-					// do nothing
+			
+			List<Charge> inputList=new ArrayList<Charge>();
+			
+			Charge input=new Charge();
+			
+			if(!chargeVo.getFreight().isEmpty())
+			{
+				input=chargeRepository.findByFromLocationAndToLocationAndChargetype(chargeVo.getFromLocation(), chargeVo.getToLocation(), ConfigProperties.FREIGHT_CHARGES.get());
+				input.setValue(chargeVo.getFreight());
+				inputList.add(input);
+			}
+			
+			if(!chargeVo.getFuel().isEmpty())
+			{
+				input=chargeRepository.findByFromLocationAndToLocationAndChargetype(chargeVo.getFromLocation(), chargeVo.getToLocation(), ConfigProperties.FUEL_CHARGES.get());
+
+				input.setValue(chargeVo.getFuel());
+				inputList.add(input);
+			}
+			
+			if(!chargeVo.getLoading().isEmpty())
+			{
+				input=chargeRepository.findByFromLocationAndToLocationAndChargetype(chargeVo.getFromLocation(), chargeVo.getToLocation(), ConfigProperties.LOADING_CHARGES.get());
+				input.setValue(chargeVo.getLoading());
+				inputList.add(input);
+			}
+			
+			for(Charge data:inputList)
+			{
+				setAllLocationListInModel(model);
+				if(data.getFromLocation().equals(data.getToLocation())) {
+					model.addAttribute("errormsg", "From location and To location should not be the same!");
+					model.addAttribute("charge", chargeVo);
+					return "addCharge";
 				}
 			}
-			Charge chargeEntity = new Charge();
-			//Long id = chargeVo.getId();
 			
-			BeanUtils.copyProperties(chargeVo, chargeEntity, "createon", "updatedon");
+			chargeRepository.saveAll(inputList);
 			
-			chargeEntity=	chargeRepository.save(chargeEntity);
-			model.addAttribute("successMessage", chargeEntity.getId()+" - Charge type updated! ");
-			//model.addAttribute("location", locationEntity);
-			Iterable<Charge> locaIterable = chargeRepository.findAll();
-			model.addAttribute("chargeListing", locaIterable);
-			// TODO SMS to member mobile number
+			
+			List<Charge> locaIterable = chargeRepository.getAllChargeData();
+			
+			List<ChargeVo> listChargeVos = getListOfChargeData(locaIterable);
+
+			model.addAttribute("chargeListing", listChargeVos);
+			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errormsg", "Failed to update charge type! ");
