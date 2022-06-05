@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ba.app.entity.User;
-import com.ba.app.mobile.jwt.util.BookAppResponse;
-import com.ba.app.mobile.jwt.util.CommonUtil;
+import com.ba.app.mobile.util.BookAppResponse;
+import com.ba.app.mobile.util.CommonUtil;
 import com.ba.app.model.UserRepository;
 
 @RestController

@@ -1,4 +1,4 @@
-package com.ba.app.mobile.jwt.util;
+package com.ba.app.mobile.util;
 
 public class CommonUtil {
 
