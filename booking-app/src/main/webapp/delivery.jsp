@@ -38,12 +38,18 @@
 	
 
 	function sumRefund() {
-		var total = Number(document.getElementById("total").value);
+		var total = Number(document.getElementById("amtToBePaid").value);
 		var cash = Number(document.getElementById("cash").value);
 		let refund = cash -total;
 		document.getElementById("refund").value = refund;
 	}
 	function save_confirm(){
+		if(document.getElementById("cash").value =="")
+			{
+			alert("Cash Field Should Not Be Empty");
+			return false;
+			}
+		
 		if (confirm('Are you sure you want to save?')) {
 			document.getElementById("status").disabled  = false;
 			document.getElementById("fromLocation").disabled  = false;
@@ -89,7 +95,7 @@
 			document.getElementById("doorDeliveryCharges").readOnly  = false;
 			var toPay=document.getElementById("toPay").value;
 			var paid=document.getElementById("paid").value;
-			if(toPay != ""){
+			if(toPay != "" ||  document.getElementById("amtToBePaid").value > 0 && document.getElementById("cash").value == ""){
 				document.getElementById("cash").readOnly = false;
 			}
 			else{
@@ -131,7 +137,7 @@
 		if(data != "")
 		{
 			document.getElementById("doorDeliveryCharges").disabled = true;
-			document.getElementById("cash").disabled = true;
+			document.getElementById("cash").readOnly = true;
 			
 
 		}
@@ -139,7 +145,8 @@
 		if(status=="D")
 			{
 			$('input[value="DELIVERED"]').prop("checked", true);
-
+			document.getElementById("cash").readOnly = true;
+			
 			}
 	}
 </script>
@@ -149,11 +156,11 @@
 <body onload="toggleFormElements(true)">
 	<div class="wrapper">
 		<div class="inner" style="width: 90%">
-			<div style="width: 15%;">
+			<div style="width: 1%;">
 				<h3>
-					<b>Delivery</b>
+				  <b>Delivery</b>
 				</h3>
-				<img src="../../img/product/parcel.jpg" alt="">
+				<!-- <img src="../../img/product/parcel.jpg" alt=""> -->
 			</div>
 			<b style="width: 5%;"></b>
 			<div class="blog-details-area mg-b-15">
@@ -200,6 +207,19 @@
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
+														<label class="form-label" for="from_phone">From
+															Phone No</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="tel"
+															class="form-control" placeholder="1234567890" pattern="[0-9]{10}" id="from_phone" name="from_phone"
+															value="${deliveryB.from_phone}"
+															 required>
+													</div>
+												</div>
+												
+												<div class="row element-margin">
+													<div class="col-sm-4">
 														<label class="form-label" for="txtName">To Name</label>
 													</div>
 													<div class="col-sm-8">
@@ -207,6 +227,20 @@
 															value="${deliveryB.toName}">
 													</div>
 												</div>
+												
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="to_phone">To Phone
+															No</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="tel" placeholder="1234567890" pattern="[0-9]{10}" class="form-control"
+															id="to_phone" name="to_phone" value="${deliveryB.to_phone}"
+															 required>
+													</div>
+												</div>
+												
+												
 												<%-- <div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtPaid">Paid</label>
@@ -281,29 +315,8 @@
 															value="${deliveryB.bookingNo}">
 													</div>
 												</div> --%>
-													<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="from_phone">From
-															Phone No</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="tel"
-															class="form-control" placeholder="1234567890" pattern="[0-9]{10}" id="from_phone" name="from_phone"
-															value="${deliveryB.from_phone}"
-															 required>
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="to_phone">To Phone
-															No</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="tel" placeholder="1234567890" pattern="[0-9]{10}" class="form-control"
-															id="to_phone" name="to_phone" value="${deliveryB.to_phone}"
-															 required>
-													</div>
-												</div>
+													
+												
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label for="txtOGPL" class="form-label">OGPL</label>
@@ -489,9 +502,19 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" name="total" id="total"
-															value="${deliveryB.total+delivery.demurrage-deliveryB.deliveryDiscount}">
+															value="${deliveryB.total+delivery.demurrage-deliveryB.deliveryDiscount+unloadingCharges}">
 															<input type="hidden" class="form-control" name="orgTotal" id="orgTotal"
-															value="${deliveryB.total+delivery.demurrage-deliveryB.deliveryDiscount}">
+															value="${deliveryB.total+delivery.demurrage-deliveryB.deliveryDiscount+unloadingCharges}">
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="txtTotal">Amt To be Paid</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="number" class="form-control" name="amtToBePaid" id="amtToBePaid"
+															value="${unloadingCharges+delivery.demurrage-deliveryB.deliveryDiscount+doorDeliveryCharges+deliveryB.topay}">
+									
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -500,7 +523,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" 
-															name="cash" id="cash" onblur="sumRefund();" required>
+															name="cash" id="cash" onblur="sumRefund();" value="${outItems.cash}" required>
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -509,8 +532,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="text" id="refund"
-															name="refund" class="form-control" name="refund"
-															>
+															name="refund" class="form-control" name="refund" value="${outItems.refund}">
 													</div>
 												</div>
 											</div>
@@ -550,17 +572,14 @@
 deliveryCheck("${deliveryB.fromName}","${deliveryB.igplStatus}");
 
 
-if(${delivery.demurrage} ||  ${delivery.demurrage} > 0)
+if(${delivery.demurrage} ||  ${delivery.demurrage} > 0 || ${topayValue} == true || document.getElementById("amtToBePaid").value > 0)
 {
 	
-	document.getElementById("cash").disabled  = false;
+	document.getElementById("cash").readOnly = false;
 }
 
 
-if(${topayValue} == true)
-{
-	document.getElementById("cash").disabled  = false;
-}
+
 
 
 

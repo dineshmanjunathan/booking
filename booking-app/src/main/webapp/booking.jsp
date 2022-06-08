@@ -459,13 +459,13 @@ var freightChargesCheck=0;
 			document.getElementById("invNo").disabled = false;
 			document.getElementById("billValue").disabled = false;
 			document.getElementById("billNumber").disabled = false;
-			document.getElementById("btnVerify").disabled = false;
+			/* document.getElementById("btnVerify").disabled = false; */
 			document.getElementById("btnSave").disabled = true;
 		} else {
 			document.getElementById("invNo").disabled = true;
 			document.getElementById("billValue").disabled = true;
 			document.getElementById("billNumber").disabled = true;
-			document.getElementById("btnVerify").disabled = true;
+			/* document.getElementById("btnVerify").disabled = true; */
 			document.getElementById("btnSave").disabled = false;
 		}
 	}
@@ -903,8 +903,8 @@ function validate() {
 															id="billNumber" name="billNumber"
 															value="${booking.billNumber}" onkeyup="getBillValue();">
 														</div>
-														<button type="button" class="btn btn-secondary btn-sm"
-																id="btnVerify">Verify</button>
+														<!-- <button type="button" class="btn btn-secondary btn-sm"
+																id="btnVerify">Verify</button> -->
 													</div>
 												</div>
 												<div class="row element-margin">

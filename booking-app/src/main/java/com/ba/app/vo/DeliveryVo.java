@@ -33,6 +33,7 @@ public class DeliveryVo implements Serializable {
 	private String total;
 	private String cash;
 	private String refund;
+	private String amtToBePaid;
 	private LocalDateTime createon;
 	private LocalDateTime updatedon;
 	

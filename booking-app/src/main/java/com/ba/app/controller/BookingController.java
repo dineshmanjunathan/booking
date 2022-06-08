@@ -922,9 +922,10 @@ public class BookingController {
 			model.addAttribute("unloadingCharges", uploadingCharge);
 
 			
-			
+			Delivery outItems=deliveryRepository.findByLRNo(lrNumber);
 			setAllVehileListInModel(model);
 			setAllLocationListInModel(model);
+			model.addAttribute("outItems", outItems);
 			model.addAttribute("delivery", delivery);
 			model.addAttribute("enabled", false);
 		} catch (Exception e) {
@@ -1806,8 +1807,11 @@ public class BookingController {
 					delivery.setDemurrage("" + charge);
 				}
 			}
+			
+		
 			setAllVehileListInModel(model);
 			setAllLocationListInModel(model);
+			
 			model.addAttribute("delivery", delivery);
 			model.addAttribute("enabled", false);
 		} catch (Exception e) {
