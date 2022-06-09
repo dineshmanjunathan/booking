@@ -25,7 +25,7 @@
 
 <body>
 	<div class="wrapper">
-		<div class="inner" style=" padding-left: 4%; ">
+		<div class="" style=" padding-left: 4%;width:100%; ">
 			<div id="reportArea">
 				<h3><b>OGPL Report</b></h3>
 				<div class="row control-margin">
