@@ -157,6 +157,8 @@ public class ReportController {
 			if (sessionValidation(request, model) != null)
 				return "login";
 
+			float total = 0.00f;
+
 			Iterable<OutgoingParcel> list = outgoingParcelRepository.findAll();
 
 			List<OgplDetailReport> detailReports = new ArrayList<OgplDetailReport>();
@@ -193,12 +195,12 @@ public class ReportController {
 
 					entity.setOgplNo(data.getOgplNo());
 					entity.setTotLR(String.valueOf(data.getOgpnoarray().size()));
-					entity.setPaid(("" + str[0]).replace("null", "-"));
-					entity.setToPay(("" + str[1]).replace("null", "-"));
-					entity.setFright(("" + str[2]).replace("null", "-"));
-					entity.setLoading(("" + str[3]).replace("null", "-"));
-					entity.setBookingDiscount(("" + str[4]).replace("null", "-"));
-					entity.setDeliveryDiscount(("" + str[5]).replace("null", "-"));
+					entity.setPaid(("" + str[0]).replace("null", "0.00"));
+					entity.setToPay(("" + str[1]).replace("null", "0.00"));
+					entity.setFright(("" + str[2]).replace("null", "0.00"));
+					entity.setLoading(("" + str[3]).replace("null", "0.00"));
+					entity.setBookingDiscount(("" + str[4]).replace("null", "0.00"));
+					entity.setDeliveryDiscount(("" + str[5]).replace("null", "0.00"));
 					entity.setFuel(Objects.nonNull(chargeData)
 							? String.valueOf(Integer.parseInt(chargeData.getValue()) * data.getOgpnoarray().size())
 							: "-");
@@ -214,13 +216,15 @@ public class ReportController {
 
 			List<OgplDetailReport> response = new ArrayList<OgplDetailReport>();
 
-			detailReports.stream().forEach(r -> {
-				try{
-				r.setTotalCost(Integer.parseInt(r.getPaid()));
-				} catch(NumberFormatException ex){ // handle your exception
-				}
+			for (OgplDetailReport r : detailReports) {
+
+				total = (Float.parseFloat(r.getPaid()) + Float.parseFloat(r.getToPay())
+						+ Float.parseFloat(r.getUnloading()) + Float.parseFloat(r.getDemurage()))
+						- Float.parseFloat(r.getDeliveryDiscount());
+
+				r.setTotalCost(String.valueOf(total));
 				response.add(r);
-			});
+			}
 
 			model.addAttribute("OGPL", response);
 			setAllLocationListInModel(model);
@@ -253,7 +257,7 @@ public class ReportController {
 
 			List<OutgoingParcel> list = query.getResultList();
 
-			List<Object> detailReports = new ArrayList<Object>();
+			List<OgplDetailReport> detailReports = new ArrayList<OgplDetailReport>();
 
 			Integer uploadingCharge = 0;
 
@@ -287,12 +291,12 @@ public class ReportController {
 				for (Object[] str : bookings) {
 					entity.setOgplNo(data.getOgplNo());
 					entity.setTotLR(String.valueOf(data.getOgpnoarray().size()));
-					entity.setPaid(("" + str[0]).replace("null", "-"));
-					entity.setToPay(("" + str[1]).replace("null", "-"));
-					entity.setFright(("" + str[2]).replace("null", "-"));
-					entity.setLoading(("" + str[3]).replace("null", "-"));
-					entity.setBookingDiscount(("" + str[4]).replace("null", "-"));
-					entity.setDeliveryDiscount(("" + str[5]).replace("null", "-"));
+					entity.setPaid(("" + str[0]).replace("null", "0.00"));
+					entity.setToPay(("" + str[1]).replace("null", "0.00"));
+					entity.setFright(("" + str[2]).replace("null", "0.00"));
+					entity.setLoading(("" + str[3]).replace("null", "0.00"));
+					entity.setBookingDiscount(("" + str[4]).replace("null", "0.00"));
+					entity.setDeliveryDiscount(("" + str[5]).replace("null", "0.00"));
 					entity.setFuel(Objects.nonNull(chargeData)
 							? String.valueOf(Integer.parseInt(chargeData.getValue()) * data.getOgpnoarray().size())
 							: "-");
@@ -306,7 +310,19 @@ public class ReportController {
 				}
 			}
 
-			model.addAttribute("OGPL", detailReports);
+			List<OgplDetailReport> response = new ArrayList<OgplDetailReport>();
+			float total=0.00f;
+			for (OgplDetailReport r : detailReports) {
+
+				total = (Float.parseFloat(r.getPaid()) + Float.parseFloat(r.getToPay())
+						+ Float.parseFloat(r.getUnloading()) + Float.parseFloat(r.getDemurage()))
+						- Float.parseFloat(r.getDeliveryDiscount());
+
+				r.setTotalCost(String.valueOf(total));
+				response.add(r);
+			}
+
+			model.addAttribute("OGPL", response);
 			setAllLocationListInModel(model);
 		} catch (Exception e) {
 			e.printStackTrace();

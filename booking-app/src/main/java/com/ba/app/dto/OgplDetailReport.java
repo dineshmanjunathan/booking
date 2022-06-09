@@ -21,7 +21,7 @@ public class OgplDetailReport {
 	private String bookingDiscount;
 	private String deliveryDiscount;
 	private String lrNumber;
-	private int totalCost;
+	private String totalCost;
 
 
 
