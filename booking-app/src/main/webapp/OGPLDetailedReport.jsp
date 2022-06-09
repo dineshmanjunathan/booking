@@ -61,6 +61,7 @@
 							<th scope="col">Demurage</th>
 							<th scope="col">Booking Discount</th>
 							<th scope="col">Delivery Discount</th>
+							<th scope="col">Total Cost</th>
 							<th scope="col">Action</th>
 							
 							
@@ -81,6 +82,10 @@
 								<td>${details.demurage}</td>
 								<td>${details.bookingDiscount}</td>
 								<td>${details.deliveryDiscount}</td>
+								
+								<td>${details.totalCost}</td>
+								
+								
 								<td>	<button type="button" style="width: auto"
 														class="btn btn-primary button-margin col-md-2" id="bclear"
 														onclick="getreportPOP(${details.ogplNo});">Show</button></td>

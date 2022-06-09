@@ -159,7 +159,7 @@ public class ReportController {
 
 			Iterable<OutgoingParcel> list = outgoingParcelRepository.findAll();
 
-			List<Object> detailReports = new ArrayList<Object>();
+			List<OgplDetailReport> detailReports = new ArrayList<OgplDetailReport>();
 
 			Integer uploadingCharge = 0;
 
@@ -181,7 +181,8 @@ public class ReportController {
 				data.getOgpnoarray().stream().forEach(r -> {
 					Delivery delivery = deliveryRepository.findByLRNo(r);
 					if (Objects.nonNull(delivery)) {
-						duCharge.add(Integer.parseInt(delivery.getDemurrage().isEmpty()?"0":delivery.getDemurrage()));
+						duCharge.add(
+								Integer.parseInt(delivery.getDemurrage().isEmpty() ? "0" : delivery.getDemurrage()));
 					}
 
 				});
@@ -211,7 +212,17 @@ public class ReportController {
 				}
 			}
 
-			model.addAttribute("OGPL", detailReports);
+			List<OgplDetailReport> response = new ArrayList<OgplDetailReport>();
+
+			detailReports.stream().forEach(r -> {
+				try{
+				r.setTotalCost(Integer.parseInt(r.getPaid()));
+				} catch(NumberFormatException ex){ // handle your exception
+				}
+				response.add(r);
+			});
+
+			model.addAttribute("OGPL", response);
 			setAllLocationListInModel(model);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -264,7 +275,8 @@ public class ReportController {
 				data.getOgpnoarray().stream().forEach(r -> {
 					Delivery delivery = deliveryRepository.findByLRNo(r);
 					if (Objects.nonNull(delivery)) {
-						duCharge.add(Integer.parseInt(delivery.getDemurrage().isEmpty()?"0":delivery.getDemurrage()));
+						duCharge.add(
+								Integer.parseInt(delivery.getDemurrage().isEmpty() ? "0" : delivery.getDemurrage()));
 					}
 
 				});
@@ -343,7 +355,8 @@ public class ReportController {
 				data.getOgpnoarray().stream().forEach(r -> {
 					Delivery delivery = deliveryRepository.findByLRNo(r);
 					if (Objects.nonNull(delivery)) {
-						duChargeMap.put(r, Integer.parseInt(delivery.getDemurrage().isEmpty()?"0":delivery.getDemurrage()));
+						duChargeMap.put(r,
+								Integer.parseInt(delivery.getDemurrage().isEmpty() ? "0" : delivery.getDemurrage()));
 					}
 
 				});

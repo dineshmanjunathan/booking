@@ -23,6 +23,10 @@
 
 
 <script type="text/javascript" charset="utf-8">
+function addDoorDeliveryToAMTP()
+{
+document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+delivery.demurrage-deliveryB.deliveryDiscount+deliveryB.topay})+parseInt(document.getElementById("doorDeliveryCharges").value);
+}
 	function getSearchParcel() {
 		/* var x = document.getElementById("searchSelection").selectedIndex;
 		var type = document.getElementsByTagName("option")[x].value; */
@@ -33,7 +37,7 @@
 		/* } else {
 			window.location.href = "/searchParcelName/" + value;
 		} */
-		toggleFormElements(false);
+		//toggleFormElements(false);
 	}
 	
 
@@ -134,26 +138,46 @@
 	}
 	
 	function  deliveryCheck(data,status) {
-		if(data != "")
-		{
-			document.getElementById("doorDeliveryCharges").disabled = true;
+		
+		var inputs = document.getElementsByTagName("input");
+		for (var i = 0; i < inputs.length; i++) {
+			inputs[i].readOnly  = true;
+		}
+		var inputs1 = document.getElementsByTagName("select");
+		for (var i = 0; i < inputs1.length; i++) {
+			inputs1[i].readOnly = true;
+		}
+		document.getElementById("txtSearch").readOnly  = false;
+		document.getElementById("doorDeliveryCharges").readOnly  = false;
+		var toPay=document.getElementById("toPay").value;
+		var paid=document.getElementById("paid").value;
+		
+		if(toPay != "" ||  document.getElementById("amtToBePaid").value > 0 && document.getElementById("cash").value == ""){
+			document.getElementById("cash").readOnly = false;
+		}
+		else{
 			document.getElementById("cash").readOnly = true;
-			
-
 		}
 		
+
 		if(status=="D")
 			{
 			$('input[value="DELIVERED"]').prop("checked", true);
 			document.getElementById("cash").readOnly = true;
-			
+			document.getElementById("doorDeliveryCharges").readOnly = true;
+			}
+		else
+			{
+			document.getElementById("doorDeliveryCharges").readOnly = false;
+			document.getElementById("cash").readOnly = false;
+
 			}
 	}
 </script>
 
 </head>
 <!-- style="overflow-y: hidden;overflow-x: hidden;" -->
-<body onload="toggleFormElements(true)">
+<body>
 	<div class="wrapper">
 		<div class="inner" style="width: 90%">
 			<div style="width: 1%;">
@@ -241,6 +265,7 @@
 												</div>
 												
 												
+												
 												<%-- <div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtPaid">Paid</label>
@@ -294,7 +319,7 @@
 															for="chkPrinted">Printed</label>
 													</div>
 												</div>
-												<div class="row element-margin">
+										<%-- 	 	<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtDeliveredBy">Delivered
 															By</label>
@@ -303,8 +328,8 @@
 														<input type="text" class="form-control" name="deliveredBy"
 															value="${deliveryI.deliveredBy}">
 													</div>
-												</div>
-											</div>
+												</div>  --%>
+											</div> 
 											<div class="col-md-4 control-margin">
 												<%-- <div class="row element-margin">
 													<div class="col-sm-4">
@@ -439,7 +464,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="text" class="form-control"
-															name="doorDeliveryCharges" id="doorDeliveryCharges" onblur="sumAmount();">
+															name="doorDeliveryCharges" id="doorDeliveryCharges" onchange="addDoorDeliveryToAMTP();" value="${delivery.doorDeliveryCharges}"  onblur="sumAmount();">
 													</div>
 												</div>
 												<div class="row element-margin">
@@ -513,7 +538,7 @@
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" name="amtToBePaid" id="amtToBePaid"
-															value="${unloadingCharges+delivery.demurrage-deliveryB.deliveryDiscount+doorDeliveryCharges+deliveryB.topay}">
+															value="${unloadingCharges+delivery.demurrage-deliveryB.deliveryDiscount+deliveryB.topay}">
 									
 													</div>
 												</div>
@@ -569,6 +594,10 @@
 <script type="text/javascript">
 
 
+
+
+
+
 deliveryCheck("${deliveryB.fromName}","${deliveryB.igplStatus}");
 
 
@@ -576,6 +605,7 @@ if(${delivery.demurrage} ||  ${delivery.demurrage} > 0 || ${topayValue} == true 
 {
 	
 	document.getElementById("cash").readOnly = false;
+	
 }
 
 
