@@ -16,7 +16,7 @@
 				<img src="../../img/product/parcel.jpg" alt="">
 			</div>
 			
-			      <form action = "UploadServlet" method = "post"
+			      <form action = "/uploadUserData" method = "post"
          enctype = "multipart/form-data">
          <h3>Upload User
          </h3>
@@ -28,7 +28,7 @@
 														<label class="form-label" for="weight">Select File</label>
 													</div>
 													<div class="col-sm-8">
-														         <input type = "file" name = "file" size = "50" />
+														         <input type = "file" name = "file" readonly/>
 														<br />
          														<input type = "submit" class="btn btn-primary button-margin"  value="submit" />
 																	</div>

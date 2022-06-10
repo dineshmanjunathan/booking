@@ -1,6 +1,8 @@
 package com.ba.app.controller;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,10 +21,11 @@ import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
+
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -1830,25 +1833,39 @@ public class BookingController {
 	@RequestMapping(value = "/uploadLocationData", method = RequestMethod.POST)
 	public String uploadLocationData(@RequestParam("file") MultipartFile file, ModelMap model) throws IOException {
 
-		if (file.isEmpty() || !file.getName().contains(".xlsx") || !file.getName().contains(".xls")) {
+		if (file.isEmpty()) {
 			model.addAttribute("errormsg", "Plese Choose the Excel File !");
 			return "massUploadMenu";
 		}
 		List<Location> locationList = new ArrayList<Location>();
+		
+		try {
 
-		HSSFWorkbook wb = new HSSFWorkbook(file.getInputStream());
-		for (Row row : wb.getSheetAt(0)) {
+		XSSFWorkbook wb = new XSSFWorkbook(file.getInputStream());
+		
+		
+		XSSFSheet sheet=wb.getSheetAt(0);
+
+		int i=0;
+
+		for (Row row:sheet) {
+			if(i!=0)
+			{
 			Location location = new Location();
 			location.setId(row.getCell(0).getStringCellValue());
 			location.setLocation(row.getCell(1).getStringCellValue());
 			location.setAddress(row.getCell(2).getStringCellValue());
 			location.setUploadingCharge(Integer.parseInt(row.getCell(3).getStringCellValue()));
 			locationList.add(location);
+			}
+			i=i+1;
 		}
 
-		try {
+		
+	
 			locationRepository.saveAll(locationList.stream().distinct().collect(Collectors.toList()));
 		} catch (Exception e) {
+			e.printStackTrace();			
 			model.addAttribute("errormsg", "Location Data Not Saved !");
 			return "massUploadMenu";
 		}
@@ -1860,14 +1877,22 @@ public class BookingController {
 	@RequestMapping(value = "/uploadUserData", method = RequestMethod.POST)
 	public String uploadUserData(@RequestParam("file") MultipartFile file, ModelMap model) throws IOException {
 
-		if (file.isEmpty() || !file.getName().contains(".xlsx") || !file.getName().contains(".xls")) {
+		if (file.isEmpty()) {
 			model.addAttribute("errormsg", "Plese Choose the Excel File !");
 			return "massUploadMenu";
 		}
 		List<User> userList = new ArrayList<User>();
+		try {
+		XSSFWorkbook wb = new XSSFWorkbook(file.getInputStream());
+		
+		
+		XSSFSheet sheet=wb.getSheetAt(0);
 
-		HSSFWorkbook wb = new HSSFWorkbook(file.getInputStream());
-		for (Row row : wb.getSheetAt(0)) {
+		int i=0;
+
+		for (Row row:sheet) {
+			if(i!=0)
+			{
 			User user = new User();
 			user.setEmail(row.getCell(0).getStringCellValue());
 			user.setName(row.getCell(1).getStringCellValue());
@@ -1877,9 +1902,11 @@ public class BookingController {
 			user.setUserId(row.getCell(5).getStringCellValue());
 			user.setLocation(locationRepository.findById(row.getCell(6).getStringCellValue()).get());
 			userList.add(user);
+			}
+			i=i+1;
 		}
 
-		try {
+		
 			userRepository.saveAll(userList.stream().distinct().collect(Collectors.toList()));
 		} catch (Exception e) {
 			model.addAttribute("errormsg", "User Data Not Saved !");
