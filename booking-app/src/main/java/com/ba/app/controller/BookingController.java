@@ -1,5 +1,6 @@
 package com.ba.app.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,6 +19,10 @@ import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ba.app.entity.BookedBy;
 import com.ba.app.entity.Booking;
@@ -470,22 +476,17 @@ public class BookingController {
 			} else {
 				ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(fromLocation, toLocation);
 			}
-			
-			
-			List<OutgoingParcel> finalList=new ArrayList<OutgoingParcel>();
+
+			List<OutgoingParcel> finalList = new ArrayList<OutgoingParcel>();
 
 			List<List<OutgoingParcel>> fullList = ogplList.stream()
-			                .collect(Collectors.groupingBy(OutgoingParcel::getOgplNo)) // Or another collector
-			                .entrySet()
-			                .stream()
-			                .map(Map.Entry::getValue)
-			                .collect(Collectors.toList());
+					.collect(Collectors.groupingBy(OutgoingParcel::getOgplNo)) // Or another collector
+					.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
 
-			for(List<OutgoingParcel> data:fullList)
-			{
+			for (List<OutgoingParcel> data : fullList) {
 				finalList.add(data.get(0));
 			}
-			
+
 			model.addAttribute("ogplList", finalList);
 			/*
 			 * if (ogplList != null && ogplList.size() > 0) { OutgoingParcel og =
@@ -560,22 +561,20 @@ public class BookingController {
 			OutgoingParcel outgoingParcel = new OutgoingParcel();
 			outgoingParcel.setFromLocation(fromLocation);
 			outgoingParcel.setToLocation(toLocation);
-		
-			
+
 			model.addAttribute("outgoingparcel", outgoingParcel);
-			
+
 			OutgoingParcel outgoingParcelForOgpl = new OutgoingParcel();
 			outgoingParcel.setFromLocation(fromLocation);
 			outgoingParcel.setToLocation(toLocation);
 			outgoingParcel.setOgplNo(0);
-			
-			List<OutgoingParcel> outgoingParcelList=new ArrayList<OutgoingParcel>();
-			
+
+			List<OutgoingParcel> outgoingParcelList = new ArrayList<OutgoingParcel>();
+
 			outgoingParcelList.add(outgoingParcel);
-			
+
 			model.addAttribute("outgoingparcelOgpl", outgoingParcelList);
 
-			
 			setAllLocationListInModel(model);
 			setAllVehileListInModel(model);
 			setAllConductorListInModel(model);
@@ -586,9 +585,7 @@ public class BookingController {
 		}
 		return "outgoingParcel";
 	}
-	
-	
-	
+
 	@RequestMapping(value = "get/outgoingParcelWithOldOgpl", method = RequestMethod.GET)
 	public String outgoingParcelWithOldOgpl(@RequestParam("fromLocation") String fromLocation,
 			@RequestParam("toLocation") String toLocation, HttpServletRequest request, ModelMap model) {
@@ -631,14 +628,10 @@ public class BookingController {
 			outgoingList.addAll(connOutgoingList);
 
 			model.addAttribute("outgoingList", outgoingList);
-			
-			
-		
-			
-			
-			
-			List<OutgoingParcel> outgoingParcelList = outgoingParcelRepository.findByFromLocationAndToLocationForOGPL(fromLocation,toLocation);
-			
+
+			List<OutgoingParcel> outgoingParcelList = outgoingParcelRepository
+					.findByFromLocationAndToLocationForOGPL(fromLocation, toLocation);
+
 			model.addAttribute("outgoingparcel", outgoingParcelList.get(0));
 
 			model.addAttribute("outgoingparcelOgpl", outgoingParcelList);
@@ -653,10 +646,10 @@ public class BookingController {
 		return "outgoingParcel";
 	}
 
-	
 	@RequestMapping(value = "get/outgoingParcelWithOldOgplFilter", method = RequestMethod.GET)
 	public String outgoingParcelWithOldOgplFilter(@RequestParam("fromLocation") String fromLocation,
-			@RequestParam("toLocation") String toLocation,@RequestParam("ogpl") long ogpl, HttpServletRequest request, ModelMap model) {
+			@RequestParam("toLocation") String toLocation, @RequestParam("ogpl") long ogpl, HttpServletRequest request,
+			ModelMap model) {
 		try {
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
@@ -696,16 +689,10 @@ public class BookingController {
 			outgoingList.addAll(connOutgoingList);
 
 			model.addAttribute("outgoingList", outgoingList);
-			
-			
-		
-			
-			
-			
-			List<OutgoingParcel> outgoingParcelList = outgoingParcelRepository.findByFromLocationAndToLocationForOGPL(fromLocation,toLocation);
-			
-			
-			
+
+			List<OutgoingParcel> outgoingParcelList = outgoingParcelRepository
+					.findByFromLocationAndToLocationForOGPL(fromLocation, toLocation);
+
 			model.addAttribute("outgoingparcel", outgoingParcelRepository.findByOgplNo(ogpl));
 
 			model.addAttribute("outgoingparcelOgpl", outgoingParcelList);
@@ -719,7 +706,7 @@ public class BookingController {
 		}
 		return "outgoingParcel";
 	}
-	
+
 	private void setAllVehileListInModel(ModelMap model) {
 		Iterable<Vehicle> vechileIterable = vehicleRepository.findAll();
 		model.addAttribute("vehicleList", vechileIterable);
@@ -910,19 +897,17 @@ public class BookingController {
 					delivery.setDemurrage("" + charge);
 				}
 			}
-			
+
 			Optional<Location> loData = locationRepository.findById(booking.getToLocation());
-			Integer uploadingCharge=0;
-			
+			Integer uploadingCharge = 0;
+
 			if (loData.isPresent()) {
-			 uploadingCharge = (int) (loData.get().getUploadingCharge()*booking.getItem_count());
+				uploadingCharge = (int) (loData.get().getUploadingCharge() * booking.getItem_count());
 			}
-			
 
 			model.addAttribute("unloadingCharges", uploadingCharge);
 
-			
-			Delivery outItems=deliveryRepository.findByLRNo(lrNumber);
+			Delivery outItems = deliveryRepository.findByLRNo(lrNumber);
 			setAllVehileListInModel(model);
 			setAllLocationListInModel(model);
 			model.addAttribute("outItems", outItems);
@@ -1066,9 +1051,9 @@ public class BookingController {
 	@RequestMapping(value = "/ogpl/save", method = RequestMethod.POST)
 	public String saveOutgoingParcel(HttpServletRequest request, OutgoingParcelVo outgoingParcelVo, ModelMap model) {
 		try {
-			
-			Boolean ogplStatus=false;
-			long ogplNo=0;
+
+			Boolean ogplStatus = false;
+			long ogplNo = 0;
 			Boolean connectionPonitStatus = false;
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
@@ -1076,20 +1061,16 @@ public class BookingController {
 			OutgoingParcel outgoingParcel = new OutgoingParcel();
 
 			BeanUtils.copyProperties(outgoingParcelVo, outgoingParcel);
-			
-			if(Long.parseLong(outgoingParcelVo.getOgplNo()) ==0 || Objects.isNull(outgoingParcelVo.getOgplNo()))
-			{
+
+			if (Long.parseLong(outgoingParcelVo.getOgplNo()) == 0 || Objects.isNull(outgoingParcelVo.getOgplNo())) {
 				ogplNo = Utils.getOrderNumber();
+			} else {
+				ogplNo = Long.parseLong(outgoingParcelVo.getOgplNo());
+
+				ogplStatus = true;
+
 			}
-			else
-			{
-				ogplNo=Long.parseLong(outgoingParcelVo.getOgplNo());
-				
-				ogplStatus=true;
-			
-				
-			}
-			 
+
 			List<Booking> outgoingList = bookingRepository.findByLrNumberIn(outgoingParcel.getOgpnoarray());
 			for (Booking booking : outgoingList) {
 				connectionPonitStatus = false;
@@ -1121,27 +1102,22 @@ public class BookingController {
 				outgoingParcel.setOgplNo(ogplNo);
 				String sCurrentDate = Utils.getStringCurrentDatewithFormat("YYYY-MM-dd");
 				outgoingParcel.setBookedOn(sCurrentDate);
-				
-				
-				if(ogplStatus)
-				{
-					OutgoingParcel	outgoingParcelNew=outgoingParcelRepository.findByOgplNo(ogplNo);
-					
-					ArrayList<String> ogplArray=outgoingParcelNew.getOgpnoarray();
-					ArrayList<String> newOgpls=outgoingParcel.getOgpnoarray();
-					
-					ArrayList<String> combinedList = Stream.of(ogplArray, newOgpls)
-	                        .flatMap(x -> x.stream())
-	                        .collect(Collectors
-	                                .toCollection(ArrayList::new));
-				    
-					outgoingParcelNew.setOgpnoarray(combinedList.stream().distinct().collect(Collectors
-                            .toCollection(ArrayList::new)));
-					
+
+				if (ogplStatus) {
+					OutgoingParcel outgoingParcelNew = outgoingParcelRepository.findByOgplNo(ogplNo);
+
+					ArrayList<String> ogplArray = outgoingParcelNew.getOgpnoarray();
+					ArrayList<String> newOgpls = outgoingParcel.getOgpnoarray();
+
+					ArrayList<String> combinedList = Stream.of(ogplArray, newOgpls).flatMap(x -> x.stream())
+							.collect(Collectors.toCollection(ArrayList::new));
+
+					outgoingParcelNew.setOgpnoarray(
+							combinedList.stream().distinct().collect(Collectors.toCollection(ArrayList::new)));
+
 					outgoingParcelRepository.save(outgoingParcelNew);
-				}else
-				{
-				outgoingParcelRepository.save(outgoingParcel);
+				} else {
+					outgoingParcelRepository.save(outgoingParcel);
 				}
 			}
 			model.addAttribute("outgoingsuccessmessage", "Parcel Out Successfully");
@@ -1334,22 +1310,16 @@ public class BookingController {
 				ogplList = outgoingParcelRepository.findByFromLocationAndToLocation(fromLocation, toLocation);
 
 			}
-			
-			List<OutgoingParcel> finalList=new ArrayList<OutgoingParcel>();
+
+			List<OutgoingParcel> finalList = new ArrayList<OutgoingParcel>();
 
 			List<List<OutgoingParcel>> fullList = ogplList.stream()
-			                .collect(Collectors.groupingBy(OutgoingParcel::getOgplNo)) // Or another collector
-			                .entrySet()
-			                .stream()
-			                .map(Map.Entry::getValue)
-			                .collect(Collectors.toList());
+					.collect(Collectors.groupingBy(OutgoingParcel::getOgplNo)) // Or another collector
+					.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
 
-			for(List<OutgoingParcel> data:fullList)
-			{
+			for (List<OutgoingParcel> data : fullList) {
 				finalList.add(data.get(0));
 			}
-			
-			
 
 			model.addAttribute("ogplList", finalList);
 
@@ -1807,11 +1777,10 @@ public class BookingController {
 					delivery.setDemurrage("" + charge);
 				}
 			}
-			
-		
+
 			setAllVehileListInModel(model);
 			setAllLocationListInModel(model);
-			
+
 			model.addAttribute("delivery", delivery);
 			model.addAttribute("enabled", false);
 		} catch (Exception e) {
@@ -1841,4 +1810,68 @@ public class BookingController {
 		}
 		return "deliveryDiscount";
 	}
+
+	@RequestMapping(value = "/uploadLocationData", method = RequestMethod.POST)
+	public String uploadLocationData(@RequestParam("file") MultipartFile file, ModelMap model) throws IOException {
+
+		if (file.isEmpty() || !file.getName().contains(".xlsx") || !file.getName().contains(".xls")) {
+			model.addAttribute("errormsg", "Plese Choose the Excel File !");
+			return "massUploadMenu";
+		}
+		List<Location> locationList = new ArrayList<Location>();
+
+		HSSFWorkbook wb = new HSSFWorkbook(file.getInputStream());
+		for (Row row : wb.getSheetAt(0)) {
+			Location location = new Location();
+			location.setId(row.getCell(0).getStringCellValue());
+			location.setLocation(row.getCell(1).getStringCellValue());
+			location.setAddress(row.getCell(2).getStringCellValue());
+			location.setUploadingCharge(Integer.parseInt(row.getCell(3).getStringCellValue()));
+			locationList.add(location);
+		}
+
+		try {
+			locationRepository.saveAll(locationList.stream().distinct().collect(Collectors.toList()));
+		} catch (Exception e) {
+			model.addAttribute("errormsg", "Location Data Not Saved !");
+			return "massUploadMenu";
+		}
+		model.addAttribute("successMessage", "Location Data Saved Successfully !");
+
+		return "massUploadMenu";
+	}
+
+	@RequestMapping(value = "/uploadUserData", method = RequestMethod.POST)
+	public String uploadUserData(@RequestParam("file") MultipartFile file, ModelMap model) throws IOException {
+
+		if (file.isEmpty() || !file.getName().contains(".xlsx") || !file.getName().contains(".xls")) {
+			model.addAttribute("errormsg", "Plese Choose the Excel File !");
+			return "massUploadMenu";
+		}
+		List<User> userList = new ArrayList<User>();
+
+		HSSFWorkbook wb = new HSSFWorkbook(file.getInputStream());
+		for (Row row : wb.getSheetAt(0)) {
+			User user = new User();
+			user.setEmail(row.getCell(0).getStringCellValue());
+			user.setName(row.getCell(1).getStringCellValue());
+			user.setPassword(row.getCell(2).getStringCellValue());
+			user.setPhonenumber(Long.parseLong(row.getCell(3).getStringCellValue()));
+			user.setRole(row.getCell(4).getStringCellValue().toUpperCase());
+			user.setUserId(row.getCell(5).getStringCellValue());
+			user.setLocation(locationRepository.findById(row.getCell(6).getStringCellValue()).get());
+			userList.add(user);
+		}
+
+		try {
+			userRepository.saveAll(userList.stream().distinct().collect(Collectors.toList()));
+		} catch (Exception e) {
+			model.addAttribute("errormsg", "User Data Not Saved !");
+			return "massUploadMenu";
+		}
+		model.addAttribute("successMessage", "User Data Saved Successfully !");
+
+		return "massUploadMenu";
+	}
+
 }
