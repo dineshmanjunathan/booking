@@ -231,6 +231,19 @@
 								<use xlink:href="#chevron-right" /></svg>
 						</a>
 					</div>
+					<div class="feature col">
+						<div class="feature-icon bg-primary bg-gradient">
+							<svg class="bi" width="1em" height="1em">
+								<use xlink:href="#collection" /></svg>
+						</div>
+						<h5>Mass Upload</h5>
+						<p></p>
+						<a href="/massUploadMenu" class="icon-link"> Click here <svg
+								class="bi" width="1em" height="1em">
+								<use xlink:href="#chevron-right" /></svg>
+						</a>
+					</div>
+					
 				</div>
 
 				<div class="row g-5 py-2 row-cols-1 row-cols-lg-5">

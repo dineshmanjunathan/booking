@@ -1482,6 +1482,21 @@ public class BookingController {
 		}
 		return "paymentTypeListing";
 	}
+	
+	@RequestMapping("/massUploadMenu")
+	public String massUploadMenu(HttpServletRequest request, ModelMap model) {
+		try {
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Something is wrong! please try again.");
+			return "login";
+		}
+		return "massUploadMenu";
+	}
 
 	@RequestMapping(value = "/addPaymentType", method = RequestMethod.POST)
 	public String savePaymentType(HttpServletRequest request, PaymentTypeVo paymentTypeVo, ModelMap model) {
@@ -1811,6 +1826,7 @@ public class BookingController {
 		return "deliveryDiscount";
 	}
 
+
 	@RequestMapping(value = "/uploadLocationData", method = RequestMethod.POST)
 	public String uploadLocationData(@RequestParam("file") MultipartFile file, ModelMap model) throws IOException {
 
@@ -1874,4 +1890,35 @@ public class BookingController {
 		return "massUploadMenu";
 	}
 
+	
+	@RequestMapping("/uploadLocation")
+	public String uploadLocation(HttpServletRequest request, ModelMap model) {
+		try {
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Something is wrong! please try again.");
+			return "uploadLocation";
+		}
+		return "uploadLocation";
+	}
+	
+	
+	@RequestMapping("/uploadUser")
+	public String uploadUser(HttpServletRequest request, ModelMap model) {
+		try {
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Something is wrong! please try again.");
+			return "uploadUser";
+		}
+		return "uploadUser";
+	}
 }
