@@ -547,7 +547,7 @@ function validate() {
 		}
 	var refund=document.getElementById("refund").value;
 	if(refund<0){
-		alert("refund should not be negative");
+		alert("Refund Should Not be Negative");
 		return false;
 	}
 	

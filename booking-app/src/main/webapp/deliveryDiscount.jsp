@@ -93,12 +93,10 @@
 			document.getElementById("doorDeliveryCharges").readOnly  = false;
 			var toPay=document.getElementById("toPay").value;
 			var paid=document.getElementById("paid").value;
-			if(toPay != ""){
-				document.getElementById("cash").readOnly = false;
-			}
-			else{
+		
+			
 				document.getElementById("cash").readOnly = true;
-			}
+			
 			
 
 			
@@ -555,17 +553,7 @@ deliveryCheck("${deliveryB.fromName}","${deliveryB.igplStatus}");
 
 
 
-if(${delivery.demurrage} ||  ${delivery.demurrage} > 0)
-{
-	
-	document.getElementById("cash").disabled  = false;
-}
 
-
-if(${topayValue} == true)
-{
-	document.getElementById("cash").disabled  = false;
-}
 
 
 

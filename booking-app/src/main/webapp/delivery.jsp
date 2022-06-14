@@ -53,6 +53,10 @@ document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+deliver
 			alert("Cash Field Should Not Be Empty");
 			return false;
 			}
+		if(document.getElementById("refund").value <0){
+			alert("Refund Should Not be Negative");
+			return false;
+		}
 		
 		if (confirm('Are you sure you want to save?')) {
 			document.getElementById("status").disabled  = false;
@@ -152,12 +156,7 @@ document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+deliver
 		var toPay=document.getElementById("toPay").value;
 		var paid=document.getElementById("paid").value;
 		
-		if(toPay != "" ||  document.getElementById("amtToBePaid").value > 0 && document.getElementById("cash").value == ""){
-			document.getElementById("cash").readOnly = false;
-		}
-		else{
-			document.getElementById("cash").readOnly = true;
-		}
+		
 		
 
 		if(status=="D")
@@ -264,17 +263,26 @@ document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+deliver
 													</div>
 												</div>
 												
-												
-												
-												<%-- <div class="row element-margin">
+												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="txtPaid">Paid</label>
+														<label class="form-label" for="txtLRNo">LR No.</label>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" name="paid"
-															value="${deliveryB.paid}">
+														<input type="text" class="form-control" name="lRNo"
+															value="${deliveryB.lrNumber}">
 													</div>
-												</div> --%>
+												</div>
+												
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label for="txtOGPL" class="form-label">OGPL</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" class="form-control" name="ogpl"
+															value="${deliveryI.ogplNo}">
+													</div>
+												</div>
+								
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtNoofItem">No. of
@@ -285,6 +293,9 @@ document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+deliver
 															value="${deliveryB.item_count}">
 													</div>
 												</div>
+												
+											</div> 
+											<div class="col-md-4 control-margin">
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtddVehicle">Vechile No</label>
@@ -318,103 +329,10 @@ document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+deliver
 															value="PRINTED" disabled> <label class="form-check-label"
 															for="chkPrinted">Printed</label>
 													</div>
-												</div>
-										<%-- 	 	<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="txtDeliveredBy">Delivered
-															By</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" class="form-control" name="deliveredBy"
-															value="${deliveryI.deliveredBy}">
-													</div>
-												</div>  --%>
-											</div> 
-											<div class="col-md-4 control-margin">
-												<%-- <div class="row element-margin">
-													<div class="col-sm-4">
-														<label for="txtNo" class="form-label">No</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="number" class="form-control" name="no"
-															value="${deliveryB.bookingNo}">
-													</div>
-												</div> --%>
-													
+												</div>	
 												
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label for="txtOGPL" class="form-label">OGPL</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" class="form-control" name="ogpl"
-															value="${deliveryI.ogplNo}">
-													</div>
-												</div>
-												<%-- <div class="row element-margin">
-												<div class="col-sm-4">
-													<label for="dtFromDate" class="form-label">From
-														Date</label>
-												</div>
-												<div class="col-sm-8">
-													<input type="date" class="form-control" name="fromDate"
-														placeholder="From Date" value="${deliveryB.bookedOn}">
-												</div>
-											</div>
-											<div class="row element-margin">
-												<div class="col-sm-4">
-													<label for="dtToDate" class="form-label">To Date</label>
-												</div>
-												<div class="col-sm-8">
-													<input type="date" class="form-control" name="toDate"
-														placeholder="To Date" value="">
-												</div>
-											</div> --%>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label for="dtFrom" class="form-label">From</label>
-													</div>
-
-													<div class="col-sm-8">
-														<c:choose>
-															<c:when test="${deliveryB.fromLocation ne ''}">
-																<select class="form-select" name=fromLocation id=fromLocation disabled>
-																	<c:forEach var="options" items="${locationList}"
-																		varStatus="status">
-																		<%-- <option value="${options.id}" ${options.id == booking.toLocation ? 'selected' : ''}>${options.location}</option> --%>
-																		<option value="${options.id}"
-																			${options.id == deliveryB.fromLocation ? 'selected' : ''}>${options.location}</option>
-																	</c:forEach>
-																</select>
-															</c:when>
-														</c:choose>
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label for="dtTo" class="form-label">To</label>
-													</div>
-
-													<div class="col-sm-8">
-														<select class="form-select" name="toLocation" id=toLocation disabled>
-															<c:forEach var="options" items="${locationList}"
-																varStatus="status">
-																<%-- <option value="${options.id}" ${options.id == booking.toLocation ? 'selected' : ''}>${options.location}</option> --%>
-																<option value="${options.id}"
-																	${options.id == deliveryB.toLocation ? 'selected' : ''}>${options.location}</option>
-															</c:forEach>
-														</select>
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="txtLRNo">LR No.</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" class="form-control" name="lRNo"
-															value="${deliveryB.lrNumber}">
-													</div>
-												</div>
+												
+											
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtDeliveryBillNo">E-Way Bill No.
@@ -436,54 +354,7 @@ document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+deliver
 															value="${delivery.deliveryDate}">
 													</div>
 												</div>
-											</div>
-											<div class="col-md-4 control-margin">
-												<!-- <div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="txtHamali">Hamali</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" class="form-control" name="hamali"
-															value="0">
-													</div>
-												</div> -->
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="txtUnloadingCharges">Unloading
-															Charges</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" class="form-control"
-															name="unloadingCharges" id="unloadingCharges" value="${unloadingCharges}">
-												</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="txtDoorDeliveryCharges">Door
-															Delivery Charges</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" class="form-control"
-															name="doorDeliveryCharges" id="doorDeliveryCharges" onchange="addDoorDeliveryToAMTP();" value="${delivery.doorDeliveryCharges}"  onblur="sumAmount();">
-													</div>
-												</div>
-												<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="txtDemurrage">Demurrage</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" class="form-control" name="demurrage" id="demurrage" value="${delivery.demurrage}">
-													</div>
-												</div>
-												<%--<div class="row element-margin">
-													<div class="col-sm-4">
-														<label class="form-label" for="txtOthers">Others</label>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" class="form-control" name="others"
-															value="${deliveryB.othercharges}">
-													</div>
-												</div> --%>
+												
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtPaidTotal">Paid</label>
@@ -512,6 +383,48 @@ document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+deliver
 															value="${deliveryB.discount}">															
 													</div>
 												</div>
+												
+												
+											</div>
+											<div class="col-md-4 control-margin">
+												<!-- <div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="txtHamali">Hamali</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" class="form-control" name="hamali"
+															value="0">
+													</div>
+												</div> -->
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="txtUnloadingCharges">Unloading
+															Charges</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" class="form-control"
+															name="unloadingCharges" id="unloadingCharges" value="${unloadingCharges}">
+												</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="txtDoorDeliveryCharges">Door
+															Delivery Charges</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" class="form-control"
+															name="doorDeliveryCharges" id="doorDeliveryCharges" onchange="addDoorDeliveryToAMTP();" value="${outItems.doorDeliveryCharges}"  onblur="sumAmount();">
+													</div>
+												</div>
+												<div class="row element-margin">
+													<div class="col-sm-4">
+														<label class="form-label" for="txtDemurrage">Demurrage</label>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" class="form-control" name="demurrage" id="demurrage" value="${delivery.demurrage}">
+													</div>
+												</div>
+												
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtTotal">Delivery Discount</label>
@@ -521,27 +434,29 @@ document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+deliver
 															value="${deliveryB.deliveryDiscount}">															
 													</div>
 												</div>
+												&nbsp;
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtTotal">TOTAL</label>
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" name="total" id="total"
-															value="${deliveryB.total+delivery.demurrage-deliveryB.deliveryDiscount+unloadingCharges}">
+															value="${deliveryB.total+delivery.demurrage-deliveryB.deliveryDiscount+unloadingCharges+outItems.doorDeliveryCharges}">
 															<input type="hidden" class="form-control" name="orgTotal" id="orgTotal"
-															value="${deliveryB.total+delivery.demurrage-deliveryB.deliveryDiscount+unloadingCharges}">
+															value="${deliveryB.total+delivery.demurrage-deliveryB.deliveryDiscount+unloadingCharges+outItems.doorDeliveryCharges}">
 													</div>
 												</div>
 												<div class="row element-margin">
 													<div class="col-sm-4">
-														<label class="form-label" for="txtTotal">Amt To be Paid</label>
+														<label class="form-label" for="txtTotal">Balance To Pay</label>
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" name="amtToBePaid" id="amtToBePaid"
-															value="${unloadingCharges+delivery.demurrage-deliveryB.deliveryDiscount+deliveryB.topay}">
+															value="${unloadingCharges+delivery.demurrage-deliveryB.deliveryDiscount+deliveryB.topay+outItems.doorDeliveryCharges}">
 									
 													</div>
 												</div>
+												&nbsp;
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtTotal">Cash</label>
@@ -601,12 +516,6 @@ document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+deliver
 deliveryCheck("${deliveryB.fromName}","${deliveryB.igplStatus}");
 
 
-if(${delivery.demurrage} ||  ${delivery.demurrage} > 0 || ${topayValue} == true || document.getElementById("amtToBePaid").value > 0)
-{
-	
-	document.getElementById("cash").readOnly = false;
-	
-}
 
 
 
