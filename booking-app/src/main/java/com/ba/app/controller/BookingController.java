@@ -394,17 +394,23 @@ public class BookingController {
 
 	@RequestMapping(value = "/locationDelete", method = RequestMethod.GET)
 	public String locationDelete(@RequestParam("id") String id, HttpServletRequest request, ModelMap model) {
+
+		
 		try {
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
 				return "login";
 			locationRepository.deleteById(id);
 			model.addAttribute("successMessage", "Deleted Successfully");
-			Iterable<Location> locaIterable = locationRepository.findAll();
-			model.addAttribute("locationListing", locaIterable);
+
 		} catch (Exception e) {
+			model.addAttribute("errormsg", "Sorry Not able to delete the Location. Because some User's mapped to "+id+" Location");
+
 			e.printStackTrace();
 		}
+		
+		Iterable<Location> locaIterable = locationRepository.findAll();
+		model.addAttribute("locationListing", locaIterable);
 		return "locationListing";
 	}
 

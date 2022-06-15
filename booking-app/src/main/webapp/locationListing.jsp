@@ -18,6 +18,8 @@
 			<form action="">
 				<h3><b>Location</b></h3>
 				<p style="color: green" align="center">${successMessage}</p>
+				<p style="color:red" align="center">${errormsg}</p>
+				
 				<div class="row control-margin">
 					<div class="col-md-12">
 						<a class="btn btn-primary button-margin" href="addLocation.jsp">Add</a>
