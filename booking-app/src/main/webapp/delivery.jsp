@@ -60,8 +60,6 @@ document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+deliver
 		
 		if (confirm('Are you sure you want to save?')) {
 			document.getElementById("status").disabled  = false;
-			document.getElementById("fromLocation").disabled  = false;
-			document.getElementById("toLocation").disabled  = false;
 			document.getElementById("deliveryform").submit();
 		}
 	}
