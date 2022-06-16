@@ -338,6 +338,9 @@
 				</div>
 
 			</div>
+				</c:if>
+		<c:if test="${fn:contains(sessionScope.ROLE, 'ADMIN') || fn:contains(sessionScope.ROLE, 'SUPER USER')}">
+		
 			<br>
 			<div class="container px-4 py-1"
 				style="background-color: whitesmoke;" id="featured-3">

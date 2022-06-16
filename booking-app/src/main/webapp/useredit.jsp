@@ -59,6 +59,8 @@
 																			${user.role == 'ADMIN' ? 'selected' : ''}>ADMIN</option>
 																		<option value="USER"
 																			${user.role == 'USER' ? 'selected' : ''}>USER</option>
+																		<option value="SUPER USER"
+																			${user.role == 'SUPER USER' ? 'selected' : ''}>SUPER USER</option>
 						</select>
 						
 					</div>

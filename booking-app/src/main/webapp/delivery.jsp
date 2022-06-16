@@ -217,6 +217,12 @@ document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+deliver
 													</div>
 												</div>
 												
+												<input type="hidden" name="fromLocation" value="${deliveryB.fromLocation}">
+												<input type="hidden" name="toLocation" value="${deliveryB.toLocation}">
+												
+												
+												
+												
 												<div class="row element-margin">
 													<div class="col-sm-4">
 														<label class="form-label" for="txtName">From Name</label>
@@ -445,8 +451,9 @@ document.getElementById("amtToBePaid").value=parseInt(${unloadingCharges+deliver
 													</div>
 												</div>
 												<div class="row element-margin">
+												
 													<div class="col-sm-4">
-														<label class="form-label" for="txtTotal">Balance To Pay</label>
+														<label class="form-label" for="txtTotal">Balance Amount</label>
 													</div>
 													<div class="col-sm-8">
 														<input type="number" class="form-control" name="amtToBePaid" id="amtToBePaid"

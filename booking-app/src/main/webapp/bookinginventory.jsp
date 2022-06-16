@@ -11,7 +11,7 @@
 <body>
 
 	<div class="wrapper">
-		<div class="inner">
+		<div class="" style=" padding-left: 4%;width:100%; ">
 			
 			<form action="" style="margin-left:30px">
 				<h3>
