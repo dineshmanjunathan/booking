@@ -225,6 +225,7 @@ public class BookingController {
 
 		return "THANKS FOR BOOKING YOUR PARCEL IN CITY TRAVELS. YOUR LR NO " + lrNumber + " FROM " + fromLocation
 				+ " TO " + toLocation + " - CITY TRAVELS";
+		
 	}
 
 	private void saveFromCustomer(BookingVo bookingVo) {
