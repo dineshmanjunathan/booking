@@ -1,8 +1,13 @@
 package com.ba.app.controller;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,13 +26,13 @@ import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -85,8 +90,18 @@ import com.ba.utils.DeliverySlipGenerator;
 import com.ba.utils.LuggageSlipGenerator;
 import com.ba.utils.Utils;
 
+import lombok.extern.log4j.Log4j2;
+
 @Controller
+@Log4j2
 public class BookingController {
+
+	@Value("${sms.part1}")
+	private String sms_part1;
+	@Value("${sms.part2}")
+	private String sms_part2;
+	@Value("${sms.part3}")
+	private String sms_part3;
 
 	@Autowired
 	private BookingRepository bookingRepository;
@@ -181,12 +196,35 @@ public class BookingController {
 
 			}
 			setAllLocationListInModel(model);
+
+			sendSMS(String.valueOf(bookingVo.getFrom_phone()), bindBookingSmscontent(bookingVo.getLrNumber(),
+					bookingVo.getFromLocation(), bookingVo.getToLocation()));
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			model.addAttribute("errormsg", "Failed to Book ");
 			return "booking";
 		}
 		return "bookingsuccess";
+	}
+
+	public void sendSMS(String phoneNumber, String message) throws IOException {
+		String urlString = sms_part1 + phoneNumber + sms_part2 + URLEncoder.encode(message, "UTF-8") + sms_part3;
+		URL url = new URL(urlString);
+		
+		URLConnection connection = url.openConnection();
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		String inputLine;
+		while ((inputLine = bufferedReader.readLine()) != null) {
+			log.info("Phone Number {} Sms Reference Number {}", phoneNumber, inputLine);
+		}
+		bufferedReader.close();
+	}
+
+	private String bindBookingSmscontent(String lrNumber, String fromLocation, String toLocation) {
+
+		return "THANKS FOR BOOKING YOUR PARCEL IN CITY TRAVELS. YOUR LR NO " + lrNumber + " FROM " + fromLocation
+				+ " TO " + toLocation + " - CITY TRAVELS";
 	}
 
 	private void saveFromCustomer(BookingVo bookingVo) {
@@ -395,7 +433,6 @@ public class BookingController {
 	@RequestMapping(value = "/locationDelete", method = RequestMethod.GET)
 	public String locationDelete(@RequestParam("id") String id, HttpServletRequest request, ModelMap model) {
 
-		
 		try {
 			// SESSION VALIDATION
 			if (sessionValidation(request, model) != null)
@@ -404,11 +441,12 @@ public class BookingController {
 			model.addAttribute("successMessage", "Deleted Successfully");
 
 		} catch (Exception e) {
-			model.addAttribute("errormsg", "Sorry Not able to delete the Location. Because some User's mapped to "+id+" Location");
+			model.addAttribute("errormsg",
+					"Sorry Not able to delete the Location. Because some User's mapped to " + id + " Location");
 
 			e.printStackTrace();
 		}
-		
+
 		Iterable<Location> locaIterable = locationRepository.findAll();
 		model.addAttribute("locationListing", locaIterable);
 		return "locationListing";
@@ -827,7 +865,7 @@ public class BookingController {
 			if (deliveryEntity != null && deliveryEntity.getLRNo() != null) {
 				bookingRepository.updateIgplStatusByLR("D", deliveryEntity.getLRNo());
 			}
-
+			sendSMS(deliveryVo.getTo_phone(), bindAfterDeliverySmscontent(deliveryVo.getLRNo()));
 			model.addAttribute("delivery", deliveryVo);
 			model.addAttribute("DeliverysuccessMessage", deliveryEntity.getLRNo() + " - Save Delivery Successfull!");
 		} catch (Exception e) {
@@ -836,6 +874,11 @@ public class BookingController {
 			return "delivery";
 		}
 		return "delivery";
+	}
+
+	private String bindAfterDeliverySmscontent(String lrNumber) {
+
+		return "Dear Customer, Your parcel " + lrNumber + " is delivered. Thank you. City Express Parcel";
 	}
 
 	@RequestMapping(value = "/dbSearchParcelLRNO", method = RequestMethod.GET)
@@ -1195,8 +1238,13 @@ public class BookingController {
 
 				for (Booking data : incomeList) {
 					if (inventory.getToLocation().equals(data.getToLocation())) {
+
 						bookingRepository.updateBookingIgplCurrentLocationStatus(inventory.getToLocation(), 2,
 								data.getLrNumber());
+						
+						sendSMS(String.valueOf(data.getTo_phone()), bindBeforeDeliverySmscontent(data.getFromLocation(),data.getLrNumber(),data.getToLocation(),String.join(", ",userRepository
+								.getPhone(data.getToLocation()))));
+
 					} else {
 						bookingRepository.updateBookingIgplCurrentLocationStatus(inventory.getToLocation(), 0,
 								data.getLrNumber());
@@ -1236,6 +1284,12 @@ public class BookingController {
 		}
 
 		return "incomingParcel";
+	}
+
+	private String bindBeforeDeliverySmscontent(String fromLocation,String lrNumber,String toLocation,String phoneNumber) {
+		return "Dear Customer, Your parcel has been received from "+fromLocation+". "
+				+ "LR Number "+lrNumber+". Kindly collect. Contact: "+toLocation+" .PH: "+phoneNumber+"."
+				+ "Thank you. City Express Parcel";
 	}
 
 	@RequestMapping(value = "/searchBookingParcelLRNO", method = RequestMethod.GET)
@@ -1491,7 +1545,7 @@ public class BookingController {
 		}
 		return "paymentTypeListing";
 	}
-	
+
 	@RequestMapping("/massUploadMenu")
 	public String massUploadMenu(HttpServletRequest request, ModelMap model) {
 		try {
@@ -1647,8 +1701,6 @@ public class BookingController {
 			if (sessionValidation(request, model) == null) {
 
 				Delivery deliveryEntity = deliveryRepository.findByLRNo(lrNumber);
-
-				System.out.println(deliveryEntity.getCreateon());
 
 				if (deliveryEntity != null && deliveryEntity.getLRNo() != null) {
 					DeliveryVo deliveryVo = new DeliveryVo();
@@ -1835,7 +1887,6 @@ public class BookingController {
 		return "deliveryDiscount";
 	}
 
-
 	@RequestMapping(value = "/uploadLocationData", method = RequestMethod.POST)
 	public String uploadLocationData(@RequestParam("file") MultipartFile file, ModelMap model) throws IOException {
 
@@ -1844,34 +1895,30 @@ public class BookingController {
 			return "massUploadMenu";
 		}
 		List<Location> locationList = new ArrayList<Location>();
-		
+
 		try {
 
-		XSSFWorkbook wb = new XSSFWorkbook(file.getInputStream());
-		
-		
-		XSSFSheet sheet=wb.getSheetAt(0);
+			XSSFWorkbook wb = new XSSFWorkbook(file.getInputStream());
 
-		int i=0;
+			XSSFSheet sheet = wb.getSheetAt(0);
 
-		for (Row row:sheet) {
-			if(i!=0)
-			{
-			Location location = new Location();
-			location.setId(row.getCell(0).getStringCellValue());
-			location.setLocation(row.getCell(1).getStringCellValue());
-			location.setAddress(row.getCell(2).getStringCellValue());
-			location.setUploadingCharge(Integer.parseInt(row.getCell(3).getStringCellValue()));
-			locationList.add(location);
+			int i = 0;
+
+			for (Row row : sheet) {
+				if (i != 0) {
+					Location location = new Location();
+					location.setId(row.getCell(0).getStringCellValue());
+					location.setLocation(row.getCell(1).getStringCellValue());
+					location.setAddress(row.getCell(2).getStringCellValue());
+					location.setUploadingCharge(Integer.parseInt(row.getCell(3).getStringCellValue()));
+					locationList.add(location);
+				}
+				i = i + 1;
 			}
-			i=i+1;
-		}
 
-		
-	
 			locationRepository.saveAll(locationList.stream().distinct().collect(Collectors.toList()));
 		} catch (Exception e) {
-			e.printStackTrace();			
+			e.printStackTrace();
 			model.addAttribute("errormsg", "Location Data Not Saved !");
 			return "massUploadMenu";
 		}
@@ -1889,30 +1936,27 @@ public class BookingController {
 		}
 		List<User> userList = new ArrayList<User>();
 		try {
-		XSSFWorkbook wb = new XSSFWorkbook(file.getInputStream());
-		
-		
-		XSSFSheet sheet=wb.getSheetAt(0);
+			XSSFWorkbook wb = new XSSFWorkbook(file.getInputStream());
 
-		int i=0;
+			XSSFSheet sheet = wb.getSheetAt(0);
 
-		for (Row row:sheet) {
-			if(i!=0)
-			{
-			User user = new User();
-			user.setEmail(row.getCell(0).getStringCellValue());
-			user.setName(row.getCell(1).getStringCellValue());
-			user.setPassword(row.getCell(2).getStringCellValue());
-			user.setPhonenumber(Long.parseLong(row.getCell(3).getStringCellValue()));
-			user.setRole(row.getCell(4).getStringCellValue().toUpperCase());
-			user.setUserId(row.getCell(5).getStringCellValue());
-			user.setLocation(locationRepository.findById(row.getCell(6).getStringCellValue()).get());
-			userList.add(user);
+			int i = 0;
+
+			for (Row row : sheet) {
+				if (i != 0) {
+					User user = new User();
+					user.setEmail(row.getCell(0).getStringCellValue());
+					user.setName(row.getCell(1).getStringCellValue());
+					user.setPassword(row.getCell(2).getStringCellValue());
+					user.setPhonenumber(Long.parseLong(row.getCell(3).getStringCellValue()));
+					user.setRole(row.getCell(4).getStringCellValue().toUpperCase());
+					user.setUserId(row.getCell(5).getStringCellValue());
+					user.setLocation(locationRepository.findById(row.getCell(6).getStringCellValue()).get());
+					userList.add(user);
+				}
+				i = i + 1;
 			}
-			i=i+1;
-		}
 
-		
 			userRepository.saveAll(userList.stream().distinct().collect(Collectors.toList()));
 		} catch (Exception e) {
 			model.addAttribute("errormsg", "User Data Not Saved !");
@@ -1923,7 +1967,6 @@ public class BookingController {
 		return "massUploadMenu";
 	}
 
-	
 	@RequestMapping("/uploadLocation")
 	public String uploadLocation(HttpServletRequest request, ModelMap model) {
 		try {
@@ -1938,8 +1981,7 @@ public class BookingController {
 		}
 		return "uploadLocation";
 	}
-	
-	
+
 	@RequestMapping("/uploadUser")
 	public String uploadUser(HttpServletRequest request, ModelMap model) {
 		try {
