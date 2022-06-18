@@ -878,7 +878,7 @@ public class BookingController {
 
 	private String bindAfterDeliverySmscontent(String lrNumber) {
 
-		return "Dear Customer, Your parcel " + lrNumber + " is delivered. Thank you. City Express Parcel";
+		return "Dear Customer, Your parcel " + lrNumber + " is delivered to. Thank you. City Express Parcel";
 	}
 
 	@RequestMapping(value = "/dbSearchParcelLRNO", method = RequestMethod.GET)
@@ -1288,7 +1288,7 @@ public class BookingController {
 
 	private String bindBeforeDeliverySmscontent(String fromLocation,String lrNumber,String toLocation,String phoneNumber) {
 		return "Dear Customer, Your parcel has been received from "+fromLocation+". "
-				+ "LR Number "+lrNumber+". Kindly collect. Contact: "+toLocation+" .PH: "+phoneNumber+"."
+				+ "LR Number "+lrNumber+". Kindly collect. Contact: "+toLocation+" .PH: "+phoneNumber+" ."
 				+ "Thank you. City Express Parcel";
 	}
 
