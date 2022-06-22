@@ -34,4 +34,22 @@ public class CommonRest {
 	{
 		return commonService.getToLocation(token);
 	}
+
+	@PostMapping("/getContainer")
+	public BookAppResponse getContainer()
+	{
+		return commonService.getContainer();
+	}
+	@PostMapping("/getDriver")
+	public BookAppResponse getDriver()
+	{
+		return commonService.getDriver();
+	}
+	
+	@PostMapping("/getVehicle")
+	public BookAppResponse getVehicle()
+	{
+		return commonService.getVehicle();
+	}
+
 }
