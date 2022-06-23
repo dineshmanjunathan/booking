@@ -20,9 +20,9 @@
 						<a class="btn btn-primary button-margin" href="/menu">Back</a>
 					</div>
 				</div>
-				<table id="data-table-without-pdf" class="table table-striped"
+				<table id="booking-without-table" class="table table-striped"
 					style="width: 100%">
-					<thead>
+					<thead align="center">
 						<tr>
 
 							<th scope="col">S. No</th>
@@ -53,32 +53,32 @@
 
 						</tr>
 					</thead>
-					<tbody>
+					<tbody> 
 						<c:forEach var="details" items="${Booking}" varStatus="status">
 							<tr>
-								<td>${details.id}</td>
+								<td align="center">${details.id}</td>
 								<td>${details.lrNumber}</td>
-								<td>${details.fromLocation}</td>
-								<td>${details.toLocation}</td>
-								<td>${details.bookedOn}</td>
-								<td>${details.fromName}</td>
-								<td>${details.from_phone}</td>
-								<td>${details.toName}</td>
-								<td>${details.to_phone}</td>
-								<td>${details.item_count}</td>
-								<td>${details.weight}</td>
-								<td>${details.payOption}</td>
-								<td>${details.freightvalue}</td>
-								<td>${details.loadingcharges}</td>
-								<td>${details.doorpickcharges}</td>
+								<td align="center">${details.fromLocation}</td>
+								<td align="center">${details.toLocation}</td>
+								<td align="center">${details.bookedOn}</td>
+								<td align="center">${details.fromName}</td>
+								<td align="center">${details.from_phone}</td>
+								<td align="center">${details.toName}</td>
+								<td align="center">${details.to_phone}</td>
+								<td align="center">${details.item_count}</td>
+								<td align="center">${details.weight}</td>
+								<td align="center">${details.payOption}</td>
+								<td align="center">${details.freightvalue}</td>
+								<td align="center">${details.loadingcharges}</td>
+								<td align="center">${details.doorpickcharges}</td>
 								<td>${details.total}</td>
-								<td>${details.bookedBy}</td>
-								<td>-</td>
-								<td>-</td>
-								<td>${details.invNo}</td>
-								<td>${details.billValue}</td>
-								<td>${details.billNumber}</td>
-								<td>${details.remarks}</td>
+								<td align="center">${details.bookedBy}</td>
+								<td align="center">-</td>
+								<td align="center">-</td>
+								<td align="center">${details.invNo}</td>
+								<td align="center">${details.billValue}</td>
+								<td align="center">${details.billNumber}</td>
+								<td align="center">${details.remarks}</td>
 								<td>${details.fromValue}</td>
 							</tr>
 						</c:forEach>

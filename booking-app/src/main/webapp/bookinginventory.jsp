@@ -26,7 +26,7 @@
 		
 				
 				<table id="data-table" class="table table-striped" style="width:100%;">
-					<thead>
+					<thead align="center">
 						<tr>
 							<th scope="col">LR</th>
 							<th scope="col">From</th>
@@ -45,14 +45,14 @@
 							<tr>
 
 								<td id="tdBook">${details.lrNumber}</td>
-								<td id="tdBook">${details.fromLocation}</td>
-								<td id="tdBook">${details.toLocation}</td>
-								<td id="tdBook">${details.paid}</td>
-								<td id="tdBook">${details.topay}</td>
-								<td id="tdBook">${details.fromName}</td>
-								<td id="tdBook">${details.from_phone}</td>
-								<td id="tdBook">${details.toName}</td>
-								<td id="tdBook">${details.to_phone}</td>
+								<td id="tdBook" align="center">${details.fromLocation}</td>
+								<td id="tdBook" align="center">${details.toLocation}</td>
+								<td id="tdBook" align="center">${details.paid}</td>
+								<td id="tdBook" align="center">${details.topay}</td>
+								<td id="tdBook" align="center">${details.fromName}</td>
+								<td id="tdBook" align="center">${details.from_phone}</td>
+								<td id="tdBook" align="center">${details.toName}</td>
+								<td id="tdBook" align="center">${details.to_phone}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

@@ -17,8 +17,8 @@
 						<a class="btn btn-primary button-margin" href="/menu">Back</a>
 					</div>
 				</div>
-				<table id="data-table" class="table table-striped" style="width:100%">
-					<thead>
+				<table id="ogpl-table" class="table table-striped" style="width:100%">
+					<thead align="center">
 						<tr>
 							
 							<!-- <th scope="col">Booked on</th> -->
@@ -44,19 +44,19 @@
 						<c:forEach var="details" items="${OGPL}"
 							varStatus="status">
 							<tr>
-								<td>${details.id}</td>
-								<td>${details.ogplNo}</td>
+								<td align="center">${details.id}</td>
+								<td align="center">${details.ogplNo}</td>
 								<td>${details.LRno}</td>
-								<td>${details.fromLocation}</td>
-								<td>${details.toLocation}</td>
-								<td>${details.vehicleNo}</td>
-								<td>${details.driver}</td>
-								<td>${details.conductor}</td>
-								<td>${details.preparedBy}</td>
-								<td>${details.payType}</td>
-								<td>${details.freightvalue}</td>
-								<td>${details.loadingcharges}</td>
-								<td>${details.doorpickcharges}</td>
+								<td align="center">${details.fromLocation}</td>
+								<td align="center">${details.toLocation}</td>
+								<td align="center">${details.vehicleNo}</td>
+								<td align="center">${details.driver}</td>
+								<td align="center">${details.conductor}</td>
+								<td align="center">${details.preparedBy}</td>
+								<td align="center">${details.payType}</td>
+								<td align="center">${details.freightvalue}</td>
+								<td align="center">${details.loadingcharges}</td>
+								<td align="center">${details.doorpickcharges}</td>
 								<td>${details.totalpaid}</td>
 								<td>${details.totaltopay}</td>
 							</tr>

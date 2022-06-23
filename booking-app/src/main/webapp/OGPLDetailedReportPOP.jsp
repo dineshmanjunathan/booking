@@ -52,8 +52,8 @@
 				<h3><b>OGPL Report</b></h3>
 				
 				
-				<table id="data-table" class="table table-striped" style="width:100%">
-					<thead>
+				<table id="ogpl-consol-table" class="table table-striped" style="width:100%">
+					<thead align="center">
 						<tr>
 							
 							<th scope="col">OGPL No</th>
@@ -75,17 +75,17 @@
 						<c:forEach var="details" items="${OGPL}"
 							varStatus="status">
 							<tr>
-								<td>${details.ogplNo}</td>
-								<td>${details.totLR}</td>
+								<td align="center">${details.ogplNo}</td>
+								<td align="center">${details.totLR}</td>
 								<td>${details.paid}</td>
 								<td>${details.toPay}</td>
 								<td>${details.fright}</td>
-								<td>${details.loading}</td>
-								<td>${details.fuel}</td>
-								<td>${details.unloading}</td>
-								<td>${details.demurage}</td>
-								<td>${details.bookingDiscount}</td>
-								<td>${details.deliveryDiscount}</td>
+								<td align="center">${details.loading}</td>
+								<td align="center">${details.fuel}</td>
+								<td align="center">${details.unloading}</td>
+								<td align="center">${details.demurage}</td>
+								<td align="center">${details.bookingDiscount}</td>
+								<td align="center">${details.deliveryDiscount}</td>
 								
 							
 							</tr>
@@ -149,15 +149,36 @@ function getCurrentDate() {
 
 <script >
 $(document).ready(function() {
-    $('#data-table').DataTable({
+    $('#ogpl-consol-table').DataTable({
     	dom: 'Bfrtip',
     	buttons: [
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5'
+    		{
+    			extend: 'pdfHtml5',
+    			   title: 'OGPL-LR CONSOLIDATED REPORT',
+    			   orientation: 'landscape',
+    			filename: 'Ogpl-Lr-Report_pdf',
+    			customize: function(doc) {
+    				doc.styles.tableHeader = {
+    			            bold: true,
+    			            color: 'black',
+    			            fillColor: 'white'
+    			                    };
+    				
+    			  }
+    			},
+    			    {
+    			extend: 'excelHtml5',
+    			   title: 'OGPL-LR CONSOLIDATED REPORT',
+    			filename: 'Ogpl-Lr-Report_excel'
+    			},
+    			    {
+    			extend: 'csvHtml5',
+    			   title: 'OGPL-LR CONSOLIDATED REPORT',
+    			filename: 'Ogpl-Lr-Report_csv'
+    			}
         ]
     });
-} );
+} ); 
 </script>
 </body>
 <!-- This templates was made by Colorlib (https://colorlib.com) -->

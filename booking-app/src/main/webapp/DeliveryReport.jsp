@@ -17,7 +17,7 @@
 						<a class="btn btn-primary button-margin" href="/menu">Back</a>
 					</div>
 				</div>
-				<table id="data-table" class="table table-striped" style="width:100%">
+				<table id="delivery-table" class="table table-striped" style="width:100%">
 					<thead>
 						<tr>
 							

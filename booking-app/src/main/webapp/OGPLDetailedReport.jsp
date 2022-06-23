@@ -27,14 +27,16 @@
 	<div class="wrapper">
 		<div class="" style=" padding-left: 4%;width:100%; ">
 			<div id="reportArea">
-				<h3><b>OGPL Report</b></h3>
+				<h3><b>OGPL Consolidated Report</b></h3>
 				<div class="row control-margin">
 					<div class="col-md-12">
 						<a class="btn btn-primary button-margin" href="/menu">Back</a>
 					</div>
 				</div>
+				
 				<div class="row control-margin" style="margin-top: 15px;margin-bottom: 15px">
 					<div class="col-md-12">
+					
 					OGPL No :	<input type="text" id="ogpl" name="ogpl" placeholder="OGPL No">
 					
 				&nbsp;&nbsp;&nbsp;	From Date :	<input type="date" id="fromDate" name="fromDate" placeholder="From Date">
@@ -45,8 +47,8 @@
 					</div>
 				</div>
 				
-				<table id="data-table" class="table table-striped" style="width:100%">
-					<thead>
+				 <table id="ogplShow-table" class="table table-striped" style="width:100%">
+					<thead align="center">
 						<tr>
 							
 							<!-- <th scope="col">Booked on</th> -->
@@ -71,17 +73,17 @@
 						<c:forEach var="details" items="${OGPL}"
 							varStatus="status">
 							<tr>
-								<td>${details.ogplNo}</td>
-								<td>${details.totLR}</td>
+								<td align="center">${details.ogplNo}</td>
+								<td align="center">${details.totLR}</td>
 								<td>${details.paid}</td>
 								<td>${details.toPay}</td>
 								<td>${details.fright}</td>
-								<td>${details.loading}</td>
-								<td>${details.fuel}</td>
-								<td>${details.unloading}</td>
-								<td>${details.demurage}</td>
-								<td>${details.bookingDiscount}</td>
-								<td>${details.deliveryDiscount}</td>
+								<td align="center">${details.loading}</td>
+								<td align="center">${details.fuel}</td>
+								<td align="center">${details.unloading}</td>
+								<td align="center">${details.demurage}</td>
+								<td align="center">${details.bookingDiscount}</td>
+								<td align="center">${details.deliveryDiscount}</td>
 								
 								<td>${details.totalCost}</td>
 								

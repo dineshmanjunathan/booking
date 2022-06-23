@@ -50,6 +50,29 @@
 
 <meta charset="ISO-8859-1">
 <script >
+   /* $(document).ready(function() {
+    $('#ogpl-consol-table').DataTable({
+    	dom: 'Bfrtip',
+    	buttons: [
+    		{
+    			extend: 'pdfHtml5',
+    			   title: 'OGPL-LR CONSOLIDATE REPORT',
+    			filename: 'Ogpl-Lr-Report_pdf'
+    			},
+    			    {
+    			extend: 'excelHtml5',
+    			   title: 'OGPL-LR CONSOLIDATE REPORT',
+    			filename: 'Ogpl-Lr-Report_excel'
+    			},
+    			    {
+    			extend: 'csvHtml5',
+    			   title: 'OGPL-LR CONSOLIDATE REPORT',
+    			filename: 'Ogpl-Lr-Report_csv'
+    			}
+        ]
+    });
+} );  */
+ 
 $(document).ready(function() {
     $('#data-table').DataTable({
     	dom: 'Bfrtip',
@@ -69,6 +92,311 @@ $(document).ready(function() {
             'csvHtml5'        ]
     });
 } );
+ 
+$(document).ready(function() {
+    $('#ogpl-list').DataTable({
+    	dom: 'Bfrtip',
+    	buttons: [
+    		{
+    			extend: 'pdfHtml5',
+    			   title: 'OUTGOING PARCELS',
+    			filename: 'OutgoingParcels',
+    			customize: function(doc) {
+    				doc.styles.tableHeader = {
+    	                    bold: true,
+    	                    color: 'black',
+    	                    fillColor: 'white'
+    	                            };
+    				
+    			  }
+    			},
+    			    {
+    			extend: 'excelHtml5',
+    			   title: 'OUTGOING PARCELS',
+    			filename: 'OutgoingParcels'
+    			},
+    			    {
+    			extend: 'csvHtml5',
+    			   title: 'OUTGOING PARCELS',
+    			filename: 'OutgoingParcels'
+    			}
+        ]
+    });
+} );  
+$(document).ready(function() {
+    $('#income-list').DataTable({
+    	dom: 'Bfrtip',
+    	buttons: [
+    		{
+    			extend: 'pdfHtml5',
+    			   title: 'INCOMING PARCELS',
+    			filename: 'IncomingParcels',
+    			customize: function(doc) {
+    				doc.styles.tableHeader = {
+    	                    bold: true,
+    	                    color: 'black',
+    	                    fillColor: 'white'
+    	                            };
+    				
+    			  }
+    			},
+    			    {
+    			extend: 'excelHtml5',
+    			   title: 'INCOMING PARCELS',
+    			filename: 'IncomingParcels'
+    			},
+    			    {
+    			extend: 'csvHtml5',
+    			   title: 'INCOMING PARCELS',
+    			filename: 'IncomingParcels'
+    			}
+        ]
+    });
+} );  
+
+$(document).ready(function() {
+    $('#booking-inv').DataTable({
+    	dom: 'Bfrtip',
+    	buttons: [
+    		{
+    			extend: 'pdfHtml5',
+    			   title: 'BOOKING INVENTORY LIST',
+    			filename: 'BookingInventory',
+    			customize: function(doc) {
+    				doc.styles.tableHeader = {
+    	                    bold: true,
+    	                    color: 'black',
+    	                    fillColor: 'white'
+    	                            };
+    				
+    			  }
+    			},
+    			    {
+    			extend: 'excelHtml5',
+    			   title: 'BOOKING INVENTORY LIST',
+    			filename: 'BookingInventory'
+    			},
+    			    {
+    			extend: 'csvHtml5',
+    			   title: 'BOOKING INVENTORY LIST',
+    			filename: 'BookingInventory'
+    			}
+        ]
+    });
+} );  
+
+
+$(document).ready(function() {
+    $('#delivery-inv').DataTable({
+    	dom: 'Bfrtip',
+    	buttons: [
+    		{
+    			extend: 'pdfHtml5',
+    			   title: 'DELIVERY INVENTORY LIST',
+    			filename: 'DeliveryInventory',
+    			customize: function(doc) {
+    				doc.styles.tableHeader = {
+    	                    bold: true,
+    	                    color: 'black',
+    	                    fillColor: 'white'
+    	                            };
+    				
+    			  }
+    			},
+    			    {
+    			extend: 'excelHtml5',
+    			   title: 'DELIVERY INVENTORY LIST',
+    			filename: 'DeliveryInventory'
+    			},
+    			    {
+    			extend: 'csvHtml5',
+    			   title: 'DELIVERY INVENTORY LIST',
+    			filename: 'DeliveryInventory'
+    			}
+        ]
+    });
+} );  
+
+
+
+$(document).ready(function() {
+    $('#booking-table').DataTable({
+    dom: 'Bfrtip',
+   
+    buttons: [
+    {
+extend: 'pdfHtml5',
+   title: 'BOOKING REPORT',
+   orientation: 'landscape',
+filename: 'Booking_pdf',
+customize: function(doc) {
+	doc.styles.tableHeader = {
+            bold: true,
+            color: 'black',
+            fillColor: 'white'
+                    };
+	
+  }
+},
+    {
+extend: 'excelHtml5',
+   title: 'BOOKING REPORT',
+filename: 'Booking_excel'
+},
+    {
+extend: 'csvHtml5',
+   title: 'BOOKING REPORT',
+filename: 'Booking_csv'
+}
+        ]
+    });
+} );
+ $(document).ready(function() {
+	 
+	 
+	    $('#ogpl-table').DataTable({
+	    dom: 'Bfrtip',
+	   
+	    buttons: [
+	    {
+	extend: 'pdfHtml5',
+	   title: 'OGPL REPORT',
+	   orientation: 'landscape',
+	filename: 'Ogpl_pdf',
+		customize: function(doc) {
+			doc.styles.tableHeader = {
+                    bold: true,
+                    color: 'black',
+                    fillColor: 'white'
+                            };
+			
+		  }
+	},
+	    {
+	extend: 'excelHtml5',
+	   title: 'OGPL REPORT',
+	filename: 'Ogpl_excel'
+	},
+	    {
+	extend: 'csvHtml5',
+	   title: 'OGPL REPORT',
+	filename: 'Ogpl_csv'
+	}
+	        ]
+	    });
+	} );
+ $(document).ready(function() {
+	    $('#ogplShow-table').DataTable({
+	    dom: 'Bfrtip',
+	   
+	    buttons: [
+	    {
+	extend: 'pdfHtml5',
+	   title: 'OGPL CONSOLIDATED REPORT',
+	filename: 'OgplReport_pdf',
+	customize: function(doc) {
+		doc.styles.tableHeader = {
+                bold: true,
+                color: 'black',
+                fillColor: 'white'
+                        };
+		
+	  }
+	},
+	    {
+	extend: 'excelHtml5',
+	   title: 'OGPL CONSOLIDATED REPORT',
+	filename: 'OgplReport_excel'
+	},
+	    {
+	extend: 'csvHtml5',
+	   title: 'OGPL CONSOLIDATED REPORT',
+	filename: 'OgplReport_csv'
+	}
+	        ]
+	    });
+	} );
+ $(document).ready(function() {
+	    $('#delivery-table').DataTable({
+	    dom: 'Bfrtip',
+	   
+	    buttons: [
+	    {
+	extend: 'pdfHtml5',
+	   title: 'DELIVERY REPORT',
+	   orientation: 'landscape',
+	filename: 'Delivery_pdf',
+	customize: function(doc) {
+		doc.styles.tableHeader = {
+                bold: true,
+                color: 'black',
+                fillColor: 'white'
+                        };
+		
+	  }
+	},
+	    {
+	extend: 'excelHtml5',
+	   title: 'DELIVERY REPORTT',
+	filename: 'Delivery_excel'
+	},
+	    {
+	extend: 'csvHtml5',
+	   title: 'DELIVERY REPORT',
+	filename: 'Delivery_csv'
+	}
+	        ]
+	    });
+	} );
+ $(document).ready(function() {
+	    $('#expense-table').DataTable({
+	    dom: 'Bfrtip',
+	   
+	    buttons: [
+	    {
+	extend: 'pdfHtml5',
+	   title: 'EXPENSE REPORT',
+	filename: 'Expense_pdf',
+	customize: function(doc) {
+		doc.styles.tableHeader = {
+                bold: true,
+                color: 'black',
+                fillColor: 'white'
+                        };
+		
+	  }
+	},
+	    {
+	extend: 'excelHtml5',
+	   title: 'EXPENSE REPORT',
+	filename: 'Expense_excel'
+	},
+	    {
+	extend: 'csvHtml5',
+	   title: 'EXPENSE REPORT',
+	filename: 'Expense_csv'
+	}
+	        ]
+	    });
+	} );
+ $(document).ready(function() {
+	    $('#booking-without-table').DataTable({
+	    dom: 'Bfrtip',
+	   
+	    buttons: [
+	    {
+	extend: 'excelHtml5',
+	   title: 'BOOKING REPORT',
+	filename: 'Booking_excel'
+	},
+	    {
+	extend: 'csvHtml5',
+	   title: 'BOOKING REPORT',
+	filename: 'Booking_csv'
+	}
+	        ]
+	    });
+	} );
 </script>
 
 </head>
