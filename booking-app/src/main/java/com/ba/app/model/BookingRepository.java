@@ -116,4 +116,10 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	@Query(value="select o.paid as paid,o.topay as topay,o.freightvalue as freightvalue,o.loadingcharges as loadingcharges,o.discount as discount,o.delivery_discount as delivery_discount,o.lr_number,o.item_count from t_booking o where o.lr_number in :list",nativeQuery = true)
 	LinkedList<Object[]> getOgplDetailedReportPOPUP(@Param("list") ArrayList<String> list); 
 	
+	
+	@Transactional
+	@Modifying
+	@Query(value = "ALTER SEQUENCE LRNUMBER_SEQ RESTART WITH 101", nativeQuery =true)
+    int updateLRSequence();
+	
 }

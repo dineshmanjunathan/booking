@@ -46,6 +46,7 @@
 								<td>${details.role}</td>
 								<c:choose>
 								<c:when test="${details.userId eq 'ADMIN'}">
+								<td></td>
 								</c:when>
 								<c:otherwise>
 								<td><a class="btn btn-primary button-margin" href="/user/edit?id=${details.id}" id="${details.id}">Edit</a>
