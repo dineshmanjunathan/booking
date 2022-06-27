@@ -102,6 +102,8 @@ public class BookingController {
 	private String sms_part2;
 	@Value("${sms.part3}")
 	private String sms_part3;
+	@Value("${sms.send.status}")
+	private Boolean smsStatus;
 
 	@Autowired
 	private BookingRepository bookingRepository;
@@ -209,9 +211,12 @@ public class BookingController {
 	}
 
 	public void sendSMS(String phoneNumber, String message) throws IOException {
+		
 		String urlString = sms_part1 + phoneNumber + sms_part2 + URLEncoder.encode(message, "UTF-8") + sms_part3;
 		URL url = new URL(urlString);
 		
+		if(smsStatus)
+		{
 		URLConnection connection = url.openConnection();
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		String inputLine;
@@ -219,6 +224,7 @@ public class BookingController {
 			log.info("Phone Number {} Sms Reference Number {}", phoneNumber, inputLine);
 		}
 		bufferedReader.close();
+		}
 	}
 
 	private String bindBookingSmscontent(String lrNumber, String fromLocation, String toLocation) {
