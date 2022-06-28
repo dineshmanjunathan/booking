@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.ba.app.vo.BookingVo;
 
@@ -20,8 +23,10 @@ import net.sf.jasperreports.engine.JasperReport;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LuggageSlipGenerator {
+	
 
-	final static String templateName = "templates/luggage_slip.jrxml";
+
+
 	
 	private static final LuggageSlipGenerator instance = new LuggageSlipGenerator();
 	
@@ -35,8 +40,10 @@ public class LuggageSlipGenerator {
         return JasperFillManager.fillReport(jasperReport, reportParams, dataSource);
     }
 	
-	public  byte[] getReportDataSource(BookingVo bookingVo) throws Exception {
+	public  byte[] getReportDataSource(BookingVo bookingVo,String templateName) throws Exception {
 		Map<String, Object> reportParams = setParams(bookingVo);
+		System.out.println(templateName+"-----");
+
 		JasperPrint jasperPrint = getJasperContext(reportParams,templateName);
         byte[] reportArray = JasperExportManager.exportReportToPdf(jasperPrint);
         return reportArray;
@@ -73,7 +80,8 @@ public class LuggageSlipGenerator {
 	
 	private String getFile(String fileName) {
 		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource(fileName).getFile());
+		
+		File file = new File(fileName);
 		return file.getAbsolutePath();
 	  }
 	

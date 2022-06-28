@@ -104,6 +104,10 @@ public class BookingController {
 	private String sms_part3;
 	@Value("${sms.send.status}")
 	private Boolean smsStatus;
+	@Value("${jasper.booking.location}")
+	private String bookingTemplect;
+	@Value("${jasper.delivery.location}")
+	private String deliveryTemplect;
 
 	@Autowired
 	private BookingRepository bookingRepository;
@@ -1688,7 +1692,7 @@ public class BookingController {
 						bookingVO.setBillDesc(location.get().getAddress());
 					}
 
-					byte[] bookingData = LuggageSlipGenerator.getInstance().getReportDataSource(bookingVO);
+					byte[] bookingData = LuggageSlipGenerator.getInstance().getReportDataSource(bookingVO,bookingTemplect);
 					String base64Response = Base64.getEncoder().encodeToString(bookingData);
 					response.getWriter().write(base64Response);
 				} else {
@@ -1716,7 +1720,7 @@ public class BookingController {
 
 					System.out.println(deliveryVo.getCreateon());
 
-					byte[] bookingData = DeliverySlipGenerator.getInstance().getReportDataSource(deliveryVo);
+					byte[] bookingData = DeliverySlipGenerator.getInstance().getReportDataSource(deliveryVo,deliveryTemplect);
 					String base64Response = Base64.getEncoder().encodeToString(bookingData);
 					response.getWriter().write(base64Response);
 				} else {

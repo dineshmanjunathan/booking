@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import com.ba.app.vo.DeliveryVo;
 
@@ -20,8 +22,9 @@ import net.sf.jasperreports.engine.JasperReport;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DeliverySlipGenerator {
+	
 
-final static String templateName = "templates/delivery_slip.jrxml";
+
 	
 	private static final DeliverySlipGenerator instance = new DeliverySlipGenerator();
 	
@@ -35,7 +38,7 @@ final static String templateName = "templates/delivery_slip.jrxml";
         return JasperFillManager.fillReport(jasperReport, reportParams, dataSource);
     }
 	
-	public  byte[] getReportDataSource(DeliveryVo deliveryVO) throws Exception {
+	public  byte[] getReportDataSource(DeliveryVo deliveryVO,String templateName) throws Exception {
 		Map<String, Object> reportParams = setParams(deliveryVO);
 		JasperPrint jasperPrint = getJasperContext(reportParams,templateName);
         byte[] reportArray = JasperExportManager.exportReportToPdf(jasperPrint);
@@ -70,7 +73,7 @@ final static String templateName = "templates/delivery_slip.jrxml";
 	
 	private String getFile(String fileName) {
 		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource(fileName).getFile());
+		File file = new File(fileName);
 		return file.getAbsolutePath();
 	  }
 }

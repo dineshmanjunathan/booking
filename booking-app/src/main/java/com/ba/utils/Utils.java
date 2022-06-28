@@ -62,8 +62,4 @@ public class Utils {
 		return map;
 	}
 
-	public static void main(String[] arg) {
-		
-	System.out.println(LocalDate.now());
-	}
 }
