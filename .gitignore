@@ -23,9 +23,6 @@
 hs_err_pid*
 
 # Other files
-.settings/
-application.pid
-.classpath
-.project
-target/
+booking-app/.settings/
+booking-app/target/
 booking-app/src/main/resources/application.properties

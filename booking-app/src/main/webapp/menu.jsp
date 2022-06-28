@@ -236,6 +236,18 @@
 							<svg class="bi" width="1em" height="1em">
 								<use xlink:href="#collection" /></svg>
 						</div>
+						<h5>Delete OGPL</h5>
+						<p></p>
+						<a href="/DeleteOGPL" class="icon-link"> Click here <svg
+								class="bi" width="1em" height="1em">
+								<use xlink:href="#chevron-right" /></svg>
+						</a>
+					</div>
+					<div class="feature col">
+						<div class="feature-icon bg-primary bg-gradient">
+							<svg class="bi" width="1em" height="1em">
+								<use xlink:href="#collection" /></svg>
+						</div>
 						<h5>Mass Upload</h5>
 						<p></p>
 						<a href="/massUploadMenu" class="icon-link"> Click here <svg

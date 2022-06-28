@@ -2003,4 +2003,101 @@ public class BookingController {
 		}
 		return "uploadUser";
 	}
+	
+	
+	@RequestMapping("/DeleteOGPL")
+	public String deleteOgpl(HttpServletRequest request, ModelMap model) {
+		try {
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+			{
+				return "login";
+			}
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Something is wrong! please try again.");
+			return "login";
+		}
+		return "DeleteOGPL";
+	}
+	
+	@RequestMapping(value = "/searchParcelLRNODeleteOGPL", method = RequestMethod.GET)
+	public String searchParcelLRNODeleteOGPL(@RequestParam(required = true) String lrNumber, HttpServletRequest request,
+			ModelMap model) {
+		try {
+			if (sessionValidation(request, model) != null)
+				return "login";
+			Booking booking = bookingRepository.getLRForDeletingTheOGPL(lrNumber);
+
+			Boolean topayValue = false;
+
+			if (booking != null && booking.getOgplNo() != null) {
+
+					
+
+					model.addAttribute("deliveryB", booking);
+					model.addAttribute("DeliverysuccessMessage", "Search by LR number: " + lrNumber);
+				
+			} else {
+				model.addAttribute("errormsg", "Invalid LR number provided! ");
+			}
+			
+
+			setAllVehileListInModel(model);
+			setAllLocationListInModel(model);
+			model.addAttribute("enabled", false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errormsg", "Failed To search LR number ");
+			return "DeleteOGPL";
+		}
+		return "DeleteOGPL";
+	}
+	
+	@RequestMapping(value = "/dbSearchParcelLRNODeleteOGPL", method = RequestMethod.GET)
+	public @ResponseBody List<String> dbSearchParcelLRNODeleteOGPL(@RequestParam(required = true) String lrNumber,
+			@RequestParam(required = true) String userId) {
+		List<String> booking = new ArrayList<String>();
+		try {
+			String location = "%";
+
+			if (!userId.equalsIgnoreCase("ADMIN")) {
+
+				location = userRepository.findByUserIdIgnoreCase(userId).getLocation().getId();
+
+			}
+			
+			booking = bookingRepository.dbSearchParcelLRNODeleteOGPL("%" + lrNumber + "%", location);
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return booking;
+	}
+	
+	@RequestMapping(value = "/deleteOgplSave", method = RequestMethod.POST)
+	public String deleteOgplSave(HttpServletRequest request, DeliveryVo deliveryVo, ModelMap model) {
+		try {
+
+			Boolean ogplStatus = false;
+			long ogplNo = 0;
+			Boolean connectionPonitStatus = false;
+			// SESSION VALIDATION
+			if (sessionValidation(request, model) != null)
+				return "login";
+			
+			
+			ConnectionPoint connectionPoint = connectionPointRepository.findByFromLocationAndToLocation(
+					deliveryVo.getFromLocation(), deliveryVo.getToLocation());
+		
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			model.addAttribute("errormsg", "Failed to out Parcel");
+			return "DeleteOGPL";
+		}
+		return "DeleteOGPL";
+	}
 }

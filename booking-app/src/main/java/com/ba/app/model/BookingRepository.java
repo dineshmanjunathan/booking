@@ -122,4 +122,10 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 	@Query(value = "ALTER SEQUENCE LRNUMBER_SEQ RESTART WITH 101", nativeQuery =true)
     int updateLRSequence();
 	
+	@Query(value = "select * from t_booking where lr_number=:lrnumbers and ogpl_no notnull and point_status=1", nativeQuery =true)
+	Booking getLRForDeletingTheOGPL(@Param("lrnumbers") String lrnumbers);
+	
+	@Query(value = "select lr_number from t_booking where lr_number like :lrNumber and ogpl_no notnull and point_status=1 and current_location like :location", nativeQuery =true)
+	List<String> dbSearchParcelLRNODeleteOGPL(@Param("lrNumber") String lrNumber,@Param("location") String location);
+	
 }
