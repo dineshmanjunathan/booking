@@ -51,5 +51,11 @@ public class CommonRest {
 	{
 		return commonService.getVehicle();
 	}
+	
+	@PostMapping("/getDeliverBy")
+	public BookAppResponse getDeliverBy()
+	{
+		return commonService.getDeliverBy();
+	}
 
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ba.app.mobile.dto.OutgoingParcelRequest;
 import com.ba.app.mobile.service.OutgoingParcelService;
 import com.ba.app.mobile.util.BookAppResponse;
+import com.ba.app.vo.OutgoingParcelVo;
 
 
 
@@ -35,6 +36,20 @@ public class OutgoingParcelRest {
 	public BookAppResponse importOutgoingParcel(@RequestBody OutgoingParcelRequest outgoingParcelRequest) {
 		
 		return outgoingParcelService.importOutgoingParcel(outgoingParcelRequest);
+		
+	}
+	
+	@PostMapping("/get-old-ogpl")
+	public BookAppResponse getOldOgplNo(@RequestBody OutgoingParcelVo outgoingParcelVo) {
+		
+		return outgoingParcelService.getOldOgplNo(outgoingParcelVo.getFromLocation(),outgoingParcelVo.getToLocation());
+		
+	}
+	
+	@PostMapping("/save-outgoingParcel")
+	public BookAppResponse saveOutgoingParcel(@RequestBody OutgoingParcelVo outgoingParcelVo) {
+		
+		return outgoingParcelService.saveOutgoingParcel(outgoingParcelVo);
 		
 	}
 

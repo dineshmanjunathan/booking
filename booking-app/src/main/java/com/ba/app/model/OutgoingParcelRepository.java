@@ -26,8 +26,8 @@ public interface OutgoingParcelRepository extends CrudRepository<OutgoingParcel,
 
 	List<OutgoingParcel> findByFromLocationAndToLocation();
 	
-	@Query(value = "select o.booked_on,o.from_location,o.to_location,o.ogpl_no,o.vehicle_no,o.driver,o.conductor,o.prepared_by, b.pay_option as Pay_Type, sum(b.freightvalue) as freight_value, sum(b.loadingcharges) as loading_charges, sum(b.doorpickcharges) as doorpickcharges, sum(b.paid) as total_paid, sum(b.topay) as total_topay,b.Lr_number,ROW_NUMBER () OVER (ORDER BY o.booked_on) as id from t_outgoing_parcel o ,t_booking b where o.ogpl_no = b.ogpl_no group by o.booked_on,o.from_location,o.to_location,o.ogpl_no,o.vehicle_no,o.driver,o.conductor,o.prepared_by, b.pay_option,b.loadingchargespay,b.doorpickchargespay,b.Lr_number", nativeQuery = true)
-
+	
+	@Query(value = "select o.booked_on,o.from_location,o.to_location,o.ogpl_no,v.vehicle,o.driver,o.conductor,o.prepared_by, b.pay_option as Pay_Type, sum(b.freightvalue) as freight_value, sum(b.loadingcharges)as loading_charges, sum(b.doorpickcharges) as doorpickcharges, sum(b.paid) as total_paid,sum(b.topay) as total_topay,b.Lr_number,ROW_NUMBER () OVER (ORDER BY o.booked_on) as id from t_outgoing_parcel o ,t_booking b,t_vehicle v where o.ogpl_no = b.ogpl_no and o.vehicle_no=CAST(v.id AS VARCHAR) group by o.booked_on,o.from_location,o.to_location,o.ogpl_no,o.vehicle_no,o.driver,o.conductor,o.prepared_by, b.pay_option,b.loadingchargespay,b.doorpickchargespay,b.Lr_number,v.vehicle", nativeQuery = true)
 	LinkedList<Object[]> findAllOgplRecord();
 	
 	@Query(value ="select * from t_outgoing_parcel where CAST(ogpl_no as text) like (?1) and cast(booked_on as date) between cast(?2 as date) and cast(?3 as date)",nativeQuery = true)

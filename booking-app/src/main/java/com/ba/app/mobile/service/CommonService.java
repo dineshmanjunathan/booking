@@ -1,6 +1,7 @@
 package com.ba.app.mobile.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -36,13 +37,13 @@ public class CommonService {
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
-	
+
 	@Autowired
 	private ConductorRepository conductorRepository;
-	
+
 	@Autowired
 	private DriverRepository driverRepository;
-	
+
 	@Autowired
 	private VehicleRepository vehicleRepository;
 
@@ -60,18 +61,18 @@ public class CommonService {
 
 		return CommonUtil.successResponse(locationRepository.getAllLocation(), null);
 	}
-	
+
 	public BookAppResponse getToLocation(String token) {
 
 		String userId = jwtTokenUtil.getUsernameFromToken(token);
-		List<Location> listLocation=locationRepository.getAllLocation();
+		List<Location> listLocation = locationRepository.getAllLocation();
 
 		if (Objects.nonNull(userId) && !isAdmin(userId)) {
 
 			Location data = userRepository.findByUserIdIgnoreCase(userId).getLocation();
-			
-			listLocation=listLocation.stream().filter(r->r.getId()!=data.getId()).collect(Collectors.toList());
-			
+
+			listLocation = listLocation.stream().filter(r -> r.getId() != data.getId()).collect(Collectors.toList());
+
 			return CommonUtil.successResponse(listLocation, null);
 		}
 
@@ -83,18 +84,16 @@ public class CommonService {
 	}
 
 	public BookAppResponse getContainer() {
-		Iterable<Conductor> locaIterable = conductorRepository.findAll();		
-		if(Objects.isNull(locaIterable))
-		{
+		Iterable<Conductor> locaIterable = conductorRepository.findAll();
+		if (Objects.isNull(locaIterable)) {
 			return CommonUtil.successResponse(null, "Data Not Found");
 		}
 		return CommonUtil.successResponse(locaIterable, null);
 	}
-	
+
 	public BookAppResponse getDriver() {
 		Iterable<Driver> locaIterable = driverRepository.findAll();
-		if(Objects.isNull(locaIterable))
-		{
+		if (Objects.isNull(locaIterable)) {
 			return CommonUtil.successResponse(null, "Data Not Found");
 		}
 		return CommonUtil.successResponse(locaIterable, null);
@@ -103,14 +102,16 @@ public class CommonService {
 
 	public BookAppResponse getVehicle() {
 		Iterable<Vehicle> locaIterable = vehicleRepository.findAll();
-		if(Objects.isNull(locaIterable))
-		{
+		if (Objects.isNull(locaIterable)) {
 			return CommonUtil.successResponse(null, "Data Not Found");
 		}
 		return CommonUtil.successResponse(locaIterable, null);
 	}
 
+	public BookAppResponse getDeliverBy() {
 
-
+		return CommonUtil.successResponse(new ArrayList<String>(Arrays.asList("class 01", "class 02", "class 03")),
+				null);
+	}
 
 }
