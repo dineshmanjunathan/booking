@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ba.app.mobile.dto.IncomingParcelRequest;
 import com.ba.app.mobile.dto.OutgoingParcelRequest;
 import com.ba.app.mobile.service.OutgoingParcelService;
 import com.ba.app.mobile.util.BookAppResponse;
+import com.ba.app.vo.InventoryVo;
 import com.ba.app.vo.OutgoingParcelVo;
 
 
@@ -52,5 +54,27 @@ public class OutgoingParcelRest {
 		return outgoingParcelService.saveOutgoingParcel(outgoingParcelVo);
 		
 	}
+	
+	@PostMapping("/getIncomingOgpl")
+	public BookAppResponse getIncomingOgpl(@RequestBody IncomingParcelRequest incomingParcelRequest) {
+		
+		return outgoingParcelService.getIncomingOgpl(incomingParcelRequest);
+		
+	}
+	
+	@PostMapping("/loadIncomingOgpl")
+	public BookAppResponse loadIncomingOgpl(@RequestBody IncomingParcelRequest incomingParcelRequest) {
+		
+		return outgoingParcelService.loadIncomingOgpl(incomingParcelRequest);
+		
+	}
+	
+	@PostMapping("/saveIncomingOgpl")
+	public BookAppResponse saveIncomingOgpl(@RequestBody InventoryVo inventoryVo) {
+		
+		return outgoingParcelService.saveIncomingOgpl(inventoryVo);
+		
+	}
+	
 
 }
