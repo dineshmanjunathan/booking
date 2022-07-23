@@ -397,6 +397,50 @@ filename: 'Booking_csv'
 	        ]
 	    });
 	} );
+ 
+ 
+ $(document).ready(function() {
+	 
+	 
+	    $('#ogpl-table-insert').DataTable({
+	    dom: 'Bfrtip',
+	   
+	    buttons: [
+	    {
+	extend: 'pdfHtml5',
+	exportOptions: {
+        columns: [ 0,2,3,4,5,6,7,8,9,10 ]
+    },
+    pageSize : 'A4',
+	   title: 'Outgoing Parcel',
+	filename: 'Outgoing_Parcel',
+		customize: function(doc) {
+			doc.styles.tableHeader = {
+                 bold: true,
+                 color: 'black',
+                 fillColor: 'white'
+                         };
+            doc.defaultStyle.fontSize = 8;
+
+
+			
+		  }
+	},
+	    {
+	extend: 'excelHtml5',
+	   title: 'Outgoing Parcel',
+	filename: 'Outgoing_Parcel'
+	},
+	    {
+	extend: 'csvHtml5',
+	   title: 'Outgoing Parcel',
+	filename: 'Outgoing_Parcel'
+	}
+	        ]
+	    });
+	} );
+ 
+ 
 </script>
 
 </head>

@@ -187,8 +187,8 @@
 			
 			<input type="checkbox" id="usingOldOgpl" width="40" height="40"> Update Ogpl
 			
-				<table id="data-table" class="table table-striped"
-					style="width: 100%">
+				<table id="ogpl-table-insert" class="table table-striped"
+					style="width: 90%">
 					<thead>
 						<tr>
 							<th scope="col">LR No.</th>
