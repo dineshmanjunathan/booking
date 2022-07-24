@@ -108,6 +108,12 @@ public class BookingController {
 	private String bookingTemplect;
 	@Value("${jasper.delivery.location}")
 	private String deliveryTemplect;
+	
+	@Value("${thermal.print.status}")
+	private Boolean thermalPrinterStatus;
+	
+	@Value("${jasper.booking.location.thermal.print}")
+	private String thermalBookingTemplect;
 
 	@Autowired
 	private BookingRepository bookingRepository;
@@ -1676,8 +1682,12 @@ public class BookingController {
 			if (sessionValidation(request, model) == null) {
 
 				Booking bookingEntity = bookingRepository.findByLrNumber(lrNumber);
-
+					
 				// change printing status
+				
+				String templateName=bookingTemplect;
+				if(thermalPrinterStatus) templateName=thermalBookingTemplect;
+					
 
 				bookingEntity.setIsPrinted(true);
 				bookingRepository.save(bookingEntity);
@@ -1692,7 +1702,7 @@ public class BookingController {
 						bookingVO.setBillDesc(location.get().getAddress());
 					}
 
-					byte[] bookingData = LuggageSlipGenerator.getInstance().getReportDataSource(bookingVO,bookingTemplect);
+					byte[] bookingData = LuggageSlipGenerator.getInstance().getReportDataSource(bookingVO,templateName);
 					String base64Response = Base64.getEncoder().encodeToString(bookingData);
 					response.getWriter().write(base64Response);
 				} else {
