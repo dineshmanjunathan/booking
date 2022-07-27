@@ -114,6 +114,9 @@ public class BookingController {
 	
 	@Value("${jasper.booking.location.thermal.print}")
 	private String thermalBookingTemplect;
+	
+	@Value("${jasper.delivery.location.thermal.print}")
+	private String thermalDeliveryTemplect;
 
 	@Autowired
 	private BookingRepository bookingRepository;
@@ -1728,9 +1731,10 @@ public class BookingController {
 					deliveryVo.setCreateon(deliveryEntity.getCreateon());
 					BeanUtils.copyProperties(deliveryEntity, deliveryVo, "createon", "updatedon");
 
-					System.out.println(deliveryVo.getCreateon());
+					String templateName=deliveryTemplect;
+					if(thermalPrinterStatus) templateName=thermalDeliveryTemplect;
 
-					byte[] bookingData = DeliverySlipGenerator.getInstance().getReportDataSource(deliveryVo,deliveryTemplect);
+					byte[] bookingData = DeliverySlipGenerator.getInstance().getReportDataSource(deliveryVo,templateName);
 					String base64Response = Base64.getEncoder().encodeToString(bookingData);
 					response.getWriter().write(base64Response);
 				} else {

@@ -65,6 +65,8 @@ public class DeliverySlipGenerator {
 		params.put("DEMURRAGE", deliveryVO.getDemurrage());
 		params.put("TOTAL", deliveryVO.getTotal());
 		
+		System.out.println(deliveryVO.getTotal()+"----");
+		
 		params.put("RUPEES_TEXT",NumberToWordsConverter.getInstance().convert((int) Float.parseFloat(deliveryVO.getTotal())));
 		
 		
