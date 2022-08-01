@@ -88,6 +88,8 @@
 							<use xlink:href="#chevron-right" /></svg>
 					</a>
 				</div>
+				
+				<c:if test="${sessionScope.ROLE ne 'BOOKING USER'}">
 				<div class="feature col">
 					<div class="feature-icon bg-primary bg-gradient">
 						<svg width="40" height="50"  fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
@@ -101,6 +103,7 @@
 							<use xlink:href="#chevron-right" /></svg>
 					</a>
 				</div>
+				</c:if>
 
 				<div class="feature col">
 					<div class="feature-icon bg-primary bg-gradient">
@@ -116,6 +119,8 @@
 							<use xlink:href="#chevron-right" /></svg>
 					</a>
 				</div>
+				
+				<c:if test="${sessionScope.ROLE ne 'BOOKING USER'}">
 
 				<div class="feature col">
 					<div class="feature-icon bg-primary bg-gradient">
@@ -131,6 +136,7 @@
 							<use xlink:href="#chevron-right" /></svg>
 					</a>
 				</div>
+				</c:if>
 			</div>
 
 		</div>

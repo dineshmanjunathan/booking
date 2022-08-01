@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +41,9 @@
 						<div class="row control-margin">
 						<div class="col-md-12 control-margin">
 						<a href="/bookinginventory"><button style="height: 80px;" type="button" class="btn btn-primary button-margin" id="BB">Booking Inventory</button></a>
+						<c:if test="${sessionScope.ROLE ne 'BOOKING USER'}">
 						<a href="/deliveryinventory"><button style="height: 80px;" type="button" class="btn btn-primary button-margin" id="BB">Delivery Inventory</button></a>
+						</c:if>
 						</div>
 						</div>
 				</div>
