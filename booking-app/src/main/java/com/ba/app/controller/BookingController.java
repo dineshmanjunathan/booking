@@ -1700,7 +1700,7 @@ public class BookingController {
 					bookingVO.setCreateon(bookingEntity.getCreateon());
 					BeanUtils.copyProperties(bookingEntity, bookingVO, "createon", "updatedon");
 
-					Optional<Location> location = locationRepository.findById(bookingEntity.getFromLocation());
+					Optional<Location> location = locationRepository.findById(bookingEntity.getToLocation());
 					if (location.isPresent()) {
 						bookingVO.setBillDesc(location.get().getAddress());
 					}
