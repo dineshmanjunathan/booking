@@ -451,10 +451,10 @@ filename: 'Booking_csv'
 	<label style="color: white;font-size: medium;" >${sessionScope.USER_NAME}</label>
 	<a class="btn" style="color: white;font-weight: bold;font-size: medium;"  onclick="return confirm('Are you sure you want to logout?')" href="/logout">Logout  </a>
 </nav>
- <nav style="background-image: linear-gradient(#0f68b4,#1a1e2c)" width="50px">
+ <div style=" width="50px">
 
-	<a class="btn" style="color:white;font-weight: bold;font-size: medium;"  href="/menu">Back to Menu</a>
-</nav>
+	<a class="btn" style="color:white;font-weight: bold;font-size: medium;background-image: linear-gradient(#0f68b4,#1a1e2c)"  href="/menu">Back to Menu</a>
+</div>
 
 </html>
 

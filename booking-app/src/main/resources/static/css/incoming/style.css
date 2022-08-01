@@ -289,4 +289,10 @@ button {
   .form-input {
   position: relative; }
 
+.image-holder
+{
+	    margin-left: 100px;
+	    width:200px;
+}
+
 /*# sourceMappingURL=style.css.map */
