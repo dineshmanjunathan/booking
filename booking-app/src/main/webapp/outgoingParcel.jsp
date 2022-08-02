@@ -55,7 +55,7 @@
 	$("document").ready(function(){
 		$('#btnSave').click(function(){
 		    var files = new Array();
-		    $('#data-table tbody tr  input:checkbox').each(function() {
+		    $('#ogpl-table-insert tbody tr  input:checkbox').each(function() {
 		      if ($(this).is(':checked')) {
 		      files.push(this.value);
 		      }
