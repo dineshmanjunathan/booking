@@ -122,7 +122,7 @@
 				<div class="form-row">
 				<div class="form-holder">
 						<select name="ogplNo" id="ogplNo" onchange="getIncomeParcel(this);" class="form-control">
-							<option value="">-Select OGPL-</option>
+							<option value="" selected disabled>-Select OGPL-</option>
 							<c:forEach var="options" items="${ogplList}"
 								varStatus="status">
 								<option value="${options.ogplNo}"
